@@ -160,14 +160,14 @@
 <span class="left"><input type="text" id="now"></span>
 <span class="title">부식창고 현황판</span>
 <span class="right">
-  <select id="reg" name ="reg" onchange="regSelectChange(this)">
+  <select id="reg" name ="reg">
 						<option>전체</option>
 						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
 						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
 						<%} %>
 	</select>
 	
-  <select id="Storehouse" style="width: 120px;" onchange="storeSelectChange(this)">
+  <select id="Storehouse" style="width: 120px;">
    </select>   
 </span>
 </div>
@@ -214,13 +214,22 @@
 
 	$(document).ready(function() {
 	   
-		 $('#reg').val('<%=regp%>').prop("selected", true);
+	 	$('#reg').val('<%=regp%>').prop("selected", true);
 			regSelectChange('<%=regp%>');
-		 $('#Storehouse').val('<%=shp%>').prop("selected", true);
+ 	
+   		 $('#reg').on('change', function() {
+   		     location.href="foodList.jsp?reg="+$('#reg').val()+"&Storehouse=전체"; 
+   		 });
+   			 $('#Storehouse').on('change', function() {
+     	   location.href="foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val(); 
+   		 });
 
 	    document.getElementById("now").value = getTimeStamp2();
-      for(var i=<%=num%>; i<<%=num2%>; i++)
+     
+	  for(var i=<%=num%>; i<<%=num2%>; i++)
          passdatechange(i);
+      
+	  if(<%=cnt%> >15)
       setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
    
 	});
@@ -265,7 +274,9 @@ function regSelectChange(e) {
 		target.appendChild(opt);
 	}
 	
+	
 
+	$('#Storehouse').val('<%=shp%>').prop("selected", true);	
 	
 }
 
@@ -282,7 +293,7 @@ function leadingZeros(n, digits) {
 
  function go_url(){
 
-       location.href="foodList.jsp?num=<%=num2%>&reg=<%=regp%>&Storehouse=<%=shp%>"; 
+       location.href="foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&num=<%=num2%>"; 
  
  }
 
