@@ -8,6 +8,7 @@
 <%@ page import="net.sf.json.*" %>
 <%@ page import="com.google.gson.*" %>
 <%@ page import="java.io.*, java.util.*" %>
+<%@ page import="java.text.*"%>
 <%
    int num=0;
    //String sn="";
@@ -20,6 +21,9 @@
 	String regp="전체";
 	String sh="전체";
 	String shp="전체";
+	
+	DecimalFormat df = new DecimalFormat("###,###");
+
 	
    if(request.getParameter("reg") != null){
 		reg = request.getParameter("reg");
@@ -143,9 +147,11 @@
    span.right{position:absolute;top:0;right:0;}
   
   span input{
-    height : 32px;
+    height : 24px;
    font-size:18px; 
    padding: 5px;
+   text-align: center;  
+   width: 15vw;
    }   
    span select{
    height : 32px;
@@ -176,7 +182,7 @@
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
       <td class="colt" style="text-align:center;width:8vw;">소속</td>
-      <td class="colt" style="text-align:center;width:5vw;">창고명</td>
+      <td class="colt" style="text-align:center;width:8vw;">창고명</td>
       <td class="colt" style="text-align:center;width:10vw;">재고번호</td>
       <td class="colt" style="text-align:center;width:20vw;">식재료명</td>
       <td class="colt" style="text-align:center;width:11vw;">현재고량/단위</td>
@@ -193,10 +199,10 @@
    <tr id="tr<%=i %>" >
       <td class="col" style="width:4vw;"><%=i+1 %></td>
       <td class="col" style=" text-align:center;width:8vw;"><%=foods.get(i).getRegiment() %></td>
-      <td class="col" style=" text-align:center;width:5vw; "><%=foods.get(i).getStorehouse() %></td>
+      <td class="col" style=" text-align:center;width:8vw; "><%=foods.get(i).getStorehouse() %></td>
       <td class="col" style=" text-align:center;width:10vw; "><%=foods.get(i).getFoodCode() %></td>
       <td class="col" style="width:20vw;">&nbsp;<%=foods.get(i).getFoodName() %></td>
-      <td class="col" style=" text-align:right;width:11vw; "><%=foods.get(i).getCurrentQuantity() %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
+      <td class="col" style=" text-align:right;width:11vw; "><%=df.format(Integer.parseInt(foods.get(i).getCurrentQuantity())) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
       <td class="col" style=" text-align:center;width:10vw; "><%=foods.get(i).getStoreDate() %></td>
       <td class="col" id="col<%=i %>" style="width:10vw; text-align:center; "><%=foods.get(i).getExpirationDate() %></td>
    </tr>
@@ -221,7 +227,7 @@
    		     location.href="foodList.jsp?reg="+$('#reg').val()+"&Storehouse=전체"; 
    		 });
    			 $('#Storehouse').on('change', function() {
-     	   location.href="foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val(); 
+     	  	 location.href="foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val(); 
    		 });
 
 	    document.getElementById("now").value = getTimeStamp2();
