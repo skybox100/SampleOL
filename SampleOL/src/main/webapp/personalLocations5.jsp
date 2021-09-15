@@ -13,22 +13,18 @@
 <%
 
 	String param = "geofence";
-	String param2 = "geofoff";
 
-	if(request.getParameter("gis_setting")!= null && request.getParameter("gis_setting2")!=null){
+	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
-		param2 = request.getParameter("gis_setting2");	
 	}
 	String regp = request.getParameter("regp");
 	String rcp = request.getParameter("rcp");
 	
 	String sc = request.getParameter("search_check");
 	String st = request.getParameter("search_this");
-	String sn = request.getParameter("serviceNumber");
 
 	System.out.println(sc);
 	System.out.println(st);
-	System.out.println(sn);
 
 	
 	DBConnection cd = new DBConnection();
@@ -91,10 +87,8 @@
 		
 	} else if(sc.equals("name")) {
 		ArrayList<Location> s = cd.getMobileStatusByName(st);
-		ArrayList<Location> s2 = cd.getMobileStatusByService(sn);
 		//subnum=s.size();
 		System.out.println("s.size(): " + s.size());
-		System.out.println("s2.size(): " + s2.size());
 
 		if(s.size() == 0){
 			
@@ -102,19 +96,6 @@
 			//locations = cd.getLocationsByUser("01029215835");
 			//lastLocation = cd.getLastLocationByUser("01029215835");
 
-		}else if(s2.size() ==1){
-			String rest = sn.replaceAll("[^0-9]","");
-			
-			String str1 = rest.substring(0, 2);
-			String str2 = rest.substring(2);
-			
-			sn = str1 + "-" + str2;
-			System.out.println(sn);
-			
-		
-			locations = cd.getLocationsByUser(s2.get(0).getUserKey());
-			lastLocation = cd.getLastLocationByUser(s2.get(0).getUserKey());
-			
 		}else if(s.size() == 1){
 			locations = cd.getLocationsByUser(s.get(0).getUserKey());
 			lastLocation = cd.getLastLocationByUser(s.get(0).getUserKey());
@@ -370,7 +351,6 @@
 				<td style="display: none">
 					<input type="hidden" name="search_check" value="<%=sc %>">
 					<input type="hidden" name="search_this" value="<%=st %>">
-					<input type="hidden" name="serviceNumber" value="<%=sn %>">		
 				</td>
 				<td style="display: none">
 					<input type="hidden" name="regp" value="<%=regp %>">
@@ -390,7 +370,7 @@
 	<div style="white-space:nowrap; ">
 	<%=rc2.get(i)%>&nbsp;
 	<%=rank2.get(i)%>&nbsp;
-	<a href="personalLocations_Test.jsp?search_check=name&search_this=<%=name2.get(i)%>&serviceNumber=<%=serviceNumber2.get(i)%>">
+	<a href="personalLocations5.jsp?search_check=service_num&search_this=<%=serviceNumber2.get(i)%>">
 	<%=name2.get(i)%>
 	</a>&nbsp;
 	<%=serviceNumber2.get(i)%>&nbsp;<br>
@@ -436,21 +416,16 @@
     <script>
 	    
     $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
-	$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
 
    
 	     
     
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
+    		    $("input:radio[name=gis_setting]").click(function() 
     		    { 
-    		    	submit(); 
-    		    }), 
-    		    $("input:radio[name=gis_setting2]").click(function() 
-    	    	{ 
-    	    		submit(); 
-    	    	}) 
+    		    	location.replace("personalLocations5.jsp?search_check=<%=sc%>&search_this=<%=st%>&reg=<%=regp%>&regim_company=<%=rcp%>&gis_setting="+$('input[name=gis_setting]:checked').val());
+    		    })
     		});
     
 
@@ -460,6 +435,7 @@
     	}
     
     	var chk = <%=chk%>;
+
     	if(chk==0){
     		alert("검색 결과가 없습니다.");
     		location.href = document.referrer;
@@ -522,7 +498,7 @@
         	view.setZoom(zoom);
         }
         document.getElementById('goback').onclick = function(){
-			location.href="detail.jsp?regp=<%=regp%>&rcp=<%=rcp%>";
+			window.history.back();
         }   
         
 		// Popup showing the position the hovered marker

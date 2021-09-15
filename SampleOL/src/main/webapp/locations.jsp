@@ -129,7 +129,7 @@
         
         
         #equip_regiment{
-           width: 60px;  
+         	width: 75px;   
         }
         
         #equip_type{
@@ -137,7 +137,7 @@
         }
         
         #reg{
-         	width: 60px;   
+         	width: 75px;   
         }
 
         #regim_company{
@@ -525,37 +525,37 @@
         		{ 
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
         		    { 
-        		    	submit(); 
+        		    	location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         		    }), 
         		    $("input:radio[name=gis_setting2]").click(function() 
         	    	{ 
-        	    		submit(); 
+        		    	location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         	    	}) 
-        		});
         
+        		});
 
         	function submit(){
         		document.getElementById('locations').submit();
      
         	}
     	     
-        var x = [126.7719083,126.7719083,126.7719083,126.7719083]; 
-        var y = [37.9544622,37.8544622,37.7544622,37.6544622];
-        var r = [2000,2000,2000,2000];
-        var rc = [2000,2000,2000,2000];
+        var x = [126.79849,126.78286,126.82623,126.79989,126.765228]; 
+        var y = [37.67835,37.76350,37.77812,37.77175,37.834637];
+        var r = [5000,3000,2000,2000,2000];
+        var rc = ['9사단','28여단','28-1대대','28-2대대','28-3대대'];
 
    		// var x = 126.7719083;	var y = 37.6544622;
 
-   		var pnt=new Array();
-   		for(var i=0;i<x.length;i++){
-   			pnt[i]= ol.proj.fromLonLat([x[i], y[i]]);
-			console.log(pnt[i]);   			
-   		}
+  
    		
    		 var data = <%=multi_marker%>;
         // var data = <%=last_marker%>;
+   		 var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"5000","regiment":"9사단"}
+   		 ,{"latitude":"126.78286","longitude":"37.76350","r":"3000","regiment":"28여단"}
+   		 ,{"latitude":"126.82623","longitude":"37.77812","r":"2000","regiment":"28-1대대"}
+   		 ,{"latitude":"126.79989","longitude":"37.77175","r":"2000","regiment":"28-2대대"}
+   		 ,{"latitude":"126.765228","longitude":"37.834637","r":"2000","regiment":"28-3대대"}];
 
-        
   	    var straitSource = new ol.source.Vector({ wrapX: true });
  	    var straitsLayer = new ol.layer.Vector({
  	        source: straitSource
@@ -603,38 +603,47 @@
         }
       
         
-        var vectorSource = new ol.source.Vector({
-			projection : 'EPSG:3857'
-		}); //새로운 벡터 생성
+
+   		var pnt=new Array();
+
 		
+		var seq3=0;
+		data2.forEach(function(item) { //iterate through array...
+			pnt[seq3]= ol.proj.fromLonLat([item.latitude, item.longitude]);
+	
+	   		var vectorSource = new ol.source.Vector({
+				projection : 'EPSG:3857'
+			}); //새로운 벡터 생성
+			
+			var circle = new ol.geom.Circle(pnt[seq3], Number(item.r)); //좌표, 반경 넓이
+			CircleFeature = new ol.Feature(circle); //구조체로 형성
+			vectorSource.addFeatures([ CircleFeature ]); // 벡터소스에 추가	
+			var vectorLayer = new ol.layer.Vector({ //추가할 벡터레이어
+				source : vectorSource,
+				style : [ new ol.style.Style({
+					stroke : new ol.style.Stroke({ //두께
+						color : 'rgba( 240, 79, 79 ,0.9)',
+						width : 2
+					}),
+					fill : new ol.style.Fill({ //채우기
+					color : 'rgba( 255, 133, 133 ,0.5)'
+					}),
+					text : new ol.style.Text({ //텍스트
+						text : item.regiment,
+						textAlign : 'center',
+						font : '15px roboto,sans-serif'
+				})
+				}) ]
+			});
+			if('<%=param2%>' === 'geofon'){	
+				map.addLayer(vectorLayer); 
+				//만들어진 벡터를 추가	
+			}
+			seq3++;
+		});
 		
 
-		for(var i=0;i<x.length;i++){
-		var circle = new ol.geom.Circle(pnt[i], r[i]); //좌표, 반경 넓이
-		CircleFeature = new ol.Feature(circle); //구조체로 형성
-		vectorSource.addFeatures([ CircleFeature ]); // 벡터소스에 추가	
-		
-		var vectorLayer = new ol.layer.Vector({ //추가할 벡터레이어
-			source : vectorSource,
-			style : [ new ol.style.Style({
-				stroke : new ol.style.Stroke({ //두께
-					color : 'rgba( 240, 79, 79 ,0.9)',
-					width : 2
-				}),
-				fill : new ol.style.Fill({ //채우기
-					color : 'rgba( 255, 133, 133 ,0.5)'
-				}),
-				text : new ol.style.Text({ //텍스트
-					text : 'Yoo!',
-					textAlign : 'center',
-					font : '15px roboto,sans-serif'
-				})
-			}) ]
-		});
-		if('<%=param2%>' === 'geofon'){			
-			map.addLayer(vectorLayer); //만들어진 벡터를 추가	
-			}
-		}
+
 			map.addLayer(straitsLayer);
 		
 		
@@ -910,8 +919,8 @@
 			
 			data.forEach(function(item) { //iterate through array...
 
-
 				seq++;
+
 				var longitude = item.longitude, latitude = item.latitude, idx = item.idx
 								, userKey = item.userKey, timestamp = item.timestamp
 								, regiment = item.regiment, duty = item.duty, name = item.name
@@ -924,15 +933,21 @@
 				var time = "<%=lastTimestamp%>";
 				
 				var pnt_data = ol.proj.fromLonLat([longitude, latitude]);
-				var line = new ol.geom.LineString([pnt[0], pnt_data[0]]);
+				var line;
+				var distance;
+				var r2;
 
-				
-				console.log("pnt[i]:"+pnt[i]);
-				console.log("pnt_data[i]:"+pnt_data[i]);
 
-				console.log("line:"+line);
-				var distance = Math.round(line.getLength());
-				
+		   		var seq2 = 0;
+		   		data2.forEach(function(item) { //iterate through array...
+		  	 		if(regiment == item.regiment){
+   						line = new ol.geom.LineString([pnt[seq2], pnt_data]);
+   						distance = Math.round(line.getLength());
+   						r2=Number(item.r);
+   					}	
+		   			seq2++;
+		   		}); 		
+		   		
 				var day1= new Date(timestamp);
 				var day2= new Date(getTimeStamp());
 				var difference= Math.abs(day2-day1);
@@ -942,7 +957,7 @@
 				console.log(difference);					
 				console.log(timestamp);
 				
-				if(distance < r){
+				if(distance < r2){
 					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],

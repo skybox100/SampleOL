@@ -13,11 +13,9 @@
 
 	request.setCharacterEncoding("euc-kr");
 	String param = "geofence";
-	String param2 = "geofoff";
 
-	if(request.getParameter("gis_setting")!= null && request.getParameter("gis_setting2")!=null){
+	if(request.getParameter("gis_setting")!= null ){
 		param = request.getParameter("gis_setting") ;
-		param2 = request.getParameter("gis_setting2");	
 	}	
 	String equipId = request.getParameter("equipId");
 	
@@ -268,14 +266,6 @@
 					
 					</font>		  			
 				</td>
-				<td>
-				<font size="1px" style="font-weight: bold; display:none;" id="gis_setting2">
-		 			<input type="radio" id="geofon" name="gis_setting2" class="gis_setting2" value="geofon">
-		  			<label for="geofon">GeoF-ON</label>
-		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
-		 			<label for="geofoff">GeoF-OFF</label>
-		 		</font>
-				</td>
 				<td style="display: none">
 					<input type="hidden" name="equipId" value="<%=equipId %>">		
 				</td>
@@ -300,18 +290,14 @@
 	<script>
 	
     $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
-	$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
  
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
+    		    $("input:radio[name=gis_setting]").click(function() 
     		    { 
-    		    	submit(); 
-    		    }), 
-    		    $("input:radio[name=gis_setting2]").click(function() 
-    	    	{ 
-    	    		submit(); 
-    	    	}) 
+    		    	location.replace("equipLocations.jsp?equipId=<%=equipId%>&gis_setting="+$('input[name=gis_setting]:checked').val());
+    		    })
+
     		});
     
 

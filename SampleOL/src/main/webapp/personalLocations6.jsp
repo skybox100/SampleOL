@@ -494,9 +494,14 @@
  	
  	
     <script>
-	    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
-    	$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
-        $("input:radio[name='reg']:radio[value='<%=regp%>']").attr("checked",true);
+    
+    $(document).ready(function() 
+    		{ 
+			    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
+    			$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
+        		$("input:radio[name='reg']:radio[value='<%=regp%>']").attr("checked",true);
+    		});
+
 
         $("input:radio[class=gis_setting]").click(function(){
             var radioVal = $('input[class="gis_setting"]:checked').val();

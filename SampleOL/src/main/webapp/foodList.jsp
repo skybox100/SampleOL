@@ -147,11 +147,11 @@
    span.right{position:absolute;top:0;right:0;}
   
   span input{
-    height : 24px;
+    height : 22px;
    font-size:18px; 
    padding: 5px;
    text-align: center;  
-   width: 15vw;
+   width: 200px;
    }   
    span select{
    height : 32px;
@@ -217,21 +217,19 @@
 <script type="text/javascript">
 
 
-
 	$(document).ready(function() {
 	   
 	 	$('#reg').val('<%=regp%>').prop("selected", true);
 			regSelectChange('<%=regp%>');
  	
    		 $('#reg').on('change', function() {
-   		     location.href="foodList.jsp?reg="+$('#reg').val()+"&Storehouse=전체"; 
+   		     location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse=전체"); 
    		 });
    			 $('#Storehouse').on('change', function() {
-     	  	 location.href="foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val(); 
+     	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()); 
    		 });
-
 	    document.getElementById("now").value = getTimeStamp2();
-     
+    
 	  for(var i=<%=num%>; i<<%=num2%>; i++)
          passdatechange(i);
       
@@ -240,6 +238,10 @@
    
 	});
   
+
+
+	
+	
    function getTimeStamp() {
 	     var d = new Date();
 	     var s =
@@ -254,7 +256,7 @@
    
    
 function storeSelectChange(e) {
-    location.href="foodList.jsp?reg=<%=regp%>&Storehouse="+e; 
+    location.replace("foodList.jsp?reg=<%=regp%>&Storehouse="+e); 
 }
    
 function regSelectChange(e) {
@@ -299,7 +301,7 @@ function leadingZeros(n, digits) {
 
  function go_url(){
 
-       location.href="foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&num=<%=num2%>"; 
+       location.replace("foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&num=<%=num2%>"); 
  
  }
 

@@ -15,11 +15,9 @@
 	String serviceNum = request.getParameter("serviceNum");
 	
 	String param = "geofence";
-	String param2 = "geofoff";
 
-	if(request.getParameter("gis_setting")!= null && request.getParameter("gis_setting2")!=null){
+	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
-		param2 = request.getParameter("gis_setting2");		
 	}
 
 	DBConnection cd = new DBConnection();
@@ -298,19 +296,14 @@
     <script>
 
     $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
-	$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
     
     
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
+    		    $("input:radio[name=gis_setting]" ).click(function() 
     		    { 
     		    	submit(); 
-    		    }), 
-    		    $("input:radio[name=gis_setting2]").click(function() 
-    	    	{ 
-    	    		submit(); 
-    	    	}) 
+    		    })
     		});
 	
     function submit(){

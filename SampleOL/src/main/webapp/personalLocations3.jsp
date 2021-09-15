@@ -12,11 +12,9 @@
 <%@ page import="java.io.*, java.util.*" %>
 <%
 	String param = "geofence";
-	String param2 = "geofoff";
 
-	if(request.getParameter("gis_setting")!= null && request.getParameter("gis_setting2")!=null){
+	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
-		param2 = request.getParameter("gis_setting2");	
 	}
 	
 	String reg = request.getParameter("reg");
@@ -299,16 +297,7 @@
 		  			<label for="geofence">군사</label>
 		 			 <input type="radio" id="satellite_map" name="gis_setting" class="gis_setting" value="satellite_map" >
 		 			 <label for="satellite_map">위성</label>		 			
-					
 					</font>		  			
-				</td>
-				<td>
-				<font size="1px" style="font-weight: bold; display:none;" id="gis_setting2">
-		 			<input type="radio" id="geofon" name="gis_setting2" class="gis_setting2" value="geofon">
-		  			<label for="geofon">GeoF-ON</label>
-		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
-		 			<label for="geofoff">GeoF-OFF</label>
-		 		</font>
 				</td>
 				<td style="display: none">
 					<input type="hidden" name="reg" value="<%=regp %>">
@@ -350,21 +339,19 @@
  	
     <script>
     $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
-	$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
 
    
 	     
     
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
+    		    $("input:radio[name=gis_setting]" ).click(function() 
     		    { 
-    		    	submit(); 
-    		    }), 
-    		    $("input:radio[name=gis_setting2]").click(function() 
-    	    	{ 
-    	    		submit(); 
-    	    	}) 
+    		    	location.replace("personalLocations3.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&gis_setting="+$('input[name=gis_setting]:checked').val());
+
+    		    	
+    		    })
+
     		});
     
 
