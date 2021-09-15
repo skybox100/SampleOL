@@ -98,7 +98,7 @@
 		<td><%=locations.get(i).getRegimCompany() %></td>
 		<td><%=locations.get(i).getRank() %></td>
 		<td><%=locations.get(i).getName() %></td>
-		<td><a href="personalLocations5.jsp?search_check=phone_num&search_this=<%=locations.get(i).getUserKey() %>&regp=<%=regp%>&rcp=<%=rcp%>">
+		<td><a href="personalLocations5.jsp?search_check=phone_num&search_this=<%=locations.get(i).getUserKey() %>">
 		<%=locations.get(i).getUserKey() %>
 		</a></td>
 		<td></td>

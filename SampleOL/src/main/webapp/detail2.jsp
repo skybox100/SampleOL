@@ -113,6 +113,8 @@ console.log(<%=multi_marker%>);
 
 document.getElementById('goback').onclick = function(){
 	window.history.back();
+	location.href="equipLocations2.jsp?equip_regiment=<%=regp%>&equip_type=<%=etp%>";
+
 }
 </script>
 </body>
