@@ -51,18 +51,21 @@
 	ArrayList<String> fc_1 = cd.getFoodStore("28-1대대");
 	ArrayList<String> fc_2 = cd.getFoodStore("28-2대대");
 	ArrayList<String> fc_3 = cd.getFoodStore("28-3대대");
-   
-	String fc0; String fc1; String fc2; String fc3;
+	ArrayList<String> fc_4 = cd.getFoodStore("전체");
+
+	String fc0; String fc1; String fc2; String fc3; String fc4;
 
 	fc0 = gson.toJson(fc_0);
 	fc1 = gson.toJson(fc_1); 
 	fc2 = gson.toJson(fc_2);
 	fc3 = gson.toJson(fc_3);
-	
+	fc4 = gson.toJson(fc_4);
+
 	if(reg.equals("전체") && sh.equals("전체")){
-		
 	} else if(sh.equals("전체")){
 		reg = cd.getCodeID("Regiment", reg);	
+	} else if(reg.equals("전체")){
+		sh = cd.getCodeID("Storehouse", sh);	
 	} else{
 		reg = cd.getCodeID("Regiment", reg);
 		sh = cd.getCodeID("Storehouse", sh);
@@ -89,6 +92,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
     .table {
       table-layout:fixed;
       width: 100%;
@@ -124,16 +128,19 @@
          height: 30px;
          
    }
+
    .col{
       font-weight: 550;
       font-size:1.2rem; 
    }
+
    .colt{
       font-weight: 400;
       font-size:1.3rem;
       color:white;
      background: #416def;
    }
+
    div{
        position:relative;
    }
@@ -154,6 +161,7 @@
    width: 200px;
    }   
    span select{
+   
    height : 32px;
    font-size:18px; 
    padding: 5px;
@@ -163,7 +171,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <body>
 <div>
-<span class="left"><input type="text" id="now"></span>
+<span class="left"><input type="text" id="now" readonly></span>
 <span class="title">부식창고 현황판</span>
 <span class="right">
   <select id="reg" name ="reg">
@@ -173,7 +181,7 @@
 						<%} %>
 	</select>
 	
-  <select id="Storehouse" style="width: 120px;">
+  <select id="Storehouse" style="width: 140px;">
    </select>   
 </span>
 </div>
@@ -182,7 +190,7 @@
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
       <td class="colt" style="text-align:center;width:8vw;">소속</td>
-      <td class="colt" style="text-align:center;width:8vw;">창고명</td>
+      <td class="colt" style="text-align:center;width:10vw;">창고명</td>
       <td class="colt" style="text-align:center;width:10vw;">재고번호</td>
       <td class="colt" style="text-align:center;width:20vw;">식재료명</td>
       <td class="colt" style="text-align:center;width:11vw;">현재고량/단위</td>
@@ -197,14 +205,14 @@
 
    
    <tr id="tr<%=i %>" >
-      <td class="col" style="width:4vw;"><%=i+1 %></td>
-      <td class="col" style=" text-align:center;width:8vw;"><%=foods.get(i).getRegiment() %></td>
-      <td class="col" style=" text-align:center;width:8vw; "><%=foods.get(i).getStorehouse() %></td>
-      <td class="col" style=" text-align:center;width:10vw; "><%=foods.get(i).getFoodCode() %></td>
-      <td class="col" style="width:20vw;">&nbsp;<%=foods.get(i).getFoodName() %></td>
-      <td class="col" style=" text-align:right;width:11vw; "><%=df.format(Integer.parseInt(foods.get(i).getCurrentQuantity())) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
-      <td class="col" style=" text-align:center;width:10vw; "><%=foods.get(i).getStoreDate() %></td>
-      <td class="col" id="col<%=i %>" style="width:10vw; text-align:center; "><%=foods.get(i).getExpirationDate() %></td>
+      <td class="col" ><%=i+1 %></td>
+      <td class="col" style=" text-align:center;"><%=foods.get(i).getRegiment() %></td>
+      <td class="col" style=" text-align:center; "><%=foods.get(i).getStorehouse() %></td>
+      <td class="col" style=" text-align:center; "><%=foods.get(i).getFoodCode() %></td>
+      <td class="col" >&nbsp;<%=foods.get(i).getFoodName() %></td>
+      <td class="col" style=" text-align:right; "><%=df.format(Integer.parseInt(foods.get(i).getCurrentQuantity())) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
+      <td class="col" style=" text-align:center; "><%=foods.get(i).getStoreDate() %></td>
+      <td class="col" id="col<%=i %>" style="text-align:center; "><%=foods.get(i).getExpirationDate() %></td>
    </tr>
    <%}   
       if(num2==cnt){
@@ -264,7 +272,7 @@ function regSelectChange(e) {
 	
 	var fc0 = <%=fc0%>; var fc1 = <%=fc1%>;  
 	var fc2 = <%=fc2%>; var fc3 = <%=fc3%>;
-	var fc4 = ['전체'];
+	var fc4 = <%=fc4%>;
 
 	var target = document.getElementById("Storehouse");
 

@@ -2106,8 +2106,17 @@ public class DBConnection {
 				+ "FROM dbo.FoodInventory AS a "
 				+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
 				+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
-				+ "WHERE b.CodeName = ? "
-				+ "ORDER BY c.CodeID";
+				+ "WHERE b.CodeName = '"+reg
+				+ "' ORDER BY c.CodeID";
+		
+		if(reg.equals("전체")) {
+			sql = "SELECT DISTINCT c.CodeName, c.CodeID "
+					+ "	FROM dbo.FoodInventory AS a "
+					+ "	INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
+					+ "	INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+					+ "	ORDER BY c.CodeID;";
+		}
+		
 		ArrayList<String> rcs = new ArrayList<String>();
 		rcs.add("전체");
 		
@@ -2115,9 +2124,8 @@ public class DBConnection {
 			con = getConn();
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
 			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, reg);
-			rs = pstmt.executeQuery();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {
 				String storehouse = rs.getString("CodeName");
