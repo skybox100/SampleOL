@@ -389,7 +389,7 @@
         	view.setZoom(zoom);
         }
         document.getElementById('goback').onclick = function(){
-			window.history.back();
+    		location.href = "locations.jsp";
         }   
 	        
         
