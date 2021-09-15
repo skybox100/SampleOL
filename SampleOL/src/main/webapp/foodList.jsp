@@ -228,7 +228,8 @@
    			 $('#Storehouse').on('change', function() {
      	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()); 
    		 });
-	    document.getElementById("now").value = getTimeStamp2();
+	 
+   	  getTimeStamp2();
     
 	  for(var i=<%=num%>; i<<%=num2%>; i++)
          passdatechange(i);
@@ -239,7 +240,7 @@
 	});
   
 
-
+	setInterval(getTimeStamp2,1000);
 	
 	
    function getTimeStamp() {
@@ -380,7 +381,7 @@ function getTimeStamp2() {
 	    leadingZeros(d.getMinutes(), 2) + ':' +
 	    leadingZeros(d.getSeconds(), 2);
 
-	  return s;
+	  document.getElementById("now").value =s;
 	}
 
 </script>
