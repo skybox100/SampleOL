@@ -424,7 +424,7 @@
     		{ 
     		    $("input:radio[name=gis_setting]").click(function() 
     		    { 
-    		    	location.replace("personalLocations5.jsp?search_check=<%=sc%>&search_this=<%=st%>&reg=<%=regp%>&regim_company=<%=rcp%>&gis_setting="+$('input[name=gis_setting]:checked').val());
+    		    	location.replace("personalLocations5.jsp?search_check=<%=sc%>&search_this=<%=st%>&gis_setting="+$('input[name=gis_setting]:checked').val());
     		    })
     		});
     
