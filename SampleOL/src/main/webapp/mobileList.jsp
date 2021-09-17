@@ -103,7 +103,7 @@
 
     }
 	
-   int totalPage= cnt/pageNum_list;
+   int totalPage= cnt/pageNum_list+1;
 
 
 %>
@@ -252,13 +252,13 @@
     if(pageNum <= 1){%>
         <font></font>
         <% }else{%>
-            <font size=2><a href="mobileList.jsp?reg=<%=reg%>&regim_company=<%=rc%>">처음</a></font>
+            <font size=2><a href="mobileList.jsp?reg=<%=regp%>&regim_company=<%=rcp%>">처음</a></font>
         <%}
  
     if(block <=1){%>
         <font> </font>
     <% }else{%>
-        <font size=2><a href="mobileList.jsp?reg=<%=reg%>&regim_company=<%=rc%>&page=<%=startPage-1 %>">이전</a></font>
+        <font size=2><a href="mobileList.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=startPage-1 %>">이전</a></font>
     <% }
  
     for(int j = startPage; j <=endPage; j++)
@@ -277,7 +277,7 @@
     if(block <= cnt/pageNum_list){%>
     <font> </font>
     <%}else{%>    
-        <font size=2><a href="mobileList.jsp?reg=<%=reg%>&regim_company=<%=rc%>&page=<%=startPage+5%>">다음</a></font>
+        <font size=2><a href="mobileList.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=startPage+5%>">다음</a></font>
     <%}
  
  
@@ -286,7 +286,7 @@
             <font></font>
        
         <%}else{%>
-            <font size=2><a href="mobileList.jsp?reg=<%=reg%>&regim_company=<%=rc%>&page=<%=totalPage%>">마지막</a></font>
+            <font size=2><a href="mobileList.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=totalPage%>">마지막</a></font>
         <%}
     %>
     </td>
