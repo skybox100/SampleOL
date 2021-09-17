@@ -410,7 +410,7 @@
         	view.setZoom(zoom);
         }
         document.getElementById('goback').onclick = function(){
-    		location.href = "locations.jsp";
+			window.history.back();
         }
       
         

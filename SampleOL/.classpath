@@ -16,6 +16,5 @@
 	<classpathentry kind="lib" path="E:/Document/90. util/lib/jackson-annotations-2.5.0.jar"/>
 	<classpathentry kind="lib" path="E:/Document/90. util/lib/jackson-core-2.5.2.jar"/>
 	<classpathentry kind="lib" path="E:/Document/90. util/lib/jackson-databind-2.5.2.jar"/>
-	<classpathentry kind="lib" path="E:/Document/90. util/lib/fastjson-1.2.7.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -123,6 +123,18 @@ public class DBConnection {
         }
     }
    
+    public String phone(String src) {
+        if (src == null) {
+          return "";
+        }
+        if (src.length() == 8) {
+          return src.replaceFirst("^([0-9]{4})([0-9]{4})$", "$1-$2");
+        } else if (src.length() == 12) {
+          return src.replaceFirst("(^[0-9]{4})([0-9]{4})([0-9]{4})$", "$1-$2-$3");
+        }
+        return src.replaceFirst("(^02|[0-9]{3})([0-9]{3,4})([0-9]{4})$", "$1-$2-$3");
+      }
+    
     public static String searchDateConvert(String date_s, String format) {
     	String newstring = "";
     	try {
@@ -135,6 +147,8 @@ public class DBConnection {
     	}
     	return newstring;
     }
+    
+	
     
 	public ArrayList<Food> getFoodList(String reg, String sh) {
 		
@@ -217,6 +231,82 @@ public class DBConnection {
 
 	}
     
+public ArrayList<MobileEquip> getMobileList(String reg, String rc) {
+		
+		String sql = "";
+		MobileEquip mobile = null;
+		ArrayList<MobileEquip> mobileList = new ArrayList<MobileEquip>();
+	//	JSONArray jsonLocations = new JSONArray();
+
+		try {
+			con = getConn();				
+			if(reg.equals("전체") && rc.equals("전체")) {
+				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode  "
+						+ "from dbo.MobileManagement m "
+						+ "	inner join dbo.PersonnelManagement p ON p.ServiceNumber = m.ServiceNumber "
+						+ "	inner Join dbo.Code a ON p.RegimCompany = a.CodeID "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
+						+ "	order by p.Regiment desc,p.RegimCompany desc, m.JoinDate desc; ";
+					
+
+			}else if(reg.equals("전체")) {
+				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode  "
+						+ "from dbo.MobileManagement m "
+						+ "	inner join dbo.PersonnelManagement p ON p.ServiceNumber = m.ServiceNumber "
+						+ "	inner Join dbo.Code a ON p.RegimCompany = a.CodeID "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
+						+ " where p.RegimCompany = '"+rc+"'"
+						+ "	order by p.Regiment desc,p.RegimCompany desc, m.JoinDate desc; ";
+			}else if(rc.equals("전체")) {
+				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode  "
+						+ "from dbo.MobileManagement m "
+						+ "	inner join dbo.PersonnelManagement p ON p.ServiceNumber = m.ServiceNumber "
+						+ "	inner Join dbo.Code a ON p.RegimCompany = a.CodeID "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
+						+ " where p.regiment = '"+reg+"'"
+						+ "	order by p.Regiment desc,p.RegimCompany desc, m.JoinDate desc; ";
+			}else {
+				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode  "
+						+ "from dbo.MobileManagement m "
+						+ "	inner join dbo.PersonnelManagement p ON p.ServiceNumber = m.ServiceNumber "
+						+ "	inner Join dbo.Code a ON p.RegimCompany = a.CodeID "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
+						+ " where p.regiment = '"+reg+"' and p.RegimCompany = '"+rc+"'"
+						+ "	order by p.Regiment desc,p.RegimCompany desc, m.JoinDate desc; ";
+			}
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String MobileNumber = phone(rs.getString("MobileNumber"));
+				String Regiment = rs.getString("Regiment");
+				String MobileType = rs.getString("MobileType");
+				String Name = rs.getString("Name");
+				String ServiceNumber = rs.getString("ServiceNumber");
+				String JoinDate = searchDateConvert(rs.getString("JoinDate"),"yyyy-MM-dd");
+				String RegimCompany = rs.getString("RegimCompany");
+				String RegimCompanyCode = rs.getString("RegimCompanyCode");
+				String RegimentCode = rs.getString("RegimentCode");
+
+
+
+				mobile= new MobileEquip(MobileNumber,Regiment,RegimentCode,MobileType,Name,ServiceNumber,JoinDate,RegimCompany,RegimCompanyCode);
+				mobileList.add(mobile);
+				
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}		
+		return mobileList;
+
+	}
+	
 	public ArrayList<Location> getLocations() {
 	
 		String sql = "select top (50) * from dbo.Locations order by InputTime desc";
@@ -2078,7 +2168,7 @@ public class DBConnection {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				String regimCompany = rs.getString("CodeName");
+				String regimCompany = rs.getString("CodeName").trim();
 				
 				rcs.add(regimCompany);
 				
@@ -2265,7 +2355,7 @@ public class DBConnection {
 		
 		return tet;
 	}
-	
+
 	
 	public String getEmergencyGroupName(String MobileNumber){
 		
