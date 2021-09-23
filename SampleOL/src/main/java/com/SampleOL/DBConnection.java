@@ -241,36 +241,40 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc) {
 		try {
 			con = getConn();				
 			if(reg.equals("전체") && rc.equals("전체")) {
-				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode  "
+				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.ServiceNumber = m.ServiceNumber "
 						+ "	inner Join dbo.Code a ON p.RegimCompany = a.CodeID "
 						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
+						+ "	inner Join dbo.Code c ON p.Rank = c.CodeID  "
 						+ "	order by p.Regiment desc,p.RegimCompany desc, m.JoinDate desc; ";
 					
 
 			}else if(reg.equals("전체")) {
-				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode  "
+				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.ServiceNumber = m.ServiceNumber "
 						+ "	inner Join dbo.Code a ON p.RegimCompany = a.CodeID "
 						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
+						+ "	inner Join dbo.Code c ON p.Rank = c.CodeID  "
 						+ " where p.RegimCompany = '"+rc+"'"
 						+ "	order by p.Regiment desc,p.RegimCompany desc, m.JoinDate desc; ";
 			}else if(rc.equals("전체")) {
-				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode  "
+				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.ServiceNumber = m.ServiceNumber "
 						+ "	inner Join dbo.Code a ON p.RegimCompany = a.CodeID "
 						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
+						+ "	inner Join dbo.Code c ON p.Rank = c.CodeID  "
 						+ " where p.regiment = '"+reg+"'"
 						+ "	order by p.Regiment desc,p.RegimCompany desc, m.JoinDate desc; ";
 			}else {
-				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode  "
+				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,m.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany, p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.ServiceNumber = m.ServiceNumber "
 						+ "	inner Join dbo.Code a ON p.RegimCompany = a.CodeID "
 						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
+						+ "	inner Join dbo.Code c ON p.Rank = c.CodeID  "
 						+ " where p.regiment = '"+reg+"' and p.RegimCompany = '"+rc+"'"
 						+ "	order by p.Regiment desc,p.RegimCompany desc, m.JoinDate desc; ";
 			}
@@ -287,10 +291,12 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc) {
 				String RegimCompany = rs.getString("RegimCompany");
 				String RegimCompanyCode = rs.getString("RegimCompanyCode");
 				String RegimentCode = rs.getString("RegimentCode");
+				String Rank = rs.getString("Rank");
+				String RankCode = rs.getString("RankCode");
 
 
 
-				mobile= new MobileEquip(MobileNumber,Regiment,RegimentCode,MobileType,Name,ServiceNumber,JoinDate,RegimCompany,RegimCompanyCode);
+				mobile= new MobileEquip(MobileNumber,Regiment,RegimentCode,MobileType,Name,ServiceNumber,JoinDate,RegimCompany,RegimCompanyCode,Rank,RankCode);
 				mobileList.add(mobile);
 				
 			}

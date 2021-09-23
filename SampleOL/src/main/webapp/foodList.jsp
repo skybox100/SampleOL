@@ -99,6 +99,7 @@
       font-size: 1.1rem;
       border-collapse: collapse;
       border-top: 2px solid #19317f;
+      
     }  
     .table th {
       color: #168;
@@ -106,7 +107,7 @@
       text-align: center;
     }
     .table th, .table td {
-    
+      text-overflow:ellipsis; overflow:hidden; white-space:nowrap;
       padding: 5px;
       border: 1px solid #ddd;
     }
@@ -132,6 +133,7 @@
    .col{
       font-weight: 550;
       font-size:1.2rem; 
+      
    }
 
    .colt{
@@ -153,7 +155,7 @@
    span.left{position:absolute;top:0;left:0;}
    span.right{position:absolute;top:0;right:0;}
   
-  span input{
+ span input{
     height : 22px;
    font-size:18px; 
    padding: 5px;
@@ -167,6 +169,7 @@
    padding: 5px;
    }
   </style>
+</head>
 </head>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <body>

@@ -10,11 +10,11 @@ public class MobileEquip {
 	String JoinDate;
 	String RegimCompany;
 	String RegimCompanyCode;
-	
-	
-	
+	String Rank;
+	String RankCode;
 	public MobileEquip(String mobileNumber, String regiment, String regimentCode, String mobileType, String name,
-			String serviceNumber, String joinDate, String regimCompany, String regimCompanyCode) {
+			String serviceNumber, String joinDate, String regimCompany, String regimCompanyCode, String rank,
+			String rankCode) {
 		super();
 		MobileNumber = mobileNumber;
 		Regiment = regiment;
@@ -25,6 +25,8 @@ public class MobileEquip {
 		JoinDate = joinDate;
 		RegimCompany = regimCompany;
 		RegimCompanyCode = regimCompanyCode;
+		Rank = rank;
+		RankCode = rankCode;
 	}
 	public String getMobileNumber() {
 		return MobileNumber;
@@ -80,5 +82,20 @@ public class MobileEquip {
 	public void setRegimCompanyCode(String regimCompanyCode) {
 		RegimCompanyCode = regimCompanyCode;
 	}
+	public String getRank() {
+		return Rank;
+	}
+	public void setRank(String rank) {
+		Rank = rank;
+	}
+	public String getRankCode() {
+		return RankCode;
+	}
+	public void setRankCode(String rankCode) {
+		RankCode = rankCode;
+	}
+	
+	
+	
 	
 }

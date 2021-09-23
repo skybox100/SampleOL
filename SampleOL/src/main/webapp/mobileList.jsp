@@ -87,22 +87,28 @@
 	   startPage=1;
 	   endPage=(cnt/pageNum_list)+1;
   		num=(pageNum-1)*pageNum_list;
-       num2=pageNum_list;
 
    	}else if(pageNum*pageNum_list<=cnt){
    		startPage=(pageNum/5)*5+1;
    		endPage=(cnt/pageNum_list)+1;
    		num=(pageNum-1)*pageNum_list;
-        num2=(pageNum-1)*pageNum_list+pageNum_list;
 
 	}else{
    		startPage=(pageNum/5)*5+1;
 		endPage=(cnt/pageNum_list)+1;
-   		num= (pageNum==1) ? 0: (pageNum-1)*pageNum_list;
-	    num2=cnt;
+   		num= (pageNum-1)*pageNum_list;
 
     }
 	
+   if(num == 0 && cnt>15){
+	      num2=15;
+	   }else if(num+15<=cnt){
+	      num2=num+15;
+	   }else{
+	      num2=cnt;
+	   }
+
+   
    int totalPage= cnt/pageNum_list+1;
 
 
@@ -193,7 +199,7 @@
 </head>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <body>
-<div>
+<div style="white-space:nowrap;">
 <span class="left"><input type="text" id="now" readonly> <font>&nbsp;&nbsp;총 개수: <%=cnt %></font> </span>
 
 
@@ -234,7 +240,7 @@
       <td class="col" ><%=i+1 %></td>
       <td class="col" style=" text-align:center;"><%=mobileEquips.get(i).getMobileNumber() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRegiment() %></td>
-      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRegimCompany() %></td>
+      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRank() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getName() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getServiceNumber() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getMobileType() %></td>
