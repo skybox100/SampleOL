@@ -27,6 +27,7 @@
 	String regp="전체";
 	String rc="전체";
 	String rcp="전체";
+	String ec="전체";
 	
 	DecimalFormat df = new DecimalFormat("###,###");
 
@@ -38,6 +39,10 @@
    if(request.getParameter("regim_company") != null){
 	   rc = request.getParameter("regim_company");
 	   rcp = request.getParameter("regim_company");
+	   
+   }
+   if(request.getParameter("equip_type") != null){
+	   ec = request.getParameter("equip_type");
 	   
    }
 
@@ -78,7 +83,7 @@
 	}
 	
    
-	mobileEquips = cd.getMobileList(reg, rc);
+	mobileEquips = cd.getMobileList(reg, rc,ec);
    
    int cnt = mobileEquips.size();
    
@@ -110,7 +115,9 @@
 
    
    int totalPage= cnt/pageNum_list+1;
-
+  
+   String total_data="";
+   total_data=gson.toJson(mobileEquips);
 
 %>
 
@@ -198,13 +205,16 @@
   </style>
 </head>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="//unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
 <body>
 <div style="white-space:nowrap;">
-<span class="left"><input type="text" id="now" readonly> <font>&nbsp;&nbsp;총 개수: <%=cnt %></font> </span>
-
+<span class="left"><input type="text" id="now" readonly> <font>&nbsp;&nbsp;총 개수: <%=cnt %></font> <input type='button' id="btnExport" value='excel 다운' style='width:100px;height:36px;font-weight:bold;' />
+</span>
 
 <span class="title">모바일 기기 목록 현황</span>
 <span class="right">
+
   <select id="reg" name ="reg">
 						<option>전체</option>
 						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
@@ -215,6 +225,11 @@
 	
   <select id="RegimCompany" style="width: 140px;">
    </select>   
+     <select id="equipType" name ="equipType">
+						<option>전체</option>
+						<option value="watch">watch</option>
+						<option value="phone">phone</option>
+	</select>
 </span>
 </div>
 <table class="table" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
@@ -288,7 +303,7 @@
  
  
  
-    if(pageNum >= cnt/pageNum_list){%>
+    if(pageNum >= cnt/pageNum_list+1){%>
             <font></font>
        
         <%}else{%>
@@ -307,9 +322,14 @@
 
 	$(document).ready(function() {
 	   
+
+		
 	 	$('#reg').val('<%=regp%>').prop("selected", true);
 			regSelectChange('<%=regp%>');
- 	
+		$('#equipType').val('<%=ec%>').prop("selected", true);
+
+			
+			
    		 $('#reg').on('change', function() {
    		     location.replace("mobileList.jsp?reg="+$('#reg').val()+"&regim_company=전체"); 
    		 });
@@ -317,6 +337,9 @@
      	  	 location.replace("mobileList.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()
      	  			 ); 
    		 });
+   			$('#equipType').on('change', function() {
+      		     location.replace("mobileList.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()+"&equip_type="+$('#equipType').val()); 
+      		 });
 	 
    	  getTimeStamp2();
     
@@ -331,7 +354,55 @@
 	setInterval(getTimeStamp2,1000);
 	
 	
+	$("#btnExport").click(function() {
 
+
+        var createXLSLFormatObj = [];
+		var cnt=1;
+        /* XLS Head Columns */
+        var xlsHeader = ["전화번호","소속","계급","성명","군번","장비구분","배정일"];
+
+        /* XLS Rows Data */
+        var xlsRows = <%=total_data%>;
+
+
+        createXLSLFormatObj.push(xlsHeader);
+        $.each(xlsRows, function(index, value) {
+            var innerRowData = [];
+            $.each(value, function(ind, val) {
+
+                innerRowData.push(val);
+            });
+            createXLSLFormatObj.push(innerRowData);
+        });
+
+
+        /* File Name */
+        var filename = "export"+getTimeStamp()+".xlsx";
+
+        /* Sheet Name */
+        var ws_name = "mobileData";
+
+        if (typeof console !== 'undefined') console.log(new Date());
+        var wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.aoa_to_sheet(createXLSLFormatObj);
+
+        /* Add worksheet to workbook */
+        XLSX.utils.book_append_sheet(wb, ws, ws_name);
+
+        /* Write workbook and Download */
+        if (typeof console !== 'undefined') console.log(new Date());
+        XLSX.writeFile(wb, filename);
+        if (typeof console !== 'undefined') console.log(new Date());
+		
+        cnt=cnt+1;
+    });
+    
+	
+
+	
+
+    
 	
    function getTimeStamp() {
 	     var d = new Date();

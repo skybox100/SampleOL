@@ -4,29 +4,25 @@ public class MobileEquip {
 	String MobileNumber;
 	String Regiment;
 	String RegimentCode;
-	String MobileType;
+	String Rank;
+	String RankCode;
 	String Name;
 	String ServiceNumber;
+	String MobileType;
 	String JoinDate;
 	String RegimCompany;
 	String RegimCompanyCode;
-	String Rank;
-	String RankCode;
-	public MobileEquip(String mobileNumber, String regiment, String regimentCode, String mobileType, String name,
-			String serviceNumber, String joinDate, String regimCompany, String regimCompanyCode, String rank,
-			String rankCode) {
+	public MobileEquip(String mobileNumber, String regiment, String rank,  String name,
+			String serviceNumber, String mobileType,String joinDate) {
 		super();
 		MobileNumber = mobileNumber;
 		Regiment = regiment;
-		RegimentCode = regimentCode;
-		MobileType = mobileType;
+		Rank = rank;
 		Name = name;
 		ServiceNumber = serviceNumber;
+		MobileType = mobileType;
 		JoinDate = joinDate;
-		RegimCompany = regimCompany;
-		RegimCompanyCode = regimCompanyCode;
-		Rank = rank;
-		RankCode = rankCode;
+
 	}
 	public String getMobileNumber() {
 		return MobileNumber;
