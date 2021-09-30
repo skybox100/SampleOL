@@ -45,7 +45,7 @@
 <style>
     .table {
       width: 100%;
-      font-size: 12px;
+      font-size: 11px;
       border-collapse: collapse;
       border-top: 3px solid #168;
     }  
@@ -101,7 +101,7 @@
 		<td><a href="personalLocations5.jsp?search_check=phone_num&search_this=<%=locations.get(i).getUserKey() %>">
 		<%=locations.get(i).getUserKey() %>
 		</a></td>
-		<td></td>
+		<td><%=locations.get(i).getEtc() %></td>
 	</tr>
 	
 	<%} %>
@@ -111,7 +111,7 @@
 <input type="button" value=" 이전 " id="goback">
 <script type="text/javascript">
 document.getElementById('goback').onclick = function(){
-	location.href="personalLocations3.jsp?reg=<%=regp%>&regim_company=<%=rcp%>#"
+	window.history.back();
 }
 </script>
 </body>

@@ -940,7 +940,9 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 		
 	}
 	
-	public ArrayList<Location> getMobileStatus(String reg, String rc) {
+
+	
+public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 		String sql = "select top (50) * from dbo.MobileStatus order by InputTime desc";
 		Location location = null;
@@ -948,13 +950,13 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 	//	JSONArray jsonLocations = new JSONArray();
 		
 		if(reg.equals("전체") && rc.equals("전체")) {
-			sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty "
+			sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 					+ "inner join dbo.Code as e on p.rank = e.CodeID "
-					+ "order by l.InputTime desc ";
+					+ "order by Regiment, RegimCompany, Rank, p.Name ";
 			
 			try {
 				con = getConn();
@@ -976,9 +978,10 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 					String latitude = rs.getString("Latitude");
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
-					
+					String etc = rs.getString("etc");
+
 					location = new Location(serviceNumber, userKey, name, rank, regiment,
-						 regimCompany, isDevice, duty, latitude, longitude, timestamp);
+							 regimCompany, isDevice, duty, latitude, longitude, timestamp,etc);
 				//	System.out.println(location.toString());
 					
 					locations.add(location);
@@ -993,14 +996,14 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 			}
 		} else if(rc.equals("전체")) {
 			
-			sql =  "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty "
+			sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 					+ "inner join dbo.Code as e on p.rank = e.CodeID "
 					+ "where p.Regiment = ? "
-					+ "order by l.InputTime desc ";
+					+ "order by Regiment, RegimCompany, Rank, p.Name ";
 			
 			try {
 				con = getConn();
@@ -1023,11 +1026,10 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 					String latitude = rs.getString("Latitude");
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
-					
+					String etc = rs.getString("etc");
+
 					location = new Location(serviceNumber, userKey, name, rank, regiment,
-						 regimCompany, isDevice, duty, latitude, longitude, timestamp);
-				//	System.out.println(location.toString());
-					
+							 regimCompany, isDevice, duty, latitude, longitude, timestamp,etc);
 					locations.add(location);
 				}
 			} catch (SQLException e) {
@@ -1040,14 +1042,14 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 			}
 
 		} else {
-			sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty "
+			sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 					+ "inner join dbo.Code as e on p.rank = e.CodeID "
 					+ "where p.Regiment = ? and p.RegimCompany = ? "
-					+ "order by l.InputTime desc ";
+					+ "order by Regiment, RegimCompany, Rank, p.Name ";
 			
 			try {
 				con = getConn();
@@ -1070,10 +1072,10 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 					String latitude = rs.getString("Latitude");
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
-					
+					String etc = rs.getString("etc");
+
 					location = new Location(serviceNumber, userKey, name, rank, regiment,
-						 regimCompany, isDevice, duty, latitude, longitude, timestamp);
-					
+							 regimCompany, isDevice, duty, latitude, longitude, timestamp,etc);
 					locations.add(location);
 				}
 			} catch (SQLException e) {
@@ -1088,7 +1090,7 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 		return locations;
 		
 	}
-	
+
 	public ArrayList<Location> getLocationsByUser(String phoneNum) {
 
 		String sql = "SELECT TOP(50) p.ServiceNumber, p.MobileNumber, p.Rank, p.Name, p.RegimCompany, p.Duty, l.Latitude, l.Longitude, l.Timestamp "
@@ -1851,6 +1853,94 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 				+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
 				+ "inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 				+ "inner join dbo.Code as e on p.rank = e.CodeID "
+				+ "order by l.InputTime desc ";
+		ArrayList<Location> locations = new ArrayList<Location>();
+	//	JSONArray jsonLocations = new JSONArray();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String serviceNumber = rs.getString("serviceNumber");
+				String name = rs.getString("name");
+				String rank = rs.getString("rank");
+				String regiment = rs.getString("regiment");
+				String regimCompany = rs.getString("regimCompany");
+				String isDevice = rs.getString("isDevice");
+				String duty = rs.getString("duty");
+				String userKey = rs.getString("UserKey");
+				String latitude = rs.getString("Latitude");
+				String longitude = rs.getString("longitude");
+				String timestamp = format.format(rs.getTimestamp("Timestamp"));
+				
+				String EventId = Long.toString(tick);
+				String EventDateTime = format1.format (System.currentTimeMillis());
+				String MissionType = rs.getString("MissionType");
+				String EquipID = "ESE";
+				String EventType = "EVT-14";
+				String ObjectType = "OBT-02";
+				String EventRemark = "이탈 이벤트 발생, 상황접수";
+				String Status = "EVS-01";
+				String ActionStartDate = format2.format (System.currentTimeMillis());
+				String ActionEndDate = ""; //rs.getString("ActionEndDate");
+				String Actioncontents = ""; //rs.getString("Actioncontents");
+				String ResultContents = ""; //rs.getString("ResultContents");
+				String IsSendOK = "N";
+				String GroupCode=getEmergencyGroupName(userKey);
+				location = new Location(serviceNumber, userKey, name, rank, regiment,
+							 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
+						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, userKey);
+				
+				//location = new Location(serviceNumber, userKey, name, rank, regiment,
+				//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
+				
+				locations.add(location);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(rs2 != null) rs2.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+
+		}
+	
+		
+			//for(Location l:locations) {
+			//	System.out.println(l.toString());
+			//}
+		
+		return locations;
+		
+	}
+	
+	
+	public ArrayList<Location> getMobileStatus(String pn){
+		
+		Location location = null;
+		long TICKS_AT_EPOCH = 621355968000000000L; 
+		long tick = (System.currentTimeMillis() + TimeZone.getDefault().getRawOffset()) * 10000 + TICKS_AT_EPOCH;
+		
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format2 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss.SSS");
+
+		System.out.println(tick );
+		System.out.println( format1.format (System.currentTimeMillis()));
+
+		
+		String sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, "
+				+ " MissionType "
+				+ "from dbo.MobileStatus as l "
+				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
+				+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
+				+ "inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+				+ "inner join dbo.Code as e on p.rank = e.CodeID "
+				+ "where l.UserKey = '"+pn+"'"
 				+ "order by l.InputTime desc ";
 		ArrayList<Location> locations = new ArrayList<Location>();
 	//	JSONArray jsonLocations = new JSONArray();

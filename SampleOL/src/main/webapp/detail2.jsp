@@ -48,7 +48,7 @@
 <style>
     .table {
       width: 100%;
-      font-size: 12px;
+      font-size: 11px;
       border-collapse: collapse;
       border-top: 3px solid #168;
     }  

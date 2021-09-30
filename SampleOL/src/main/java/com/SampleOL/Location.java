@@ -30,6 +30,7 @@ public class Location {
 	String IsSendOK;
 	String EventRemark;
 	String MobileNumber;
+	String etc;
 	
 	public Location(String serviceNumber, String userKey, String name, String rank, String regiment,
 			String regimCompany, String isDevice, String duty, String latitude, String longitude, String timestamp) {
@@ -45,6 +46,23 @@ public class Location {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.timestamp = timestamp;
+	}
+	
+	public Location(String serviceNumber, String userKey, String name, String rank, String regiment,
+			String regimCompany, String isDevice, String duty, String latitude, String longitude, String timestamp, String etc) {
+		super();
+		this.serviceNumber = serviceNumber;
+		this.userKey = userKey;
+		this.name = name;
+		this.rank = rank;
+		this.regiment = regiment;
+		this.regimCompany = regimCompany;
+		this.isDevice = isDevice;
+		this.duty = duty;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.timestamp = timestamp;
+		this.etc = etc;
 	}
 
 	public Location(String serviceNumber, String userKey, String name, String rank, String regiment, String duty,
@@ -350,6 +368,14 @@ public class Location {
 
 	public void setMobileNumber(String mobileNumber) {
 		MobileNumber = mobileNumber;
+	}
+
+	public String getEtc() {
+		return etc;
+	}
+
+	public void setEtc(String etc) {
+		this.etc = etc;
 	}
 	 
 	 

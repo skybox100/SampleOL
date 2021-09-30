@@ -21,9 +21,8 @@
 		param2 = request.getParameter("gis_setting2");	
 	}
 	
+	String st = request.getParameter("pn");
 	String pn=null;
-	String phoneNum = request.getParameter("phoneNum");
-	
 	
 	DBConnection cd = new DBConnection();
 	ArrayList<Location> locations = new ArrayList<Location>();
@@ -44,10 +43,15 @@
 
 	 
 	
-			
-		locations = cd.getMobileStatus();
-		String lastTimestamp = lastLocation.getTimestamp();
+		if(request.getParameter("pn")!= null){
+			String rest = st.replaceAll("[^0-9]","");
+
+			locations = cd.getMobileStatus(rest);
+		}else{		
+			locations = cd.getMobileStatus();
+		}
 		multi_marker = gson.toJson(locations);
+		String lastTimestamp = lastLocation.getTimestamp();
 		
 		System.out.println(locations.toString());
 
@@ -133,7 +137,7 @@
         }
         
         #equip_type{
-           width: 120px;  
+           width: 105px;  
         }
         
         #reg{
@@ -957,28 +961,17 @@
 				console.log(difference);					
 				console.log(timestamp);
 				
-				if(distance < r2){
+				if(days<1 && '<%=param2%>' == 'geofoff'){
 					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
 			            anchorYUnits: 'pixels',
-			            src: 'image/marker_bl.png',
+			            src: 'image/marker_bl_01.png',
 				        text: 'P',
 			            scale: 1.2
 			        });
-					
-					
-				}else if(days<1 && '<%=param2%>' == 'geofoff'){
-					
-					var MarkerIcon = new ol.style.Icon({
-			            anchor: [0.5, 20],
-			            anchorXUnits: 'fraction',
-			            anchorYUnits: 'pixels',
-			            src: 'image/marker_bl.png',
-				        text: 'P',
-			            scale: 1.2
-			        });
+					console.log(days);
 				}else if('<%=param2%>' == 'geofoff'){
 						
 					
@@ -989,7 +982,22 @@
 			            src: 'image/marker_yl_01.png',
 			            scale: 1.2
 				        });
-				} else{
+					console.log(days);
+
+				}else if( distance < r2){
+					
+					var MarkerIcon = new ol.style.Icon({
+			            anchor: [0.5, 20],
+			            anchorXUnits: 'fraction',
+			            anchorYUnits: 'pixels',
+			            src: 'image/marker_bl.png',
+				        text: 'P',
+			            scale: 1.2
+			        });
+					
+					
+				}else
+				{
 
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
