@@ -8,13 +8,14 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5"/>
 	<classpathentry kind="lib" path="E:/Document/90. util/lib/gson-2.8.6.jar"/>
 	<classpathentry kind="lib" path="E:/Document/90. util/lib/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="lib" path="E:/Document/90. util/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="E:/Document/90. util/sqljdbc_9.2/kor/mssql-jdbc-9.2.1.jre8.jar"/>
-	<classpathentry kind="lib" path="E:/Document/90. util/lib/jackson-annotations-2.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Document/90. util/lib/jackson-core-2.5.2.jar"/>
-	<classpathentry kind="lib" path="E:/Document/90. util/lib/jackson-databind-2.5.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.web"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
