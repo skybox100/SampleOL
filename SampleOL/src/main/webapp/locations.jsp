@@ -14,11 +14,15 @@
 <%
 	String param = "geofence";
 	String param2 = "geofoff";
+	String param3 = "전체";
 
 	
 	if(request.getParameter("gis_setting")!= null && request.getParameter("gis_setting2")!=null){
 		param = request.getParameter("gis_setting") ;
 		param2 = request.getParameter("gis_setting2");	
+	}
+	if(request.getParameter("geofence")!= null ){
+		param3 = request.getParameter("geofence") ;
 	}
 	
 	String st = request.getParameter("pn");
@@ -27,10 +31,12 @@
 	DBConnection cd = new DBConnection();
 	ArrayList<Location> locations = new ArrayList<Location>();
 	Location lastLocation = new Location();
-		
+	ArrayList<Circle> Circles = new ArrayList<Circle>();
+
 	Gson gson = new Gson();
 	String multi_marker = "";
 	String last_marker ="";
+	String circle_marker ="";
 
 		//int chk = 1;
 
@@ -40,8 +46,13 @@
 		pn = "군사지도";
 	} 
 	
-
-	 
+	if(param3.equals("전체")){
+		Circles=cd.getCircle(param3);
+	} else{
+		Circles=cd.getCircle(cd.getCodeID("Regiment", param3));
+	}
+	
+		circle_marker=gson.toJson(Circles);
 	
 		if(request.getParameter("pn")!= null){
 			String rest = st.replaceAll("[^0-9]","");
@@ -86,8 +97,22 @@
 		tet1 = gson.toJson(tet_1); 
 		tet2 = gson.toJson(tet_2);
 		tet3 = gson.toJson(tet_3);
-		System.out.println("1");
+
+		//String geo_0 = cd.getCodeID("Regiment",  "28여단");
+		//String geo_1 = cd.getCodeID("Regiment", "28-1대대");
+		//String geo_2 = cd.getCodeID("Regiment", "28-2대대");
+		//String geo_3 = cd.getCodeID("Regiment", "28-3대대");
 		
+		String geo_0 = "28여단";
+		String geo_1 = "28-1대대";
+		String geo_2 = "28-2대대";
+		String geo_3 = "28-3대대";
+		
+		String geo0; String geo1; String geo2; String geo3;
+		geo0 = gson.toJson(geo_0);
+		geo1 = gson.toJson(geo_1); 
+		geo2 = gson.toJson(geo_2);
+		geo3 = gson.toJson(geo_3);
 %>
 
 
@@ -117,12 +142,14 @@
 
     	}
     	#btn{
+    	
     		height: 30px;
-       		margin-left: 4px;
-       		margin-right: -4px;
-       		font-size: 15px;
+       		margin-left: 3px;
+       		font-size: 13px;
+       		text-align: center;
        		
     	}
+   
 
         #map{
         	
@@ -182,13 +209,16 @@
         }
         
         #status{
-        	height: 36px;
+        	height: 62px;
         }
         #Scale{
-        	height: 36px;
+        	height: 62px;
         }
         #equip{
-        	height: 36px;
+        	height: 62px;
+        }
+        #geofenceLayer{
+        	height: 62px;
         }
         #table{
     	   	position: fixed;
@@ -200,20 +230,21 @@
         
 		#buttonLayer{
 			position: fixed; /* 이 부분을 고정 */
+			display: flex;
+			justify-content:flex-start;
 	  		top:30px; 
   			width: 100%;
 			white-space: nowrap;
 			width: 100%;
   			background: white;
-  			height: 30px;
 			padding-bottom: 4px;
 		}
         
         #gis_setting{
-              height: 36px;
+        	height: 62px;
         }
         #personal{
-              height: 36px;
+        	height: 62px;
         }
         #rcp_frm{
     	   	position: absolute;
@@ -330,7 +361,9 @@
  		    display: none;
  		}       
 
-        
+        .form{
+        	
+        }
     </style>
 
     <!-- OpenLayers map -->
@@ -374,6 +407,8 @@
 	<input type="button" value="병력 위치" id="btn" onclick="showSearch('status')"/>
 	<input type="button" value="장비 위치" id="btn" onclick="showSearch('equip')"/>
 	<input type="button" value="이동 조회" id="btn" onclick="showSearch('personal')"/> 
+	<input type="button" value="Geofence" id="btn" onclick="showSearch('geofenceLayer')"/> 
+	
 	<button id="zoom-restore" >reset</button><br>
 	
 	<div id="status" style="display:none; background: white;">
@@ -481,6 +516,21 @@
 				</font>
 		</form>
 	</div>
+	<div id="geofenceLayer" style="display:none; background: white;">
+		<table id="table">
+			<tr>
+				<td>
+					<select id="geo" name ="geo" onchange="geofenceSelectChange(this)">
+						<option>전체</option>
+						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
+						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
+						<%} %>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>	
+	
 	<div id="name_select" style="display:none">
 	</div>
 	</div>
@@ -521,6 +571,7 @@
     <script>
 	    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
     	$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
+    	$("#geo").val("<%=param3%>").prop("selected", true);
 
        
     	     
@@ -530,11 +581,18 @@
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
         		    { 
         		    	location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
-        		    }), 
+        		    }),
         		    $("input:radio[name=gis_setting2]").click(function() 
-        	    	{ 
-        		    	location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
-        	    	}) 
+                	{ 
+        		    	if($("select[name=geo]").val() != '전체' && $('input[class="gis_setting2"]:checked').val() == 'geofon'){
+        	 		   		location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+
+        	 		    			"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+
+        	 		    			"&geofence="+$("select[name=geo]").val());
+        		    	}else{
+        		    		location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());        		    		
+        		    	}
+                	})
+      
         
         		});
 
@@ -543,29 +601,33 @@
      
         	}
     	     
-        var x = [126.79849,126.78286,126.82623,126.79989,126.765228]; 
-        var y = [37.67835,37.76350,37.77812,37.77175,37.834637];
-        var r = [5000,3000,2000,2000,2000];
-        var rc = ['9사단','28여단','28-1대대','28-2대대','28-3대대'];
+       var x =new Array();
+       var y =new Array();
+       var r =new Array();
+       var rc =new Array();
+
 
    		// var x = 126.7719083;	var y = 37.6544622;
-
-  
-   		
-   		 var data = <%=multi_marker%>;
+     	var data = <%=multi_marker%>;
         // var data = <%=last_marker%>;
-   		 var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"5000","regiment":"9사단"}
-   		 ,{"latitude":"126.78286","longitude":"37.76350","r":"3000","regiment":"28여단"}
-   		 ,{"latitude":"126.82623","longitude":"37.77812","r":"2000","regiment":"28-1대대"}
-   		 ,{"latitude":"126.79989","longitude":"37.77175","r":"2000","regiment":"28-2대대"}
-   		 ,{"latitude":"126.765228","longitude":"37.834637","r":"2000","regiment":"28-3대대"}];
+
+   		var data2 = <%=circle_marker%>;
+
+   		for(var i=0;i<data2.length;i++){
+       		    x.push(data2[i][Object.keys(data2[i].latitude)[0]]);
+       		    y.push(data2[i][Object.keys(data2[i].longitude)[0]]);
+       		    r.push(data2[i][Object.keys(data2[i].r)[0]]);
+       		    rc.push(data2[i][Object.keys(data2[i].regiment)[0]]);
+
+        }
+   		 
 
   	    var straitSource = new ol.source.Vector({ wrapX: true });
  	    var straitsLayer = new ol.layer.Vector({
  	        source: straitSource
  	    });
 		
- 	   if('<%=param%>'=='geofence' ){
+  	   if('<%=param%>'=='geofence' ){
 
         // Instanciate a Map, set the object target to the map DOM id
 		var map = new ol.Map({
@@ -639,9 +701,8 @@
 				})
 				}) ]
 			});
-			if('<%=param2%>' === 'geofon'){	
+			if('<%=param2%>' == 'geofon'){	
 				map.addLayer(vectorLayer); 
-				//만들어진 벡터를 추가	
 			}
 			seq3++;
 		});
@@ -800,7 +861,6 @@
 		
 		
 	    function regimentSelectChange(e) {
-	    	
 	    	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	    	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
 	    	var rc4 = ['전체'];
@@ -849,11 +909,38 @@
 	    	}
 	    }
     
+	    function geofenceSelectChange(e) {
+	    	var geo0 = <%=geo0%>; var geo1 = <%=geo1%>;  
+	    	var geo2 = <%=geo2%>;
+	    	var geo3 = <%=geo3%>;
+	    	var geo4 = ['전체'];
+	    	
+	
+	    	if(e.value == "28여단") var d = geo0;
+	    	else if(e.value == "28-1대대") var d = geo1;
+	    	else if(e.value == "28-2대대") var d = geo2;
+	    	else if(e.value == "28-3대대") var d = geo3;
+	    	else if(e.value == "전체") var d = geo4;
+
+	    	if('<%=param2%>'== 'geofon'){	    		
+	 		   	if(d == "전체"){
+	 		   	location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+
+		    			"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+	 		   	}else{	 		   		
+	 		   		location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+
+	    			"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+
+	    			"&geofence="+d);
+	 		   	}
+	    	}
+
+	    	
+	    }
+
 		function goBack(){
 			window.history.back();
 		}		
 		
-		var search = ['personal', 'status', 'equip', 'Scale'];
+		var search = ['personal', 'status', 'equip', 'Scale','geofenceLayer'];
 		
 		function showSearch(id){
 			
@@ -996,6 +1083,18 @@
 			        });
 					
 					
+				}else if(regiment != '<%=param3%>' && '전체'!= '<%=param3%>'){
+					
+					var MarkerIcon = new ol.style.Icon({
+			            anchor: [0.5, 20],
+			            anchorXUnits: 'fraction',
+			            anchorYUnits: 'pixels',
+			            src: 'image/marker_yl_01.png',
+				        text: 'P',
+			            scale: 1.2
+			        });
+					
+					
 				}else
 				{
 
@@ -1016,12 +1115,12 @@
 						url: 'http://110.10.130.51:5002/Emergency/EventStatus/EventStatusSave',
 						contentType: "application/json; charset=utf-8",
 						method: 'POST',
-						data: JSON.stringify(data),
+						data: JSON.stringify(item),
 						dataType: "json",
 						accept: "application/json",
 						success: function(response) {
 							// success handle
-								console.log(JSON.stringify(data));
+								//console.log(JSON.stringify(data));
 								console.log(JSON.stringify(response));
 							},
 						error: function(response) {

@@ -4,22 +4,24 @@
 var viewLayer = new ol.layer.Tile({
 	id : 'viewLayer',
     source: new ol.source.XYZ({
-    url: 'http://210.179.64.28/basemap/raster/250K/{z}/{x}/{y}.png'
-	//url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png'
+	url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png'
+    //url: 'http://210.179.64.28/basemap/raster/250K/{z}/{x}/{y}.png'
     })
 });
 
 var viewLayer2 = new ol.layer.Tile({
 	id : 'viewLayer2',
     source: new ol.source.XYZ({
-    url: 'http://210.179.64.28/basemap/raster/25K/{z}/{x}/{y}.png'
+    url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png'
+    //url: 'http://210.179.64.28/basemap/raster/25K/{z}/{x}/{y}.png'
     })
 });
 
 var viewLayer3 = new ol.layer.Tile({
 	id : 'viewLayer3',
     source: new ol.source.XYZ({
-    url: 'http://210.179.64.28/basemap/air/{z}/{x}/{y}.png'
+   url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png'
+   // url: 'http://210.179.64.28/basemap/air/{z}/{x}/{y}.png'
     })
 });
 

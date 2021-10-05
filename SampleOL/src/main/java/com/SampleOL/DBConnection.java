@@ -378,6 +378,49 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 		return locations;
 	}
 
+	
+	public ArrayList<Circle> getCircle(String rc) {
+		
+		String sql = "select c.latitude,c.longitude,c.r,a.CodeName as regiment  from dbo.Geofence c"
+					+ " inner join dbo.Code a ON c.regiment=a.CodeID ";
+	
+		if(rc != "전체")
+			sql = "select c.latitude,c.longitude,c.r,a.CodeName as regiment from dbo.Geofence c "
+					+ " inner join dbo.Code a ON c.regiment=a.CodeID "
+					+ " where regiment='"+rc+"'";
+		
+		Circle circle = null;
+		ArrayList<Circle> Circles = new ArrayList<Circle>();
+	//	JSONArray jsonLocations = new JSONArray();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String latitude = rs.getString("latitude");
+				String longitude = rs.getString("longitude");
+				String r = rs.getString("r");
+				String regiment = rs.getString("regiment");
+				
+				circle = new Circle(latitude, longitude, r,regiment);
+			//	System.out.println(location.toString());
+				
+				Circles.add(circle);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}		
+		return Circles;
+	}
+	
 	public ArrayList<Location> getLocations(String reg, String rc, String device) {
 		
 		String sql = "select top (50) * from dbo.Locations order by InputTime desc";
