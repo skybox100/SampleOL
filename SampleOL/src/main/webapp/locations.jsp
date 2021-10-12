@@ -572,9 +572,7 @@
 	    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
     	$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
     	$("#geo").val("<%=param3%>").prop("selected", true);
-
-       
-    	     
+     
         
         $(document).ready(function() 
         		{ 
