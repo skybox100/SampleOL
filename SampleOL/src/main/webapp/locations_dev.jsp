@@ -179,8 +179,8 @@
         }
     </style>
     <!-- OpenLayers map -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+    <link rel="stylesheet" href="css/ol.css" type="text/css">
+    <script src="js/ol.js"></script>
 </head>
 
 <body>
@@ -288,7 +288,7 @@
         <a id="popup-closer" class="ol-popup-closer"></a>
         <div id="popup-content-click"></div>
     </div>
-  	<script src="js/ol.js"></script>
+  	<script src="js/map.js"></script>
  	
  	
     <script>

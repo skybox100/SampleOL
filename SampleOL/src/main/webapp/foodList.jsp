@@ -171,7 +171,7 @@
   </style>
 </head>
 </head>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/jquery-3.6.0.min.js"></script>
 <body>
 <div>
 <span class="left"><input type="text" id="now" readonly></span>

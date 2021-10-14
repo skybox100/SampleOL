@@ -239,14 +239,12 @@
  		}   
     </style>
 <!-- OpenLayers map -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css"
-	type="text/css">
+<link rel="stylesheet" href="css/ol.css" type="text/css">
 	    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 <script
-	src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+	src="js/ol.js"></script>
 
 </head>
 
@@ -285,7 +283,7 @@
 		<a id="popup-closer" class="ol-popup-closer"></a>
 		<div id="popup-content-click"></div>
 	</div>
- 	<script src="js/ol.js"></script>
+ 	<script src="js/map.js"></script>
 
 	<script>
 	

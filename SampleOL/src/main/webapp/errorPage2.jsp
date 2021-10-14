@@ -138,8 +138,8 @@
         }
     </style>
     <!-- OpenLayers map -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+    <link rel="stylesheet" href="css/ol.css" type="text/css">
+    <script src="js/ol.js"></script>
 </head>
 
 <body>
@@ -147,7 +147,7 @@
 		<input type="button" value="뒤로가기" id="goback">
 	</div>
 	<div id="map"></div>
-  	<script src="js/ol.js"></script>
+  	<script src="js/map.js"></script>
 
 	<!-- Popup hover -->
     <div id="popup" class="ol-popup">

@@ -311,9 +311,9 @@
  		}      
     </style>
     <!-- OpenLayers map -->
-	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+	<script src="js/jquery-3.6.0.min.js"></script>
+   <link rel="stylesheet" href="css/ol.css" type="text/css">
+    <script src="js/ol.js"></script>
 </head>
 
 <body>
@@ -478,7 +478,7 @@
 
 	<div id="map"></div>
 	
-	<script src="js/ol.js"></script>
+	<script src="js/map.js"></script>
 	
 
 	<!-- Popup hover -->

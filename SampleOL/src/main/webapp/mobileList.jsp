@@ -204,8 +204,8 @@
    }
   </style>
 </head>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script type="text/javascript" src="//unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+<script src="js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="js/xlsx.full.min.js"></script>
 
 <body>
 <div style="white-space:nowrap;">
