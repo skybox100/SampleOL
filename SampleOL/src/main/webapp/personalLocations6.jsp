@@ -11,7 +11,7 @@
 <%@ page import="com.google.gson.*" %>
 <%@ page import="java.io.*, java.util.*" %>
 <%
-
+System.out.println("personalLocations6");
 	String param = request.getParameter("gis_setting");
 	String param2 = request.getParameter("gis_setting2");
 	String reg = request.getParameter("reg");

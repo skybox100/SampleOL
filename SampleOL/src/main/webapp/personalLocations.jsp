@@ -12,6 +12,8 @@
 <%@ page import="com.google.gson.*" %>
 <%@ page import="java.io.*, java.util.*" %>
 <%
+
+	System.out.println("personalLocations");
 	String serviceNum = request.getParameter("serviceNum");
 	
 	String param = "geofence";

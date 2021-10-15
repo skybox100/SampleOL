@@ -11,7 +11,7 @@
 <%@ page import="com.google.gson.*" %>
 <%@ page import="java.io.*, java.util.*" %>
 <%
-
+System.out.println("personalLocations4");
 	String param = "geofence";
 
 	if(request.getParameter("gis_setting")!= null){

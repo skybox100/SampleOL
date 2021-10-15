@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page errorPage="errorPage.jsp" %>
 
 
 <!DOCTYPE html>
@@ -12,40 +11,27 @@
 <%@ page import="net.sf.json.*" %>
 <%@ page import="com.google.gson.*" %>
 <%@ page import="java.io.*, java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.sql.*" %>
 <%
-	System.out.println("personalLocations2");
-	String phoneNum = request.getParameter("phoneNum");
-
-	DBConnection cd = new DBConnection();
-	ArrayList<Location> locations = new ArrayList<Location>();
-	Location lastLocation = new Location();
-	
-	Gson gson = new Gson();
-	String multi_marker = "";
-	String last_marker ="";
-		
-	locations = cd.getLocationsByUser(phoneNum);
-	lastLocation = cd.getLastLocationByUser(phoneNum);
-	String lastTimestamp = lastLocation.getTimestamp();
-	multi_marker = gson.toJson(locations);
-	last_marker = gson.toJson(lastLocation);
-	
-	System.out.println(locations.toString());
-	System.out.println(lastLocation.toString());
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	String t = format.format(new Timestamp(System.currentTimeMillis()));
 	
 %>
+
+
 
 
 <html>
 <head>
 <meta charset="UTF-8">
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width, initial-scale=1">
-<meta name=description content="OpenLayer - Map multiple markers.">
-<title>EquipTotal</title>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name=description content="OpenLayer - Map multiple markers.">
+    <title>Locations</title>
 
     <style>
-    	body, html{
+     	body, html{
     		width: 100%;
     		position: fixed; 
 			overflow-y: scroll;
@@ -56,22 +42,6 @@
         	width: auto;
             height: 1080px;
         }
-        #zoom-restore{
-    		height: 30px;
-    		font-size: 15px;
-			position: absolute;
-			right: 0;
-			margin-right: 4px;
-
-    	}
-    	#goback{
-    		height: 30px;
-    		font-size: 15px;
-			position: absolute;
-			right: 0;
-			margin-right: 60px;
-
-    	}
         .ol-tooltip *{
             font-family: Arial, Helvetica, sans-serif;
             font-weight: 300
@@ -166,32 +136,14 @@
             animation-iteration-count: infinite;
             animation-duration: 2s;
         }
- 		.ol-control{
- 		    display: none;
- 		}        
     </style>
     <!-- OpenLayers map -->
-    <link rel="stylesheet" href="css/ol.css" type="text/css">
-    <script src="js/ol.js"></script>
+<link rel="stylesheet"	href="css/ol.css"	type="text/css">
+<script src="js/ol.js"></script>
 </head>
 
 <body>
 
-
-
-	<div style="white-space:nowrap; ">
-	<font size="2">
-	<%=cd.getCodeName("RegimCompany", locations.get(0).getRegiment())%>&nbsp;
-	<font color="blue">
-	<%=cd.getCodeName("rank", locations.get(0).getRank())%>&nbsp;
-	<%=locations.get(0).getName()%>&nbsp;
-	</font>
-	<%=locations.get(0).getDuty()%>&nbsp;
-	<%=locations.get(0).getServiceNumber()%>&nbsp;
-	</font>
-		<button id="zoom-restore">reset</button><br>
-	</div>
-	
 	<div id="map"></div>
 
 	<!-- Popup hover -->
@@ -204,17 +156,12 @@
         <a id="popup-closer" class="ol-popup-closer"></a>
         <div id="popup-content-click"></div>
     </div>
+ 	
  	<script src="js/map.js"></script>
  	
- 	
     <script>
-	             	
-		function goBack(){
-			window.history.back();
-		}
-		
-        var data = <%=multi_marker%>;
-        var last_data = <%=last_marker%>;
+         
+    var data = [{"userKey":"+821028957223","idx":"637553079145651859","latitude":"37.65474622","longitude":"126.7719083"}];
         
   	    var straitSource = new ol.source.Vector({ wrapX: true });
  	    var straitsLayer = new ol.layer.Vector({
@@ -225,7 +172,7 @@
 		var map = new ol.Map({
 			target: 'map',  // 위 index.html에 div id가 map인 엘리먼트에 맵을 표출
 				layers: [
-					viewLayer,
+					viewLayer,viewLayer3,
 					straitsLayer
 				],
 				view: new ol.View({
@@ -235,28 +182,16 @@
 					zoom: 11
 				})
 		});
-        
-		var view = map.getView();
-        var zoom = view.getZoom();
-        var center = view.getCenter();
-        var rotation = view.getRotation();
-        
-        document.getElementById('zoom-restore').onclick = function(){
-        	view.setCenter(center);
-        	view.setRotation(rotation);
-        	view.setZoom(zoom);
-        }
       
         
 		// Popup showing the position the hovered marker
 		var container = document.getElementById('popup');
 		var popup = new ol.Overlay({
 		    element: container,
-		    positioning: 'bottom-center',
-		    //autoPan: true,
-		    //autoPanAnimation: {
-		    //    duration: 250
-		    //}
+		    autoPan: true,
+		    autoPanAnimation: {
+		        duration: 450
+		    }
 		});
 		map.addOverlay(popup);
 
@@ -356,121 +291,51 @@
 		
 		function addPointGeom(data) {
 			
-			var seq = 0;
-			
 			data.forEach(function(item) { //iterate through array...
 
-				seq++;
-				
 				//var longitude = item.Lon, latitude = item.Lat, icon = item.Icon, desc = item.Desc;
 				var longitude = item.longitude, latitude = item.latitude, idx = item.idx
 							, userKey = item.userKey, timestamp = item.timestamp;
-				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
-				var time = "<%=lastTimestamp%>";
+				console.log(longitude);
+				console.log(latitude);
+				console.log(idx);
+				console.log(userKey);
+				console.log(timestamp);
 				
-				if(timestamp == time){
-					
-				} else {
+				var MarkerIcon = new ol.style.Icon({
+		            anchor: [0.5, 50],
+		            anchorXUnits: 'fraction',
+		            anchorYUnits: 'pixels',
+		            src: 'image/marker.png'
+		            ,scale: 0.5
+		        });
 				
-					var MarkerIcon = new ol.style.Icon({
-			            anchor: [0.5, 20],
-			            anchorXUnits: 'fraction',
-			            anchorYUnits: 'pixels',
-			            src: 'image/marker_bl.png',
-			            scale: 1.2
-			        });
-					
-					var iconFeature = new ol.Feature({
-					    geometry: new ol.geom.Point(ol.proj.transform([longitude,latitude], 'EPSG:4326', 'EPSG:3857')),
-					    type: 'Point',
-					    lon: longitude,
-					    lat: latitude,
-					    desc: '<table style="white-space:nowrap;width:100%;text-align:center">'
-						    + '<tr><td><b>' + seq + '</b>&nbsp&nbsp' + userKey + '</td></tr>'
-					    	+ '<tr><td>' + timestamp + '</td></tr>'
-					    	+ '</table>' 
-					});
-					
-					var iconStyle = new ol.style.Style({
-					    image: MarkerIcon,
-					    text: new ol.style.Text({
-					    	font: '7px bold',
-					        text: seq + '',
-					        //scale: 1.5,
-					        fill: new ol.style.Fill({
-					          color: "0"
-					        }),
-					        stroke: new ol.style.Stroke({
-					          color: "#fff",
-					          width: 2
-					        }),
-					    	offsetY: -13
-					      })
-					});
-					
-					// Add icon style
-					iconFeature.setStyle(iconStyle);
-					straitSource.addFeature(iconFeature);
-					MarkerOnTop(iconFeature, true);
+				var iconFeature = new ol.Feature({
+				    geometry: new ol.geom.Point(ol.proj.transform([longitude,latitude], 'EPSG:4326', 'EPSG:3857')),
+				    type: 'Point',
+				    lon: longitude,
+				    lat: latitude,
+				    desc: '<table style="white-space:nowrap;width:100%;text-align:center">'
+					    + '<tr><td><b>1</b>&nbsp&nbsp' + userKey + '</td></tr>'
+				    	+ '<tr><td><%=t%></td></tr>'
+				    	+ '</table>'
+				});
+				    		
+				
+				var iconStyle = new ol.style.Style({
+				    image: MarkerIcon
+				});
+				
+				// Add icon style
+				iconFeature.setStyle(iconStyle);
+				straitSource.addFeature(iconFeature);
 	        
-				}
 			});		
 			
 		}
 
-		function addLastPoint(data) { 
-
-			//var longitude = item.Lon, latitude = item.Lat, icon = item.Icon, desc = item.Desc;
-			var longitude = data.longitude, latitude = data.latitude
-						, userKey = data.userKey, timestamp = data.timestamp;
-			console.log("last point: " + longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
-			
-			var MarkerIcon = new ol.style.Icon({
-	            anchor: [0.5, 20],
-	            anchorXUnits: 'fraction',
-	            anchorYUnits: 'pixels',
-	            src: 'image/marker_rd.png'
-	            ,scale: 1.2
-	        });
-			
-			var iconFeature = new ol.Feature({
-			    geometry: new ol.geom.Point(ol.proj.transform([longitude,latitude], 'EPSG:4326', 'EPSG:3857')),
-			    type: 'Point',
-			    lon: longitude,
-			    lat: latitude,
-			    desc: '<table style="white-space:nowrap;width:100%;text-align:center">'
-				    + '<tr><td><b>1</b>&nbsp&nbsp' + userKey + '</td></tr>'
-			    	+ '<tr><td>' + timestamp + '</td></tr>'
-			    	+ '</table>'
-			});
-			    		
-			var iconStyle = new ol.style.Style({
-			    image: MarkerIcon,
-			    text: new ol.style.Text({
-			    	font: '7px serif',
-			        text: '1',
-			        //scale: 1.5,
-			        fill: new ol.style.Fill({
-			          color: "0"
-			        }),
-			        stroke: new ol.style.Stroke({
-			          color: "#fff",
-			          width: 6
-			        }),
-			    	offsetY: -13
-			      })
-			});
-			
-			// Add icon style
-			iconFeature.setStyle(iconStyle);
-			straitSource.addFeature(iconFeature);
-      
-		};		
-		
 		addPointGeom(data);
-		addLastPoint(last_data);
 	
-
 		
     </script>
     
