@@ -230,6 +230,105 @@ public class DBConnection {
 		return foods;
 
 	}
+	
+	public ArrayList<PersonnelManagement> getPersonnelManagementList() {
+		
+		String sql = "";
+		PersonnelManagement personnelmanagement = null;
+		ArrayList<PersonnelManagement> personnelmanagements = new ArrayList<PersonnelManagement>();
+	//	JSONArray jsonLocations = new JSONArray();
+
+		try {
+			con = getConn();				
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			sql="SELECT p.ServiceNumber\r\n"
+					+ "      ,f.CodeName as MissionType\r\n"
+					+ "      ,e.CodeName as Rank\r\n"
+					+ "      ,p.Name\r\n"
+					+ "      ,c.CodeName as Regiment\r\n"
+					+ "      ,d.CodeName as RegimCompany\r\n"
+					+ "      ,p.MOS\r\n"
+					+ "      ,p.Duty\r\n"
+					+ "      ,p.HelpCare\r\n"
+					+ "      ,p.BirthDate\r\n"
+					+ "      ,p.JoinDate\r\n"
+					+ "      ,p.PromotionDate\r\n"
+					+ "      ,p.MovingDate\r\n"
+					+ "      ,p.RetireDate\r\n"
+					+ "      ,p.MobileNumber\r\n"
+					+ "      ,p.MyPhoneNumber\r\n"
+					+ "      ,p.ParentsNumber\r\n"
+					+ "      ,p.Remark\r\n"
+					+ "      ,Picture\r\n"
+					+ "      ,p.Password\r\n"
+					+ "      ,p.RegimPlatoon\r\n"
+					+ "      ,p.RegimSquad\r\n"
+					+ "      ,g.CodeName as LeaderType\r\n"
+					+ "      ,p.BloodType\r\n"
+					+ "      ,p.Goout\r\n"
+					+ "      ,p.Reserve01\r\n"
+					+ "      ,p.Reserve02\r\n"
+					+ "      ,p.Reserve03\r\n"
+					+ "      ,p.Reserve04\r\n"
+					+ "  FROM dbo.PersonnelManagement p\r\n"
+					+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber \r\n"
+					+ "  inner join dbo.Code as c on p.Regiment = c.CodeID \r\n"
+					+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID \r\n"
+					+ "  inner join dbo.Code as e on p.rank = e.CodeID \r\n"
+					+ "  inner join dbo.Code as f on p.MissionType = f.CodeID\r\n"
+					+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID;\r\n"
+					+ "";
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String ServiceNumber = rs.getString("ServiceNumber");
+				String MissionType = rs.getString("MissionType");
+				String Rank = rs.getString("Rank");
+				String Name = rs.getString("Name");
+				String Regiment = rs.getString("Regiment");
+				String RegimCompany = rs.getString("RegimCompany");
+				String MOS = rs.getString("MOS");
+				String Duty = rs.getString("Duty");
+				String HelpCare = rs.getString("HelpCare");
+				String BirthDate = rs.getString("BirthDate");
+				String JoinDate = rs.getString("JoinDate");
+				String PromotionDate = rs.getString("PromotionDate");
+				String MovingDate = rs.getString("MovingDate");
+				String RetireDate = rs.getString("RetireDate");
+				String MobileNumber = rs.getString("MobileNumber");
+				String MyPhoneNumber = rs.getString("MyPhoneNumber");
+				String ParentsNumber = rs.getString("ParentsNumber");
+				String Remark = rs.getString("Remark");
+				String Picture = rs.getString("Picture");
+				String Password = rs.getString("Password");
+				String RegimPlatoon = rs.getString("RegimPlatoon");
+				String RegimSquad = rs.getString("RegimSquad");
+				String LeaderType = rs.getString("LeaderType");
+				String BloodType = rs.getString("BloodType");
+				String Goout = rs.getString("Goout");
+				String Reserve01 = rs.getString("Reserve01");
+				String Reserve02 = rs.getString("Reserve02");
+				String Reserve03 = rs.getString("Reserve03");
+				String Reserve04 = rs.getString("Reserve04");
+
+				personnelmanagement= new PersonnelManagement(ServiceNumber,MissionType,Rank,Name,Regiment,RegimCompany,MOS,Duty,HelpCare,BirthDate,JoinDate,PromotionDate,MovingDate,RetireDate,MobileNumber,MyPhoneNumber,ParentsNumber,Remark,Picture,Password,RegimPlatoon,RegimSquad,LeaderType,BloodType,Goout,Reserve01,Reserve02,Reserve03,Reserve04);
+				personnelmanagements.add(personnelmanagement);
+				
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}		
+		return personnelmanagements;
+
+	}
+
     
 public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 		
