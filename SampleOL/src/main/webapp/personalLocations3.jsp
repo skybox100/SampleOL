@@ -379,7 +379,8 @@ System.out.println("personalLocations3");
   					],
   					view: new ol.View({
   						center: ol.proj.fromLonLat(
-  								[126.77192, 37.654461]
+  							[126.77192, 37.654461]
+  							
   						), 
   						zoom: 11
   					})

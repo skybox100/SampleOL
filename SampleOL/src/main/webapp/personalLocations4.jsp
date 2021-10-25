@@ -454,7 +454,8 @@ System.out.println("personalLocations4");
  					],
  					view: new ol.View({
  						center: ol.proj.fromLonLat(
- 								[126.77192, 37.654461]
+ 							//[126.77192, 37.654461]
+ 								[last_data.longitude,last_data.latitude]
  						), 
  						zoom: 11
  					})
@@ -468,7 +469,9 @@ System.out.println("personalLocations4");
  				],
  				view: new ol.View({
  					center: ol.proj.fromLonLat(
- 							[126.77192, 37.654461]
+ 							//[126.77192, 37.654461]
+ 								[last_data.longitude,last_data.latitude]
+
  					), 
  					zoom: 11
  				})

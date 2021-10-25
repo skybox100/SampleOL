@@ -531,7 +531,7 @@ System.out.println("personalLocations6");
    		var pnt = ol.proj.fromLonLat([x, y]);
    		
    		 var data = <%=multi_marker%>;
-        // var data = <%=last_marker%>;
+         var last_data = <%=last_marker%>;
 
         
   	    var straitSource = new ol.source.Vector({ wrapX: true });
@@ -549,7 +549,8 @@ System.out.println("personalLocations6");
 				],
 				view: new ol.View({
 					center: ol.proj.fromLonLat(
-							[126.77192, 37.654461]
+							//[126.77192, 37.654461]
+								[last_data.longitude,last_data.latitude]
 					), 
 					zoom: 11
 				})
@@ -563,7 +564,9 @@ System.out.println("personalLocations6");
 			],
 			view: new ol.View({
 				center: ol.proj.fromLonLat(
-						[126.77192, 37.654461]
+						//[126.77192, 37.654461]
+							[last_data.longitude,last_data.latitude]
+
 				), 
 				zoom: 11
 			})

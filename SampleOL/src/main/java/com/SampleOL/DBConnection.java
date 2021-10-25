@@ -1,4 +1,5 @@
 package com.SampleOL;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -8,12 +9,17 @@ import java.sql.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.TimeZone;
 import java.util.Date;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 
-
+import java.io.*;
 
 
 public class DBConnection {
@@ -135,6 +141,8 @@ public class DBConnection {
         return src.replaceFirst("(^02|[0-9]{3})([0-9]{3,4})([0-9]{4})$", "$1-$2-$3");
       }
     
+
+    
     public static String searchDateConvert(String date_s, String format) {
     	String newstring = "";
     	try {
@@ -178,7 +186,8 @@ public class DBConnection {
 						+ " where f.storehouse = '"+sh+"'"
 						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
 			}else if(sh.equals("전체")) {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,"
+						+ "Source as foodSourceCode,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -231,7 +240,7 @@ public class DBConnection {
 
 	}
 	
-	public ArrayList<PersonnelManagement> getPersonnelManagementList() {
+	public ArrayList<PersonnelManagement> getPersonnelManagementList(String reg, String rc) {
 		
 		String sql = "";
 		PersonnelManagement personnelmanagement = null;
@@ -241,43 +250,163 @@ public class DBConnection {
 		try {
 			con = getConn();				
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
-			sql="SELECT p.ServiceNumber\r\n"
-					+ "      ,f.CodeName as MissionType\r\n"
-					+ "      ,e.CodeName as Rank\r\n"
-					+ "      ,p.Name\r\n"
-					+ "      ,c.CodeName as Regiment\r\n"
-					+ "      ,d.CodeName as RegimCompany\r\n"
-					+ "      ,p.MOS\r\n"
-					+ "      ,p.Duty\r\n"
-					+ "      ,p.HelpCare\r\n"
-					+ "      ,p.BirthDate\r\n"
-					+ "      ,p.JoinDate\r\n"
-					+ "      ,p.PromotionDate\r\n"
-					+ "      ,p.MovingDate\r\n"
-					+ "      ,p.RetireDate\r\n"
-					+ "      ,p.MobileNumber\r\n"
-					+ "      ,p.MyPhoneNumber\r\n"
-					+ "      ,p.ParentsNumber\r\n"
-					+ "      ,p.Remark\r\n"
-					+ "      ,Picture\r\n"
-					+ "      ,p.Password\r\n"
-					+ "      ,p.RegimPlatoon\r\n"
-					+ "      ,p.RegimSquad\r\n"
-					+ "      ,g.CodeName as LeaderType\r\n"
-					+ "      ,p.BloodType\r\n"
-					+ "      ,p.Goout\r\n"
-					+ "      ,p.Reserve01\r\n"
-					+ "      ,p.Reserve02\r\n"
-					+ "      ,p.Reserve03\r\n"
-					+ "      ,p.Reserve04\r\n"
-					+ "  FROM dbo.PersonnelManagement p\r\n"
-					+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber \r\n"
-					+ "  inner join dbo.Code as c on p.Regiment = c.CodeID \r\n"
-					+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID \r\n"
-					+ "  inner join dbo.Code as e on p.rank = e.CodeID \r\n"
-					+ "  inner join dbo.Code as f on p.MissionType = f.CodeID\r\n"
-					+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID;\r\n"
-					+ "";
+			
+			if(reg.equals("전체") && rc.equals("전체")) {
+				sql="SELECT p.ServiceNumber"
+						+ "      ,f.CodeName as MissionType"
+						+ "      ,e.CodeName as Rank"
+						+ "      ,p.Name"
+						+ "      ,c.CodeName as Regiment"
+						+ "      ,d.CodeName as RegimCompany"
+						+ "      ,p.MOS"
+						+ "      ,p.Duty"
+						+ "      ,p.HelpCare"
+						+ "      ,p.BirthDate"
+						+ "      ,p.JoinDate"
+						+ "      ,p.PromotionDate"
+						+ "      ,p.MovingDate"
+						+ "      ,p.RetireDate"
+						+ "      ,p.MobileNumber"
+						+ "      ,p.MyPhoneNumber"
+						+ "      ,p.ParentsNumber"
+						+ "      ,p.Remark"
+						+ "      ,Picture"
+						+ "      ,p.Password"
+						+ "      ,p.RegimPlatoon"
+						+ "      ,p.RegimSquad"
+						+ "      ,g.CodeName as LeaderType"
+						+ "      ,p.BloodType"
+						+ "      ,p.Goout"
+						+ "      ,p.Reserve01"
+						+ "      ,p.Reserve02"
+						+ "      ,p.Reserve03"
+						+ "      ,p.Reserve04"
+						+ "  FROM dbo.PersonnelManagement p"
+						+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
+						+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
+						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
+						+ "  inner join dbo.Code as f on p.MissionType = f.CodeID"
+						+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID;";
+
+
+			}else if(reg.equals("전체")) {
+				sql="SELECT p.ServiceNumber"
+						+ "      ,f.CodeName as MissionType"
+						+ "      ,e.CodeName as Rank"
+						+ "      ,p.Name"
+						+ "      ,c.CodeName as Regiment"
+						+ "      ,d.CodeName as RegimCompany"
+						+ "      ,p.MOS"
+						+ "      ,p.Duty"
+						+ "      ,p.HelpCare"
+						+ "      ,p.BirthDate"
+						+ "      ,p.JoinDate"
+						+ "      ,p.PromotionDate"
+						+ "      ,p.MovingDate"
+						+ "      ,p.RetireDate"
+						+ "      ,p.MobileNumber"
+						+ "      ,p.MyPhoneNumber"
+						+ "      ,p.ParentsNumber"
+						+ "      ,p.Remark"
+						+ "      ,Picture"
+						+ "      ,p.Password"
+						+ "      ,p.RegimPlatoon"
+						+ "      ,p.RegimSquad"
+						+ "      ,g.CodeName as LeaderType"
+						+ "      ,p.BloodType"
+						+ "      ,p.Goout"
+						+ "      ,p.Reserve01"
+						+ "      ,p.Reserve02"
+						+ "      ,p.Reserve03"
+						+ "      ,p.Reserve04"
+						+ "  FROM dbo.PersonnelManagement p"
+						+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
+						+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
+						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
+						+ "  inner join dbo.Code as f on p.MissionType = f.CodeID"
+						+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID"
+						+ " where p.RegimCompany = '"+rc+"'";
+			}else if(rc.equals("전체")) {
+				sql="SELECT p.ServiceNumber"
+						+ "      ,f.CodeName as MissionType"
+						+ "      ,e.CodeName as Rank"
+						+ "      ,p.Name"
+						+ "      ,c.CodeName as Regiment"
+						+ "      ,d.CodeName as RegimCompany"
+						+ "      ,p.MOS"
+						+ "      ,p.Duty"
+						+ "      ,p.HelpCare"
+						+ "      ,p.BirthDate"
+						+ "      ,p.JoinDate"
+						+ "      ,p.PromotionDate"
+						+ "      ,p.MovingDate"
+						+ "      ,p.RetireDate"
+						+ "      ,p.MobileNumber"
+						+ "      ,p.MyPhoneNumber"
+						+ "      ,p.ParentsNumber"
+						+ "      ,p.Remark"
+						+ "      ,Picture"
+						+ "      ,p.Password"
+						+ "      ,p.RegimPlatoon"
+						+ "      ,p.RegimSquad"
+						+ "      ,g.CodeName as LeaderType"
+						+ "      ,p.BloodType"
+						+ "      ,p.Goout"
+						+ "      ,p.Reserve01"
+						+ "      ,p.Reserve02"
+						+ "      ,p.Reserve03"
+						+ "      ,p.Reserve04"
+						+ "  FROM dbo.PersonnelManagement p"
+						+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
+						+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
+						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
+						+ "  inner join dbo.Code as f on p.MissionType = f.CodeID"
+						+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID"
+						+ " where p.regiment = '"+reg+"'";
+			}else {
+				sql="SELECT p.ServiceNumber"
+						+ "      ,f.CodeName as MissionType"
+						+ "      ,e.CodeName as Rank"
+						+ "      ,p.Name"
+						+ "      ,c.CodeName as Regiment"
+						+ "      ,d.CodeName as RegimCompany"
+						+ "      ,p.MOS"
+						+ "      ,p.Duty"
+						+ "      ,p.HelpCare"
+						+ "      ,p.BirthDate"
+						+ "      ,p.JoinDate"
+						+ "      ,p.PromotionDate"
+						+ "      ,p.MovingDate"
+						+ "      ,p.RetireDate"
+						+ "      ,p.MobileNumber"
+						+ "      ,p.MyPhoneNumber"
+						+ "      ,p.ParentsNumber"
+						+ "      ,p.Remark"
+						+ "      ,Picture"
+						+ "      ,p.Password"
+						+ "      ,p.RegimPlatoon"
+						+ "      ,p.RegimSquad"
+						+ "      ,g.CodeName as LeaderType"
+						+ "      ,p.BloodType"
+						+ "      ,p.Goout"
+						+ "      ,p.Reserve01"
+						+ "      ,p.Reserve02"
+						+ "      ,p.Reserve03"
+						+ "      ,p.Reserve04"
+						+ "  FROM dbo.PersonnelManagement p"
+						+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
+						+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
+						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
+						+ "  inner join dbo.Code as f on p.MissionType = f.CodeID"
+						+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID"
+						+ " where p.regiment = '"+reg+"' and p.RegimCompany = '"+rc+"'";
+			}
+			
+			
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
 			
@@ -291,16 +420,15 @@ public class DBConnection {
 				String MOS = rs.getString("MOS");
 				String Duty = rs.getString("Duty");
 				String HelpCare = rs.getString("HelpCare");
-				String BirthDate = rs.getString("BirthDate");
-				String JoinDate = rs.getString("JoinDate");
-				String PromotionDate = rs.getString("PromotionDate");
-				String MovingDate = rs.getString("MovingDate");
-				String RetireDate = rs.getString("RetireDate");
-				String MobileNumber = rs.getString("MobileNumber");
-				String MyPhoneNumber = rs.getString("MyPhoneNumber");
-				String ParentsNumber = rs.getString("ParentsNumber");
+				String BirthDate = searchDateConvert(rs.getString("BirthDate"),"yyyy-MM-dd");
+				String JoinDate = searchDateConvert(rs.getString("JoinDate"),"yyyy-MM-dd");
+				String PromotionDate = searchDateConvert(rs.getString("PromotionDate"),"yyyy-MM-dd");
+				String MovingDate = searchDateConvert(rs.getString("MovingDate"),"yyyy-MM-dd");
+				String RetireDate = searchDateConvert(rs.getString("RetireDate"),"yyyy-MM-dd");
+				String MobileNumber = phone(rs.getString("MobileNumber"));
+				String MyPhoneNumber = phone(rs.getString("MyPhoneNumber"));
+				String ParentsNumber = phone(rs.getString("ParentsNumber"));
 				String Remark = rs.getString("Remark");
-				String Picture = rs.getString("Picture");
 				String Password = rs.getString("Password");
 				String RegimPlatoon = rs.getString("RegimPlatoon");
 				String RegimSquad = rs.getString("RegimSquad");
@@ -311,6 +439,7 @@ public class DBConnection {
 				String Reserve02 = rs.getString("Reserve02");
 				String Reserve03 = rs.getString("Reserve03");
 				String Reserve04 = rs.getString("Reserve04");
+				String Picture = OutputPicture(rs.getBinaryStream("Picture"));
 
 				personnelmanagement= new PersonnelManagement(ServiceNumber,MissionType,Rank,Name,Regiment,RegimCompany,MOS,Duty,HelpCare,BirthDate,JoinDate,PromotionDate,MovingDate,RetireDate,MobileNumber,MyPhoneNumber,ParentsNumber,Remark,Picture,Password,RegimPlatoon,RegimSquad,LeaderType,BloodType,Goout,Reserve01,Reserve02,Reserve03,Reserve04);
 				personnelmanagements.add(personnelmanagement);
@@ -328,6 +457,273 @@ public class DBConnection {
 		return personnelmanagements;
 
 	}
+
+	
+	public ArrayList<Beacons> getBeaconsList() {
+		
+		String sql = "";
+		ArrayList<Beacons> beacons = new ArrayList<Beacons>();
+		Beacons beacon = null;
+
+		try {
+
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+				sql="SELECT Uuid\r\n"
+						+ "      ,Latitude\r\n"
+						+ "      ,Longitude\r\n"
+						+ "      ,d.CodeName as EquipType\r\n"
+						+ "	  ,EquipType as EquipTypeCode\r\n"
+						+ "      ,EquipId\r\n"
+						+ "      ,ModelName\r\n"
+						+ "      ,Manufacturer\r\n"
+						+ "      ,a.CodeName as Regiment\r\n"
+						+ "	  ,Regiment as RegimentCode\r\n"
+						+ "      ,c.CodeName as RegimCompany\r\n"
+						+ "	  ,RegimCompany as RegimCompanyCode\r\n"
+						+ "      ,EquipLocation\r\n"
+						+ "      ,RoomName\r\n"
+						+ "      ,RoomNumber\r\n"
+						+ "      ,b.Remark\r\n"
+						+ "  FROM dbo.Beacons b\r\n"
+						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment'\r\n"
+						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany'\r\n"
+						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType'\r\n"
+						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType'\r\n"
+						+ "  order by b.EquipId";
+				con = getConn();				
+				stmt = con.createStatement();
+				rs = stmt.executeQuery(sql);	
+
+				
+				while(rs.next()) {
+					String Uuid = rs.getString("Uuid");
+					String Latitude = rs.getString("Latitude");
+					String Longitude = rs.getString("Longitude");
+					String EquipType = rs.getString("EquipType");
+					String EquipTypeCode = rs.getString("EquipTypeCode");
+					String EquipId = rs.getString("EquipId");
+					String ModelName = rs.getString("ModelName");
+					String Manufacturer = rs.getString("Manufacturer");
+					String Regiment = rs.getString("Regiment");
+					String RegimentCode = rs.getString("RegimentCode");
+					String RegimCompany = rs.getString("RegimCompany");
+					String RegimCompanyCode = rs.getString("RegimCompanyCode");
+					String EquipLocation = rs.getString("EquipLocation");
+					String RoomName = rs.getString("RoomName");
+					String RoomNumber = rs.getString("RoomNumber");
+					String Remark = rs.getString("Remark");
+
+					beacon= new Beacons(Uuid,Latitude,Longitude,EquipType,EquipTypeCode,EquipId,ModelName,Manufacturer,Regiment,RegimentCode,RegimCompany,RegimCompanyCode,EquipLocation,RoomName,RoomNumber,Remark);
+					beacons.add(beacon);
+					
+				}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}		
+		return beacons;
+
+	}
+	
+	public Image loadImage(String file_name) {
+		
+		InputStream is = null;
+		
+		
+		try {
+			is = new FileInputStream(file_name);
+			BufferedImage img= ImageIO.read(is);
+			return img;
+		}catch(Exception e) {
+			throw new RuntimeException(e);
+		}finally {
+			if(is !=null)
+				try {
+					is.close();
+				}catch (IOException e) {
+				}
+		}
+		
+	}
+	
+
+
+       
+	
+	
+    
+    
+	
+	public boolean PersonnelManagementDelete(String mobileNumber) {
+		
+		String sql = "";
+	//	JSONArray jsonLocations = new JSONArray();
+		boolean flag=false;
+		
+		try {
+			con = getConn();				
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			sql="delete from dbo.PersonnelManagement where MobileNumber = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, mobileNumber);
+			flag=pstmt.execute();
+			System.out.println(flag);			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(pstmt != null) pstmt.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}		
+		
+		return flag;
+	}
+	
+public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
+		
+			String sql="SELECT p.ServiceNumber "
+					+ "      ,f.CodeName as MissionTypeName "
+					+ "      ,p.MissionType "
+					+ "      ,p.Rank "
+					+ "      ,e.CodeName as RankName "
+					+ "      ,p.Name "
+					+ "      ,p.Regiment "
+					+ "      ,c.CodeName as RegimentName "
+					+ "      ,p.RegimCompany "
+					+ "      ,d.CodeName as RegimCompanyName "
+					+ "      ,p.MOS "
+					+ "      ,p.Duty "
+					+ "      ,p.HelpCare "
+					+ "      ,p.BirthDate "
+					+ "      ,p.JoinDate "
+					+ "      ,p.PromotionDate "
+					+ "      ,p.MovingDate "
+					+ "      ,p.RetireDate "
+					+ "      ,p.MobileNumber "
+					+ "      ,p.MyPhoneNumber "
+					+ "      ,p.ParentsNumber "
+					+ "      ,p.Remark "
+					+ "      ,Picture "
+					+ "      ,p.Password "
+					+ "      ,p.RegimPlatoon "
+					+ "      ,p.RegimSquad "
+					+ "      ,g.CodeName as LeaderType "
+					+ "      ,p.BloodType "
+					+ "      ,p.Goout "
+					+ "      ,p.Reserve01 "
+					+ "      ,p.Reserve02 "
+					+ "      ,p.Reserve03 "
+					+ "      ,p.Reserve04 "
+					+ "  FROM dbo.PersonnelManagement p "
+					+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
+					+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
+					+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+					+ "  inner join dbo.Code as e on p.rank = e.CodeID "
+					+ "  inner join dbo.Code as f on p.MissionType = f.CodeID "
+					+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID "
+					+ "  where p.ServiceNumber = ? ";
+
+		PersonnelManagement personnelmanagement = null;
+		ArrayList<PersonnelManagement> personnelmanagements = new ArrayList<PersonnelManagement>();
+	//	JSONArray jsonLocations = new JSONArray();
+
+		try {
+			con = getConn();				
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, sn);
+
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String ServiceNumber = rs.getString("ServiceNumber");
+
+				String MissionType = rs.getString("MissionType");
+				String MissionTypeName = rs.getString("MissionTypeName");
+				String Rank = rs.getString("Rank");
+				String RankName = rs.getString("RankName");
+				String Name = rs.getString("Name");
+				String Regiment = rs.getString("Regiment");
+				String RegimentName = rs.getString("RegimentName");
+				String RegimCompany = rs.getString("RegimCompany");
+				String RegimCompanyName = rs.getString("RegimCompanyName");
+				String MOS = rs.getString("MOS");
+				String Duty = rs.getString("Duty");
+				String HelpCare = rs.getString("HelpCare");
+				String BirthDate = searchDateConvert(rs.getString("BirthDate"),"yyyy-MM-dd");
+				String JoinDate = searchDateConvert(rs.getString("JoinDate"),"yyyy-MM-dd");
+				String PromotionDate = searchDateConvert(rs.getString("PromotionDate"),"yyyy-MM-dd");
+				String MovingDate = searchDateConvert(rs.getString("MovingDate"),"yyyy-MM-dd");
+				String RetireDate = searchDateConvert(rs.getString("RetireDate"),"yyyy-MM-dd");
+				String MobileNumber = rs.getString("MobileNumber");
+				String MyPhoneNumber = rs.getString("MyPhoneNumber");
+				String ParentsNumber = rs.getString("ParentsNumber");
+				String Remark = rs.getString("Remark");
+				String Password =  rs.getString("Password");
+				String RegimPlatoon = rs.getString("RegimPlatoon");
+				String RegimSquad = rs.getString("RegimSquad");
+				String LeaderType = rs.getString("LeaderType");
+				String BloodType = rs.getString("BloodType");
+				String Goout = rs.getString("Goout");
+				String Reserve01 = rs.getString("Reserve01");
+				String Reserve02 = rs.getString("Reserve02");
+				String Reserve03 = rs.getString("Reserve03");
+				String Reserve04 = rs.getString("Reserve04");
+				String Picture = OutputPicture(rs.getBinaryStream("Picture"));
+				
+
+				personnelmanagement= new PersonnelManagement(ServiceNumber,MissionType,MissionTypeName,Rank,RankName,Name,Regiment,RegimentName,RegimCompany,RegimCompanyName,MOS,Duty,HelpCare,BirthDate,JoinDate,PromotionDate,MovingDate,RetireDate,MobileNumber,MyPhoneNumber,ParentsNumber,Remark,Picture,Password,RegimPlatoon,RegimSquad,LeaderType,BloodType,Goout,Reserve01,Reserve02,Reserve03,Reserve04);
+				personnelmanagements.add(personnelmanagement);
+				
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}		
+		return personnelmanagements;
+
+	}
+
+	
+	public String OutputPicture(InputStream in)
+{
+		String b64="";
+     try
+     {
+
+
+		     BufferedImage bimg = ImageIO.read(in);
+		       in.close();
+		       ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		       ImageIO.write( bimg, "jpg", baos );
+		       baos.flush();
+		       byte[] imageInByteArray = baos.toByteArray();
+
+		       baos.close();
+		       b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+
+       }
+     catch(Exception e)
+     {
+         System.out.println(e);
+     }
+     return b64;
+
+
+}
 
     
 public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
@@ -1751,35 +2147,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 	}
 	
-	public String getRank(String codeId){
-		
-		String sql = "select CodeName from dbo.Code where CodeType='Rank' and CodeId=?";
-		String rankName = "";
-		
-		try {
-			con = getConn();
-			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, codeId);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				rankName = rs.getString("CodeName");
-				
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
-			try { if(rs != null) rs.close(); } catch(SQLException e) {}
-			try { if(con != null) con.close(); } catch(SQLException e) {}
-		}
-	
-		return rankName;		
-		
-	}
+
 	
 	public String getCodeName(String codeID){
 			
@@ -2381,12 +2749,43 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		return codeNameList;
 	}	
 	
+	public ArrayList<String> getDutyReg(){
+		
+		String sql = "SELECT DISTINCT b.Duty "
+				+ "FROM dbo.PersonnelManagement AS b";
+		ArrayList<String> dutys = new ArrayList<String>();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String reg = rs.getString("Duty");
+				
+				dutys.add(reg);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+		return dutys;		
+		
+	}
+	
 	public ArrayList<String> getMobileStatusReg(){
 			
 			String sql = "SELECT DISTINCT c.CodeName, c.CodeID "
 					+ "FROM dbo.MobileStatus AS a "
 					+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
-					+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
+					+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType= 'Regiment' "
 					+ "ORDER BY c.CodeID";
 			ArrayList<String> regiments = new ArrayList<String>();
 			
@@ -2415,6 +2814,40 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			
 		}
 	
+	public ArrayList<String> getRankReg(){
+		
+		String sql = "SELECT DISTINCT c.CodeName, c.CodeID "
+				+ "FROM dbo.MobileStatus AS a "
+				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
+				+ "INNER JOIN dbo.Code AS c ON b.rank = c.CodeID "
+				+ "ORDER BY c.CodeID";
+		ArrayList<String> regiments = new ArrayList<String>();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String reg = rs.getString("CodeName");
+				
+				regiments.add(reg);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+		return regiments;		
+		
+	}
+	
 	public ArrayList<String> getMobileStatusRc(String reg){
 		
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
@@ -2437,6 +2870,49 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			
 			while(rs.next()) {
 				String regimCompany = rs.getString("CodeName").trim();
+				
+				rcs.add(regimCompany);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+			//for(Location l:locations) {
+			//	System.out.println(l.toString());
+			//}
+		
+		return rcs;		
+		
+	}
+	
+	public ArrayList<String> getMobileStatusRcId(String reg){
+		
+		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
+				+ "FROM dbo.MobileStatus AS a "
+				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
+				+ "INNER JOIN dbo.Code AS d ON b.RegimCompany = d.CodeID "
+				+ "WHERE c.CodeName = ? "
+				+ "ORDER BY d.CodeID";
+		ArrayList<String> rcs = new ArrayList<String>();
+		rcs.add("전체");
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reg);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String regimCompany = rs.getString("CodeID").trim();
 				
 				rcs.add(regimCompany);
 				

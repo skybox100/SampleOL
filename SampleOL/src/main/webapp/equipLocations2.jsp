@@ -358,6 +358,8 @@
   					view: new ol.View({
   						center: ol.proj.fromLonLat(
   								[126.77192, 37.654461]
+ 								//[data[0].longitude,data[0].latitude]
+
   						), 
   						zoom: 11
   					})
@@ -372,6 +374,8 @@
   				view: new ol.View({
   					center: ol.proj.fromLonLat(
   							[126.77192, 37.654461]
+								//[data[0].longitude,data[0].latitude]
+
   					), 
   					zoom: 11
   				})

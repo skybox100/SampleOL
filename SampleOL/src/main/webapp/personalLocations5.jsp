@@ -466,12 +466,14 @@ System.out.println("personalLocations5");
  					],
  					view: new ol.View({
  						center: ol.proj.fromLonLat(
- 								[126.77192, 37.654461]
+ 								//[126.77192, 37.654461]
+ 								[last_data.longitude,last_data.latitude]
+
  						), 
  						zoom: 11
  					})
  			});
- 	 	  }else if('<%=param%>'=='satellite_map'){
+	 	  }else if('<%=param%>'=='satellite_map'){
  	 	// Instanciate a Map, set the object target to the map DOM id
  	 		var map = new ol.Map({
  	 		 target: 'map',  // 위 index.html에 div id가 map인 엘리먼트에 맵을 표출
@@ -480,7 +482,9 @@ System.out.println("personalLocations5");
  				],
  				view: new ol.View({
  					center: ol.proj.fromLonLat(
- 							[126.77192, 37.654461]
+ 							//[126.77192, 37.654461]
+								[last_data.longitude,last_data.latitude]
+
  					), 
  					zoom: 11
  				})

@@ -54,7 +54,7 @@
    
    int num2;
    DBConnection cd = new DBConnection();
-   ArrayList<PersonnelManagement> personnelmanagements = new ArrayList<PersonnelManagement>();
+   ArrayList<Beacons> beacons = new ArrayList<Beacons>();
 
    boolean flag=false;
    
@@ -92,9 +92,9 @@
 		rc = cd.getCodeID("RegimCompany", rc);
 	}
    
-	personnelmanagements = cd.getPersonnelManagementList(reg,rc);
+	beacons = cd.getBeaconsList();
 	   
-	   int cnt = personnelmanagements.size();
+	   int cnt = beacons.size();
 	   
 	   
 	   if(pageNum == 1 && cnt>pageNum_list){
@@ -126,7 +126,7 @@
 	   int totalPage= cnt/pageNum_list+1;
 	  
 	   String total_data="";
-	   total_data=gson.toJson(personnelmanagements);
+	   total_data=gson.toJson(beacons);
 
 
 %>
@@ -216,45 +216,26 @@
 </head>
 </head>
 <script src="js/jquery-3.6.0.min.js"></script>
-<script>
-	
-	if("<%=delnm%>" != "0" && <%=flag%> == true)
-		alert('<%=cd.getName(delnm)%>');
-	else if("<%=delnm%>" != "0")
-		alert('지울수 없는 계정입니다.')
-</script>
+
 <body>
 <div>
 <span class="left"><input type="text" id="now" readonly></span>
-<span class="title">회원정보 리스트</span>
-<span class="right">
-  <select id="reg" name ="reg">
-						<option>전체</option>
-						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
-						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
-						<%} %>
-	</select>
-	
-  <select id="RegimCompany" style="width: 140px;">
-   </select>  
-</span>
+<span class="title">부식창고 현황판</span>
 </div>
 <table class="table" style="white-space: nowrap;">
 <caption>조회 목록</caption>
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
-      <td class="colt" style="text-align:center;width:8vw;">군번</td>
-      <td class="colt" style="text-align:center;width:8vw;">직위</td>
-      <td class="colt" style="text-align:center;width:8vw;">이름</td>
-      <td class="colt" style="text-align:center;width:8vw;">부대</td>
+      <td class="colt" style="text-align:center;width:8vw;">UUid</td>
+      <td class="colt" style="text-align:center;width:8vw;">위도</td>
+      <td class="colt" style="text-align:center;width:8vw;">경도</td>
+      <td class="colt" style="text-align:center;width:8vw;">장비타입</td>
+      <td class="colt" style="text-align:center;width:8vw;">장비ID</td>
+      <td class="colt" style="text-align:center;width:8vw;">소속</td>
       <td class="colt" style="text-align:center;width:8vw;">세부소속</td>
-      <td class="colt" style="text-align:center;width:8vw;">직책</td>
-      <td class="colt" style="text-align:center;width:8vw;">생년월일</td>
-      <td class="colt" style="text-align:center;width:8vw;">전화번호</td>
-      <td class="colt" style="text-align:center;width:8vw;">사진</td>
-       <td class="colt" style="text-align:center;width:8vw;">수정/삭제</td>
-      
-      
+      <td class="colt" style="text-align:center;width:8vw;">기기장소</td>
+      <td class="colt" style="text-align:center;width:8vw;">방이름</td>
+      <td class="colt" style="text-align:center;width:8vw;">방ID</td>      
    </tr>
    
    <% 
@@ -264,23 +245,17 @@
    
    <tr id="tr<%=i %>" >
       <td class="col" ><%=i+1 %></td>
-      <td class="col" style=" text-align:center;"><%=personnelmanagements.get(i).getServiceNumber() %></td>
-      <td class="col" style=" text-align:center;"><%=personnelmanagements.get(i).getRank() %></td>
-      <td class="col" style=" text-align:center;"><%=personnelmanagements.get(i).getName() %></td>
-      <td class="col" style=" text-align:center;"><%=personnelmanagements.get(i).getRegiment() %></td>
-      <td class="col" style=" text-align:center;"><%=personnelmanagements.get(i).getRegimCompany() %></td>
-      <td class="col" style=" text-align:center;"><%=personnelmanagements.get(i).getDuty() %></td>
-      <td class="col" style=" text-align:center;"><%=personnelmanagements.get(i).getBirthDate() %></td>
-      <td class="col" style=" text-align:center;"><%=personnelmanagements.get(i).getMobileNumber() %></td>  
-     <%
-     	out.println("<td class='col' style=\" text-align:center;\">");
-     	if(personnelmanagements.get(i).getPicture() != "")
-  		out.println("<img src=\"data:image/png;base64, "+personnelmanagements.get(i).getPicture()+"\" width=\"auto\" height=\"90\" />");
-     	else
-      	out.println("<img src=\"\" width=\"auto\" height=\"90\" />");
-     	out.println("</td>");
-     %>
-      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='bd_PersonnelManagement2.jsp?sn=<%=personnelmanagements.get(i).getServiceNumber()%>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deletePM('<%=personnelmanagements.get(i).getMobileNumber()%>')"/></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getUuid() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getLatitude() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getLongitude() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getEquipType() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getEquipId() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getRegiment() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getRegimCompany() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getEquipLocation() %></td>  
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getRoomName() %></td>  
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getRoomNumber() %></td>  
+
       
    </tr>
 <%}%>
@@ -344,23 +319,7 @@
 $(document).ready(function() {
 	   
 
-	
- 	$('#reg').val('<%=regp%>').prop("selected", true);
-		regSelectChange('<%=regp%>');
 
-		
-		
-		 $('#reg').on('change', function() {
-		     location.replace("bd_PersonnelManagement.jsp?reg="+$('#reg').val()+"&regim_company=전체"); 
-		 });
-			 $('#RegimCompany').on('change', function() {
- 	  	 location.replace("bd_PersonnelManagement.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()
- 	  			 ); 
-		 });
-			$('#equipType').on('change', function() {
-  		     location.replace("bd_PersonnelManagement.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()+"&equip_type="+$('#equipType').val()); 
-  		 });
- 
 	  getTimeStamp2();
 
 
@@ -372,7 +331,13 @@ $(document).ready(function() {
   	
 	
 	setInterval(getTimeStamp2,1000);
+	
+	
+	
 
+	
+
+    
 	
    function getTimeStamp() {
 	     var d = new Date();
@@ -388,7 +353,7 @@ $(document).ready(function() {
    
    
 function storeSelectChange(e) {
-    location.replace("bd_PersonnelManagement.jsp?reg=<%=regp%>&regim_company="+e); 
+    location.replace("bd_Beacons?reg=<%=regp%>&regim_company="+e); 
 }
    
 function regSelectChange(e) {
@@ -433,7 +398,7 @@ function leadingZeros(n, digits) {
 
  function go_url(){
 
-       location.replace("bd_PersonnelManagement.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&num=<%=num2%>"); 
+       location.replace("bd_Beacons.jsp?num=<%=num2%>"); 
  
  }
 
