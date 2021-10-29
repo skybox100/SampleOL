@@ -334,7 +334,7 @@
 $(document).ready(function() {
 	   
 
-	
+ 		$('#reg').val('<%=personnelmanagements.get(0).getRegiment() %>').prop("selected", true);
 		regSelectChange('<%=regp%>');
 
 		

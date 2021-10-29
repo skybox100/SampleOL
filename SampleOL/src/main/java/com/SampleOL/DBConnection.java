@@ -186,8 +186,7 @@ public class DBConnection {
 						+ " where f.storehouse = '"+sh+"'"
 						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
 			}else if(sh.equals("전체")) {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,"
-						+ "Source as foodSourceCode,qRcodeIdx,f.remark "
+				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "

@@ -43,7 +43,7 @@
 
    Gson gson = new Gson();
    
-	ArrayList<String> mobileStatusReg = cd.getMobileStatusReg();
+	ArrayList<String> mobileStatusReg = cd.getCodeNameList("Regiment");
 
 	ArrayList<String> foodList = cd.getCodeNameList("Storehouse");	
 
