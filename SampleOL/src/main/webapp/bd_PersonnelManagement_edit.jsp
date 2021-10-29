@@ -378,7 +378,7 @@ $(document).ready(function() {
 	}
    
 function storeSelectChange(e) {
-    location.replace("bd_PersonnelManagement2.jsp?reg=<%=regp%>&regim_company="+e); 
+    location.replace("bd_PersonnelManagement_edit.jsp?reg=<%=regp%>&regim_company="+e); 
 }
    
 function regSelectChange(e) {
