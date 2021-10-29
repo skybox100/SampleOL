@@ -138,8 +138,8 @@
         }
     </style>
     <!-- OpenLayers map -->
-<link rel="stylesheet"	href="css/ol.css"	type="text/css">
-<script src="js/ol.js"></script>
+    <link rel="stylesheet" href="css/ol.css" type="text/css">
+    <script src="js/ol.js"></script>
 </head>
 
 <body>
