@@ -282,7 +282,6 @@ public class DBConnection {
 						+ "      ,p.Reserve03"
 						+ "      ,p.Reserve04"
 						+ "  FROM dbo.PersonnelManagement p"
-						+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
 						+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
 						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
@@ -321,7 +320,6 @@ public class DBConnection {
 						+ "      ,p.Reserve03"
 						+ "      ,p.Reserve04"
 						+ "  FROM dbo.PersonnelManagement p"
-						+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
 						+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
 						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
@@ -359,7 +357,6 @@ public class DBConnection {
 						+ "      ,p.Reserve03"
 						+ "      ,p.Reserve04"
 						+ "  FROM dbo.PersonnelManagement p"
-						+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
 						+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
 						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
@@ -397,7 +394,6 @@ public class DBConnection {
 						+ "      ,p.Reserve03"
 						+ "      ,p.Reserve04"
 						+ "  FROM dbo.PersonnelManagement p"
-						+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
 						+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
 						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
@@ -550,40 +546,7 @@ public class DBConnection {
 		}
 		
 	}
-	
 
-
-       
-	
-	
-    
-    
-	
-	public boolean PersonnelManagementDelete(String mobileNumber) {
-		
-		String sql = "";
-	//	JSONArray jsonLocations = new JSONArray();
-		boolean flag=false;
-		
-		try {
-			con = getConn();				
-			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
-			sql="delete from dbo.PersonnelManagement where MobileNumber = ?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, mobileNumber);
-			flag=pstmt.execute();
-			System.out.println(flag);			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try { if(pstmt != null) pstmt.close(); } catch(SQLException e) {}
-			try { if(con != null) con.close(); } catch(SQLException e) {}
-		}		
-		
-		return flag;
-	}
-	
 public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 		
 			String sql="SELECT p.ServiceNumber "
@@ -612,7 +575,8 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 					+ "      ,p.Password "
 					+ "      ,p.RegimPlatoon "
 					+ "      ,p.RegimSquad "
-					+ "      ,g.CodeName as LeaderType "
+					+ "      ,LeaderType "
+					+ "      ,g.CodeName as LeaderTypeName "
 					+ "      ,p.BloodType "
 					+ "      ,p.Goout "
 					+ "      ,p.Reserve01 "
@@ -620,7 +584,6 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 					+ "      ,p.Reserve03 "
 					+ "      ,p.Reserve04 "
 					+ "  FROM dbo.PersonnelManagement p "
-					+ "  inner join dbo.MobileStatus as l on l.UserKey = p.MobileNumber "
 					+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 					+ "  inner join dbo.Code as e on p.rank = e.CodeID "
@@ -642,6 +605,8 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 
 			
 			rs = pstmt.executeQuery();
+			
+
 			
 			while(rs.next()) {
 				String ServiceNumber = rs.getString("ServiceNumber");
@@ -671,6 +636,8 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 				String RegimPlatoon = rs.getString("RegimPlatoon");
 				String RegimSquad = rs.getString("RegimSquad");
 				String LeaderType = rs.getString("LeaderType");
+				String LeaderTypeName = rs.getString("LeaderTypeName");
+
 				String BloodType = rs.getString("BloodType");
 				String Goout = rs.getString("Goout");
 				String Reserve01 = rs.getString("Reserve01");
@@ -678,16 +645,19 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 				String Reserve03 = rs.getString("Reserve03");
 				String Reserve04 = rs.getString("Reserve04");
 				String Picture = OutputPicture(rs.getBinaryStream("Picture"));
-				
 
-				personnelmanagement= new PersonnelManagement(ServiceNumber,MissionType,MissionTypeName,Rank,RankName,Name,Regiment,RegimentName,RegimCompany,RegimCompanyName,MOS,Duty,HelpCare,BirthDate,JoinDate,PromotionDate,MovingDate,RetireDate,MobileNumber,MyPhoneNumber,ParentsNumber,Remark,Picture,Password,RegimPlatoon,RegimSquad,LeaderType,BloodType,Goout,Reserve01,Reserve02,Reserve03,Reserve04);
+
+				personnelmanagement= new PersonnelManagement(ServiceNumber,MissionType,MissionTypeName,Rank,RankName,Name,Regiment,RegimentName,RegimCompany,RegimCompanyName,MOS,Duty,HelpCare,BirthDate,JoinDate,PromotionDate,MovingDate,RetireDate,MobileNumber,MyPhoneNumber,ParentsNumber,Remark,Picture,Password,RegimPlatoon,RegimSquad,LeaderType,BloodType,Goout,Reserve01,Reserve02,Reserve03,Reserve04,LeaderTypeName);
 				personnelmanagements.add(personnelmanagement);
 				
+				System.out.println(personnelmanagement.toString());
 			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+
+			
 		} finally {
 			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
 			try { if(rs != null) rs.close(); } catch(SQLException e) {}
@@ -709,6 +679,7 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 		       in.close();
 		       ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		       ImageIO.write( bimg, "jpg", baos );
+
 		       baos.flush();
 		       byte[] imageInByteArray = baos.toByteArray();
 
@@ -718,7 +689,8 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
        }
      catch(Exception e)
      {
-         System.out.println(e);
+    	 b64="";
+    	 System.out.println("해당 컬럼은 이미지 데이터가 없습니다");
      }
      return b64;
 
@@ -2033,8 +2005,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			pstmt.setString(1, equipId);
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()) {
-				
+			while(rs.next()) {				
 				String regiment = rs.getString("Regiment");
 				String equipType = rs.getString("EquipType");
 				String equipLocation = rs.getString("EquipLocation");
@@ -2047,7 +2018,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				//System.out.println(equipLocationObject.toString());
 				
 				equipLocations.add(e);
-				
+				System.out.println(e.toString());
 				
 			}
 		} catch (SQLException e) {
@@ -2749,6 +2720,38 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		return codeNameList;
 	}	
 	
+	
+	public ArrayList<String> getCodeIDList(String codeType, String groupCode){
+		String sql = "select CodeID from dbo.Code where CodeType=? and GroupCode=?";
+		ArrayList<String> codeIDList = new ArrayList<String>();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, codeType);
+			pstmt.setString(2, groupCode);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String cn = rs.getString("CodeID");
+				
+				codeIDList.add(cn);
+				 
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+	
+		return codeIDList;
+	}	
+	
 	public ArrayList<String> getDutyReg(){
 		
 		String sql = "SELECT DISTINCT b.Duty "
@@ -2813,6 +2816,39 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			return regiments;		
 			
 		}
+	
+	
+	public ArrayList<String> getPersonnelReg(){
+		
+		String sql = "SELECT DISTINCT c.CodeName, c.CodeID "
+				+ "FROM dbo.PersonnelManagement AS b "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType= 'Regiment' "
+				+ "ORDER BY c.CodeID";
+		ArrayList<String> regiments = new ArrayList<String>();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				String reg = rs.getString("CodeName");
+				
+				regiments.add(reg);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+		return regiments;		
+		
+	}
 	
 	public ArrayList<String> getRankReg(){
 		
@@ -2891,11 +2927,95 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 	}
 	
+	public ArrayList<String> getPersonnelRc(String reg){
+		
+		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
+				+ "FROM dbo.PersonnelManagement AS b "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
+				+ "INNER JOIN dbo.Code AS d ON b.RegimCompany = d.CodeID "
+				+ "WHERE c.CodeName = ? "
+				+ "ORDER BY d.CodeID";
+		ArrayList<String> rcs = new ArrayList<String>();
+		rcs.add("전체");
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reg);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String regimCompany = rs.getString("CodeName").trim();
+				
+				rcs.add(regimCompany);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+			//for(Location l:locations) {
+			//	System.out.println(l.toString());
+			//}
+		
+		return rcs;		
+		
+	}
+	
 	public ArrayList<String> getMobileStatusRcId(String reg){
 		
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.MobileStatus AS a "
 				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
+				+ "INNER JOIN dbo.Code AS d ON b.RegimCompany = d.CodeID "
+				+ "WHERE c.CodeName = ? "
+				+ "ORDER BY d.CodeID";
+		ArrayList<String> rcs = new ArrayList<String>();
+		rcs.add("전체");
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reg);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String regimCompany = rs.getString("CodeID").trim();
+				
+				rcs.add(regimCompany);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+			//for(Location l:locations) {
+			//	System.out.println(l.toString());
+			//}
+		
+		return rcs;		
+		
+	}
+	
+	public ArrayList<String> getPersonnelRcId(String reg){
+		
+		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
+				+ "FROM dbo.PersonnelManagement AS b "
 				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
 				+ "INNER JOIN dbo.Code AS d ON b.RegimCompany = d.CodeID "
 				+ "WHERE c.CodeName = ? "

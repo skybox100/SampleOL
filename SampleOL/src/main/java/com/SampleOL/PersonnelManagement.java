@@ -32,6 +32,7 @@ public class PersonnelManagement {
 	String RegimPlatoon;
 	String RegimSquad;
 	String LeaderType;
+	String LeaderTypeName;
 	String BloodType;
 	String Goout;
 	String Reserve01;
@@ -39,13 +40,12 @@ public class PersonnelManagement {
 	String Reserve03;
 	String Reserve04;
 
-
 	public PersonnelManagement(String serviceNumber, String missionType, String missionTypeName, String rank,
 			String rankName, String name, String regiment, String regimentName, String regimCompany,
 			String regimCompanyName, String mOS, String duty, String helpCare, String birthDate, String joinDate,
 			String promotionDate, String movingDate, String retireDate, String mobileNumber, String myPhoneNumber,
 			String parentsNumber, String remark, String pictureString, String password, String regimPlatoon, String regimSquad,
-			String leaderType, String bloodType, String goout, String reserve01, String reserve02, String reserve03,
+			String leaderType,String leaderTypeName, String bloodType, String goout, String reserve01, String reserve02, String reserve03,
 			String reserve04) {
 		super();
 		ServiceNumber = serviceNumber;
@@ -75,6 +75,8 @@ public class PersonnelManagement {
 		RegimPlatoon = regimPlatoon;
 		RegimSquad = regimSquad;
 		LeaderType = leaderType;
+		LeaderTypeName = leaderTypeName;
+
 		BloodType = bloodType;
 		Goout = goout;
 		Reserve01 = reserve01;
@@ -132,9 +134,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getServiceNumber() {
 		return ServiceNumber;
 	}
+
 
 
 
@@ -148,9 +152,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getMissionType() {
 		return MissionType;
 	}
+
 
 
 
@@ -164,9 +170,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getMissionTypeName() {
 		return MissionTypeName;
 	}
+
 
 
 
@@ -180,9 +188,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRank() {
 		return Rank;
 	}
+
 
 
 
@@ -196,9 +206,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRankName() {
 		return RankName;
 	}
+
 
 
 
@@ -212,9 +224,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getName() {
 		return Name;
 	}
+
 
 
 
@@ -228,9 +242,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRegiment() {
 		return Regiment;
 	}
+
 
 
 
@@ -244,9 +260,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRegimentName() {
 		return RegimentName;
 	}
+
 
 
 
@@ -260,9 +278,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRegimCompany() {
 		return RegimCompany;
 	}
+
 
 
 
@@ -276,9 +296,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRegimCompanyName() {
 		return RegimCompanyName;
 	}
+
 
 
 
@@ -292,9 +314,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getMOS() {
 		return MOS;
 	}
+
 
 
 
@@ -308,9 +332,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getDuty() {
 		return Duty;
 	}
+
 
 
 
@@ -324,9 +350,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getHelpCare() {
 		return HelpCare;
 	}
+
 
 
 
@@ -340,9 +368,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getBirthDate() {
 		return BirthDate;
 	}
+
 
 
 
@@ -356,9 +386,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getJoinDate() {
 		return JoinDate;
 	}
+
 
 
 
@@ -372,9 +404,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getPromotionDate() {
 		return PromotionDate;
 	}
+
 
 
 
@@ -388,9 +422,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getMovingDate() {
 		return MovingDate;
 	}
+
 
 
 
@@ -404,9 +440,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRetireDate() {
 		return RetireDate;
 	}
+
 
 
 
@@ -420,9 +458,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getMobileNumber() {
 		return MobileNumber;
 	}
+
 
 
 
@@ -436,9 +476,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getMyPhoneNumber() {
 		return MyPhoneNumber;
 	}
+
 
 
 
@@ -452,9 +494,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getParentsNumber() {
 		return ParentsNumber;
 	}
+
 
 
 
@@ -468,9 +512,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRemark() {
 		return Remark;
 	}
+
 
 
 
@@ -483,34 +529,30 @@ public class PersonnelManagement {
 
 
 
-/*
-	public Image getPicture() {
-		return Picture;
-	}
-	public void setPicture(Image picture) {
-		Picture = picture;
-	}
-*/
+
+
 	public String getPicture() {
 		return Picture;
 	}
+
+
+
+
+
+
 	public void setPicture(String picture) {
 		Picture = picture;
+	}
 
-	}
-/*
-	public InputStream getPicture() {
-		return Picture;
-	}
-	public void setPicture(InputStream picture) {
-		Picture = picture;
-	}
-	
- */
+
+
+
+
 
 	public String getPassword() {
 		return Password;
 	}
+
 
 
 
@@ -524,9 +566,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRegimPlatoon() {
 		return RegimPlatoon;
 	}
+
 
 
 
@@ -540,9 +584,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getRegimSquad() {
 		return RegimSquad;
 	}
+
 
 
 
@@ -556,9 +602,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getLeaderType() {
 		return LeaderType;
 	}
+
 
 
 
@@ -572,9 +620,29 @@ public class PersonnelManagement {
 
 
 
+
+	public String getLeaderTypeName() {
+		return LeaderTypeName;
+	}
+
+
+
+
+
+
+	public void setLeaderTypeName(String leaderTypeName) {
+		LeaderTypeName = leaderTypeName;
+	}
+
+
+
+
+
+
 	public String getBloodType() {
 		return BloodType;
 	}
+
 
 
 
@@ -588,9 +656,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getGoout() {
 		return Goout;
 	}
+
 
 
 
@@ -604,9 +674,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getReserve01() {
 		return Reserve01;
 	}
+
 
 
 
@@ -620,9 +692,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getReserve02() {
 		return Reserve02;
 	}
+
 
 
 
@@ -636,9 +710,11 @@ public class PersonnelManagement {
 
 
 
+
 	public String getReserve03() {
 		return Reserve03;
 	}
+
 
 
 
@@ -652,6 +728,7 @@ public class PersonnelManagement {
 
 
 
+
 	public String getReserve04() {
 		return Reserve04;
 	}
@@ -660,14 +737,10 @@ public class PersonnelManagement {
 
 
 
+
 	public void setReserve04(String reserve04) {
 		Reserve04 = reserve04;
 	}
-
-
-
-
-
 
 
 

@@ -56,20 +56,16 @@
    DBConnection cd = new DBConnection();
    ArrayList<PersonnelManagement> personnelmanagements = new ArrayList<PersonnelManagement>();
 
-   boolean flag=false;
    
    Gson gson = new Gson();
-	if(request.getParameter("delnm") != null){	
-		delnm=request.getParameter("delnm");
-   		flag=cd.PersonnelManagementDelete(delnm);
-	}
-   
 
 
-	ArrayList<String> rc_0 = cd.getMobileStatusRc("28여단");
-	ArrayList<String> rc_1 = cd.getMobileStatusRc("28-1대대");
-	ArrayList<String> rc_2 = cd.getMobileStatusRc("28-2대대");
-	ArrayList<String> rc_3 = cd.getMobileStatusRc("28-3대대");
+
+	ArrayList<String> rc_0 = cd.getPersonnelRc("28여단");
+	ArrayList<String> rc_1 = cd.getPersonnelRc("28-1대대");
+	ArrayList<String> rc_2 = cd.getPersonnelRc("28-2대대");
+	ArrayList<String> rc_3 = cd.getPersonnelRc("28-3대대");
+
 
 
 	String rc0; String rc1; String rc2; String rc3;
@@ -79,7 +75,7 @@
 	rc2 = gson.toJson(rc_2);
 	rc3 = gson.toJson(rc_3);
 
-	ArrayList<String> mobileStatusReg = cd.getMobileStatusReg();
+	ArrayList<String> PersonnelReg = cd.getPersonnelReg();
 
 
 	if(reg.equals("전체") && rc.equals("전체")){
@@ -177,7 +173,7 @@
    .col{
       font-weight: 550px;
       font-size:1.2rem; 
-      
+      height: 94px;
    }
 
    .colt{
@@ -216,22 +212,16 @@
 </head>
 </head>
 <script src="js/jquery-3.6.0.min.js"></script>
-<script>
-	
-	if("<%=delnm%>" != "0" && <%=flag%> == true)
-		alert('<%=cd.getName(delnm)%>');
-	else if("<%=delnm%>" != "0")
-		alert('지울수 없는 계정입니다.')
-</script>
 <body>
 <div>
 <span class="left"><input type="text" id="now" readonly></span>
 <span class="title">회원정보 리스트</span>
 <span class="right">
+<input type="button" value="계정생성" onClick="location.href='bd_PersonnelManagement3.jsp'" style="width:100px;height:40px;">
   <select id="reg" name ="reg">
-						<option>전체</option>
-						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
-						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
+  						<option>전체</option>
+						<%for(int i=0; i<PersonnelReg.size(); i++) {%>
+						<option value="<%=PersonnelReg.get(i)%>"><%=PersonnelReg.get(i)%></option>
 						<%} %>
 	</select>
 	
@@ -274,13 +264,13 @@
       <td class="col" style=" text-align:center;"><%=personnelmanagements.get(i).getMobileNumber() %></td>  
      <%
      	out.println("<td class='col' style=\" text-align:center;\">");
-     	if(personnelmanagements.get(i).getPicture() != "")
-  		out.println("<img src=\"data:image/png;base64, "+personnelmanagements.get(i).getPicture()+"\" width=\"auto\" height=\"90\" />");
-     	else
+     	if(personnelmanagements.get(i).getPicture().isEmpty())
       	out.println("<img src=\"\" width=\"auto\" height=\"90\" />");
+     	else
+  		out.println("<img src=\"data:image/jpg;base64, "+personnelmanagements.get(i).getPicture()+"\" width=\"auto\" height=\"90\" />");
      	out.println("</td>");
      %>
-      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='bd_PersonnelManagement2.jsp?sn=<%=personnelmanagements.get(i).getServiceNumber()%>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deletePM('<%=personnelmanagements.get(i).getMobileNumber()%>')"/></td>
+      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='bd_PersonnelManagement2.jsp?sn=<%=personnelmanagements.get(i).getServiceNumber()%>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deletePM(<%=i %>)"/></td>
       
    </tr>
 <%}%>
@@ -345,7 +335,6 @@ $(document).ready(function() {
 	   
 
 	
- 	$('#reg').val('<%=regp%>').prop("selected", true);
 		regSelectChange('<%=regp%>');
 
 		
@@ -370,6 +359,7 @@ $(document).ready(function() {
 
 });
   	
+	var data = <%=total_data%>;
 	
 	setInterval(getTimeStamp2,1000);
 
@@ -494,10 +484,32 @@ function getTimeStamp2() {
 	  document.getElementById("now").value =s;
 	}
 
-function deletePM(mobileNumber){
-	
-	if(confirm("정말 삭제하시겠습니까?")){
-		location.href="bd_PersonnelManagement.jsp?delnm="+mobileNumber;
+function deletePM(num){
+
+	if(confirm(data[num].ServiceNumber+"을 정말 삭제하시겠습니까?")){
+		
+	$.ajax({
+		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementDelete',
+		contentType: "application/json; charset=utf-8",
+		method: 'POST',
+		data: JSON.stringify(data[num]),
+		dataType: "json",
+		accept: "application/json",
+		success: function(response) {
+			// success handle
+				console.log(JSON.stringify(response));
+				alert("삭제가 성공했습니다.");
+				location.href="bd_PersonnelManagement.jsp";
+			},
+		error: function(response) {
+				alert("삭제가 실패해습니다.");
+
+				console.log(JSON.stringify(data));
+				console.log(JSON.stringify(response));
+
+			}	
+	});
+		
 	}
 	return false;
 }
