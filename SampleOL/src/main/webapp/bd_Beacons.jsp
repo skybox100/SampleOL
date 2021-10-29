@@ -59,11 +59,7 @@
    boolean flag=false;
    
    Gson gson = new Gson();
-	if(request.getParameter("delnm") != null){	
-		delnm=request.getParameter("delnm");
-   		flag=cd.PersonnelManagementDelete(delnm);
-	}
-   
+
 
 
 	ArrayList<String> rc_0 = cd.getMobileStatusRc("28여단");
