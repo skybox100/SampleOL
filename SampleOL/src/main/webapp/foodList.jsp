@@ -177,6 +177,7 @@
 <span class="left"><input type="text" id="now" readonly></span>
 <span class="title">부식창고 현황판</span>
 <span class="right">
+<font size=4.5>총 개수: <%=cnt %>&nbsp;&nbsp;</font>
   <select id="reg" name ="reg">
 						<option>전체</option>
 						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
@@ -218,9 +219,7 @@
       <td class="col" id="col<%=i %>" style="text-align:center; "><%=foods.get(i).getExpirationDate() %></td>
    </tr>
    <%}   
-      if(num2==cnt){
-         num2=0;
-      }
+
    %>   
 </table>
 
@@ -231,7 +230,7 @@
 	$(document).ready(function() {
 	   
 	 	$('#reg').val('<%=regp%>').prop("selected", true);
-			regSelectChange('<%=regp%>');
+		regSelectChange('<%=regp%>');
  	
    		 $('#reg').on('change', function() {
    		     location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse=전체"); 
@@ -244,7 +243,11 @@
     
 	  for(var i=<%=num%>; i<<%=num2%>; i++)
          passdatechange(i);
-      
+      <%
+      if(num2==cnt){
+          num2=0;
+       }
+	  %>
 	  if(<%=cnt%> >15)
       setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
    
@@ -325,13 +328,15 @@ function leadingZeros(n, digits) {
       var between=between_date(day2,getTimeStamp());
       
       if(between <0){
-         document.getElementById('tr'+num).style.background='red';
-         document.getElementById('tr'+num).style.color='white';
-      }else if(between <3){
-         document.getElementById('tr'+num).style.color='red';
-      }else if(between < 10){
-         document.getElementById('tr'+num).style.color='orange';
+          document.getElementById('tr'+num).style.background='red';
+          document.getElementById('tr'+num).style.color='white';
+
+      }else if(between <=14){
+         document.getElementById('tr'+num).style.background='orange';
+      }else if(between <= 30){
+         document.getElementById('tr'+num).style.background='yellow';
       }
+      console.log(between);
       
  }
 
