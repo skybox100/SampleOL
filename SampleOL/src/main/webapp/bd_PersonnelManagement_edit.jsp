@@ -208,6 +208,7 @@
   
 </head>
 <script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/aes.js"></script>
 
 <body>
 <div>
@@ -307,9 +308,9 @@ $(document).ready(function() {
  	$('#reg').val('<%=personnelmanagements.get(0).getRegiment() %>').prop("selected", true);
 	regSelectChange('<%=personnelmanagements.get(0).getRegiment() %>');
 	$('#RegimCompany').val('<%=personnelmanagements.get(0).getRegimCompany()%>').prop("selected", true);	
-
+ 	$('#duty').val('<%=personnelmanagements.get(0).getDuty().trim() %>').prop("selected", true);
  	$('#rank').val('<%=personnelmanagements.get(0).getRank() %>').prop("selected", true);
-	$('#duty').val('<%=personnelmanagements.get(0).getDuty() %>').prop("selected", true);
+
 
 	  if('<%=personnelmanagements.get(0).getPicture()%>' === '')	
 	  	showSearch('fileAdd');
@@ -354,6 +355,13 @@ $(document).ready(function() {
 
 		}
 	
+	function aes(e){
+		//var key= CryptoJS.enc.Hex.parse('01010101010101010101010101010101');
+		//var iv = CryptoJS.enc.Hex.parse('01010101010101010101010101010101');
+
+		var encrypted = master.dbo.pCrypto_enc('normal',e,'');
+		return encrypted;
+	}
 
 
 	var search = ['fileAdd', 'fileEdit'];
@@ -507,6 +515,7 @@ function getTimeStamp2() {
 
 
 function pmUpdate(){
+	if(confirm("비밀번호를 초기화 하시겠습니까?")){
 		data[0].ServiceNumber=$('#ServiceNumber').val();
 		data[0].rank=$('#rank').val();
 		data[0].duty=$('#duty').val();
@@ -542,12 +551,13 @@ function pmUpdate(){
 
 			}	
 	});
-	
+	}
 }
 
 function pwReset(){
-	document.getElementById("pw").value='1';
+	document.getElementById("pw").value='<%=cd.PwRandom()%>';
 	data[0].Password=$('#pw').val();
+	console.log(data[0].Password);
 $.ajax({
 	url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementNewSave',
 	contentType: "application/json; charset=utf-8",
@@ -559,6 +569,8 @@ $.ajax({
 		// success handle
 			console.log(JSON.stringify(response));
 			alert("비밀번호를 초기화했습니다.");
+		    location.replace("bd_PersonnelManagement_edit.jsp?sn="+"<%=sn%>"); 
+
 		},
 	error: function(response) {
 			console.log(JSON.stringify(data));

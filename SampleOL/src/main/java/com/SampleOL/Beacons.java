@@ -20,6 +20,20 @@ public class Beacons {
 	String RoomName;
 	String RoomNumber;
 	String Remark;
+	
+	
+	
+	@Override
+	public String toString() {
+		return "Beacons [Uuid=" + Uuid + ", Latitude=" + Latitude + ", Longitude=" + Longitude + ", EquipType="
+				+ EquipType + ", EquipTypeCode=" + EquipTypeCode + ", EquipId=" + EquipId + ", ModelName=" + ModelName
+				+ ", Manufacturer=" + Manufacturer + ", Regiment=" + Regiment + ", RegimentCode=" + RegimentCode
+				+ ", RegimCompany=" + RegimCompany + ", RegimCompanyCode=" + RegimCompanyCode + ", EquipLocation="
+				+ EquipLocation + ", RoomName=" + RoomName + ", RoomNumber=" + RoomNumber + ", Remark=" + Remark + "]";
+	}
+
+
+
 	public Beacons(String uuid, String latitude, String longitude, String equipType, String equipTypeCode,
 			String equipId, String modelName, String manufacturer, String regiment, String regimentCode,
 			String regimCompany, String regimCompanyCode, String equipLocation, String roomName, String roomNumber,
@@ -42,6 +56,9 @@ public class Beacons {
 		RoomNumber = roomNumber;
 		Remark = remark;
 	}
+	
+	
+	
 	public String getUuid() {
 		return Uuid;
 	}

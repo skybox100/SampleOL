@@ -15,8 +15,10 @@
 	int pageNum=1;
 	int endPage;
 	int startPage;
-	int pageNum_list=15;
-	
+	int pageNum_list=10;
+	int pagetot=15;
+	boolean flag=false;
+
 	
 	if(request.getParameter("page") != null)
 		pageNum=Integer.parseInt(request.getParameter("page"));
@@ -54,7 +56,7 @@
 
    Gson gson = new Gson();
    
-	ArrayList<String> mobileStatusReg = cd.getMobileStatusReg();
+	ArrayList<String> mobileStatusReg = cd.getCodeNameList("Regiment");
 
 	ArrayList<String> regimCompanyList = cd.getCodeNameList("RegimCompany");
 
@@ -87,34 +89,37 @@
    
    int cnt = mobileEquips.size();
    
-   
-   if(pageNum == 1 && cnt>pageNum_list){
+   if(cnt<=pagetot){
 	   startPage=1;
-	   endPage=(cnt/pageNum_list)+1;
-  		num=(pageNum-1)*pageNum_list;
-
-   	}else if(pageNum*pageNum_list<=cnt){
-   		startPage=(pageNum/5)*5+1;
-   		endPage=(cnt/pageNum_list)+1;
-   		num=(pageNum-1)*pageNum_list;
+	   endPage= 1; 
+  		num=0;
+  	flag=cnt/pagetot <=pagetot ? false:true;
+   	}else if(cnt-((pageNum-1)-(pageNum-1)%pageNum_list)*pagetot <= pageNum_list*pagetot){
+   		startPage=(pageNum/pageNum_list)*pageNum_list+1;
+   		endPage=(cnt/pagetot)+1;
+   		num= (pageNum-1)*pagetot;
+  		if(cnt%pagetot == 0) endPage=(cnt/pagetot);
 
 	}else{
-   		startPage=(pageNum/5)*5+1;
-		endPage=(cnt/pageNum_list)+1;
-   		num= (pageNum-1)*pageNum_list;
+   		startPage=((pageNum-1)/pageNum_list)*pageNum_list+1;
+		endPage=startPage+pageNum_list-1;
+   		num= (pageNum-1)*pagetot;
+  		flag=true;
 
     }
 	
-   if(num == 0 && cnt>15){
-	      num2=15;
-	   }else if(num+15<=cnt){
-	      num2=num+15;
+   if(num == 0 && cnt>pagetot){
+	      num2=pagetot;
+	   }else if(num+pagetot<=cnt){
+	      num2=num+pagetot;
 	   }else{
 	      num2=cnt;
 	   }
 
+
+
    
-   int totalPage= cnt/pageNum_list+1;
+   int totalPage= cnt%pagetot==0 && cnt!=0? cnt/pagetot :cnt/pagetot+1;
   
    String total_data="";
    total_data=gson.toJson(mobileEquips);
@@ -223,7 +228,7 @@
 	</select>
 
 	
-  <select id="RegimCompany" style="width: 140px;">
+  <select id="RegimCompany" style="width: 160px;">
    </select>   
      <select id="equipType" name ="equipType">
 						<option>전체</option>
@@ -263,12 +268,12 @@
    </tr>
   <%} %>
 
-<!-- 페이징 그리기 -->
+   <!-- 페이징 그리기 -->
     <tr>
         <td height="30" align="center" valign="top" colspan="8" style="font-size:20px;" >
 <%
 
-    int block = pageNum/5;
+int block = (pageNum-1)/pageNum_list;
 
     if(pageNum <= 1){%>
         <font></font>
@@ -276,10 +281,10 @@
             <font size=2><a href="mobileList.jsp?reg=<%=regp%>&regim_company=<%=rcp%>">처음</a></font>
         <%}
  
-    if(block <=1){%>
+    if(block <1){%>
         <font> </font>
     <% }else{%>
-        <font size=2><a href="mobileList.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=startPage-1 %>">이전</a></font>
+        <font size=2><a href="mobileList.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&regim_company=<%=rcp%>">이전</a></font>
     <% }
  
     for(int j = startPage; j <=endPage; j++)
@@ -290,24 +295,24 @@
             <font size=2 color=red><%=j%></font>
 
        <%}else if(j > 0 && j <endPage+1){%>
-            <font size=2><a href="mobileList.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=j%>"><%=j%></a></font>
+            <font size=2><a href="mobileList.jsp?page=<%=j%>&reg=<%=regp%>&regim_company=<%=rcp%>"><%=j%></a></font>
             <%
           } 
     }
 
-    if(block <= cnt/pageNum_list){%>
+    if(flag== false){%>
     <font> </font>
     <%}else{%>    
-        <font size=2><a href="mobileList.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=startPage+5%>">다음</a></font>
+        <font size=2><a href="mobileList.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&regim_company=<%=rcp%>">다음</a></font>
     <%}
  
  
  
-    if(pageNum >= cnt/pageNum_list+1){%>
+    if(pageNum == totalPage){%>       
             <font></font>
        
         <%}else{%>
-            <font size=2><a href="mobileList.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=totalPage%>">마지막</a></font>
+            <font size=2><a href="mobileList.jsp?page=<%=totalPage%>&reg=<%=regp%>&regim_company=<%=rcp%>">마지막</a></font>
         <%}
     %>
     </td>
@@ -323,9 +328,8 @@
 	$(document).ready(function() {
 	   
 
-		
-	 	$('#reg').val('<%=regp%>').prop("selected", true);
-			regSelectChange('<%=regp%>');
+	 	$('#reg').val('<%=regp %>').prop("selected", true);
+		regSelectChange('<%=regp %>');
 		$('#equipType').val('<%=ec%>').prop("selected", true);
 
 			

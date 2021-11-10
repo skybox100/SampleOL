@@ -27,7 +27,7 @@
 	int endPage;
 	int startPage;
 	int pageNum_list=10;
-
+	int pagetot=15;
 		if(request.getParameter("page") != null)
 			pageNum=Integer.parseInt(request.getParameter("page"));
 		   
@@ -60,6 +60,7 @@
    
    Gson gson = new Gson();
 
+   
 
 
 	ArrayList<String> rc_0 = cd.getMobileStatusRc("28여단");
@@ -75,7 +76,7 @@
 	rc2 = gson.toJson(rc_2);
 	rc3 = gson.toJson(rc_3);
 
-	ArrayList<String> mobileStatusReg = cd.getMobileStatusReg();
+	ArrayList<String> mobileStatusReg = cd.getCodeNameList("Regiment");
 
 
 	if(reg.equals("전체") && rc.equals("전체")){
@@ -92,34 +93,37 @@
 	   
 	   int cnt = beacons.size();
 	   
-	   
-	   if(pageNum == 1 && cnt>pageNum_list){
+	   if(cnt<=pagetot){
 		   startPage=1;
-		   endPage=(cnt/pageNum_list)+1;
-	  		num=(pageNum-1)*pageNum_list;
+		   endPage= 1; 
+	  		num=0;
+	  	flag=cnt/pagetot <=pagetot ? false:true;
 
-	   	}else if(pageNum*pageNum_list<=cnt){
-	   		startPage=(pageNum/5)*5+1;
-	   		endPage=(cnt/pageNum_list)+1;
-	   		num=(pageNum-1)*pageNum_list;
+	   	}else if(cnt-((pageNum-1)-(pageNum-1)%pageNum_list)*pagetot <= pageNum_list*pagetot){
+	   		startPage=(pageNum/pageNum_list)*pageNum_list+1;
+	   		endPage=(cnt/pagetot)+1;
+	   		num= (pageNum-1)*pagetot;
+	  		if(cnt%pagetot == 0) endPage=(cnt/pagetot);
 
 		}else{
-	   		startPage=(pageNum/5)*5+1;
-			endPage=(cnt/pageNum_list)+1;
-	   		num= (pageNum-1)*pageNum_list;
+	   		startPage=((pageNum-1)/pageNum_list)*pageNum_list+1;
+			endPage=startPage+pageNum_list-1;
+	   		num= (pageNum-1)*pagetot;
+	  		flag=true;
 
 	    }
 		
-	   if(num == 0 && cnt>10){
-		      num2=10;
-		   }else if(num+10<=cnt){
-		      num2=num+10;
+	   if(num == 0 && cnt>pagetot){
+		      num2=pagetot;
+		   }else if(num+pagetot<=cnt){
+		      num2=num+pagetot;
 		   }else{
 		      num2=cnt;
 		   }
 
+
 	   
-	   int totalPage= cnt/pageNum_list+1;
+	   int totalPage= cnt%pagetot==0 && cnt!=0? cnt/pagetot :cnt/pagetot+1;
 	  
 	   String total_data="";
 	   total_data=gson.toJson(beacons);
@@ -216,7 +220,7 @@
 <body>
 <div>
 <span class="left"><input type="text" id="now" readonly></span>
-<span class="title">부식창고 현황판</span>
+<span class="title">비콘목록 현황판</span>
 </div>
 <table class="table" style="white-space: nowrap;">
 <caption>조회 목록</caption>
@@ -261,18 +265,18 @@
         <td height="30" align="center" valign="top" colspan="8" style="font-size:20px;" >
 <%
 
-    int block = pageNum/5;
+    int block = (pageNum-1)/pageNum_list;
 
     if(pageNum <= 1){%>
         <font></font>
         <% }else{%>
-            <font size=2><a href="bd_PersonnelManagement.jsp?reg=<%=regp%>&regim_company=<%=rcp%>">처음</a></font>
+            <font size=2><a href="bd_Beacons.jsp">처음</a></font>
         <%}
  
-    if(block <=1){%>
+    if(block <1){%>
         <font> </font>
     <% }else{%>
-        <font size=2><a href="bd_PersonnelManagement.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=startPage-1 %>">이전</a></font>
+        <font size=2><a href="bd_Beacons.jsp?page=<%=startPage-1 %>">이전</a></font>
     <% }
  
     for(int j = startPage; j <=endPage; j++)
@@ -283,24 +287,23 @@
             <font size=2 color=red><%=j%></font>
 
        <%}else if(j > 0 && j <endPage+1){%>
-            <font size=2><a href="bd_PersonnelManagement.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=j%>"><%=j%></a></font>
+            <font size=2><a href="bd_Beacons.jsp?page=<%=j%>"><%=j%></a></font>
             <%
           } 
     }
 
-    if(block <= cnt/pageNum_list){%>
+    if(flag== false){%>
     <font> </font>
     <%}else{%>    
-        <font size=2><a href="bd_PersonnelManagement.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=startPage+5%>">다음</a></font>
+        <font size=2><a href="bd_Beacons.jsp?page=<%=startPage+pageNum_list%>">다음</a></font>
     <%}
  
  
  
-    if(pageNum >= cnt/pageNum_list+1){%>
+    if(pageNum == totalPage){%>       
             <font></font>
-       
         <%}else{%>
-            <font size=2><a href="bd_PersonnelManagement.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=totalPage%>">마지막</a></font>
+            <font size=2><a href="bd_Beacons.jsp?page=<%=totalPage%>">마지막</a></font>
         <%}
     %>
     </td>
@@ -458,7 +461,7 @@ function getTimeStamp2() {
 function deletePM(mobileNumber){
 	
 	if(confirm("정말 삭제하시겠습니까?")){
-		location.href="bd_PersonnelManagement.jsp?delnm="+mobileNumber;
+		location.href="bd_Beacons.jsp?delnm="+mobileNumber;
 	}
 	return false;
 }

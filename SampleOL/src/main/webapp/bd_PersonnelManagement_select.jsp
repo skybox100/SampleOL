@@ -27,6 +27,8 @@
 	int endPage;
 	int startPage;
 	int pageNum_list=10;
+	int pagetot=10;
+	boolean flag=false;
 
 		if(request.getParameter("page") != null)
 			pageNum=Integer.parseInt(request.getParameter("page"));
@@ -92,34 +94,37 @@
 	   
 	   int cnt = personnelmanagements.size();
 	   
-	   
-	   if(pageNum == 1 && cnt>pageNum_list){
+	   if(cnt<=pagetot){
 		   startPage=1;
-		   endPage=(cnt/pageNum_list)+1;
-	  		num=(pageNum-1)*pageNum_list;
-
-	   	}else if(pageNum*pageNum_list<=cnt){
-	   		startPage=(pageNum/5)*5+1;
-	   		endPage=(cnt/pageNum_list)+1;
-	   		num=(pageNum-1)*pageNum_list;
+		   endPage= 1; 
+	  		num=0;
+	  	flag=cnt/pagetot <=pagetot ? false:true;
+	   	}else if(cnt-((pageNum-1)-(pageNum-1)%pageNum_list)*pagetot <= pageNum_list*pagetot){
+	   		startPage=(pageNum/pageNum_list)*pageNum_list+1;
+	   		endPage=(cnt/pagetot)+1;
+	   		num= (pageNum-1)*pagetot;
+	  		if(cnt%pagetot == 0) endPage=(cnt/pagetot);
 
 		}else{
-	   		startPage=(pageNum/5)*5+1;
-			endPage=(cnt/pageNum_list)+1;
-	   		num= (pageNum-1)*pageNum_list;
+	   		startPage=((pageNum-1)/pageNum_list)*pageNum_list+1;
+			endPage=startPage+pageNum_list-1;
+	   		num= (pageNum-1)*pagetot;
+	  		flag=true;
 
 	    }
 		
-	   if(num == 0 && cnt>10){
-		      num2=10;
-		   }else if(num+10<=cnt){
-		      num2=num+10;
+	   if(num == 0 && cnt>pagetot){
+		      num2=pagetot;
+		   }else if(num+pagetot<=cnt){
+		      num2=num+pagetot;
 		   }else{
 		      num2=cnt;
 		   }
 
+
+
 	   
-	   int totalPage= cnt/pageNum_list+1;
+	   int totalPage= cnt%pagetot==0 && cnt!=0? cnt/pagetot :cnt/pagetot+1;
 	  
 	   String total_data="";
 	   total_data=gson.toJson(personnelmanagements);
@@ -280,7 +285,7 @@
         <td height="30" align="center" valign="top" colspan="8" style="font-size:20px;" >
 <%
 
-    int block = pageNum/5;
+	int block = (pageNum-1)/pageNum_list;
 
     if(pageNum <= 1){%>
         <font></font>
@@ -288,10 +293,10 @@
             <font size=2><a href="bd_PersonnelManagement_select.jsp?reg=<%=regp%>&regim_company=<%=rcp%>">처음</a></font>
         <%}
  
-    if(block <=1){%>
+    if(block <1){%>
         <font> </font>
     <% }else{%>
-        <font size=2><a href="bd_PersonnelManagement_select.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=startPage-1 %>">이전</a></font>
+        <font size=2><a href="bd_PersonnelManagement_select.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&regim_company=<%=rcp%>">이전</a></font>
     <% }
  
     for(int j = startPage; j <=endPage; j++)
@@ -302,24 +307,24 @@
             <font size=2 color=red><%=j%></font>
 
        <%}else if(j > 0 && j <endPage+1){%>
-            <font size=2><a href="bd_PersonnelManagement_select.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=j%>"><%=j%></a></font>
+            <font size=2><a href="bd_PersonnelManagement_select.jsp?page=<%=j%>&reg=<%=regp%>&regim_company=<%=rcp%>"><%=j%></a></font>
             <%
           } 
     }
 
-    if(block <= cnt/pageNum_list){%>
+    if(flag== false){%>
     <font> </font>
     <%}else{%>    
-        <font size=2><a href="bd_PersonnelManagement_select.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=startPage+5%>">다음</a></font>
+        <font size=2><a href="bd_PersonnelManagement_select.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&regim_company=<%=rcp%>">다음</a></font>
     <%}
  
  
  
-    if(pageNum >= cnt/pageNum_list+1){%>
+    if(pageNum == totalPage){%>       
             <font></font>
        
         <%}else{%>
-            <font size=2><a href="bd_PersonnelManagement_select.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&page=<%=totalPage%>">마지막</a></font>
+            <font size=2><a href="bd_PersonnelManagement_select.jsp?page=<%=totalPage%>&reg=<%=regp%>&regim_company=<%=rcp%>">마지막</a></font>
         <%}
     %>
     </td>
@@ -333,11 +338,9 @@
 
 $(document).ready(function() {
 	   
-
- 		$('#reg').val('<%=personnelmanagements.get(0).getRegiment() %>').prop("selected", true);
-		regSelectChange('<%=regp%>');
-
-		
+ 	$('#reg').val('<%=regp %>').prop("selected", true);
+	regSelectChange('<%=regp %>');
+	
 		
 		 $('#reg').on('change', function() {
 		     location.replace("bd_PersonnelManagement_select.jsp?reg="+$('#reg').val()+"&regim_company=전체"); 
