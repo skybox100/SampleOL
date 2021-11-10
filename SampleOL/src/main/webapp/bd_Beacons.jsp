@@ -22,7 +22,7 @@
 	String rc="전체";
 	String rcp="전체";
 	String delnm="0";
-	
+	 
 	int pageNum=1;
 	int endPage;
 	int startPage;

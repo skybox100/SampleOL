@@ -29,7 +29,7 @@
 	} else{
 		reg = cd.getCodeID("Regiment", reg);
 		rc = cd.getCodeID("RegimCompany", rc);
-	}
+	} 
 	
 	locations = cd.getMobileStatus(reg, rc);
 	multi_marker=gson.toJson(locations);

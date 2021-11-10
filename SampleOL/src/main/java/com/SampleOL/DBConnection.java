@@ -1533,7 +1533,7 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 	}
 	
 
-	
+	 
 public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 		String sql = "select top (50) * from dbo.MobileStatus order by InputTime desc";

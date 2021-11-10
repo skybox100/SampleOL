@@ -263,7 +263,7 @@
             animation-name: hop;
             animation-iteration-count: infinite;
             animation-duration: 2s;
-        }
+        } 
     </style>
     <!-- OpenLayers map -->
     <link rel="stylesheet" href="css/ol.css" type="text/css">

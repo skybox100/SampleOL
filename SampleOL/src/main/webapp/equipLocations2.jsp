@@ -299,7 +299,7 @@
 			<input type="button" value=" 이전 " id="goback">
 		</form>	
 	</div>
-
+ 
 	<div id="map"></div>
 
 	<!-- Popup hover -->

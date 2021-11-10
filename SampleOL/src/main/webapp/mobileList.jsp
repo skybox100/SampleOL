@@ -216,7 +216,7 @@
 <div style="white-space:nowrap;">
 <span class="left"><input type="text" id="now" readonly> <font>&nbsp;&nbsp;총 개수: <%=cnt %></font> <input type='button' id="btnExport" value='excel 다운' style='width:100px;height:36px;font-weight:bold;' />
 </span>
-
+ 
 <span class="title">모바일 기기 목록 현황</span>
 <span class="right">
 

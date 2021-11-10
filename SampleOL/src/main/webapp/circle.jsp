@@ -356,7 +356,7 @@
 	<input type="button" value="개인" id="btn" onclick="showSearch('personal')"/> 
 	<input type="button" value="중심" id="btn" onclick="showSearch('Scale')"/>
 	<button id="zoom-restore" >reset</button><br>
-	
+	 
 	<div id="status" style="display:none; background: white;">
 	<form action="personalLocations3.jsp" method="get">
 		<table id="table">

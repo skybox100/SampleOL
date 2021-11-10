@@ -136,7 +136,7 @@
         }
  		.ol-control{
  		    display: none;
- 		}
+ 		} 
     </style>
     <!-- OpenLayers map -->
     <script src="css/ol.css"></script>

@@ -10,7 +10,7 @@
 <%@ page import="net.sf.json.*" %>
 <%@ page import="com.google.gson.*" %>
 <%@ page import="java.io.*, java.util.*" %>
-<%
+<% 
 System.out.println("personalLocations5");
 	String param = "geofence";
 

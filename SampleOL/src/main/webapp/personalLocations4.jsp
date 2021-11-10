@@ -105,7 +105,7 @@ System.out.println("personalLocations4");
 			subnum=locations_member.size();
 
 		}
-		
+		 
 	}
 
 	try{

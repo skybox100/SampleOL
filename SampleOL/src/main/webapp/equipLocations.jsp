@@ -250,7 +250,7 @@
 
 <body>
 
-	<div id="map"></div>
+	<div id="map"></div> 
 	<div class="top">
 		<form action="equipLocations.jsp" id="locations" method="get">
 		<table>

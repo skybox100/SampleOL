@@ -139,7 +139,7 @@
             animation-duration: 1s;
             -webkit-animation-fill-mode: both;
             animation-fill-mode: both;
-        }
+        } 
         .animated:hover {
             -webkit-animation-iteration-count: infinite;
             animation-iteration-count: infinite;
