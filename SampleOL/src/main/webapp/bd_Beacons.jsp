@@ -237,7 +237,7 @@
       <td class="colt" style="text-align:center;width:8vw;">방이름</td>
       <td class="colt" style="text-align:center;width:8vw;">방ID</td>      
    </tr>
-   
+    
    <% 
       for(int i=num; i<num2; i++){ 
    %>
