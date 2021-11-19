@@ -31,6 +31,7 @@ public class DBConnection {
 	String password = "todkagh123!";
 	
 	
+	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	Connection con = null;
@@ -287,7 +288,7 @@ public class DBConnection {
 						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
 						+ "  inner join dbo.Code as f on p.MissionType = f.CodeID"
-						+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID;";
+						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID;";
 
 
 			}else if(reg.equals("전체")) {
@@ -325,7 +326,7 @@ public class DBConnection {
 						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
 						+ "  inner join dbo.Code as f on p.MissionType = f.CodeID"
-						+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID"
+						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
 						+ " where p.RegimCompany = '"+rc+"'";
 			}else if(rc.equals("전체")) {
 				sql="SELECT p.ServiceNumber"
@@ -362,7 +363,7 @@ public class DBConnection {
 						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
 						+ "  inner join dbo.Code as f on p.MissionType = f.CodeID"
-						+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID"
+						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
 						+ " where p.regiment = '"+reg+"'";
 			}else {
 				sql="SELECT p.ServiceNumber"
@@ -399,7 +400,7 @@ public class DBConnection {
 						+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 						+ "  inner join dbo.Code as e on p.rank = e.CodeID "
 						+ "  inner join dbo.Code as f on p.MissionType = f.CodeID"
-						+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID"
+						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
 						+ " where p.regiment = '"+reg+"' and p.RegimCompany = '"+rc+"'";
 			}
 			
@@ -456,7 +457,7 @@ public class DBConnection {
 	}
 
 	
-	public ArrayList<Beacons> getBeaconsList() {
+	public ArrayList<Beacons> getBeaconsList(String reg, String rc) {
 		
 		String sql = "";
 		ArrayList<Beacons> beacons = new ArrayList<Beacons>();
@@ -465,29 +466,106 @@ public class DBConnection {
 		try {
 
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
-			
-				sql="SELECT Uuid\r\n"
-						+ "      ,Latitude\r\n"
-						+ "      ,Longitude\r\n"
-						+ "      ,d.CodeName as EquipType\r\n"
-						+ "	  ,EquipType as EquipTypeCode\r\n"
-						+ "      ,EquipId\r\n"
-						+ "      ,ModelName\r\n"
-						+ "      ,Manufacturer\r\n"
-						+ "      ,a.CodeName as Regiment\r\n"
-						+ "	  ,Regiment as RegimentCode\r\n"
-						+ "      ,c.CodeName as RegimCompany\r\n"
-						+ "	  ,RegimCompany as RegimCompanyCode\r\n"
-						+ "      ,EquipLocation\r\n"
-						+ "      ,RoomName\r\n"
-						+ "      ,RoomNumber\r\n"
-						+ "      ,b.Remark\r\n"
-						+ "  FROM dbo.Beacons b\r\n"
-						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment'\r\n"
-						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany'\r\n"
-						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType'\r\n"
-						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType'\r\n"
+			if(reg.equals("전체") && rc.equals("전체")) {
+				sql="SELECT Uuid "
+						+ "      ,Latitude "
+						+ "      ,Longitude "
+						+ "      ,d.CodeName as EquipType "
+						+ "	  ,EquipType as EquipTypeCode "
+						+ "      ,EquipId "
+						+ "      ,ModelName "
+						+ "      ,Manufacturer "
+						+ "      ,a.CodeName as Regiment "
+						+ "	  ,Regiment as RegimentCode "
+						+ "      ,c.CodeName as RegimCompany "
+						+ "	  ,RegimCompany as RegimCompanyCode "
+						+ "      ,EquipLocation "
+						+ "      ,RoomName "
+						+ "      ,RoomNumber "
+						+ "      ,b.Remark "
+						+ "  FROM dbo.Beacons b "
+						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ "  order by b.EquipId";
+			}else if(reg.equals("전체")) {
+				sql="SELECT Uuid "
+						+ "      ,Latitude "
+						+ "      ,Longitude "
+						+ "      ,d.CodeName as EquipType "
+						+ "	  ,EquipType as EquipTypeCode "
+						+ "      ,EquipId "
+						+ "      ,ModelName "
+						+ "      ,Manufacturer "
+						+ "      ,a.CodeName as Regiment "
+						+ "	  ,Regiment as RegimentCode "
+						+ "      ,c.CodeName as RegimCompany "
+						+ "	  ,RegimCompany as RegimCompanyCode "
+						+ "      ,EquipLocation "
+						+ "      ,RoomName "
+						+ "      ,RoomNumber "
+						+ "      ,b.Remark "
+						+ "  FROM dbo.Beacons b "
+						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ " where b.RegimCompany = '"+rc+"'"
+						+ "  order by b.EquipId";
+
+			}else if(rc.equals("전체")) {
+				sql="SELECT Uuid "
+						+ "      ,Latitude "
+						+ "      ,Longitude "
+						+ "      ,d.CodeName as EquipType "
+						+ "	  ,EquipType as EquipTypeCode "
+						+ "      ,EquipId "
+						+ "      ,ModelName "
+						+ "      ,Manufacturer "
+						+ "      ,a.CodeName as Regiment "
+						+ "	  ,Regiment as RegimentCode "
+						+ "      ,c.CodeName as RegimCompany "
+						+ "	  ,RegimCompany as RegimCompanyCode "
+						+ "      ,EquipLocation "
+						+ "      ,RoomName "
+						+ "      ,RoomNumber "
+						+ "      ,b.Remark "
+						+ "  FROM dbo.Beacons b "
+						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ " where b.regiment = '"+reg+"'"
+						+ "  order by b.EquipId";
+
+			}else {
+				sql="SELECT Uuid "
+						+ "      ,Latitude "
+						+ "      ,Longitude "
+						+ "      ,d.CodeName as EquipType "
+						+ "	  ,EquipType as EquipTypeCode "
+						+ "      ,EquipId "
+						+ "      ,ModelName "
+						+ "      ,Manufacturer "
+						+ "      ,a.CodeName as Regiment "
+						+ "	  ,Regiment as RegimentCode "
+						+ "      ,c.CodeName as RegimCompany "
+						+ "	  ,RegimCompany as RegimCompanyCode "
+						+ "      ,EquipLocation "
+						+ "      ,RoomName "
+						+ "      ,RoomNumber "
+						+ "      ,b.Remark "
+						+ "  FROM dbo.Beacons b "
+						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ " where b.regiment = '"+reg+"' and b.RegimCompany = '"+rc+"'"
+						+ "  order by b.EquipId";
+
+			}
+				
 				con = getConn();				
 				stmt = con.createStatement();
 				rs = stmt.executeQuery(sql);	
@@ -529,27 +607,27 @@ public class DBConnection {
 	
 	public ArrayList<Beacons> getBeaconById(String beaconId) {
 		
-		String sql="SELECT Uuid\r\n"
-				+ "      ,Latitude\r\n"
-				+ "      ,Longitude\r\n"
-				+ "      ,d.CodeName as EquipType\r\n"
-				+ "	  ,EquipType as EquipTypeCode\r\n"
-				+ "      ,EquipId\r\n"
-				+ "      ,ModelName\r\n"
-				+ "      ,Manufacturer\r\n"
-				+ "      ,a.CodeName as Regiment\r\n"
-				+ "	  ,Regiment as RegimentCode\r\n"
-				+ "      ,c.CodeName as RegimCompany\r\n"
-				+ "	  ,RegimCompany as RegimCompanyCode\r\n"
-				+ "      ,EquipLocation\r\n"
-				+ "      ,RoomName\r\n"
-				+ "      ,RoomNumber\r\n"
-				+ "      ,b.Remark\r\n"
-				+ "  FROM dbo.Beacons b \r\n"
-				+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment'\r\n"
-				+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany'\r\n"
-				+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType'\r\n"
-				+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType'\r\n"
+		String sql="SELECT Uuid "
+				+ "      ,Latitude "
+				+ "      ,Longitude "
+				+ "      ,d.CodeName as EquipType "
+				+ "	  ,EquipType as EquipTypeCode "
+				+ "      ,EquipId "
+				+ "      ,ModelName "
+				+ "      ,Manufacturer "
+				+ "      ,a.CodeName as Regiment "
+				+ "	  ,Regiment as RegimentCode "
+				+ "      ,c.CodeName as RegimCompany "
+				+ "	  ,RegimCompany as RegimCompanyCode "
+				+ "      ,EquipLocation "
+				+ "      ,RoomName "
+				+ "      ,RoomNumber "
+				+ "      ,b.Remark "
+				+ "  FROM dbo.Beacons b  "
+				+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+				+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+				+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+				+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 				+ "  where b.Uuid = ? ";
 		ArrayList<Beacons> beaconLocations = new ArrayList<Beacons>();
 		
@@ -669,7 +747,7 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 					+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
 					+ "  inner join dbo.Code as e on p.rank = e.CodeID "
 					+ "  inner join dbo.Code as f on p.MissionType = f.CodeID "
-					+ "  inner join dbo.Code as g on p.LeaderType = g.CodeID "
+					+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID "
 					+ "  where p.ServiceNumber = ? ";
 
 		PersonnelManagement personnelmanagement = null;
@@ -748,6 +826,157 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 
 	}
 
+	public String getRegName(String sn) {
+	
+	String sql="SELECT p.RegimCompany "
+			+ "      ,d.CodeName as RegimCompanyName "
+			+ "  FROM dbo.PersonnelManagement p "
+			+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
+			+ "  where p.ServiceNumber = ? ";
+
+	String reg = null;
+//	JSONArray jsonLocations = new JSONArray();
+
+	try {
+		con = getConn();				
+		System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+
+		pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, sn);
+		rs = pstmt.executeQuery();
+	while(rs.next()) {
+		String Regiment = rs.getString("Regiment");
+		String RegimentName = rs.getString("RegimentName");
+		reg=RegimentName;
+	}
+		
+	} catch (SQLException e) {
+	// TODO Auto-generated catch block
+		e.printStackTrace();
+	
+	
+	} finally {
+		try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+		try { if(rs != null) rs.close(); } catch(SQLException e) {}
+		try { if(con != null) con.close(); } catch(SQLException e) {}
+	}		
+	return reg;
+	
+	}
+
+	
+	public String getRegId(String sn) {
+		
+	String sql="SELECT p.Regiment "
+			+ "      ,c.CodeName as RegimentName "
+			+ "  FROM dbo.PersonnelManagement p "
+			+ "  inner join dbo.Code as c on p.Regiment = c.CodeID "
+			+ "  where p.ServiceNumber = ? ";
+
+	String reg = null;
+//	JSONArray jsonLocations = new JSONArray();
+
+	try {
+		con = getConn();				
+		System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+
+		pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, sn);
+		rs = pstmt.executeQuery();
+	while(rs.next()) {
+		String Regiment = rs.getString("Regiment");
+		String RegimentName = rs.getString("RegimentName");
+		reg=Regiment;
+	}
+		
+	} catch (SQLException e) {
+	// TODO Auto-generated catch block
+		e.printStackTrace();
+	
+	
+	} finally {
+		try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+		try { if(rs != null) rs.close(); } catch(SQLException e) {}
+		try { if(con != null) con.close(); } catch(SQLException e) {}
+	}		
+	return reg;
+	
+	}
+	
+	public String getRegCompayName(String sn) {
+		
+	String sql="SELECT p.RegimCompany "
+			+ "      ,d.CodeName as RegimCompanyName "
+			+ "  FROM dbo.PersonnelManagement p "
+			+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+			+ "  where p.ServiceNumber = ? ";
+
+	String rc = null;
+//	JSONArray jsonLocations = new JSONArray();
+
+	try {
+		con = getConn();				
+		System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+
+		pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, sn);
+		rs = pstmt.executeQuery();
+	while(rs.next()) {
+		String RegimCompany = rs.getString("RegimCompany");
+		String RegimCompanyName = rs.getString("RegimCompanyName");
+		rc=RegimCompanyName;
+	}
+		
+	} catch (SQLException e) {
+	// TODO Auto-generated catch block
+		e.printStackTrace();
+	
+	
+	} finally {
+		try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+		try { if(rs != null) rs.close(); } catch(SQLException e) {}
+		try { if(con != null) con.close(); } catch(SQLException e) {}
+	}		
+	return rc;
+	
+	}
+	public String getRegCompayID(String sn) {
+		
+	String sql="SELECT p.RegimCompany "
+			+ "      ,d.CodeName as RegimCompanyName "
+			+ "  FROM dbo.PersonnelManagement p "
+			+ "  inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+			+ "  where p.ServiceNumber = ? ";
+
+	String rc = null;
+//	JSONArray jsonLocations = new JSONArray();
+
+	try {
+		con = getConn();				
+		System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+
+		pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, sn);
+		rs = pstmt.executeQuery();
+	while(rs.next()) {
+		String RegimCompany = rs.getString("RegimCompany");
+		String RegimCompanyName = rs.getString("RegimCompanyName");
+		rc=RegimCompany;
+	}
+		
+	} catch (SQLException e) {
+	// TODO Auto-generated catch block
+		e.printStackTrace();
+	
+	
+	} finally {
+		try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+		try { if(rs != null) rs.close(); } catch(SQLException e) {}
+		try { if(con != null) con.close(); } catch(SQLException e) {}
+	}		
+	return rc;
+	
+	}
 	
 	public String OutputPicture(InputStream in)
 {
@@ -1533,7 +1762,7 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 	}
 	
 
-	 
+	
 public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 		String sql = "select top (50) * from dbo.MobileStatus order by InputTime desc";
@@ -1542,7 +1771,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 	//	JSONArray jsonLocations = new JSONArray();
 		
 		if(reg.equals("전체") && rc.equals("전체")) {
-			sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc "
+			sql = "select l.*, p.ServiceNumber,p.MobileNumber,  p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc "
+					+ ",(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
+					+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -1571,11 +1802,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
 					String etc = rs.getString("etc");
-
-					location = new Location(serviceNumber, userKey, name, rank, regiment,
-							 regimCompany, isDevice, duty, latitude, longitude, timestamp,etc);
-				//	System.out.println(location.toString());
+					String EquipLocation = rs.getString("EquipLocation");
+					String RoomName = rs.getString("RoomName");
+					String mobileNumber = rs.getString("MobileNumber");
 					
+
+
+					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
+							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
+							 mobileNumber,  etc,  EquipLocation,  RoomName) ;
 					locations.add(location);
 				}
 			} catch (SQLException e) {
@@ -1588,7 +1823,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			}
 		} else if(rc.equals("전체")) {
 			
-			sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc "
+			sql = "select l.*, p.ServiceNumber,p.MobileNumber,  p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc "
+					+ ",(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
+					+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -1619,9 +1856,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
 					String etc = rs.getString("etc");
+					String EquipLocation = rs.getString("EquipLocation");
+					String RoomName = rs.getString("RoomName");
+					String mobileNumber = rs.getString("MobileNumber");
+					
 
-					location = new Location(serviceNumber, userKey, name, rank, regiment,
-							 regimCompany, isDevice, duty, latitude, longitude, timestamp,etc);
+
+					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
+							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
+							 mobileNumber,  etc,  EquipLocation,  RoomName) ;
 					locations.add(location);
 				}
 			} catch (SQLException e) {
@@ -1634,7 +1877,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			}
 
 		} else {
-			sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc "
+			sql = "select l.*, p.ServiceNumber,p.MobileNumber,  p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc "
+					+ ",(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
+					+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -1653,6 +1898,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
+					
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
 					String rank = rs.getString("rank");
@@ -1665,9 +1911,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
 					String etc = rs.getString("etc");
+					String EquipLocation = rs.getString("EquipLocation");
+					String RoomName = rs.getString("RoomName");
+					String mobileNumber = rs.getString("MobileNumber");
+					
 
-					location = new Location(serviceNumber, userKey, name, rank, regiment,
-							 regimCompany, isDevice, duty, latitude, longitude, timestamp,etc);
+
+					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
+							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
+							 mobileNumber,  etc,  EquipLocation,  RoomName) ;
 					locations.add(location);
 				}
 			} catch (SQLException e) {
@@ -1685,12 +1937,17 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 
 	public ArrayList<Location> getLocationsByUser(String phoneNum) {
 
-		String sql = "SELECT TOP(50) p.ServiceNumber, p.MobileNumber, p.Rank, p.Name, p.RegimCompany, p.Duty, l.Latitude, l.Longitude, l.Timestamp "
-				+ "FROM PersonnelManagement AS p "
-				+ "INNER JOIN Locations AS l "
-				+ "ON p.MobileNumber = l.UserKey "
-				+ "WHERE p.MobileNumber=? "
-				+ "ORDER BY l.Timestamp DESC";
+		String sql = "SELECT TOP(50) p.ServiceNumber, p.MobileNumber,p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany,e.CodeName as Rank, p.Duty,l.Userkey, l.Latitude, l.Longitude, l.Timestamp, l.isDevice, "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
+				+ " FROM dbo.PersonnelManagement p "
+				+ " INNER JOIN Locations AS l  "
+				+ " ON p.MobileNumber = l.UserKey  "
+				+ " inner join dbo.Code as c on p.Regiment = c.CodeID "
+				+ " inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+				+ " inner join dbo.Code as e on p.rank = e.CodeID "
+				+ " WHERE p.MobileNumber=?  "
+				+ " ORDER BY l.Timestamp DESC";
 		Location location = null;
 		ArrayList<Location> locations = new ArrayList<Location>();
 
@@ -1703,21 +1960,30 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
-				String serviceNumber = rs.getString(1);
-				String userKey = rs.getString(2);
-				String rank = rs.getString(3);
-				String name = rs.getString(4);
-				String regiment = rs.getString(5);
-				String duty = rs.getString(6);
-				String latitude = rs.getString(7);
-				String longitude = rs.getString(8);
-				String timestamp = format.format(rs.getTimestamp(9));
+
+
+				String serviceNumber = rs.getString("serviceNumber");
+				String name = rs.getString("name");
+				String rank = rs.getString("rank");
+				String regiment = rs.getString("regiment");
+				String regimCompany = rs.getString("regimCompany");
+				String isDevice = rs.getString("isDevice");
+				String duty = rs.getString("duty");
+				String userKey = rs.getString("UserKey");
+				String latitude = rs.getString("Latitude");
+				String longitude = rs.getString("longitude");
+				String timestamp = format.format(rs.getTimestamp("Timestamp"));
+				String EquipLocation = rs.getString("EquipLocation");
+				String RoomName = rs.getString("RoomName");
+				String mobileNumber = rs.getString("MobileNumber");
+
 
 				if(longitude == null || latitude == null) {
 					
 				} else {
-					location = new Location(serviceNumber, userKey, name, rank, regiment, duty, latitude, longitude, timestamp);
-					//	System.out.println(location.toString());
+					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
+							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
+							 mobileNumber,  EquipLocation,  RoomName) ;
 					locations.add(location);
 				}
 			}
@@ -1741,10 +2007,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 
 	public ArrayList<Location> getLocationsByService(String serviceNum) {
 		
-		String sql = "SELECT TOP(50) p.ServiceNumber, p.MobileNumber, p.Rank, p.Name, p.RegimCompany, p.Duty, l.Latitude, l.Longitude, l.Timestamp "
+		String sql = "SELECT p.ServiceNumber, p.MobileNumber, p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.Latitude, l.Longitude, l.Timestamp ,l.Userkey, l.isDevice,"
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' "
 				+ "FROM PersonnelManagement AS p "
 				+ "INNER JOIN Locations AS l "
 				+ "ON p.MobileNumber = l.UserKey "
+				+ " inner join dbo.Code as c on p.Regiment = c.CodeID "
+				+ " inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+				+ " inner join dbo.Code as e on p.rank = e.CodeID "
 				+ "WHERE p.ServiceNumber=? "
 				+ "ORDER BY l.Timestamp DESC";
 		Location location = null;
@@ -1759,20 +2030,27 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				String serviceNumber = rs.getString(1);
-				String userKey = rs.getString(2);
-				String rank = rs.getString(3);
-				String name = rs.getString(4);
-				String regiment = rs.getString(5);
-				String duty = rs.getString(6);
-				String latitude = rs.getString(7);
-				String longitude = rs.getString(8);
-				String timestamp = format.format(rs.getTimestamp(9));
+				String serviceNumber = rs.getString("serviceNumber");
+				String name = rs.getString("name");
+				String rank = rs.getString("rank");
+				String regiment = rs.getString("regiment");
+				String regimCompany = rs.getString("regimCompany");
+				String isDevice = rs.getString("isDevice");
+				String duty = rs.getString("duty");
+				String userKey = rs.getString("UserKey");
+				String latitude = rs.getString("Latitude");
+				String longitude = rs.getString("longitude");
+				String timestamp = format.format(rs.getTimestamp("Timestamp"));
+				String EquipLocation = rs.getString("EquipLocation");
+				String RoomName = rs.getString("RoomName");
+				String mobileNumber = rs.getString("MobileNumber");
 
 				if(longitude == null || latitude == null) {
 			
 				} else {
-					location = new Location(serviceNumber, userKey, name, rank, regiment, duty, latitude, longitude, timestamp);
+					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
+							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
+							 mobileNumber,  EquipLocation,  RoomName) ;
 					locations.add(location);
 				}
 			//	System.out.println(location.toString());
@@ -1851,9 +2129,13 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 
 		Location location = null;
 		//String sql = "select * from dbo.Locations where Timestamp in (select max(Timestamp) from dbo.Locations where UserKey=?)";
-		String sql = "SELECT p.ServiceNumber, p.MobileNumber, p.Rank, p.Name, p.Regiment, p.RegimCompany, p.Duty, l.UserKey, l.IsDevice, l.Latitude, l.Longitude, l.Timestamp "
-				+ "FROM dbo.PersonnelManagement p "
+		String sql = "SELECT p.ServiceNumber, p.MobileNumber, p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.Latitude, l.Longitude, l.Timestamp ,l.Userkey, l.isDevice,"
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' " + "FROM dbo.PersonnelManagement p "
 				+ "INNER JOIN dbo.MobileStatus l ON p.MobileNumber = l.UserKey "
+				+ " inner join dbo.Code as c on p.Regiment = c.CodeID "
+				+ " inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+				+ " inner join dbo.Code as e on p.rank = e.CodeID "
 				+ "WHERE p.MobileNumber=? ";
 
 		try {
@@ -1876,10 +2158,14 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String latitude = rs.getString("Latitude");
 				String longitude = rs.getString("longitude");
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));
+				String EquipLocation = rs.getString("EquipLocation");
+				String RoomName = rs.getString("RoomName");
+				String mobileNumber = rs.getString("MobileNumber");
+				
 								
-				location = new Location(serviceNumber, userKey, name, rank, regiment,
-						 regimCompany, isDevice, duty, latitude, longitude, timestamp);
-
+				location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
+						 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
+						 mobileNumber,  EquipLocation,  RoomName) ;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -2409,8 +2695,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		System.out.println( format1.format (System.currentTimeMillis()));
 
 		
-		String sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, "
-				+ " MissionType "
+		String sql = "select l.*, p.MobileNumber,p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty,  "
+				+ "  MissionType, "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -2453,9 +2741,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String ResultContents = ""; //rs.getString("ResultContents");
 				String IsSendOK = "N";
 				String GroupCode=getEmergencyGroupName(userKey);
+				String EquipLocation = rs.getString("EquipLocation");
+				String RoomName = rs.getString("RoomName");
+				String mobileNumber = rs.getString("MobileNumber");
 				location = new Location(serviceNumber, userKey, name, rank, regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, userKey);
+						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber);
 				
 				//location = new Location(serviceNumber, userKey, name, rank, regiment,
 				//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
@@ -2496,8 +2787,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		System.out.println( format1.format (System.currentTimeMillis()));
 
 		
-		String sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, "
-				+ " MissionType "
+		String sql = "select l.*, p.ServiceNumber, p.MobileNumber,p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, "
+				+ " MissionType, "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "	
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -2541,9 +2834,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String ResultContents = ""; //rs.getString("ResultContents");
 				String IsSendOK = "N";
 				String GroupCode=getEmergencyGroupName(userKey);
+				String EquipLocation = rs.getString("EquipLocation");
+				String RoomName = rs.getString("RoomName");
+				String mobileNumber = rs.getString("MobileNumber");
 				location = new Location(serviceNumber, userKey, name, rank, regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, userKey);
+						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber);
 				
 				//location = new Location(serviceNumber, userKey, name, rank, regiment,
 				//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
@@ -2900,6 +3196,74 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		}
 	
 	
+	public ArrayList<String> getMobileManagementReg(){
+		
+		String sql = "SELECT DISTINCT c.CodeName, c.CodeID  "
+				+ " FROM dbo.MobileManagement AS a  "
+				+ " INNER JOIN dbo.PersonnelManagement AS b ON a.MobileNumber = b.MobileNumber  "
+				+ " INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType= 'Regiment'  "
+				+ " ORDER BY c.CodeID";
+		ArrayList<String> regiments = new ArrayList<String>();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String reg = rs.getString("CodeName");
+				
+				regiments.add(reg);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+		return regiments;		
+		
+	}
+	
+	public ArrayList<String> getBeaconReg(){
+		
+		String sql = "SELECT DISTINCT c.CodeName, c.CodeID  "
+				+ " FROM dbo.Beacons AS a  "
+				+ " INNER JOIN dbo.Code AS c ON a.Regiment = c.CodeID and c.CodeType= 'Regiment'  "
+				+ " ORDER BY c.CodeID";
+		ArrayList<String> regiments = new ArrayList<String>();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String reg = rs.getString("CodeName");
+				
+				regiments.add(reg);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+		return regiments;		
+		
+	}
+	
+	
 	public ArrayList<String> getPersonnelReg(){
 		
 		String sql = "SELECT DISTINCT c.CodeName, c.CodeID "
@@ -2931,6 +3295,40 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		return regiments;		
 		
 	}
+	
+	public ArrayList<String> getFoodReg(){
+		
+		String sql = "SELECT DISTINCT c.CodeName, c.CodeID "
+				+ "FROM dbo.FoodInventory AS b "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType= 'Regiment' "
+				+ "ORDER BY c.CodeID";
+		ArrayList<String> regiments = new ArrayList<String>();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				String reg = rs.getString("CodeName");
+				
+				regiments.add(reg);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+		return regiments;		
+		
+	}
+	
+	
 	
 	public ArrayList<String> getRankReg(){
 		
@@ -2965,8 +3363,92 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		return regiments;		
 		
 	}
-	
 	public ArrayList<String> getMobileStatusRc(String reg){
+		
+		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
+				+ "FROM dbo.MobileStatus AS a  "
+				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
+				+ "INNER JOIN dbo.Code AS d ON b.RegimCompany = d.CodeID "
+				+ "WHERE c.CodeName = ? "
+				+ "ORDER BY d.CodeID";
+		ArrayList<String> rcs = new ArrayList<String>();
+		rcs.add("전체");
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reg);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String regimCompany = rs.getString("CodeName").trim();
+				
+				rcs.add(regimCompany);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+			//for(Location l:locations) {
+			//	System.out.println(l.toString());
+			//}
+		
+		return rcs;		
+		
+	}
+	
+	public ArrayList<String> getBeaconsRc(String reg){
+		
+		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
+				+ "FROM dbo.Beacons AS a  "
+				+ "INNER JOIN dbo.Code AS c ON a.Regiment = c.CodeID "
+				+ "INNER JOIN dbo.Code AS d ON a.RegimCompany = d.CodeID "
+				+ "WHERE c.CodeName = ? "
+				+ "ORDER BY d.CodeID";
+		ArrayList<String> rcs = new ArrayList<String>();
+		rcs.add("전체");
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reg);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String regimCompany = rs.getString("CodeName").trim();
+				
+				rcs.add(regimCompany);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+			//for(Location l:locations) {
+			//	System.out.println(l.toString());
+			//}
+		
+		return rcs;		
+		
+	}
+	
+	public ArrayList<String> getMobileMangementRc(String reg){
 		
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.MobileManagement AS a  "

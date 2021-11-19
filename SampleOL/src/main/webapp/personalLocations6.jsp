@@ -10,10 +10,17 @@
 <%@ page import="net.sf.json.*" %>
 <%@ page import="com.google.gson.*" %>
 <%@ page import="java.io.*, java.util.*" %>
-<% 
-System.out.println("personalLocations6");
-	String param = request.getParameter("gis_setting");
-	String param2 = request.getParameter("gis_setting2");
+<%
+
+	System.out.println("personalLocations6");
+
+	String param = "geofence";
+	String param2 = "geofoff";
+
+	if(request.getParameter("gis_setting")!= null && request.getParameter("gis_setting2")!=null){
+		param = request.getParameter("gis_setting") ;
+		param2 = request.getParameter("gis_setting2");	
+	}
 	String reg = request.getParameter("reg");
 	String rc = request.getParameter("regim_company");
 	
@@ -99,7 +106,7 @@ System.out.println("personalLocations6");
     <meta name=description content="OpenLayer - Map multiple markers.">
     <title>Locations</title>
 
- <style>
+<style>
     	body, html{
     		width: 100%;
     		position: fixed; 
@@ -125,22 +132,23 @@ System.out.println("personalLocations6");
     	}
 
         #map{
+        	
         	width: auto;
-            height: 1080px;
+			height:1080px;
             
         }
         
         
         #equip_regiment{
-           width: 60px;  
+         	width: 75px;   
         }
         
         #equip_type{
-           width: 120px;  
+           width: 105px;  
         }
         
         #reg{
-         	width: 60px;   
+         	width: 75px;   
         }
 
         #regim_company{
@@ -159,11 +167,17 @@ System.out.println("personalLocations6");
         
         #gis_setting2{	
 			position: absolute;
-			top : 33px;
-			height: 30px;
         	right:0;
-        	margin-top: 4px;
-        	margin-right: 62px;
+        	bottom:14px;
+        	margin-right: 4px;
+        }
+        
+         .gis_setting3{	
+			position: absolute;
+        	left:0;
+        	bottom:12px;
+        	margin-right: 4px;
+			
         }
         
          #submit2{
@@ -185,14 +199,21 @@ System.out.println("personalLocations6");
         }
         #table{
     	   	position: fixed;
-			top : 33px;
+			top : 63px;
 			height: 30px;
 			left: 0;
 			margin-left: 4px;
         }
         
 		#buttonLayer{
-			width:auto;
+			position: fixed; /* 이 부분을 고정 */
+	  		top:30px; 
+  			width: 100%;
+			white-space: nowrap;
+			width: 100%;
+  			background: white;
+  			height: 30px;
+			padding-bottom: 4px;
 		}
         
         #gis_setting{
@@ -206,6 +227,16 @@ System.out.println("personalLocations6");
     		top: 0;
     		margin-top: 5px;
     		margin-left: 4px;
+    	}
+    	
+    	.top{
+    		position: fixed; /* 이 부분을 고정 */
+	  		top:0; 
+  			width: 100%;
+  			background: white;
+  			height: 36px;
+  			padding-top: 2px;
+			white-space: nowrap;		
     	}
     	
         .ol-tooltip *{
@@ -302,31 +333,56 @@ System.out.println("personalLocations6");
             animation-iteration-count: infinite;
             animation-duration: 2s;
         }
-        
-        #buttonLayer{
-                    white-space: nowrap;
-        }
  		.ol-control{
  		    display: none;
- 		}      
+ 		}       
+
+        
     </style>
+
     <!-- OpenLayers map -->
-	<script src="js/jquery-3.6.0.min.js"></script>
-   <link rel="stylesheet" href="css/ol.css" type="text/css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="css/ol.css" type="text/css">
     <script src="js/ol.js"></script>
 </head>
 
 <body>
+	<div id="map"></div>
+	<div class="top">
+		<form action="locations.jsp" id="locations" method="get">
+		<table>
+			<tr>
+				<td class="gis_setting3">
+					<font size="1px">
+					<input type="radio" id="geofence" name="gis_setting" class="gis_setting" value="geofence" checked>
+		  			<label for="geofence">군사</label>
+		 			 <input type="radio" id="satellite_map" name="gis_setting" class="gis_setting" value="satellite_map" >
+		 			 <label for="satellite_map">위성</label>		 			
+					
+					</font>		  			
+				</td>
+				<td>
+				<font size="1px" style="font-weight: bold" id="gis_setting2">
+		 			<input type="radio" id="geofon" name="gis_setting2" class="gis_setting2" value="geofon">
+		  			<label for="geofon">GeoF-ON</label>
+		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
+		 			<label for="geofoff">GeoF-OFF</label>
+		 		</font>
+				</td>
+			</tr>
+		</table>
+
+		</form>
+	</div>	
+
+
 	<div id ="buttonLayer">
-	<input type="button" value="병력" id="btn" onclick="showSearch('status')"/>
-	<input type="button" value="장비" id="btn" onclick="showSearch('equip')"/>
-	<input type="button" value="차량" id="btn" onclick="showSearch('vihicle')"/>
-	<input type="button" value="개인" id="btn" onclick="showSearch('personal')"/> 
-	<input type="button" value="지도" id="btn" onclick="showSearch('gis_setting')"/>
-	<input type="button" value="중심" id="btn" onclick="showSearch('Scale')"/>
+	<input type="button" value="병력 위치" id="btn" onclick="showSearch('status')"/>
+	<input type="button" value="장비 위치" id="btn" onclick="showSearch('equip')"/>
+	<input type="button" value="이동 조회" id="btn" onclick="showSearch('personal')"/> 
 	<button id="zoom-restore" >reset</button><br>
 	
-	<div id="status" style="display:none">
+	<div id="status" style="display:none; background: white;">
 	<form action="personalLocations3.jsp" method="get">
 		<table id="table">
 			<tr>
@@ -351,7 +407,7 @@ System.out.println("personalLocations6");
 	</form>
 	</div>
 
-	<div id="equip" style="display:none">
+	<div id="equip" style="display:none; background: white;">
 	<form action="equipLocations2.jsp" method="get">
 		<table id="table">
 			<tr>
@@ -380,49 +436,15 @@ System.out.println("personalLocations6");
 	TBD
 	</div>
 	
-	<div id="gis_setting" style="display:none">
-		<form action="circle.jsp" method="get">
-		<table id="table">
-			<tr>
-				<td>
-					<font size="1px">
-					<input type="radio" id="geofence" name="gis_setting" class="gis_setting" value="geofence" checked>
-		  			<label for="geofence">군사</label>
-		 			 <input type="radio" id="satellite_map" name="gis_setting" class="gis_setting" value="satellite_map" >
-		 			 <label for="satellite_map">위성</label>		 			
-					
-					</font>		  			
-				</td>
-			</tr>
-		</table>
-				<font size="1px" style="font-weight: bold" id="gis_setting2">
-		 			<input type="radio" id="geofon" name="gis_setting2" class="gis_setting2" value="geofon">
-		  			<label for="geofon">GeoF-ON</label>
-		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
-		 			<label for="geofoff">GeoF-OFF</label>
-		 			<input type="radio" name="reg" class="reg2" value="9사단" checked style="display:none">
-		 			<input type="radio" name="reg" class="reg2" value="28여단" style="display:none">
-		  			<input type="radio" name="reg" class="reg2" value="28-1대대" style="display:none">
-		  			<input type="radio" name="reg" class="reg2" value="28-2대대" style="display:none">
-		  			<input type="radio" name="reg" class="reg2" value="28-3대대" style="display:none">
-		  			<input type="hidden" name="regim_company" value="전체" style="display:none">
-		 			
-		 			</font>
-		 			
-				<font size="1px">
-					<input type="submit" id="submit2" value=" 설정 ">
-				</font>		  			
-		
-		</form>
-	</div>
 	
-	<div id="personal" style="display:none">
+	
+	<div id="personal" style="display:none; background: white;">
 		<form name="search_form" action="personalLocations4.jsp" method="get" onsubmit="return check()">
 			
 			<table id="table">
 			<tr>
 				<td>	
-				<select id="search_check" name="search_check" >
+				<select id="search_check" name="search_check">
    				<option value="phone_num">전화번호</option>
    				<option value="service_num">군번</option>
    				<option value="name">성명</option>
@@ -435,8 +457,8 @@ System.out.println("personalLocations6");
 		</form>
 	</div>
 	
-	<div id="Scale" style="display:none">
-		<form action="personalLocations6.jsp" method="get">
+	<div id="Scale" style="display:none; background: white;">
+		<form action="locations.jsp" method="get">
 		<table id="table">
 			<tr>
 				<td>
@@ -476,9 +498,18 @@ System.out.println("personalLocations6");
 	</div>
 	 -->
 
-	<div id="map"></div>
-	
-	<script src="js/map.js"></script>
+
+	<!-- Popup hover -->
+    <div id="popup" class="ol-popup">
+        <a id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+    </div>
+    <!-- Popup click -->
+    <div id="popupClick" class="ol-popup">
+        <a id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content-click"></div>
+    </div>
+ 	 <script src="js/map.js"></script>
 	
 
 	<!-- Popup hover -->
@@ -494,46 +525,52 @@ System.out.println("personalLocations6");
  	
  	
     <script>
-    
-    $(document).ready(function() 
-    		{ 
-			    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
-    			$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
-        		$("input:radio[name='reg']:radio[value='<%=regp%>']").attr("checked",true);
-    		});
+	    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
+    	$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
 
-
-        $("input:radio[class=gis_setting]").click(function(){
-            var radioVal = $('input[class="gis_setting"]:checked').val();
-            $("input:radio[class='gis_setting3']:radio[value='"+radioVal+"']").prop("checked",true);
-        });
-        $("input:radio[class=gis_setting2]").click(function(){
-            var radioVal = $('input[class="gis_setting2"]:checked').val();
-            $("input:radio[class='gis_setting4']:radio[value='"+radioVal+"']").prop("checked",true);
-
-        });
-        
-        $("input:radio[class='reg']").click(function(){
-            var radioVal = $('input[class="reg"]:checked').val();
-            $("input:radio[class='reg2']:radio[value='"+radioVal+"']").prop("checked",true);
-        });
+       
     	     
-    	
-    	if(document.referrer.split('/')[4].indexOf('locations.jsp')>=0 || document.referrer.split('/')[4].indexOf('personalLocations6.jsp')>=0 || document.referrer.split('/')[4].indexOf('circle.jsp')>=0){
-    		document.getElementById('Scale').style.display="block";
-    	}
-    
-   		// var x = 126.7719083;	var y = 37.6544622;
-   		 var x = 126.791344;	var y = 37.767728;
+        
+        $(document).ready(function() 
+        		{ 
+        		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
+        		    { 
+        		    	location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        		    }), 
+        		    $("input:radio[name=gis_setting2]").click(function() 
+        	    	{ 
+        		    	location.replace("locations.jsp?gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        	    	}) ,
+        	    	$("#search_check").change(function() 
+                	 { 
+						var input=document.getElementById('search_this');
+						input.value=null;
+                	 }) 
+        
+        		});
 
-   		var r = 4000;
-   		
-   		var pnt = ol.proj.fromLonLat([x, y]);
+        	function submit(){
+        		document.getElementById('locations').submit();
+     
+        	}
+    	     
+        var x = [126.79849,126.78286,126.82623,126.79989,126.765228]; 
+        var y = [37.67835,37.76350,37.77812,37.77175,37.834637];
+        var r = [5000,3000,2000,2000,2000];
+        var rc = ['9사단','28여단','28-1대대','28-2대대','28-3대대'];
+
+   		// var x = 126.7719083;	var y = 37.6544622;
+
+  
    		
    		 var data = <%=multi_marker%>;
-         var last_data = <%=last_marker%>;
+        // var data = <%=last_marker%>;
+   		 var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"5000","regiment":"9사단"}
+   		 ,{"latitude":"126.78286","longitude":"37.76350","r":"3000","regiment":"28여단"}
+   		 ,{"latitude":"126.82623","longitude":"37.77812","r":"2000","regiment":"28-1대대"}
+   		 ,{"latitude":"126.79989","longitude":"37.77175","r":"2000","regiment":"28-2대대"}
+   		 ,{"latitude":"126.765228","longitude":"37.834637","r":"2000","regiment":"28-3대대"}];
 
-        
   	    var straitSource = new ol.source.Vector({ wrapX: true });
  	    var straitsLayer = new ol.layer.Vector({
  	        source: straitSource
@@ -549,8 +586,7 @@ System.out.println("personalLocations6");
 				],
 				view: new ol.View({
 					center: ol.proj.fromLonLat(
-							//[126.77192, 37.654461]
-								[last_data.longitude,last_data.latitude]
+							[126.77192, 37.654461]
 					), 
 					zoom: 11
 				})
@@ -564,9 +600,7 @@ System.out.println("personalLocations6");
 			],
 			view: new ol.View({
 				center: ol.proj.fromLonLat(
-						//[126.77192, 37.654461]
-							[last_data.longitude,last_data.latitude]
-
+						[126.77192, 37.654461]
 				), 
 				zoom: 11
 			})
@@ -584,34 +618,48 @@ System.out.println("personalLocations6");
         }
       
         
-        var vectorSource = new ol.source.Vector({
-			projection : 'EPSG:3857'
-		}); //새로운 벡터 생성
-		var circle = new ol.geom.Circle(pnt, r); //좌표, 반경 넓이
-		var CircleFeature = new ol.Feature(circle); //구조체로 형성
-		vectorSource.addFeatures([ CircleFeature ]); // 벡터소스에 추가	
+
+   		var pnt=new Array();
+
 		
-		var vectorLayer = new ol.layer.Vector({ //추가할 벡터레이어
-			source : vectorSource,
-			style : [ new ol.style.Style({
-				stroke : new ol.style.Stroke({ //두께
-					color : 'rgba( 240, 79, 79 ,0.9)',
-					width : 2
-				}),
-				fill : new ol.style.Fill({ //채우기
+		var seq3=0;
+		data2.forEach(function(item) { //iterate through array...
+			pnt[seq3]= ol.proj.fromLonLat([item.latitude, item.longitude]);
+	
+	   		var vectorSource = new ol.source.Vector({
+				projection : 'EPSG:3857'
+			}); //새로운 벡터 생성
+			
+			var circle = new ol.geom.Circle(pnt[seq3], Number(item.r)); //좌표, 반경 넓이
+			CircleFeature = new ol.Feature(circle); //구조체로 형성
+			vectorSource.addFeatures([ CircleFeature ]); // 벡터소스에 추가	
+			var vectorLayer = new ol.layer.Vector({ //추가할 벡터레이어
+				source : vectorSource,
+				style : [ new ol.style.Style({
+					stroke : new ol.style.Stroke({ //두께
+						color : 'rgba( 240, 79, 79 ,0.9)',
+						width : 2
+					}),
+					fill : new ol.style.Fill({ //채우기
 					color : 'rgba( 255, 133, 133 ,0.5)'
-				}),
-				text : new ol.style.Text({ //텍스트
-					text : 'Yoo!',
-					textAlign : 'center',
-					font : '15px roboto,sans-serif'
+					}),
+					text : new ol.style.Text({ //텍스트
+						text : item.regiment,
+						textAlign : 'center',
+						font : '15px roboto,sans-serif'
 				})
-			}) ]
+				}) ]
+			});
+			if('<%=param2%>' === 'geofon'){	
+				map.addLayer(vectorLayer); 
+				//만들어진 벡터를 추가	
+			}
+			seq3++;
 		});
-		if('<%=param2%>' === 'geofon'){			
-		map.addLayer(vectorLayer); //만들어진 벡터를 추가	
-		}
-		map.addLayer(straitsLayer);
+		
+
+
+			map.addLayer(straitsLayer);
 		
 		
 		
@@ -644,13 +692,39 @@ System.out.println("personalLocations6");
 		var selected = null;
 
 		// Hover popup
-		map.on('pointermove', function (evt)
+		map.on('singleclick', function (evt)
 		{
 		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
 		        return feat;
 		    });
 		    if (map.hasFeatureAtPixel(evt.pixel) === true)
 		    {
+		    	
+		    	var cnt=0;
+		    	var multi='';
+		    	var distance=0;
+		    	data.forEach(function(item) {
+		    		
+		    		
+            		var pnt_data = ol.proj.fromLonLat([feature.get('lon'),feature.get('lat')]);
+            		var pnt_data2 = ol.proj.fromLonLat([item.longitude,item.latitude]);
+
+					var line = new ol.geom.LineString([pnt_data, pnt_data2]);
+					distance = Math.round(line.getLength());
+					console.log("distance:" +distance);
+					if(distance <100){
+						cnt++;
+						multi +='<table style="white-space:nowrap;width:100%;text-align:left;">'
+					    	+ '<tr ><td Colspan="2">' + item.timestamp + '&nbsp&nbsp&nbsp&nbsp'+item.isDevice +'</td></tr>'
+						    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+item.MobileNumber+'</td></tr>'
+						    + '<tr><td>소속</td><td style="text-align:right;">'+item.regimCompany+'</td></tr>'
+						    + '<tr><td>계급성명</td><td style="text-align:right;">'+item.rank+'&nbsp'+item.name+'</td></tr>'
+						    + '<tr><td>군번</td><td style="text-align:right;">'+item.serviceNumber+'</td></tr>'
+						    + '<tr><td>'+item.equipLocation+'</td><td style="text-align:right;">'+item.roomName+'</td></tr>'
+					    	+ '</table>';
+					}
+		    	});	
+		    	
 		        if(selected != feature)
 		        {
 		            // Event coordinates
@@ -660,12 +734,17 @@ System.out.println("personalLocations6");
 		            
 		            var position = ol.proj.transform([feature.get('lon'),feature.get('lat')], 'EPSG:4326', 'EPSG:3857');
 		            if(feature.get('desc') != undefined){
-		            content.innerHTML = feature.get('desc');
+		            	if(cnt >=2){
+		            		content.innerHTML= multi;
+		            	}else{
+				            content.innerHTML = feature.get('desc');	            		
+		            	}
 		            
 			        console.log("feature.get('lon'):"+feature.get('lon'))
 
 		            // Show marker on top
 		         	   MarkerOnTop(feature, true);
+			        
 		            // Show popup
 		         	   popup.setPosition(position);
 		            }
@@ -683,41 +762,7 @@ System.out.println("personalLocations6");
 
 		});
 
-		// Click popup
-		map.on('click', function (evt)
-		{
-		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
-		        selected = feat;
-		        return feat;
-		    });
-		    if (map.hasFeatureAtPixel(evt.pixel) === true)
-		    {
-		        // Event coordinates
-		        // popup.setPosition(evt.coordinate);
-		        // Lon Lat coordinates
-		        var position = ol.proj.transform([feature.get('lon'),feature.get('lat')], 'EPSG:4326', 'EPSG:3857');
-		        contentClick.innerHTML = feature.get('desc');
-				
-		        console.log("feature.get('lon')2:"+feature.get('lon'))
-	            // Show marker on top
-	            if(feature.get('lon') != undefined){
-	         	   MarkerOnTop(feature, true);
-	            // Show popup
-	         	   popup.setPosition(position);
-	            }
-
-		    }
-		    else
-		    {
-		        selected = null;
-		         // Hide markers zindex 999
-		        straitSource.getFeatures().forEach((f) => {
-		            MarkerOnTop(f, false);
-		        });
-		        popupClick.setPosition(undefined);
-		    }
-		});
-
+		
 		function check(){
 			var sc = document.search_form.search_check.value;
 			var st = document.search_form.search_this.value;
@@ -760,6 +805,8 @@ System.out.println("personalLocations6");
 			else return true;
 		}
     
+		
+		
 	    function regimentSelectChange(e) {
 	    	
 	    	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
@@ -814,7 +861,7 @@ System.out.println("personalLocations6");
 			window.history.back();
 		}		
 		
-		var search = ['personal', 'status', 'equip', 'vihicle', 'gis_setting','Scale'];
+		var search = ['personal', 'status', 'equip', 'Scale'];
 		
 		function showSearch(id){
 			
@@ -853,23 +900,30 @@ System.out.println("personalLocations6");
 		}
 
 		
-		function postData(url , data) {
-			  // Default options are marked with *
-			    return fetch(url, {
-			        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-			        crossOrigin: true,
-			        headers: {
-			            'Content-Type': 'json',
-			            // 'Content-Type': 'application/x-www-form-urlencoded',
-			        },
+		function getTimeStamp() {
+			  var d = new Date();
+			  var s =
+			    leadingZeros(d.getFullYear(), 4) + '-' +
+			    leadingZeros(d.getMonth() + 1, 2) + '-' +
+			    leadingZeros(d.getDate(), 2) + ' ' +
 
-			        body: data, // body data type must match "Content-Type" header
-			    })
-			    .then(response => response.json()); // parses JSON response into native JavaScript objects
+			    leadingZeros(d.getHours(), 2) + ':' +
+			    leadingZeros(d.getMinutes(), 2) + ':' +
+			    leadingZeros(d.getSeconds(), 2);
+
+			  return s;
 			}
-		
-		
 
+			function leadingZeros(n, digits) {
+			  var zero = '';
+			  n = n.toString();
+
+			  if (n.length < digits) {
+			    for (i = 0; i < digits - n.length; i++)
+			      zero += '0';
+			  }
+			  return zero + n;
+			}
 		
 		function addPointGeom(data) {
 			
@@ -878,35 +932,80 @@ System.out.println("personalLocations6");
 			data.forEach(function(item) { //iterate through array...
 
 				seq++;
-				
+
 				var longitude = item.longitude, latitude = item.latitude, idx = item.idx
-								, userKey = item.userKey, timestamp = item.timestamp
-								, regiment = item.regiment, duty = item.duty, name = item.name
-								, regimCompany = item.regimCompany, rank = item.rank
-								, serviceNumber = item.serviceNumber;
-				
+				, userKey = item.userKey, timestamp = item.timestamp
+				, regiment = item.regiment, regimCompany = item.regimCompany
+				, serviceNumber = item.serviceNumber,isDevice=item.isDevice
+				, duty = item.duty, name = item.name, rank = item.rank
+				,mobileNumber=item.MobileNumber,roomName=item.roomName,equipLocation=item.equipLocation;
 				//var longitude = data.longitude, latitude = data.latitude, idx = data.idx
 						//	, userKey = data.userKey, timestamp = data.timestamp;
 				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
 				var time = "<%=lastTimestamp%>";
 				
 				var pnt_data = ol.proj.fromLonLat([longitude, latitude]);
+				var line;
+				var distance;
+				var r2;
 
-				var line = new ol.geom.LineString([pnt, pnt_data]);
-				var distance = Math.round(line.getLength());
+
+		   		var seq2 = 0;
+		   		data2.forEach(function(item) { //iterate through array...
+		  	 		if(regiment == item.regiment){
+   						line = new ol.geom.LineString([pnt[seq2], pnt_data]);
+   						distance = Math.round(line.getLength());
+   						r2=Number(item.r);
+   					}	
+		   			seq2++;
+		   		}); 		
+		   		
+				var day1= new Date(timestamp);
+				var day2= new Date(getTimeStamp());
+				var difference= Math.abs(day2-day1);
+				days = difference/(1000 * 3600 * 24);
+
+				console.log(getTimeStamp());
+				console.log(difference);					
+				console.log(timestamp);
 				
-				if(distance < r){
+				if(days<1 && '<%=param2%>' == 'geofoff'){
+					
+					var MarkerIcon = new ol.style.Icon({
+			            anchor: [0.5, 20],
+			            anchorXUnits: 'fraction',
+			            anchorYUnits: 'pixels',
+			            src: 'image/marker_bl_01.png',
+				        text: 'P',
+			            scale: 1.2
+			        });
+					console.log(days);
+				}else if('<%=param2%>' == 'geofoff'){
+						
+					
+					var MarkerIcon = new ol.style.Icon({
+			            anchor: [0.5, 20],
+			            anchorXUnits: 'fraction',
+			            anchorYUnits: 'pixels',
+			            src: 'image/marker_yl_01.png',
+			            scale: 1.2
+				        });
+					console.log(days);
+
+				}else if( distance < r2){
 					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
 			            anchorYUnits: 'pixels',
 			            src: 'image/marker_bl.png',
+				        text: 'P',
 			            scale: 1.2
 			        });
 					
 					
-				} else {
+				}else
+				{
 
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
@@ -925,12 +1024,12 @@ System.out.println("personalLocations6");
 						url: 'http://110.10.130.51:5002/Emergency/EventStatus/EventStatusSave',
 						contentType: "application/json; charset=utf-8",
 						method: 'POST',
-						data: JSON.stringify(data),
+						data: JSON.stringify(item),
 						dataType: "json",
 						accept: "application/json",
 						success: function(response) {
 							// success handle
-								console.log(JSON.stringify(data));
+								console.log(JSON.stringify(item));
 								console.log(JSON.stringify(response));
 							},
 						error: function(response) {
@@ -949,21 +1048,27 @@ System.out.println("personalLocations6");
 				    type: 'Point',
 				    lon: longitude,
 				    lat: latitude,
-				    desc: '<table style="white-space:nowrap;width:100%;text-align:left">'
-					    + '<tr><td>' + userKey + '</td></tr>'
-					    + '<tr><td>' + regimCompany + '</td></tr>'
-					    + '<tr><td>' + rank + '&nbsp' + name + '&nbsp' + duty + '</td></tr>'
-					    + '<tr><td>' + serviceNumber + '</td></tr>'
-				    	+ '<tr><td>' + timestamp + '</td></tr>'
+				    desc: '<table style="white-space:nowrap;width:100%;text-align:left;">'
+				    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
+					    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
+					    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
+					    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
+					    + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+					    + '<tr><td>'+equipLocation+'</td><td style="text-align:right;">'+roomName+'</td></tr>'
 				    	+ '</table>'
 				});
 				
-				iconStyle = new ol.style.Style({
+				
+				
+				var iconStyle = new ol.style.Style({
 				    image: MarkerIcon,
 				    text: new ol.style.Text({
 				        //scale: 1.5,
+				        font: '7px bold',
+					    text: 'P',
 				        fill: new ol.style.Fill({
-				          color: "0"
+				          color: "0",
+				          
 				        }),
 				        stroke: new ol.style.Stroke({
 				          color: "#fff",
@@ -973,20 +1078,18 @@ System.out.println("personalLocations6");
 				      })
 				});
 					
-					var iconStyle = new ol.style.Style({
-					    image: MarkerIcon,
-					});
+					
 					
 					// Add icon style
 					iconFeature.setStyle(iconStyle);
 					straitSource.addFeature(iconFeature);
 					MarkerOnTop(iconFeature, true);
-			
+
 		});		
 		
 	}
 
-
+		
 		addPointGeom(data);
 	
 

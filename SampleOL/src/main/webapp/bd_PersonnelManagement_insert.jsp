@@ -294,6 +294,9 @@
 		 <label class="btn btn-primary btn-file" id="fileEdit" style="display: none;">
    	 수정 <input type="file" id="picturefile" accept="image/jpg,image/jpeg" style="display: none;" onchange="onFileSelected(event)">
 		</label>
+		<label class="btn btn-primary btn-file" id="fileDelete" style="display: none;" >
+   	 삭제 
+		</label>
 	  </td>
       <td class="colt" >생년월일</td>
       <td class="col" ><input type="date" id="birth" ></td>
@@ -313,7 +316,7 @@ $(document).ready(function() {
  	$('#reg').val('<%=regp%>').prop("selected", true);
 	regSelectChange('<%=regp%>');
 
-	  	showSearch('fileAdd');
+	  	showSearch('fileDelete');
 
 
 	  getTimeStamp2();
@@ -321,7 +324,9 @@ $(document).ready(function() {
 	  $('#reg').on('change', function() {
 			regSelectChange($("#reg").val());
 		 });
-
+	  $('#fileDelete').on('click', function() {
+		  showSearch("fileDelete");
+		 });
   
  // setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
 
@@ -350,28 +355,30 @@ $(document).ready(function() {
 
 		  reader.readAsDataURL(selectedFile); 
 
-		  	showSearch('fileEdit');
+		  	showSearch('fileAdd');
 
 
 		}
 	
 
 
-	var search = ['fileAdd', 'fileEdit'];
 
 	
 	function showSearch(id){
 		console.log(id);
 		console.log(document.getElementById(id).style.display);
-		if(document.getElementById(id).style.display == "none"){
-			document.getElementById(id).style.display="block";
-			for(i=0; i<search.length; i++){
-				if(search[i] != id){
-					document.getElementById(search[i]).style.display="none";
-				}	
-			}
-		} else {
-			document.getElementById(id).style.display="none";
+		if(id == "fileAdd"){
+			document.getElementById('fileEdit').style.display="block";
+			document.getElementById('fileDelete').style.display="block";
+			document.getElementById('fileAdd').style.display="none";
+		}else if(id == "fileDelete"){
+			document.getElementById('fileEdit').style.display="none";
+			document.getElementById('fileDelete').style.display="none";
+			document.getElementById('fileAdd').style.display="block";
+			document.getElementById("picturefile").value=null;
+			document.getElementById("picture").src="";
+			document.getElementById("picture").title="";
+
 		}
 		
 		//window.open("popup.jsp","popup","width=400, height=300, left=100, top=50");
@@ -556,7 +563,7 @@ function pmUpdate(){
 	});
 	
 }
- 
+
 function pwReset(){
 	document.getElementById("pw").value='1';
 	data[0].Password=$('#pw').val();

@@ -139,7 +139,6 @@
 <style>
 
     .table {
-      table-layout:fixed;
       width: 100%;
       font-size: 1.1rem;
       border-collapse: collapse;
@@ -219,7 +218,7 @@
 <script src="js/jquery-3.6.0.min.js"></script>
 <body>
 <div>
-<span class="left"><input type="text" id="now" readonly></span>
+<span class="left"><input type="text" id="now" readonly><font>&nbsp;&nbsp;총 인원수: <%=cnt %></font> </span>
 <span class="title">회원정보 리스트</span>
 <span class="right">
 <input type="button" value="계정생성" onClick="location.href='bd_PersonnelManagement_insert.jsp'" style="width:100px;height:40px;">
@@ -272,7 +271,7 @@
      	if(personnelmanagements.get(i).getPicture().isEmpty())
       	out.println("<img src=\"\" width=\"auto\" height=\"90\" />");
      	else
-  		out.println("<img src=\"data:image/jpg;base64, "+personnelmanagements.get(i).getPicture()+"\" width=\"auto\" height=\"90\" />");
+  		out.println("<img src=\"data:image/jpg;base64, "+personnelmanagements.get(i).getPicture()+"\" style=\"max-width: 120px; max-height:90px\" />");
      	out.println("</td>");
      %>
       <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='bd_PersonnelManagement_edit.jsp?sn=<%=personnelmanagements.get(i).getServiceNumber()%>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deletePM(<%=i %>)"/></td>
@@ -331,7 +330,7 @@
  
     </tr>
 </table>
- 
+
 
 <script type="text/javascript">
 

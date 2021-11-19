@@ -687,7 +687,7 @@
 		var selected = null;
 
 		// Hover popup
-		map.on('pointermove', function (evt)
+		map.on('singleclick', function (evt)
 		{
 		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
 		        return feat;
