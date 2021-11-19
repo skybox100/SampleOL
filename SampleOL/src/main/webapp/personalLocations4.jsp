@@ -699,7 +699,8 @@ System.out.println("personalLocations4");
 			// Add icon style
 			iconFeature.setStyle(iconStyle);
 			straitSource.addFeature(iconFeature);
-      
+			MarkerOnTop(iconFeature, true);
+
 		};		
 		
 		addPointGeom(data);
