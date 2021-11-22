@@ -445,7 +445,7 @@ System.out.println("personalLocations3");
 		var selected = null;
 
 		// Hover popup
-		map.on('singleclick', function (evt)
+		map.on('click', function (evt)
 		{
 		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
 		        return feat;

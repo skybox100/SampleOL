@@ -389,7 +389,7 @@
 			<tr>
 				<td>소속</td>
 				<td>
-					<select id="reg" name ="reg" onchange="regimentSelectChange(this)">
+					<select id="reg" name ="reg" onchange="regimentSelectChange(this.value)">
 						<option>전체</option>
 						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
 						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
@@ -414,7 +414,7 @@
 			<tr>
 				<td class="block">소속</td>
 				<td>
-					<select id="equip_regiment" name="equip_regiment" onchange="eRegimentSelectChange(this)">
+					<select id="equip_regiment" name="equip_regiment" onchange="eRegimentSelectChange(this.value)">
 						<option>전체</option>
 						<%for(int i=0; i<totalEquipReg.size(); i++){ %>
 	    				<option value=<%=totalEquipReg.get(i) %>><%=totalEquipReg.get(i) %></option>
@@ -534,6 +534,9 @@
         
         $(document).ready(function() 
         		{ 
+        			regimentSelectChange($('#reg option:selected').val());
+					eRegimentSelectChange($('#equip_regiment option:selected').val());
+        	
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
         		    { 
         		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
@@ -693,7 +696,7 @@
 		var selected = null;
 
 		// Hover popup
-		map.on('singleclick', function (evt)
+		map.on('click', function (evt)
 		{
 		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
 		        return feat;
@@ -811,18 +814,18 @@
 		
 		
 	    function regimentSelectChange(e) {
-	    	
+	    	console.log(e);
 	    	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	    	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
 	    	var rc4 = ['전체'];
 
 	    	var target = document.getElementById("regim_company");
 	
-	    	if(e.value == "28여단") var d = rc0;
-	    	else if(e.value == "28-1대대") var d = rc1;
-	    	else if(e.value == "28-2대대") var d = rc2;
-	    	else if(e.value == "28-3대대") var d = rc3;
-	    	else if(e.value == "전체") var d = rc4;
+	    	if(e == "28여단") var d = rc0;
+	    	else if(e == "28-1대대") var d = rc1;
+	    	else if(e == "28-2대대") var d = rc2;
+	    	else if(e == "28-3대대") var d = rc3;
+	    	else if(e == "전체") var d = rc4;
 
 	
 	    	target.options.length = 0;
@@ -836,7 +839,7 @@
 	    }
 	    
 		function eRegimentSelectChange(e) {
-	    	
+			console.log(e);
 	    	var tet0 = <%=tet0%>; var tet1 = <%=tet1%>;  
 	    	var tet2 = <%=tet2%>;
 	    	var tet3 = <%=tet3%>;
@@ -844,11 +847,11 @@
 	    	
 	    	var target = document.getElementById("equip_type");
 	
-	    	if(e.value == "28여단") var d = tet0;
-	    	else if(e.value == "28-1대대") var d = tet1;
-	    	else if(e.value == "28-2대대") var d = tet2;
-	    	else if(e.value == "28-3대대") var d = tet3;
-	    	else if(e.value == "전체") var d = tet4;
+	    	if(e == "28여단") var d = tet0;
+	    	else if(e == "28-1대대") var d = tet1;
+	    	else if(e == "28-2대대") var d = tet2;
+	    	else if(e == "28-3대대") var d = tet3;
+	    	else if(e == "전체") var d = tet4;
 
 	    	target.options.length = 0;
 	
