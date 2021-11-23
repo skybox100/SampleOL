@@ -17,8 +17,10 @@
 	String rc="전체";
 	String sn="전체";
 
-	if(request.getParameter("gis_setting")!= null && request.getParameter("gis_setting2")!=null){
+	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
+	}
+	if(request.getParameter("gis_setting2")!=null){
 		param2 = request.getParameter("gis_setting2");	
 	}
 	if(request.getParameter("sn")!= null){
