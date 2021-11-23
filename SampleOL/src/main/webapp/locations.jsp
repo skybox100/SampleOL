@@ -718,7 +718,7 @@
 					var line = new ol.geom.LineString([pnt_data, pnt_data2]);
 					distance = Math.round(line.getLength());
 					console.log("distance:" +distance);
-					if(distance <100 & cnt <5){
+					if(distance <100 & cnt <4 & distance >0){
 						cnt++;
 						multi +='<table style="white-space:nowrap;width:100%;text-align:left;">'
 					    	+ '<tr ><td Colspan="2">' + item.timestamp + '&nbsp&nbsp&nbsp&nbsp'+item.isDevice +'</td></tr>'
@@ -730,6 +730,8 @@
 					    	+ '</table><br>';
 
 					}
+					
+					
 		    	});	
 		    	
 		        if(selected != feature)
@@ -742,7 +744,7 @@
 		            var position = ol.proj.transform([feature.get('lon'),feature.get('lat')], 'EPSG:4326', 'EPSG:3857');
 		            if(feature.get('desc') != undefined){
 		            	if(cnt >=2){
-		            		content.innerHTML= multi;
+		            		content.innerHTML= multi+feature.get('desc');
 		            	}else{
 				            content.innerHTML = feature.get('desc');	            		
 		            	}
