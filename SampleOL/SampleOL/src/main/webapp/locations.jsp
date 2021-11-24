@@ -11,14 +11,16 @@
 <%@ page import="com.google.gson.*" %>
 <%@ page import="java.io.*, java.util.*" %>
 <%
-	String param = "geofence";
+	String param = "satellite_map";
 	String param2 = "geofoff";
 	String reg="전체";
 	String rc="전체";
 	String sn="전체";
 
-	if(request.getParameter("gis_setting")!= null && request.getParameter("gis_setting2")!=null){
+	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
+	}
+	if(request.getParameter("gis_setting2")!=null){
 		param2 = request.getParameter("gis_setting2");	
 	}
 	if(request.getParameter("sn")!= null){
@@ -368,6 +370,8 @@
 		  			<label for="geofon">GeoF-ON</label>
 		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
 		 			<label for="geofoff">GeoF-OFF</label>
+					<input type="radio" id="geofal" name="gis_setting2" class="gis_setting2" value="geofal">
+		 			<label for="geofal">GeoF-Al</label>
 		 		</font>
 				</td>
 			</tr>
@@ -389,7 +393,7 @@
 			<tr>
 				<td>소속</td>
 				<td>
-					<select id="reg" name ="reg" onchange="regimentSelectChange(this)">
+					<select id="reg" name ="reg" onchange="regimentSelectChange(this.value)">
 						<option>전체</option>
 						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
 						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
@@ -414,7 +418,7 @@
 			<tr>
 				<td class="block">소속</td>
 				<td>
-					<select id="equip_regiment" name="equip_regiment" onchange="eRegimentSelectChange(this)">
+					<select id="equip_regiment" name="equip_regiment" onchange="eRegimentSelectChange(this.value)">
 						<option>전체</option>
 						<%for(int i=0; i<totalEquipReg.size(); i++){ %>
 	    				<option value=<%=totalEquipReg.get(i) %>><%=totalEquipReg.get(i) %></option>
@@ -484,6 +488,8 @@
 		 			 <input type="radio" name="gis_setting" value="satellite_map" class="gis_setting3"  style="display:none">
 		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofon" style="display:none">
 		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofoff" checked style="display:none">	
+		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofoal" style="display:none">	
+		 			
 					<input type="submit" id="submit2" value=" 설정 ">
 				</font>
 		</form>
@@ -534,6 +540,9 @@
         
         $(document).ready(function() 
         		{ 
+        			regimentSelectChange($('#reg option:selected').val());
+					eRegimentSelectChange($('#equip_regiment option:selected').val());
+        	
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
         		    { 
         		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
@@ -547,6 +556,8 @@
 						var input=document.getElementById('search_this');
 						input.value=null;
                 	 }) 
+                	
+
         
         		});
 
@@ -566,12 +577,26 @@
    		
    		 var data = <%=multi_marker%>;
         // var data = <%=last_marker%>;
-   		 var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"5000","regiment":"9사단"}
+
+        var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"1000","regiment":"9사단"}
    		 ,{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}
-   		 ,{"latitude":"126.82623","longitude":"37.77812","r":"2000","regiment":"28-1대대"}
-   		 ,{"latitude":"126.79989","longitude":"37.77175","r":"2000","regiment":"28-2대대"}
-   		 ,{"latitude":"126.765228","longitude":"37.834637","r":"2000","regiment":"28-3대대"}];
+   		 ,{"latitude":"126.82623","longitude":"37.77812","r":"1000","regiment":"28-1대대"}
+   		 ,{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}
+   		 ,{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
 		// var data2=<%=circle_marker%>;
+   		var param2='<%=param2%>'
+
+        if('<%=reg%>' == 'RG-280')
+        	data2=[{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}];
+        else if('<%=reg%>' == 'RG-281')
+        	data2=[{"latitude":"126.82623","longitude":"37.77812","r":"1000","regiment":"28-1대대"}];
+
+        else if('<%=reg%>' == 'RG-282')
+        	data2=[{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}];
+
+        else if('<%=reg%>' == 'RG-283')
+        	data2=[{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
+
   	    var straitSource = new ol.source.Vector({ wrapX: true });
  	    var straitsLayer = new ol.layer.Vector({
  	        source: straitSource
@@ -651,7 +676,7 @@
 				})
 				}) ]
 			});
-			if('<%=param2%>' === 'geofon'){	
+			if('<%=param2%>' === 'geofon' || '<%=param2%>' === 'geofal'){	
 				map.addLayer(vectorLayer); 
 				//만들어진 벡터를 추가	
 			}
@@ -693,7 +718,7 @@
 		var selected = null;
 
 		// Hover popup
-		map.on('singleclick', function (evt)
+		map.on('click', function (evt)
 		{
 		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
 		        return feat;
@@ -713,7 +738,7 @@
 					var line = new ol.geom.LineString([pnt_data, pnt_data2]);
 					distance = Math.round(line.getLength());
 					console.log("distance:" +distance);
-					if(distance <100 & cnt <5){
+					if(distance <100 & cnt <4 & distance >0){
 						cnt++;
 						multi +='<table style="white-space:nowrap;width:100%;text-align:left;">'
 					    	+ '<tr ><td Colspan="2">' + item.timestamp + '&nbsp&nbsp&nbsp&nbsp'+item.isDevice +'</td></tr>'
@@ -725,6 +750,8 @@
 					    	+ '</table><br>';
 
 					}
+					
+					
 		    	});	
 		    	
 		        if(selected != feature)
@@ -737,7 +764,7 @@
 		            var position = ol.proj.transform([feature.get('lon'),feature.get('lat')], 'EPSG:4326', 'EPSG:3857');
 		            if(feature.get('desc') != undefined){
 		            	if(cnt >=2){
-		            		content.innerHTML= multi;
+		            		content.innerHTML= multi+feature.get('desc');
 		            	}else{
 				            content.innerHTML = feature.get('desc');	            		
 		            	}
@@ -811,18 +838,18 @@
 		
 		
 	    function regimentSelectChange(e) {
-	    	
+	    	console.log(e);
 	    	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	    	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
 	    	var rc4 = ['전체'];
 
 	    	var target = document.getElementById("regim_company");
 	
-	    	if(e.value == "28여단") var d = rc0;
-	    	else if(e.value == "28-1대대") var d = rc1;
-	    	else if(e.value == "28-2대대") var d = rc2;
-	    	else if(e.value == "28-3대대") var d = rc3;
-	    	else if(e.value == "전체") var d = rc4;
+	    	if(e == "28여단") var d = rc0;
+	    	else if(e == "28-1대대") var d = rc1;
+	    	else if(e == "28-2대대") var d = rc2;
+	    	else if(e == "28-3대대") var d = rc3;
+	    	else if(e == "전체") var d = rc4;
 
 	
 	    	target.options.length = 0;
@@ -836,7 +863,7 @@
 	    }
 	    
 		function eRegimentSelectChange(e) {
-	    	
+			console.log(e);
 	    	var tet0 = <%=tet0%>; var tet1 = <%=tet1%>;  
 	    	var tet2 = <%=tet2%>;
 	    	var tet3 = <%=tet3%>;
@@ -844,11 +871,11 @@
 	    	
 	    	var target = document.getElementById("equip_type");
 	
-	    	if(e.value == "28여단") var d = tet0;
-	    	else if(e.value == "28-1대대") var d = tet1;
-	    	else if(e.value == "28-2대대") var d = tet2;
-	    	else if(e.value == "28-3대대") var d = tet3;
-	    	else if(e.value == "전체") var d = tet4;
+	    	if(e == "28여단") var d = tet0;
+	    	else if(e == "28-1대대") var d = tet1;
+	    	else if(e == "28-2대대") var d = tet2;
+	    	else if(e == "28-3대대") var d = tet3;
+	    	else if(e == "전체") var d = tet4;
 
 	    	target.options.length = 0;
 	
@@ -932,6 +959,14 @@
 			
 			var seq = 0;
 			
+			 if( param2 == 'geofal'){
+					if(confirm("이탈 메세지를 발송하시겠습니까?")){
+					}else{
+						param2 = 'geofon';						
+					}
+         	 }
+			
+			console.log("param2:"+param2);
 			data.forEach(function(item) { //iterate through array...
 
 				seq++;
@@ -972,7 +1007,8 @@
 				console.log(difference);					
 				console.log(timestamp);
 				
-				if(days<1 && '<%=param2%>' == 'geofoff'){
+				
+				if(days<1 && param2 == 'geofoff'){
 					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
@@ -983,7 +1019,7 @@
 			            scale: 1.2
 			        });
 					console.log(days);
-				}else if('<%=param2%>' == 'geofoff'){
+				}else if(param2 == 'geofoff'){
 						
 					
 					var MarkerIcon = new ol.style.Icon({
@@ -995,8 +1031,9 @@
 				        });
 					console.log(days);
 
-				}else if( distance < r2){
-					
+				//}else if(isDevice =='W-G' || distance < r2){
+				}else if(distance < r2){
+
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
@@ -1007,9 +1044,20 @@
 			        });
 					
 					
-				}else
-				{
+				}else if(param2 == 'geofon'){
 
+					var MarkerIcon = new ol.style.Icon({
+			            anchor: [0.5, 20],
+			            anchorXUnits: 'fraction',
+			            anchorYUnits: 'pixels',
+			            src: 'image/marker_rd.png',
+			            scale: 1.2
+			        });
+					
+
+
+				}else if(param2 == 'geofal'){
+					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
@@ -1020,7 +1068,6 @@
 					
 					//alert("경계를 넘었습니다.");
 					console.log(data);
-					if('<%=param2%>'=== 'geofon'){			
 
 					
 					$.ajax({
@@ -1041,7 +1088,6 @@
 							}	
 					});
 					
-					}
 
 				}
 				

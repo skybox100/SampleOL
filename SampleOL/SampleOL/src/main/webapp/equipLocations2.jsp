@@ -426,7 +426,7 @@
 		var selected = null;
 
 		// Hover popup
-		map.on('singleclick', function (evt)
+		map.on('click', function (evt)
 		{
 		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
 		        return feat;
@@ -584,7 +584,8 @@
 				// Add icon style
 				iconFeature.setStyle(iconStyle);
 				straitSource.addFeature(iconFeature);
-	        
+				MarkerOnTop(iconFeature, true);
+
 			});
 				
 		}

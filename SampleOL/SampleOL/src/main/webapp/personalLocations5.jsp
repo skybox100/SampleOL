@@ -534,7 +534,7 @@ System.out.println("personalLocations5");
 		var selected = null;
 
 		// Hover popup
-		map.on('singleclick', function (evt)
+		map.on('click', function (evt)
 		{
 		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
 		        return feat;
@@ -566,7 +566,36 @@ System.out.println("personalLocations5");
 
 		});
 
-		
+		// Click popup
+		map.on('click', function (evt)
+		{
+		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
+		        selected = feat;
+		        return feat;
+		    });
+		    if (map.hasFeatureAtPixel(evt.pixel) === true)
+		    {
+		        // Event coordinates
+		        // popup.setPosition(evt.coordinate);
+		        // Lon Lat coordinates
+		        var position = ol.proj.transform([feature.get('lon'),feature.get('lat')], 'EPSG:4326', 'EPSG:3857');
+		        contentClick.innerHTML = feature.get('desc');
+		        // Show marker on top
+		        MarkerOnTop(feature, true);
+		        // Show Popup
+		        popupClick.setPosition(position);
+		    }
+		    else
+		    {
+		        selected = null;
+		         // Hide markers zindex 999
+		        straitSource.getFeatures().forEach((f) => {
+		            MarkerOnTop(f, false);
+		        });
+		        popupClick.setPosition(undefined);
+		    }
+		});
+
 		// Show marker on top
 		function MarkerOnTop(feature, show = false)
 		{
@@ -711,7 +740,7 @@ System.out.println("personalLocations5");
 			// Add icon style
 			iconFeature.setStyle(iconStyle);
 			straitSource.addFeature(iconFeature);
-      
+			MarkerOnTop(iconFeature, true);
 		};		
 		
 		addPointGeom(data);

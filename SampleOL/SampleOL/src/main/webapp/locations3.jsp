@@ -370,8 +370,6 @@
 		  			<label for="geofon">GeoF-ON</label>
 		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
 		 			<label for="geofoff">GeoF-OFF</label>
-					<input type="radio" id="geofal" name="gis_setting2" class="gis_setting2" value="geofal">
-		 			<label for="geofal">GeoF-Al</label>
 		 		</font>
 				</td>
 			</tr>
@@ -488,8 +486,6 @@
 		 			 <input type="radio" name="gis_setting" value="satellite_map" class="gis_setting3"  style="display:none">
 		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofon" style="display:none">
 		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofoff" checked style="display:none">	
-		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofoal" style="display:none">	
-		 			
 					<input type="submit" id="submit2" value=" 설정 ">
 				</font>
 		</form>
@@ -556,8 +552,6 @@
 						var input=document.getElementById('search_this');
 						input.value=null;
                 	 }) 
-                	
-
         
         		});
 
@@ -577,6 +571,7 @@
    		
    		 var data = <%=multi_marker%>;
         // var data = <%=last_marker%>;
+   		
 
         var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"1000","regiment":"9사단"}
    		 ,{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}
@@ -584,7 +579,6 @@
    		 ,{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}
    		 ,{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
 		// var data2=<%=circle_marker%>;
-   		var param2='<%=param2%>'
 
         if('<%=reg%>' == 'RG-280')
         	data2=[{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}];
@@ -676,7 +670,7 @@
 				})
 				}) ]
 			});
-			if('<%=param2%>' === 'geofon' || '<%=param2%>' === 'geofal'){	
+			if('<%=param2%>' === 'geofon'){	
 				map.addLayer(vectorLayer); 
 				//만들어진 벡터를 추가	
 			}
@@ -959,14 +953,6 @@
 			
 			var seq = 0;
 			
-			 if( param2 == 'geofal'){
-					if(confirm("이탈 메세지를 발송하시겠습니까?")){
-					}else{
-						param2 = 'geofon';						
-					}
-         	 }
-			
-			console.log("param2:"+param2);
 			data.forEach(function(item) { //iterate through array...
 
 				seq++;
@@ -1007,8 +993,7 @@
 				console.log(difference);					
 				console.log(timestamp);
 				
-				
-				if(days<1 && param2 == 'geofoff'){
+				if(days<1 && '<%=param2%>' == 'geofoff'){
 					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
@@ -1019,7 +1004,7 @@
 			            scale: 1.2
 			        });
 					console.log(days);
-				}else if(param2 == 'geofoff'){
+				}else if('<%=param2%>' == 'geofoff'){
 						
 					
 					var MarkerIcon = new ol.style.Icon({
@@ -1031,9 +1016,8 @@
 				        });
 					console.log(days);
 
-				//}else if(isDevice =='W-G' || distance < r2){
-				}else if(distance < r2){
-
+				}else if( distance < r2){
+					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
@@ -1044,20 +1028,9 @@
 			        });
 					
 					
-				}else if(param2 == 'geofon'){
+				}else
+				{
 
-					var MarkerIcon = new ol.style.Icon({
-			            anchor: [0.5, 20],
-			            anchorXUnits: 'fraction',
-			            anchorYUnits: 'pixels',
-			            src: 'image/marker_rd.png',
-			            scale: 1.2
-			        });
-					
-
-
-				}else if(param2 == 'geofal'){
-					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
@@ -1068,10 +1041,11 @@
 					
 					//alert("경계를 넘었습니다.");
 					console.log(data);
+					if('<%=param2%>'=== 'geofon'){			
 
-					
+					/*
 					$.ajax({
-						url: 'http://110.10.130.51:5002/Emergency/EventStatus/EventStatusSave',
+						url: 'http://211.9.3.55:5010/Emergency/EventStatus/EventStatusSave',
 						contentType: "application/json; charset=utf-8",
 						method: 'POST',
 						data: JSON.stringify(item),
@@ -1087,7 +1061,8 @@
 								console.log(JSON.stringify(response));
 							}	
 					});
-					
+					*/
+					}
 
 				}
 				

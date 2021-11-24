@@ -543,7 +543,7 @@ function pmUpdate(){
 		data[0].Password=$('#pw').val();
 
 	$.ajax({
-		url: 'http://211.9.3.55:5010/TenSystem/PersonnelManagement/PersonnelManagementNewSave',
+		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),

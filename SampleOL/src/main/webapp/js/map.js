@@ -50,4 +50,3 @@ var view = new ol.View({
 
 
 
-
