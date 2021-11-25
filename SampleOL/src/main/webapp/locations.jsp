@@ -16,6 +16,7 @@
 	String reg="전체";
 	String rc="전체";
 	String sn="전체";
+	int chk=0;
 
 	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
@@ -25,6 +26,12 @@
 	}
 	if(request.getParameter("sn")!= null){
 		sn = request.getParameter("sn") ;
+	}
+	if(request.getParameter("chk")!= null){
+		chk = Integer.parseInt(request.getParameter("chk"));
+	}
+	if(param2.equals("geofal")){
+		chk=chk+1;
 	}
 	
 	String pn=null;
@@ -96,7 +103,6 @@
 		tet1 = gson.toJson(tet_1); 
 		tet2 = gson.toJson(tet_2);
 		tet3 = gson.toJson(tet_3);
-		System.out.println("1");
 		
 %>
 
@@ -545,7 +551,7 @@
         	
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
         		    { 
-        		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
         		    }), 
         		    $("input:radio[name=gis_setting2]").click(function() 
         	    	{ 
@@ -737,7 +743,6 @@
 
 					var line = new ol.geom.LineString([pnt_data, pnt_data2]);
 					distance = Math.round(line.getLength());
-					console.log("distance:" +distance);
 					if(distance <100 & cnt <4 & distance >0){
 						cnt++;
 						multi +='<table style="white-space:nowrap;width:100%;text-align:left;">'
@@ -769,7 +774,6 @@
 				            content.innerHTML = feature.get('desc');	            		
 		            	}
 		            
-			        console.log("feature.get('lon'):"+feature.get('lon'))
 
 		            // Show marker on top
 		         	   MarkerOnTop(feature, true);
@@ -838,7 +842,6 @@
 		
 		
 	    function regimentSelectChange(e) {
-	    	console.log(e);
 	    	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	    	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
 	    	var rc4 = ['전체'];
@@ -863,7 +866,6 @@
 	    }
 	    
 		function eRegimentSelectChange(e) {
-			console.log(e);
 	    	var tet0 = <%=tet0%>; var tet1 = <%=tet1%>;  
 	    	var tet2 = <%=tet2%>;
 	    	var tet3 = <%=tet3%>;
@@ -958,15 +960,16 @@
 		function addPointGeom(data) {
 			
 			var seq = 0;
-			
 			 if( param2 == 'geofal'){
-					if(confirm("이탈 메세지를 발송하시겠습니까?")){
+					if('<%=chk%>' == '1' && confirm("이탈 메세지를 발송하시겠습니까?")){
 					}else{
 						param2 = 'geofon';						
 					}
          	 }
+			 if( param2 == 'geofon2') param2 = 'geofal';						
+
 			
-			console.log("param2:"+param2);
+			
 			data.forEach(function(item) { //iterate through array...
 
 				seq++;
@@ -979,7 +982,9 @@
 				,mobileNumber=item.MobileNumber,roomName=item.roomName,equipLocation=item.equipLocation;
 				//var longitude = data.longitude, latitude = data.latitude, idx = data.idx
 						//	, userKey = data.userKey, timestamp = data.timestamp;
-				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
+				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
+						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
+						name + ":" + rank  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
 				var time = "<%=lastTimestamp%>";
 				
 				var pnt_data = ol.proj.fromLonLat([longitude, latitude]);
@@ -1003,10 +1008,7 @@
 				var difference= Math.abs(day2-day1);
 				days = difference/(1000 * 3600 * 24);
 
-				console.log(getTimeStamp());
-				console.log(difference);					
-				console.log(timestamp);
-				
+			
 				
 				if(days<1 && param2 == 'geofoff'){
 					
@@ -1018,7 +1020,6 @@
 				        text: 'P',
 			            scale: 1.2
 			        });
-					console.log(days);
 				}else if(param2 == 'geofoff'){
 						
 					
@@ -1029,9 +1030,7 @@
 			            src: 'image/marker_yl_01.png',
 			            scale: 1.2
 				        });
-					console.log(days);
 
-				//}else if(isDevice =='W-G' || distance < r2){
 				}else if(distance < r2){
 
 					var MarkerIcon = new ol.style.Icon({
@@ -1044,21 +1043,10 @@
 			        });
 					
 					
-				}else if(param2 == 'geofon'){
-
-					var MarkerIcon = new ol.style.Icon({
-			            anchor: [0.5, 20],
-			            anchorXUnits: 'fraction',
-			            anchorYUnits: 'pixels',
-			            src: 'image/marker_rd.png',
-			            scale: 1.2
-			        });
-					
-
-
 				}else if(param2 == 'geofal'){
-					
-					var MarkerIcon = new ol.style.Icon({
+					if(isDevice == 'W-G' || isDevice == 'W-B'){
+						
+						var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
 			            anchorYUnits: 'pixels',
@@ -1067,7 +1055,6 @@
 			        });
 					
 					//alert("경계를 넘었습니다.");
-					console.log(data);
 
 					
 					$.ajax({
@@ -1088,7 +1075,37 @@
 							}	
 					});
 					
+					}else{
+						var MarkerIcon = new ol.style.Icon({
+				            anchor: [0.5, 20],
+				            anchorXUnits: 'fraction',
+				            anchorYUnits: 'pixels',
+				            src: 'image/marker_bl_01.png',
+					        text: 'P',
+				            scale: 1.2
+				        });
+					}
+				}else if(param2 == 'geofon'){
+					if(isDevice == 'W-G' || isDevice == 'W-B'){
 
+					var MarkerIcon = new ol.style.Icon({
+			            anchor: [0.5, 20],
+			            anchorXUnits: 'fraction',
+			            anchorYUnits: 'pixels',
+			            src: 'image/marker_rd.png',
+			            scale: 1.2
+			        });
+					
+					}else{
+						var MarkerIcon = new ol.style.Icon({
+				            anchor: [0.5, 20],
+				            anchorXUnits: 'fraction',
+				            anchorYUnits: 'pixels',
+				            src: 'image/marker_bl_01.png',
+					        text: 'P',
+				            scale: 1.2
+				        });
+					}
 				}
 				
 

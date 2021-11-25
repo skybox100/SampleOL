@@ -85,7 +85,7 @@ public class Location {
 	
 	public Location(String serviceNumber, String userKey, String name, String rank, String regiment,
 			String regimCompany, String isDevice, String duty, String latitude, String longitude, String timestamp,String EventId,String EventDateTime,String MissionType,String EquipID
-			 ,String EventType,String ObjectType,String EventRemark,String Status,String ActionStartDate,String ActionEndDate,String Actioncontents,String ResultContents,String GroupCode,String IsSendOK,String EquipLocation,String RoomName,String mobileNumber) {
+			 ,String EventType,String ObjectType,String EventRemark,String Status,String ActionStartDate,String ActionEndDate,String Actioncontents,String ResultContents,String GroupCode,String IsSendOK,String EquipLocation,String RoomName,String mobileNumber,String etc) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
@@ -115,7 +115,8 @@ public class Location {
 		this.equipLocation = EquipLocation;
 		this.roomName = RoomName;
 		this.MobileNumber = mobileNumber;
-		
+		this.etc = etc;
+
 	}
 	
 	

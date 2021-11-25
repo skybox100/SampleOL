@@ -1779,7 +1779,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 
 		if(reg.equals("전체") && rc.equals("전체")) {
 			sql = "select p.MobileNumber,p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.*,  "
-					+ "  MissionType, "
+					+ "  MissionType,"
+					+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
 					+ "from dbo.MobileStatus as l "
@@ -1797,7 +1798,6 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				rs = stmt.executeQuery(sql);
 				
 				while(rs.next()) {
-					
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
 					String rank = rs.getString("rank");
@@ -1808,15 +1808,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
 					String longitude = rs.getString("longitude");
-					String timestamp = format.format(rs.getTimestamp("Timestamp"));
-					
+					String timestamp = format.format(rs.getTimestamp("Timestamp"));				
+					String mobileNumber = rs.getString("MobileNumber");
 					String EventId = Long.toString(tick);
 					String EventDateTime = format1.format (System.currentTimeMillis());
 					String MissionType = rs.getString("MissionType");
 					String EquipID = "ESE";
 					String EventType = "EVT-14";
 					String ObjectType = "OBT-02";
-					String EventRemark = "geoF-On 이탈 이벤트 발생";
+					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regiment+"\n"+rank+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 					String Status = "EVS-01";
 					String ActionStartDate = format2.format (System.currentTimeMillis());
 					String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -1826,10 +1826,11 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String GroupCode="XX";
 					String EquipLocation = rs.getString("EquipLocation");
 					String RoomName = rs.getString("RoomName");
-					String mobileNumber = rs.getString("MobileNumber");
+					String etc = rs.getString("etc");
+					tick= tick+1;
 					location = new Location(serviceNumber, userKey, name, rank, regiment,
 								 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber);
+							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
 					
 					//location = new Location(serviceNumber, userKey, name, rank, regiment,
 					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
@@ -1848,6 +1849,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			
 			sql = "select p.MobileNumber,p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.*,  "
 					+ "  MissionType, "
+					+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
 					+ "from dbo.MobileStatus as l "
@@ -1867,7 +1869,6 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
-					
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
 					String rank = rs.getString("rank");
@@ -1878,15 +1879,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
 					String longitude = rs.getString("longitude");
-					String timestamp = format.format(rs.getTimestamp("Timestamp"));
-					
+					String timestamp = format.format(rs.getTimestamp("Timestamp"));				
+					String mobileNumber = rs.getString("MobileNumber");
 					String EventId = Long.toString(tick);
 					String EventDateTime = format1.format (System.currentTimeMillis());
 					String MissionType = rs.getString("MissionType");
 					String EquipID = "ESE";
 					String EventType = "EVT-14";
 					String ObjectType = "OBT-02";
-					String EventRemark = "geoF-On 이탈 이벤트 발생";
+					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regiment+"\n"+rank+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 					String Status = "EVS-01";
 					String ActionStartDate = format2.format (System.currentTimeMillis());
 					String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -1896,10 +1897,11 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String GroupCode="XX";
 					String EquipLocation = rs.getString("EquipLocation");
 					String RoomName = rs.getString("RoomName");
-					String mobileNumber = rs.getString("MobileNumber");
+					String etc = rs.getString("etc");
+					tick= tick+1;
 					location = new Location(serviceNumber, userKey, name, rank, regiment,
 								 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber);
+							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
 					
 					//location = new Location(serviceNumber, userKey, name, rank, regiment,
 					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
@@ -1918,6 +1920,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		} else {
 			sql = "select p.MobileNumber,p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.*,  "
 					+ "  MissionType, "
+					+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
 					+ "from dbo.MobileStatus as l "
@@ -1938,7 +1941,6 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
-					
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
 					String rank = rs.getString("rank");
@@ -1949,15 +1951,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
 					String longitude = rs.getString("longitude");
-					String timestamp = format.format(rs.getTimestamp("Timestamp"));
-					
+					String timestamp = format.format(rs.getTimestamp("Timestamp"));				
+					String mobileNumber = rs.getString("MobileNumber");
 					String EventId = Long.toString(tick);
 					String EventDateTime = format1.format (System.currentTimeMillis());
 					String MissionType = rs.getString("MissionType");
 					String EquipID = "ESE";
 					String EventType = "EVT-14";
 					String ObjectType = "OBT-02";
-					String EventRemark = "geoF-On 이탈 이벤트 발생";
+					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regiment+"\n"+rank+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 					String Status = "EVS-01";
 					String ActionStartDate = format2.format (System.currentTimeMillis());
 					String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -1967,10 +1969,11 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String GroupCode="XX";
 					String EquipLocation = rs.getString("EquipLocation");
 					String RoomName = rs.getString("RoomName");
-					String mobileNumber = rs.getString("MobileNumber");
+					String etc = rs.getString("etc");
+					tick= tick+1;
 					location = new Location(serviceNumber, userKey, name, rank, regiment,
 								 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber);
+							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
 					
 					//location = new Location(serviceNumber, userKey, name, rank, regiment,
 					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
@@ -2752,6 +2755,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 		String sql = "select p.MobileNumber,p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.*,  "
 				+ "  MissionType, "
+				+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
 				+ "from dbo.MobileStatus as l "
@@ -2780,15 +2784,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
 				String longitude = rs.getString("longitude");
-				String timestamp = format.format(rs.getTimestamp("Timestamp"));
-				
+				String timestamp = format.format(rs.getTimestamp("Timestamp"));				
+				String mobileNumber = rs.getString("MobileNumber");
 				String EventId = Long.toString(tick);
 				String EventDateTime = format1.format (System.currentTimeMillis());
 				String MissionType = rs.getString("MissionType");
 				String EquipID = "ESE";
 				String EventType = "EVT-14";
 				String ObjectType = "OBT-02";
-				String EventRemark = "geoF-On 이탈 이벤트 발생";
+				String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regiment+"\n"+rank+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 				String Status = "EVS-01";
 				String ActionStartDate = format2.format (System.currentTimeMillis());
 				String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -2798,10 +2802,11 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String GroupCode="XX";
 				String EquipLocation = rs.getString("EquipLocation");
 				String RoomName = rs.getString("RoomName");
-				String mobileNumber = rs.getString("MobileNumber");
+				String etc = rs.getString("etc");
+				tick= tick+1;
 				location = new Location(serviceNumber, userKey, name, rank, regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber);
+						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
 				
 				//location = new Location(serviceNumber, userKey, name, rank, regiment,
 				//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
@@ -2844,6 +2849,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 		String sql = "select p.ServiceNumber, p.MobileNumber,p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, "
 				+ " MissionType,l.*,  "
+				+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "	
 				+ "from dbo.MobileStatus as l "
@@ -2874,7 +2880,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String latitude = rs.getString("Latitude");
 				String longitude = rs.getString("longitude");
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));
-				
+				String etc = rs.getString("etc");
+
 				String EventId = Long.toString(tick);
 				String EventDateTime = format1.format (System.currentTimeMillis());
 				String MissionType = rs.getString("MissionType");
@@ -2894,7 +2901,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String mobileNumber = rs.getString("MobileNumber");
 				location = new Location(serviceNumber, userKey, name, rank, regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber);
+						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
 				
 				//location = new Location(serviceNumber, userKey, name, rank, regiment,
 				//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);

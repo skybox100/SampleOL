@@ -139,7 +139,7 @@
 <style>
 
     .table {
-      width: 100%;
+      width: 1890px;
       font-size: 1.1rem;
       border-collapse: collapse;
       border-top: 2px solid #19317f;
@@ -188,6 +188,7 @@
    }
 
    div{
+   	   width: 1890px;
        position:relative;
    }
    div span.title{
@@ -229,7 +230,7 @@
 						<%} %>
 	</select>
 	
-  <select id="RegimCompany" style="width: 140px;">
+  <select id="RegimCompany" style="width: 160px;">
    </select>  
 </span>
 </div>
