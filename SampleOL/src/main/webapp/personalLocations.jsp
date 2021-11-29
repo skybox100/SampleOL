@@ -419,8 +419,8 @@
 					console.log("distance:" +distance);
 					if(distance <100 & cnt <4 & distance >0){
 						cnt++;
-						multi +='<table style="white-space:nowrap;width:100%;text-align:left;">'
-					    	+ '<tr ><td Colspan="2">' + item.timestamp + '&nbsp&nbsp&nbsp&nbsp'+item.isDevice +'</td></tr>'
+						multi +='<table style="white-space:nowrap;text-align:left;">'
+					    	+ '<tr ><td Colspan="2">' + item.timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+item.isDevice +'</td></tr>'
 						    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+item.MobileNumber+'</td></tr>'
 						    + '<tr><td>소속</td><td style="text-align:right;">'+item.regimCompany+'</td></tr>'
 						    + '<tr><td>계급성명</td><td style="text-align:right;">'+item.rank+'&nbsp'+item.name+'</td></tr>'
@@ -502,7 +502,9 @@
 							, serviceNumber = item.serviceNumber,isDevice=item.isDevice
 							, duty = item.duty, name = item.name, rank = item.rank
 							,mobileNumber=item.MobileNumber,roomName=item.roomName,equipLocation=item.equipLocation;
-				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
+				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
+						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
+						name + ":" + rank  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
 
 				var time = "<%=lastTimestamp%>";
 				
@@ -522,9 +524,9 @@
 					    type: 'Point',
 					    lon: longitude,
 					    lat: latitude,
-					    desc: '<table style="white-space:nowrap;width:100%;text-align:left;">'
+					    desc: '<table style="white-space:nowrap;text-align:left;">'
 					    	+ '<tr ><td>' + seq +'</td></tr>'
-					    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
+					    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
 						    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 						    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
 						    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
@@ -587,9 +589,9 @@
 			    type: 'Point',
 			    lon: longitude,
 			    lat: latitude,
-			    desc: '<table style="white-space:nowrap;width:100%;text-align:left;">'
+			    desc: '<table style="white-space:nowrap;text-align:left;">'
 			    	+ '<tr ><td>' + 1 +'</td></tr>'
-			    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
+			    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
 				    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 				    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
 				    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'

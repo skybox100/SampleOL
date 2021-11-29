@@ -606,9 +606,9 @@ System.out.println("personalLocations4");
 					    type: 'Point',
 					    lon: longitude,
 					    lat: latitude,
-					    desc: '<table style="white-space:nowrap;width:100%;text-align:left;">'
+					    desc: '<table style="white-space:nowrap;text-align:left;">'
 					    	+ '<tr ><td>' + seq +'</td></tr>'
-					    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
+					    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
 						    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 						    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
 						    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
@@ -668,9 +668,9 @@ System.out.println("personalLocations4");
 			    type: 'Point',
 			    lon: longitude,
 			    lat: latitude,
-			    desc: '<table style="white-space:nowrap;width:100%;text-align:left;">'
+			    desc: '<table style="white-space:nowrap;text-align:left;">'
 			    	+ '<tr ><td>1</td></tr>'
-			    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
+			    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
 				    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 				    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
 				    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'

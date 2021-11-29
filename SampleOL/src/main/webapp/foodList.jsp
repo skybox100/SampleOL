@@ -21,7 +21,9 @@
 	String regp="전체";
 	String sh="전체";
 	String shp="전체";
-	
+	String fd="전체";
+	String fdp="전체";
+
 	DecimalFormat df = new DecimalFormat("###,###");
 
 	
@@ -34,6 +36,11 @@
 		shp = request.getParameter("Storehouse");
 	   
    }
+   
+   if(request.getParameter("food") != null){
+		fd = request.getParameter("food");
+		fdp = request.getParameter("food");
+   }
 
 	
    
@@ -45,21 +52,15 @@
    
 	ArrayList<String> mobileStatusReg = cd.getFoodReg();
 
-	ArrayList<String> foodList = cd.getCodeNameList("Storehouse");	
+	ArrayList<String> foodList = cd.getFoodIndex(reg,sh);	
 
-	ArrayList<String> fc_0 = cd.getFoodStore("28여단");
-	ArrayList<String> fc_1 = cd.getFoodStore("28-1대대");
-	ArrayList<String> fc_2 = cd.getFoodStore("28-2대대");
-	ArrayList<String> fc_3 = cd.getFoodStore("28-3대대");
-	ArrayList<String> fc_4 = cd.getFoodStore("전체");
+	ArrayList<String> Storehouse = cd.getFoodStore(reg);
 
+
+	
 	String fc0; String fc1; String fc2; String fc3; String fc4;
 
-	fc0 = gson.toJson(fc_0);
-	fc1 = gson.toJson(fc_1); 
-	fc2 = gson.toJson(fc_2);
-	fc3 = gson.toJson(fc_3);
-	fc4 = gson.toJson(fc_4);
+
 
 	if(reg.equals("전체") && sh.equals("전체")){
 	} else if(sh.equals("전체")){
@@ -71,7 +72,7 @@
 		sh = cd.getCodeID("Storehouse", sh);
 	}
    
-   foods = cd.getFoodList(reg, sh);
+   foods = cd.getFoodList(reg, sh,fd);
    
    int cnt = foods.size();
    
@@ -186,6 +187,14 @@
 	</select>
 	
   <select id="Storehouse" style="width: 140px;">
+						<%for(int i=0; i<Storehouse.size(); i++) {%>
+						<option value="<%=Storehouse.get(i)%>"><%=Storehouse.get(i)%></option>
+						<%} %>
+   </select>   
+    <select id="foodidx" style="width: 160px;">
+	<%for(int i=0; i<foodList.size(); i++) {%>
+	<option value="<%=foodList.get(i)%>"><%=foodList.get(i)%></option>
+	<%} %>
    </select>   
 </span>
 </div>
@@ -230,14 +239,19 @@
 	$(document).ready(function() {
 	   
 	 	$('#reg').val('<%=regp%>').prop("selected", true);
-		regSelectChange('<%=regp%>');
- 	
+		$('#Storehouse').val('<%=shp%>').prop("selected", true);
+		$('#foodidx').val('<%=fdp%>').prop("selected", true);	
+		
    		 $('#reg').on('change', function() {
-   		     location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse=전체"); 
+   		     location.replace("foodList.jsp?reg="+$('#reg').val()); 
    		 });
    			 $('#Storehouse').on('change', function() {
      	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()); 
    		 });
+   			 
+   			$('#foodidx').on('change', function() {
+        	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()); 
+      		 });
 	 
    	  getTimeStamp2();
     
@@ -274,34 +288,7 @@ function storeSelectChange(e) {
     location.replace("foodList.jsp?reg=<%=regp%>&Storehouse="+e); 
 }
    
-function regSelectChange(e) {
-	
-	var fc0 = <%=fc0%>; var fc1 = <%=fc1%>;  
-	var fc2 = <%=fc2%>; var fc3 = <%=fc3%>;
-	var fc4 = <%=fc4%>;
 
-	var target = document.getElementById("Storehouse");
-
-	if(e == "28여단") var d = fc0;
-	else if(e == "28-1대대") var d = fc1;
-	else if(e == "28-2대대") var d = fc2;
-	else if(e == "28-3대대") var d = fc3;
-	else if(e == "전체") var d = fc4;
-
-
-
-	for (x in d) {
-		var opt = document.createElement("option");
-		opt.value = d[x];
-		opt.innerHTML = d[x];
-		target.appendChild(opt);
-	}
-	
-	
-
-	$('#Storehouse').val('<%=shp%>').prop("selected", true);	
-	
-}
 
 function leadingZeros(n, digits) {
      var zero = '';
@@ -316,7 +303,7 @@ function leadingZeros(n, digits) {
 
  function go_url(){
 
-       location.replace("foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&num=<%=num2%>"); 
+       location.replace("foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&num=<%=num2%>"); 
  
  }
 

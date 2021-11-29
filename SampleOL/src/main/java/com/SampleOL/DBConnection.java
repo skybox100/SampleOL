@@ -159,7 +159,7 @@ public class DBConnection {
     
 	
     
-	public ArrayList<Food> getFoodList(String reg, String sh) {
+	public ArrayList<Food> getFoodList(String reg, String sh,String fd) {
 		
 		String sql = "";
 		Food food = null;
@@ -169,7 +169,7 @@ public class DBConnection {
 		try {
 			con = getConn();				
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
-			if(reg.equals("전체") && sh.equals("전체")) {
+			if(reg.equals("전체") && sh.equals("전체") && fd.equals("전체")) {
 				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
@@ -178,7 +178,7 @@ public class DBConnection {
 						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
 
 
-			}else if(reg.equals("전체")) {
+			}else if(reg.equals("전체") && fd.equals("전체")) {
 				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
@@ -186,7 +186,7 @@ public class DBConnection {
 						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.storehouse = '"+sh+"'"
 						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
-			}else if(sh.equals("전체")) {
+			}else if(sh.equals("전체") && fd.equals("전체")) {
 				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
 
 						+ " from dbo.FoodInventory f "
@@ -195,13 +195,46 @@ public class DBConnection {
 						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.regiment = '"+reg+"'"
 						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
-			}else {
+			}else if(sh.equals("전체") && reg.equals("전체")) {
+				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+						+ " from dbo.FoodInventory f "
+						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ " where f.foodName = '"+fd+"'"
+						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
+			}else if(reg.equals("전체")) {
+				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+						+ " from dbo.FoodInventory f "
+						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ " where f.storehouse = '"+sh+"' and f.foodName = '"+fd+"'"
+						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
+			}else if(sh.equals("전체")) {
+				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+
+						+ " from dbo.FoodInventory f "
+						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ " where f.regiment = '"+reg+"' and f.foodName = '"+fd+"'"
+						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
+			}else if(fd.equals("전체")) {
 				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
 						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.regiment = '"+reg+"' and f.storehouse = '"+sh+"'"
+						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
+			}else {
+				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+						+ " from dbo.FoodInventory f "
+						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ " where f.regiment = '"+reg+"' and f.storehouse = '"+sh+"' and f.foodName = '"+fd+"'"
 						+ "	order by regimentCode desc,storehouseCode desc, qRcodeIdx desc; ";
 			}
 			stmt = con.createStatement();
@@ -3717,7 +3750,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
 				+ "WHERE b.CodeName = '"+reg
 				+ "' ORDER BY c.CodeID";
-		
+		/*
 		if(reg.equals("전체")) {
 			sql = "SELECT DISTINCT c.CodeName, c.CodeID "
 					+ "	FROM dbo.FoodInventory AS a "
@@ -3725,7 +3758,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ "	INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
 					+ "	ORDER BY c.CodeID;";
 		}
-		
+		*/
 		ArrayList<String> rcs = new ArrayList<String>();
 		rcs.add("전체");
 		
@@ -3740,6 +3773,73 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String storehouse = rs.getString("CodeName");
 				
 				rcs.add(storehouse);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+			//for(Location l:locations) {
+			//	System.out.println(l.toString());
+			//}
+		
+		return rcs;		
+		
+	}
+	
+	public ArrayList<String> getFoodIndex(String reg,String sh){
+		
+		String sql = "";
+		
+		if(reg.equals("전체") && sh.equals("전체")) {
+			sql = "SELECT DISTINCT a.foodName "
+					+ "FROM dbo.FoodInventory AS a "
+					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
+					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+					+ " ORDER BY a.foodName";
+		}else if(reg.equals("전체")) {
+			sql = "SELECT DISTINCT a.foodName "
+					+ "FROM dbo.FoodInventory AS a "
+					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
+					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+					+ "WHERE c.CodeName = '"+sh 
+					+ "' ORDER BY a.foodName";
+		}else if(sh.equals("전체")) {
+			sql = "SELECT DISTINCT a.foodName "
+					+ "FROM dbo.FoodInventory AS a "
+					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
+					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+					+ "WHERE b.CodeName = '"+reg 
+					+ "' ORDER BY a.foodName";
+		}else {
+			sql = "SELECT DISTINCT a.foodName "
+					+ " FROM dbo.FoodInventory AS a "
+					+ " INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
+					+ " INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+					+ " WHERE b.CodeName = '"+reg + "' and c.CodeName= '"+sh+"'"
+					+ "	ORDER BY a.foodName;";
+		
+		}
+		
+		ArrayList<String> rcs = new ArrayList<String>();
+		rcs.add("전체");
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String foodName = rs.getString("foodName");
+				
+				rcs.add(foodName);
 				
 			}
 		} catch (SQLException e) {

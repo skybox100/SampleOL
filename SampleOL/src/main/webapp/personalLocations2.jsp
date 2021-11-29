@@ -342,7 +342,10 @@
 							, serviceNumber = item.serviceNumber,isDevice=item.isDevice
 							, duty = item.duty, name = item.name, rank = item.rank
 							,mobileNumber=item.MobileNumber,roomName=item.roomName,equipLocation=item.equipLocation;
-				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
+				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
+						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
+						name + ":" + rank  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
+
 				var time = "<%=lastTimestamp%>";
 				
 				if(timestamp == time){
@@ -362,9 +365,9 @@
 					    type: 'Point',
 					    lon: longitude,
 					    lat: latitude,
-					    desc: '<table style="white-space:nowrap;width:100%;text-align:left;">'
+					    desc: '<table style="white-space:nowrap;text-align:left;">'
 					    	+ '<tr ><td>' + seq +'</td></tr>'
-					    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
+					    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
 						    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 						    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
 						    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
@@ -409,9 +412,11 @@
 							, serviceNumber = data.serviceNumber,isDevice=data.isDevice
 							, duty = data.duty, name = data.name, rank = data.rank
 							,mobileNumber=data.MobileNumber,roomName=data.roomName,equipLocation=data.equipLocation;
-				console.log("last point: " + longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
-		
-			var MarkerIcon = new ol.style.Icon({
+				console.log("last point: " +longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
+						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
+						name + ":" + rank  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
+			
+				var MarkerIcon = new ol.style.Icon({
 	            anchor: [0.5, 20],
 	            anchorXUnits: 'fraction',
 	            anchorYUnits: 'pixels',
@@ -424,9 +429,9 @@
 			    type: 'Point',
 			    lon: longitude,
 			    lat: latitude,
-			    desc: '<table style="white-space:nowrap;width:100%;text-align:left;">'
+			    desc: '<table style="white-space:nowrap;text-align:left;">'
 			    	+ '<tr ><td>1</td></tr>'
-			    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
+			    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
 				    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 				    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
 				    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
