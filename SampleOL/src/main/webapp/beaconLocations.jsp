@@ -285,7 +285,7 @@
  
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]").click(function() 
+    		    $("input:radio[name=gis_setting]").change(function() 
     		    { 
     		    	location.replace("beaconLocations.jsp?uuid=<%=uuid%>&gis_setting="+$('input[name=gis_setting]:checked').val());
     		    })
@@ -374,7 +374,7 @@
 		map.addOverlay(popup);
 
 		// Popup showing the position the user clicked
-		var containerClick = document.getElementById('popupClick');
+		var containerClick = document.getElementById('popupCchange);
 		var popupClick = new ol.Overlay({
 		    element: containerClick,
 		    autoPan: true,

@@ -549,11 +549,11 @@
         			regimentSelectChange($('#reg option:selected').val());
 					eRegimentSelectChange($('#equip_regiment option:selected').val());
         	
-        		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
+        		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").change(function() 
         		    { 
         		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
         		    }), 
-        		    $("input:radio[name=gis_setting2]").click(function() 
+        		    $("input:radio[name=gis_setting2]").change(function() 
         	    	{ 
         		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         	    	}) ,

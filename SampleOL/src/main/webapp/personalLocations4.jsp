@@ -410,7 +410,7 @@ System.out.println("personalLocations4");
     
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]").click(function() 
+    		    $("input:radio[name=gis_setting]").change(function() 
     		    { 
     		    	location.replace("personalLocations4.jsp?search_check=<%=sc%>&search_this=<%=st%>&gis_setting="+$('input[name=gis_setting]:checked').val());
     		    })

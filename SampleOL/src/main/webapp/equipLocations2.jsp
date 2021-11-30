@@ -323,7 +323,7 @@
     
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]").click(function() 
+    		    $("input:radio[name=gis_setting]").change(function() 
     		    { 
     		    	location.replace("equipLocations2.jsp?equip_regiment=<%=regp%>&equip_type=<%=etp%>&gis_setting="+$('input[name=gis_setting]:checked').val());
     		    })

@@ -367,7 +367,7 @@
 		     	eRegimentSelectChange('<%=regp %>');
 		     	$('#equipType').val('<%=etp %>').prop("selected", true);
 
-    		    $("input:radio[name=gis_setting]").click(function() 
+    		    $("input:radio[name=gis_setting]").change(function() 
     		    { 
     		    	location.replace("equipLocationsAll.jsp?equipRegiment="+$('#equipRegiment option:selected').val()+"&equipType="+$('#equipType option:selected').val()+"&gis_setting="+$('input[name=gis_setting]:checked').val());
     		    })

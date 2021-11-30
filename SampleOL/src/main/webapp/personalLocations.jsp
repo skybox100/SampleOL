@@ -302,7 +302,7 @@
     
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]" ).click(function() 
+    		    $("input:radio[name=gis_setting]" ).change(function() 
     		    { 
     		    	submit(); 
     		    })

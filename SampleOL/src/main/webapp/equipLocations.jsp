@@ -291,7 +291,7 @@
  
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]").click(function() 
+    		    $("input:radio[name=gis_setting]").change(function() 
     		    { 
     		    	location.replace("equipLocations.jsp?equipId=<%=equipId%>&gis_setting="+$('input[name=gis_setting]:checked').val());
     		    })

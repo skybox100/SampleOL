@@ -346,7 +346,7 @@ System.out.println("personalLocations3");
     
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]" ).click(function() 
+    		    $("input:radio[name=gis_setting]" ).change(function() 
     		    { 
     		    	location.replace("personalLocations3.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&gis_setting="+$('input[name=gis_setting]:checked').val());
 
