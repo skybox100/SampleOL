@@ -260,9 +260,9 @@
 
 $(document).ready(function() {
 	
- 	$('#reg').val('<%=beacons.get(0).getRegimentCode() %>').prop("selected", true);
-	regSelectChange('<%=beacons.get(0).getRegimentCode() %>');
-	$('#RegimCompany').val('<%=beacons.get(0).getRegimCompanyCode()%>').prop("selected", true);	
+ 	$('#reg').val('<%=beacons.get(0).getRegiment() %>').prop("selected", true);
+	regSelectChange('<%=beacons.get(0).getRegiment() %>');
+	$('#RegimCompany').val('<%=beacons.get(0).getRegimCompany()%>').prop("selected", true);	
 
 
 

@@ -260,7 +260,6 @@
       <td class="colt" >부대</td>
       <td class="col" >
       		<select id="reg" name ="reg" style="width: 140px;">
-						<option>전체</option>
 						<%for(int i=0; i<PersonnelReg.size(); i++) {%>
 						<option value="<%=cd.getCodeID("Regiment",PersonnelReg.get(i))%>"><%=PersonnelReg.get(i)%></option>
 						<%} %>
@@ -407,11 +406,9 @@ function regSelectChange(e) {
 	
 	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
-	var rc4 = ['전체'];
 
 	var rcp0 = <%=rcp0%>; var rcp1 = <%=rcp1%>;  
 	var rcp2 = <%=rcp2%>; var rcp3 = <%=rcp3%>;  
-	var rcp4 = ['전체'];
 	var target = document.getElementById("RegimCompany");
 
 	if(e == "RG-280") {
@@ -426,11 +423,8 @@ function regSelectChange(e) {
 	}else if(e == "RG-283") {
 		var d = rc3;
 		var d2= rcp3;
-	}else if(e == "전체"){
-		var d = rc4;
-		var d2= rcp4;
 	}
-
+	
 	 $("#RegimCompany").children('option').remove();
 
 

@@ -7,15 +7,15 @@ public class Beacons {
 	String Uuid;
 	String Latitude;
 	String Longitude;
+	String EquipTypeName;
 	String EquipType;
-	String EquipTypeCode;
 	String EquipId;
 	String ModelName;
 	String Manufacturer;
+	String RegimentName;
 	String Regiment;
-	String RegimentCode;
+	String RegimCompanyName;
 	String RegimCompany;
-	String RegimCompanyCode;
 	String EquipLocation;
 	String RoomName;
 	String RoomNumber;
@@ -29,33 +29,33 @@ public class Beacons {
 
 	@Override
 	public String toString() {
-		return "Beacons [Uuid=" + Uuid + ", Latitude=" + Latitude + ", Longitude=" + Longitude + ", EquipType="
-				+ EquipType + ", EquipTypeCode=" + EquipTypeCode + ", EquipId=" + EquipId + ", ModelName=" + ModelName
-				+ ", Manufacturer=" + Manufacturer + ", Regiment=" + Regiment + ", RegimentCode=" + RegimentCode
-				+ ", RegimCompany=" + RegimCompany + ", RegimCompanyCode=" + RegimCompanyCode + ", EquipLocation="
+		return "Beacons [Uuid=" + Uuid + ", Latitude=" + Latitude + ", Longitude=" + Longitude + ", EquipTypeName="
+				+ EquipTypeName + ", EquipType=" + EquipType + ", EquipId=" + EquipId + ", ModelName=" + ModelName
+				+ ", Manufacturer=" + Manufacturer + ", RegimentName=" + RegimentName + ", Regiment=" + Regiment
+				+ ", RegimCompanyName=" + RegimCompanyName + ", RegimCompany=" + RegimCompany + ", EquipLocation="
 				+ EquipLocation + ", RoomName=" + RoomName + ", RoomNumber=" + RoomNumber + ", Remark=" + Remark
 				+ ", Mgrs=" + Mgrs + "]";
 	}
 
 
 
-	public Beacons(String uuid, String latitude, String longitude, String equipType, String equipTypeCode,
+	public Beacons(String uuid, String latitude, String longitude, String equipTypeName, String equipType,
 			String equipId, String modelName, String manufacturer, String regiment, String regimentCode,
-			String regimCompany, String regimCompanyCode, String equipLocation, String roomName, String roomNumber,
+			String regimCompanyName, String regimCompany, String equipLocation, String roomName, String roomNumber,
 			String remark,String mgrs) {
 		super();
 		Uuid = uuid;
 		Latitude = latitude;
 		Longitude = longitude;
+		EquipTypeName = equipTypeName;
 		EquipType = equipType;
-		EquipTypeCode = equipTypeCode;
 		EquipId = equipId;
 		ModelName = modelName;
 		Manufacturer = manufacturer;
-		Regiment = regiment;
-		RegimentCode = regimentCode;
+		RegimentName = regiment;
+		Regiment = regimentCode;
+		RegimCompanyName = regimCompanyName;
 		RegimCompany = regimCompany;
-		RegimCompanyCode = regimCompanyCode;
 		EquipLocation = equipLocation;
 		RoomName = roomName;
 		RoomNumber = roomNumber;
@@ -83,17 +83,17 @@ public class Beacons {
 	public void setLongitude(String longitude) {
 		Longitude = longitude;
 	}
+	public String getEquipTypeName() {
+		return EquipTypeName;
+	}
+	public void setEquipTypeName(String equipTypeName) {
+		EquipTypeName = equipTypeName;
+	}
 	public String getEquipType() {
 		return EquipType;
 	}
 	public void setEquipType(String equipType) {
 		EquipType = equipType;
-	}
-	public String getEquipTypeCode() {
-		return EquipTypeCode;
-	}
-	public void setEquipTypeCode(String equipTypeCode) {
-		EquipTypeCode = equipTypeCode;
 	}
 	public String getEquipId() {
 		return EquipId;
@@ -113,29 +113,29 @@ public class Beacons {
 	public void setManufacturer(String manufacturer) {
 		Manufacturer = manufacturer;
 	}
+	public String getRegimentName() {
+		return RegimentName;
+	}
+	public void setRegimentName(String regiment) {
+		RegimentName = regiment;
+	}
 	public String getRegiment() {
 		return Regiment;
 	}
-	public void setRegiment(String regiment) {
-		Regiment = regiment;
+	public void setRegiment(String regimentCode) {
+		Regiment = regimentCode;
 	}
-	public String getRegimentCode() {
-		return RegimentCode;
+	public String getRegimCompanyName() {
+		return RegimCompanyName;
 	}
-	public void setRegimentCode(String regimentCode) {
-		RegimentCode = regimentCode;
+	public void setRegimCompanyName(String regimCompanyName) {
+		RegimCompanyName = regimCompanyName;
 	}
 	public String getRegimCompany() {
 		return RegimCompany;
 	}
 	public void setRegimCompany(String regimCompany) {
 		RegimCompany = regimCompany;
-	}
-	public String getRegimCompanyCode() {
-		return RegimCompanyCode;
-	}
-	public void setRegimCompanyCode(String regimCompanyCode) {
-		RegimCompanyCode = regimCompanyCode;
 	}
 	public String getEquipLocation() {
 		return EquipLocation;

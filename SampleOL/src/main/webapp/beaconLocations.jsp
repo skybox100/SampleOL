@@ -36,6 +36,7 @@
 
 		
 	} catch(Exception e) {
+		
 		beaconLocations = cd.getBeaconsList("전체","전체","전체");
 		multi_marker = gson.toJson(beaconLocations);
 		

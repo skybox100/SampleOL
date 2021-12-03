@@ -4,14 +4,14 @@ public class MobileEquip {
 	String MobileNumber;
 	String Regiment;
 	String RegimentCode;
+	String RankName;
 	String Rank;
-	String RankCode;
 	String Name;
 	String ServiceNumber;
 	String MobileType;
 	String JoinDate;
+	String RegimCompanyName;
 	String RegimCompany;
-	String RegimCompanyCode;
 	String ModelnAME;
 	String ManufacturerName;
 	String Remark;
@@ -30,14 +30,14 @@ public class MobileEquip {
 		Remark=remark;
 	}
 	
-	public MobileEquip(String mobileNumber, String regiment, String regimentcode, String regimCompany,String regimCompanyCode,  String name,
+	public MobileEquip(String mobileNumber, String regiment, String regimentcode, String regimCompanyName,String regimCompany,  String name,
 			String serviceNumber, String mobileType,String joinDate,String modelnAME,String manufacturerName, String remark) {
 		super();
 		MobileNumber = mobileNumber;
 		Regiment = regiment;
 		RegimentCode = regimentcode;
+		RegimCompanyName = regimCompanyName;
 		RegimCompany = regimCompany;
-		RegimCompanyCode = regimCompanyCode;
 		Name = name;
 		ServiceNumber = serviceNumber;
 		MobileType = mobileType;
@@ -47,14 +47,14 @@ public class MobileEquip {
 		Remark=remark;
 	}
 	
-	public MobileEquip(String mobileNumber, String regiment, String regimentcode, String regimCompany,String regimCompanyCode,  String name,
-			String serviceNumber, String mobileType,String joinDate,String modelnAME,String manufacturerName, String remark, String rank,String rankCode) {
+	public MobileEquip(String mobileNumber, String regiment, String regimentcode, String regimCompanyName,String regimCompany,  String name,
+			String serviceNumber, String mobileType,String joinDate,String modelnAME,String manufacturerName, String remark, String rankName,String rank) {
 		super();
 		MobileNumber = mobileNumber;
 		Regiment = regiment;
 		RegimentCode = regimentcode;
+		RegimCompanyName = regimCompanyName;
 		RegimCompany = regimCompany;
-		RegimCompanyCode = regimCompanyCode;
 		Name = name;
 		ServiceNumber = serviceNumber;
 		MobileType = mobileType;
@@ -62,8 +62,8 @@ public class MobileEquip {
 		ModelnAME = modelnAME;
 		ManufacturerName=manufacturerName;
 		Remark=remark;
+		RankName = rankName;
 		Rank = rank;
-		RankCode = rankCode;
 	}
 	
 	public String getMobileNumber() {
@@ -108,29 +108,29 @@ public class MobileEquip {
 	public void setJoinDate(String joinDate) {
 		JoinDate = joinDate;
 	}
+	public String getRegimCompanyName() {
+		return RegimCompanyName;
+	}
+	public void setRegimCompanyName(String regimCompanyName) {
+		RegimCompanyName = regimCompanyName;
+	}
 	public String getRegimCompany() {
 		return RegimCompany;
 	}
 	public void setRegimCompany(String regimCompany) {
 		RegimCompany = regimCompany;
 	}
-	public String getRegimCompanyCode() {
-		return RegimCompanyCode;
+	public String getRankName() {
+		return RankName;
 	}
-	public void setRegimCompanyCode(String regimCompanyCode) {
-		RegimCompanyCode = regimCompanyCode;
+	public void setRankName(String rankName) {
+		RankName = rankName;
 	}
 	public String getRank() {
 		return Rank;
 	}
 	public void setRank(String rank) {
 		Rank = rank;
-	}
-	public String getRankCode() {
-		return RankCode;
-	}
-	public void setRankCode(String rankCode) {
-		RankCode = rankCode;
 	}
 	public String getModelnAME() {
 		return ModelnAME;

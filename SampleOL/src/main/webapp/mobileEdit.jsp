@@ -262,13 +262,13 @@ $(document).ready(function() {
 	
  	$('#reg').val('<%=mobileEquips.get(0).getRegimentCode() %>').prop("selected", true);
 	regSelectChange('<%=mobileEquips.get(0).getRegimentCode() %>');
-	if('<%=mobileEquips.get(0).getRegimCompanyCode()%>' != '')
-	$('#RegimCompany').val('<%=mobileEquips.get(0).getRegimCompanyCode()%>').prop("selected", true);	
-	
+	if('<%=mobileEquips.get(0).getRegimCompany()%>' != '')
+		$('#RegimCompany').val('<%=mobileEquips.get(0).getRegimCompany()%>').prop("selected", true);	
+
 	$('#MobileType').val('<%=mobileEquips.get(0).getMobileType()%>').prop("selected", true);	
 	
-	if('<%=mobileEquips.get(0).getRankCode()%>' != '')
-	$('#rank').val('<%=mobileEquips.get(0).getRankCode()%>').prop("selected", true);	
+	if('<%=mobileEquips.get(0).getRank()%>' != '')
+	$('#rank').val('<%=mobileEquips.get(0).getRank()%>').prop("selected", true);	
 
 
 	  getTimeStamp2();
@@ -276,6 +276,7 @@ $(document).ready(function() {
 	  $('#reg').on('change', function() {
 			regSelectChange($("#reg").val());
 		 });
+
 
  // setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
 
@@ -343,46 +344,41 @@ $(document).ready(function() {
    
 
    
-function regSelectChange(e) {
-	
-	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
-	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
-	var rc4 = ['전체'];
+	function regSelectChange(e) {
+		
+		var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
+		var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
 
-	var rcp0 = <%=rcp0%>; var rcp1 = <%=rcp1%>;  
-	var rcp2 = <%=rcp2%>; var rcp3 = <%=rcp3%>;  
-	var rcp4 = ['전체'];
-	var target = document.getElementById("RegimCompany");
+		var rcp0 = <%=rcp0%>; var rcp1 = <%=rcp1%>;  
+		var rcp2 = <%=rcp2%>; var rcp3 = <%=rcp3%>;  
+		var target = document.getElementById("RegimCompany");
 
-	if(e == "RG-280") {
-		var d = rc0;
-		var d2= rcp0;
-	}else if(e == "RG-281") {
-		var d = rc1;
-		var d2= rcp1;
-	}else if(e == "RG-282") {
-		var d = rc2;
-		var d2= rcp2;
-	}else if(e == "RG-283") {
-		var d = rc3;
-		var d2= rcp3;
-	}else if(e == "전체"){
-		var d = rc4;
-		var d2= rcp4;
+		if(e == "RG-280") {
+			var d = rc0;
+			var d2= rcp0;
+		}else if(e == "RG-281") {
+			var d = rc1;
+			var d2= rcp1;
+		}else if(e == "RG-282") {
+			var d = rc2;
+			var d2= rcp2;
+		}else if(e == "RG-283") {
+			var d = rc3;
+			var d2= rcp3;
+		}
+		
+		 $("#RegimCompany").children('option').remove();
+
+
+		for (x in d) {
+			var opt = document.createElement("option");
+			opt.value = d2[x];
+			opt.innerHTML = d[x];
+			target.appendChild(opt);
+		}
+		
+		
 	}
-
-	 $("#RegimCompany").children('option').remove();
-
-
-	for (x in d) {
-		var opt = document.createElement("option");
-		opt.value = d2[x];
-		opt.innerHTML = d[x];
-		target.appendChild(opt);
-	}
-	
-	
-}
 
 
 function leadingZeros(n, digits) {
@@ -469,7 +465,7 @@ function getTimeStamp2() {
 
 
 function pmUpdate(){
-	if(confirm(data[0].foodName+"("+data[0].foodCode+")수정하시겠습니까?")){
+	if(confirm(data[0].ServiceNumber+"("+data[0].Name+")수정하시겠습니까?")){
 		//data[0].Regiment=$('#Regiment').val();
 		//data[0].RegimCompany=$('#RegimCompany').val();
 		data[0].MobileNumber=$('#MobileNumber').val();
