@@ -240,13 +240,17 @@
 <caption>조회 목록</caption>
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
-      <td class="colt" style="text-align:center;width:13vw;">전화번호</td>
-      <td class="colt" style="text-align:center;width:10vw;">소속</td>
-      <td class="colt" style="text-align:center;width:10vw;">계급</td>
-      <td class="colt" style="text-align:center;width:10vw;">성명</td>
-      <td class="colt" style="text-align:center;width:10vw;">군번</td>
-      <td class="colt" style="text-align:center;width:10vw;">장비구분</td>
-      <td class="colt" style="text-align:center;width:10vw;">배정일</td>
+      <td class="colt" style="text-align:center;width:8vw;">소속</td>
+      <td class="colt" style="text-align:center;width:10vw;">전화번호</td>
+      <td class="colt" style="text-align:center;width:8vw;">군번</td>
+      <td class="colt" style="text-align:center;width:8vw;">계급</td>
+      <td class="colt" style="text-align:center;width:8vw;">성명</td>
+      <td class="colt" style="text-align:center;width:8vw;">장비구분</td>
+      <td class="colt" style="text-align:center;width:8vw;">모델명</td>
+      <td class="colt" style="text-align:center;width:8vw;">장비번호</td>
+      <td class="colt" style="text-align:center;width:8vw;">배정일자</td>
+      <td class="colt" style="text-align:center;width:8vw;">비고</td>
+      <td class="colt" style="text-align:center;width:6vw;">수정/삭제</td>
       
    </tr>
    
@@ -257,13 +261,17 @@
    
    <tr id="tr<%=i %>" >
       <td class="col" ><%=i+1 %></td>
-      <td class="col" style=" text-align:center;"><%=mobileEquips.get(i).getMobileNumber() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRegiment() %></td>
+      <td class="col" style=" text-align:center;"><%=cd.phone(mobileEquips.get(i).getMobileNumber()) %></td>
+      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getServiceNumber() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRank() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getName() %></td>
-      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getServiceNumber() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getMobileType() %></td>
+      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getModelnAME() %></td>
+      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getManufacturerName() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getJoinDate() %></td>
+      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRemark() %></td>
+      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='mobileEdit.jsp?pn=<%=mobileEquips.get(i).getMobileNumber()%>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteMobile(<%=i %>)"/></td>
    </tr>
   <%} %>
 
@@ -363,7 +371,7 @@ int block = (pageNum-1)/pageNum_list;
         var createXLSLFormatObj = [];
 		var cnt=1;
         /* XLS Head Columns */
-        var xlsHeader = ["전화번호","소속","계급","성명","군번","장비구분","배정일"];
+        var xlsHeader = ["전화번호","소속","성명","군번","장비구분","모델명","장비번호","배정일","비고"];
 
         /* XLS Rows Data */
         var xlsRows = <%=total_data%>;
@@ -527,6 +535,35 @@ function getTimeStamp2() {
 	  document.getElementById("now").value =s;
 	}
 
+function deleteMobile(num){
+
+	if(confirm(data[num].MobileNumber+"("+data[num].Name+")을 정말 삭제하시겠습니까?")){
+		
+	$.ajax({
+		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementDelete',
+		contentType: "application/json; charset=utf-8",
+		method: 'POST',
+		data: JSON.stringify(data[num]),
+		dataType: "json",
+		accept: "application/json",
+		success: function(response) {
+			// success handle
+				console.log(JSON.stringify(response));
+				alert("삭제가 성공했습니다.");
+				location.href="beacons.jsp";
+			},
+		error: function(response) {
+				alert("삭제가 실패해습니다.");
+
+				console.log(JSON.stringify(data));
+				console.log(JSON.stringify(response));
+
+			}	
+	});
+		
+	}
+	return false;
+}
 </script>
 </body>
 </html>

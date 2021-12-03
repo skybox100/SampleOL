@@ -17,12 +17,16 @@
    
    //if(request.getParameter("serviceNumber") != null)
      // sn=request.getParameter("serviceNumber");
-	String reg="전체";
-	String regp="전체";
-	String sh="전체";
-	String shp="전체";
-	String fd="전체";
-	String fdp="전체";
+	String reg="소속:전체";
+	String regp="소속:전체";
+	String sh="식당명:전체";
+	String shp="식당명:전체";
+	String fd="식재료명:전체";
+	String fdp="식재료명:전체";
+	String od="재고번호";
+	String odp="재고번호";
+	String sc="Continue";
+	String sc2="Stop";
 
 	DecimalFormat df = new DecimalFormat("###,###");
 
@@ -42,7 +46,16 @@
 		fdp = request.getParameter("food");
    }
 
-	
+   if(request.getParameter("order") != null){
+		od = request.getParameter("order");
+		odp = request.getParameter("order");
+   }
+   if(request.getParameter("stop") != null){
+	   sc = request.getParameter("stop");
+   }
+   
+   if(sc.equals("Continue"))sc2="Stop";
+   else if(sc.equals("Stop"))sc2="Continue";
    
    int num2;
    DBConnection cd = new DBConnection();
@@ -62,17 +75,17 @@
 
 
 
-	if(reg.equals("전체") && sh.equals("전체")){
-	} else if(sh.equals("전체")){
+	if(reg.equals("소속:전체") && sh.equals("식당명:전체")){
+	} else if(sh.equals("식당명:전체")){
 		reg = cd.getCodeID("Regiment", reg);	
-	} else if(reg.equals("전체")){
+	} else if(reg.equals("소속:전체")){
 		sh = cd.getCodeID("Storehouse", sh);	
 	} else{
 		reg = cd.getCodeID("Regiment", reg);
 		sh = cd.getCodeID("Storehouse", sh);
 	}
    
-   foods = cd.getFoodList(reg, sh,fd);
+   foods = cd.getFoodList(reg, sh,fd,od);
    
    int cnt = foods.size();
    
@@ -84,7 +97,8 @@
       num2=cnt;
    }
 
-
+   String total_data="";
+   total_data=gson.toJson(foods);
 
 %>
 
@@ -175,12 +189,22 @@
 <script src="js/jquery-3.6.0.min.js"></script>
 <body>
 <div>
-<span class="left"><input type="text" id="now" readonly></span>
+<span class="left"><input type="text" id="now" readonly>
+<select id="order">
+						<option selected>재고번호</option>
+						<option>식재료명</option>
+						<option>입고일자</option>
+						<option>유통기한</option>
+</select>
+<button id="sc" value='<%=sc%>' style="height:36px;padding: 5px;"><%=sc2%></button>
+</span>
 <span class="title">부식창고 현황판</span>
 <span class="right">
 <font size=4.5>총 개수: <%=cnt %>&nbsp;&nbsp;</font>
+<button id="new" onclick="location.href = 'foodInsert.jsp'" style="height:36px;padding: 5px;">신규</button>
+
   <select id="reg" name ="reg">
-						<option>전체</option>
+						<option>소속:전체</option>
 						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
 						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
 						<%} %>
@@ -209,6 +233,7 @@
       <td class="colt" style="text-align:center;width:11vw;">현재고량/단위</td>
       <td class="colt" style="text-align:center;width:10vw;">입고일자</td>
       <td class="colt" style="text-align:center;width:10vw;">유통기한</td>
+       <td class="colt" style="text-align:center;width:6vw;">수정/삭제</td>
       
    </tr>
    
@@ -225,7 +250,9 @@
       <td class="col" >&nbsp;<%=foods.get(i).getFoodName() %></td>
       <td class="col" style=" text-align:right; "><%=df.format(Integer.parseInt(foods.get(i).getCurrentQuantity())) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
       <td class="col" style=" text-align:center; "><%=foods.get(i).getStoreDate() %></td>
-      <td class="col" id="col<%=i %>" style="text-align:center; "><%=foods.get(i).getExpirationDate() %></td>
+      <td class="col" id="col<%=i %>" style="text-align:center; "><%=cd.searchDateConvert(foods.get(i).getExpirationDate(),"yyyy-MM-dd") %></td>
+      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='foodEdit.jsp?Regiment=<%=foods.get(i).getRegiment()%>&Storehouse=<%=foods.get(i).getStorehouse() %>&FoodCode=<%=foods.get(i).getFoodCode() %>&ExpirationDate=<%=foods.get(i).getExpirationDate() %>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteFD(<%=i %>)"/></td>
+
    </tr>
    <%}   
 
@@ -241,32 +268,51 @@
 	 	$('#reg').val('<%=regp%>').prop("selected", true);
 		$('#Storehouse').val('<%=shp%>').prop("selected", true);
 		$('#foodidx').val('<%=fdp%>').prop("selected", true);	
-		
+		$('#order').val('<%=odp%>').prop("selected", true);	
+
    		 $('#reg').on('change', function() {
-   		     location.replace("foodList.jsp?reg="+$('#reg').val()); 
+   		     location.replace("foodList.jsp?reg="+$('#reg').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
    		 });
    			 $('#Storehouse').on('change', function() {
-     	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()); 
+     	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
    		 });
    			 
    			$('#foodidx').on('change', function() {
-        	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()); 
+        	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
       		 });
-	 
+   			$('#order').on('change', function() {
+      		     location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
+      		 });
+   		 $('#sc').on('click', function() {
+			
+   			if($('#sc').val() == 'Continue'){
+   				document.getElementById('sc').value='Stop';
+   				document.getElementById('sc').innerText='Continue';
+
+   			}else{
+   				document.getElementById('sc').value='Continue';
+   				document.getElementById('sc').innerText='Stop';
+
+   				setTimeout('go_url()',1000);
+   			}
+
+   		 });
+   			 
    	  getTimeStamp2();
     
 	  for(var i=<%=num%>; i<<%=num2%>; i++)
-         passdatechange(i);
+   	  passdatechange(i);
       <%
       if(num2==cnt){
           num2=0;
        }
 	  %>
-	  if(<%=cnt%> >15)
-      setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
+	  if(<%=cnt%> >15  )
+	  	setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
    
 	});
-  
+	var data = <%=total_data%>;
+
 
 	setInterval(getTimeStamp2,1000);
 	
@@ -302,8 +348,9 @@ function leadingZeros(n, digits) {
    }
 
  function go_url(){
+	 if($('#sc').val() == 'Continue')
+    	 location.replace("foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&num=<%=num2%>"); 
 
-       location.replace("foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&num=<%=num2%>"); 
  
  }
 
@@ -386,7 +433,40 @@ function getTimeStamp2() {
 
 	  document.getElementById("now").value =s;
 	}
+	
+function foodInsert(){
+	location.href = "foodInsert.jsp";
+}
+	
+function deleteFD(num){
 
+	if(confirm(data[num].foodName+"("+data[num].foodCode+")을 정말 삭제하시겠습니까?")){
+		
+	$.ajax({
+		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementDelete',
+		contentType: "application/json; charset=utf-8",
+		method: 'POST',
+		data: JSON.stringify(data[num]),
+		dataType: "json",
+		accept: "application/json",
+		success: function(response) {
+			// success handle
+				console.log(JSON.stringify(response));
+				alert("삭제가 성공했습니다.");
+				location.href="beacons.jsp";
+			},
+		error: function(response) {
+				alert("삭제가 실패해습니다.");
+
+				console.log(JSON.stringify(data));
+				console.log(JSON.stringify(response));
+
+			}	
+	});
+		
+	}
+	return false;
+}
 </script>
 </body>
 </html>

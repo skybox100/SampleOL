@@ -10,6 +10,8 @@
 <%@ page import="java.io.*, java.util.*" %>
 <%@ page import="java.text.*"%>
 <%
+	request.setCharacterEncoding("UTF-8");
+
    int num=0;
    //String sn="";
    if(request.getParameter("num") != null)
@@ -17,10 +19,13 @@
    
    //if(request.getParameter("serviceNumber") != null)
      // sn=request.getParameter("serviceNumber");
-	String reg="전체";
-	String regp="전체";
-	String rc="전체";
-	String rcp="전체";
+	String reg="소속:전체";
+	String regp="소속:전체";
+	String rc="세부소속:전체";
+	String rcp="세부소속:전체";
+	String eq="전체";
+	String eqp="전체";
+
 	String delnm="0";
 	
 	int pageNum=1;
@@ -48,7 +53,12 @@
 		   rcp = request.getParameter("regim_company");
 		   
 	   }
+	   if(request.getParameter("search") != null){
+		   eq = request.getParameter("search");
+		   eqp = request.getParameter("search");
 
+	   }
+	System.out.println(request.getParameter("search"));
 
 	
    
@@ -60,7 +70,7 @@
    
    Gson gson = new Gson();
 
-	ArrayList<String> mobileStatusReg = cd.getBeaconReg();
+	ArrayList<String> BeaconReg = cd.getBeaconReg();
 
 
 
@@ -79,17 +89,17 @@
 
 
 
-	if(reg.equals("전체") && rc.equals("전체")){
-	} else if(rc.equals("전체")){
+	if(reg.equals("소속:전체") && rc.equals("세부소속:전체")){
+	} else if(rc.equals("세부소속:전체")){
 		reg = cd.getCodeID("Regiment", reg);	
-	} else if(reg.equals("전체")){
+	} else if(reg.equals("소속:전체")){
 		rc = cd.getCodeID("RegimCompany", rc);	
 	} else{
 		reg = cd.getCodeID("Regiment", reg);
 		rc = cd.getCodeID("RegimCompany", rc);
 	}
    
-	beacons = cd.getBeaconsList(reg,rc);
+	beacons = cd.getBeaconsList(reg,rc,eq);
 	   
 	   int cnt = beacons.size();
 	   
@@ -208,9 +218,17 @@
    }   
    span select{
    
-   height : 32px;
+   height : 30px;
    font-size:18px; 
    padding: 5px;
+   }
+   form{
+   height : 0;
+   font-size:18px; 
+   padding-left: 240px;
+   }
+   form input{
+   height : 30px;
    }
   </style>
 </head>
@@ -219,14 +237,19 @@
 
 <body>
 <div>
-<span class="left"><input type="text" id="now" readonly> </span>
+<span class="left"><input type="text" id="now" readonly> 
+</span>
+<form name="search_form" method="get">
+	<input type="text" id="search" name="search">
+	<input type="submit" id="submit" value="검색">
+</form>
 <span class="title">비콘 현황판</span>
 <span class="right">
 <font size=4.5>총 개수: <%=cnt %>&nbsp;&nbsp;</font>
   <select id="reg" name ="reg">
-						<option>전체</option>
-						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
-						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
+						<option>소속:전체</option>
+						<%for(int i=0; i<BeaconReg.size(); i++) {%>
+						<option value="<%=BeaconReg.get(i)%>"><%=BeaconReg.get(i)%></option>
 						<%} %>
 	</select>
 
@@ -236,19 +259,23 @@
 
 </span>
 </div>
+
 <table class="table" style="white-space: nowrap;">
 <caption>조회 목록</caption>
    <tr style="background:green;">
-      <td class="colt" style="text-align:center;width:4vw;">NO</td>
-      <td class="colt" style="text-align:center;width:10vw;">UUid</td>
-      <td class="colt" style="text-align:center;width:8vw;">위도</td>
-      <td class="colt" style="text-align:center;width:8vw;">경도</td>
-      <td class="colt" style="text-align:center;width:8vw;">장비ID</td>
-      <td class="colt" style="text-align:center;width:8vw;">소속</td>
-      <td class="colt" style="text-align:center;width:10vw;">세부소속</td>
-      <td class="colt" style="text-align:center;width:10vw;">기기장소</td>
+      <td class="colt" style="text-align:center;width:2vw;">NO</td>
+      <td class="colt" style="text-align:center;width:6vw;">소속</td>
+      <td class="colt" style="text-align:center;width:8vw;">세부소속</td>
+      <td class="colt" style="text-align:center;width:6vw;">장비ID</td>
+      <td class="colt" style="text-align:center;width:8vw;">UUid</td>
+      <td class="colt" style="text-align:center;width:9vw;">기기장소</td>
       <td class="colt" style="text-align:center;width:12vw;">방이름</td>
       <td class="colt" style="text-align:center;width:6vw;">방ID</td>      
+      <td class="colt" style="text-align:center;width:6vw;">위도</td>
+      <td class="colt" style="text-align:center;width:6vw;">경도</td>
+      <td class="colt" style="text-align:center;width:10vw;">군사좌표</td>
+       <td class="colt" style="text-align:center;width:6vw;">수정/삭제</td>
+      
    </tr>
    
    <% 
@@ -258,17 +285,17 @@
    
    <tr id="tr<%=i %>" >
       <td class="col" ><%=i+1 %></td>
-      <td class="col" style=" text-align:center;"><%=beacons.get(i).getUuid() %></td>
-      <td class="col" style=" text-align:center;"><%=beacons.get(i).getLatitude() %></td>
-      <td class="col" style=" text-align:center;"><%=beacons.get(i).getLongitude() %></td>
-      <td class="col" style=" text-align:center;"><%=beacons.get(i).getEquipId() %></td>
       <td class="col" style=" text-align:center;"><%=beacons.get(i).getRegiment() %></td>
       <td class="col" style=" text-align:center;"><%=beacons.get(i).getRegimCompany() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getEquipId() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getUuid() %></td>
       <td class="col" style=" text-align:center;"><%=beacons.get(i).getEquipLocation() %></td>  
       <td class="col" style=" text-align:center;"><%=beacons.get(i).getRoomName() %></td>  
       <td class="col" style=" text-align:center;"><%=beacons.get(i).getRoomNumber() %></td>  
-
-      
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getLatitude() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getLongitude() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getMgrs() %></td>
+      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='beaconsEdit.jsp?uuid=<%=beacons.get(i).getUuid()%>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteBC(<%=i %>)"/></td>
    </tr>
 <%}%>
    
@@ -282,13 +309,13 @@
     if(pageNum <= 1){%>
         <font></font>
         <% }else{%>
-            <font size=2><a href="bd_Beacons.jsp?&reg=<%=regp%>&regim_company=<%=rcp%>">처음</a></font>
+            <font size=2><a href="beacons.jsp?&reg=<%=regp%>&regim_company=<%=rcp%>">처음</a></font>
         <%}
  
     if(block <1){%>
         <font> </font>
     <% }else{%>
-        <font size=2><a href="bd_Beacons.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&regim_company=<%=rcp%>">이전</a></font>
+        <font size=2><a href="beacons.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&regim_company=<%=rcp%>">이전</a></font>
     <% }
  
     for(int j = startPage; j <=endPage; j++)
@@ -299,7 +326,7 @@
             <font size=2 color=red><%=j%></font>
 
        <%}else if(j > 0 && j <endPage+1){%>
-            <font size=2><a href="bd_Beacons.jsp?page=<%=j%>&reg=<%=regp%>&regim_company=<%=rcp%>"><%=j%></a></font>
+            <font size=2><a href="beacons.jsp?page=<%=j%>&reg=<%=regp%>&regim_company=<%=rcp%>"><%=j%></a></font>
             <%
           } 
     }
@@ -307,7 +334,7 @@
     if(flag== false){%>
     <font> </font>
     <%}else{%>    
-        <font size=2><a href="bd_Beacons.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&regim_company=<%=rcp%>">다음</a></font>
+        <font size=2><a href="beacons.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&regim_company=<%=rcp%>">다음</a></font>
     <%}
  
  
@@ -315,7 +342,7 @@
     if(pageNum == totalPage){%>       
             <font></font>
         <%}else{%>
-            <font size=2><a href="bd_Beacons.jsp?page=<%=totalPage%>&reg=<%=regp%>&regim_company=<%=rcp%>">마지막</a></font>
+            <font size=2><a href="beacons.jsp?page=<%=totalPage%>&reg=<%=regp%>&regim_company=<%=rcp%>">마지막</a></font>
         <%}
     %>
     </td>
@@ -330,14 +357,14 @@
 $(document).ready(function() {
  	$('#reg').val('<%=regp %>').prop("selected", true);
 	regSelectChange('<%=regp %>');
-	
+	$('#RegimCompany').val('<%=rcp%>').prop("selected", true);	
+
 		
 		 $('#reg').on('change', function() {
-		     location.replace("bd_Beacons.jsp?reg="+$('#reg').val()+"&regim_company=전체"); 
+		     location.replace("beacons.jsp?reg="+$('#reg').val()+"&regim_company=세부소속:전체"); 
 		 });
 			 $('#RegimCompany').on('change', function() {
- 	  	 location.replace("bd_Beacons.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()
- 	  			 ); 
+	 	  	 location.replace("beacons.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()); 
 		 });
 
 
@@ -350,17 +377,11 @@ $(document).ready(function() {
 
 });
   	
+	var data = <%=total_data%>;
 	
 	setInterval(getTimeStamp2,1000);
-	
-	
-	
 
-	
-
-    
-	
-   function getTimeStamp() {
+	function getTimeStamp() {
 	     var d = new Date();
 	     var s =
 	       leadingZeros(d.getFullYear(), 4) + '-' +
@@ -371,7 +392,41 @@ $(document).ready(function() {
 	   }
 
    
-   
+   function MGRSString (Lat, Long)
+	{ 
+	console.log(Lat.trim()+","+Long.trim());
+	if (Lat < -80) return 'Too far South' ; if (Lat.trim() > 84) return 'Too far North' ;
+	var c = 1 + Math.floor ((Long.trim()+180)/6);
+	var e = c*6 - 183 ;
+	var k = Lat.trim()*Math.PI/180;
+	var l = Long.trim()*Math.PI/180;
+	var m = e*Math.PI/180;
+	var n = Math.cos (k);
+	var o = 0.006739496819936062*Math.pow (n,2);
+	var p = 40680631590769/(6356752.314*Math.sqrt(1 + o));
+	var q = Math.tan (k);
+	var r = q*q;
+	var s = (r*r*r) - Math.pow (q,6);
+	var t = l - m;
+	var u = 1.0 - r + o;
+	var v = 5.0 - r + 9*o + 4.0*(o*o);
+	var w = 5.0 - 18.0*r + (r*r) + 14.0*o - 58.0*r*o;
+	var x = 61.0 - 58.0*r + (r*r) + 270.0*o - 330.0*r*o;
+	var y = 61.0 - 479.0*r + 179.0*(r*r) - (r*r*r);
+	var z = 1385.0 - 3111.0*r + 543.0*(r*r) - (r*r*r);
+	var aa = p*n*t + (p/6.0*Math.pow (n,3)*u*Math.pow (t,3)) + (p/120.0*Math.pow (n,5)*w*Math.pow (t,5)) + (p/5040.0*Math.pow (n,7)*y*Math.pow (t,7));
+	var ab = 6367449.14570093*(k - (0.00251882794504*Math.sin (2*k)) + (0.00000264354112*Math.sin (4*k)) - (0.00000000345262*Math.sin (6*k)) + (0.000000000004892*Math.sin (8*k))) + (q/2.0*p*Math.pow (n,2)*Math.pow (t,2)) + (q/24.0*p*Math.pow (n,4)*v*Math.pow (t,4)) + (q/720.0*p*Math.pow (n,6)*x*Math.pow (t,6)) + (q/40320.0*p*Math.pow (n,8)*z*Math.pow (t,8));
+	aa = aa*0.9996 + 500000.0;
+	ab = ab*0.9996; if (ab < 0.0) ab += 10000000.0;
+	var ad = 'CDEFGHJKLMNPQRSTUVWXX'.charAt (Math.floor (Lat/8 + 10));
+	var ae = Math.floor (aa/100000);
+	var af = ['ABCDEFGH','JKLMNPQR','STUVWXYZ'][(c-1)%3].charAt(ae-1);
+	var ag = Math.floor (ab/100000)%20;
+	var ah = ['ABCDEFGHJKLMNPQRSTUV','FGHJKLMNPQRSTUVABCDE'][(c-1)%2].charAt(ag);
+	aa = Math.floor (aa%100000); 
+	ab = Math.floor (ab%100000);
+		return c + ad + ' ' + af + ah + ' ' + aa + ' ' + ab;
+	}   
    
 function storeSelectChange(e) {
     location.replace("bd_Beacons?reg=<%=regp%>&regim_company="+e); 
@@ -381,7 +436,7 @@ function regSelectChange(e) {
 	
 	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
-	var rc4 = ['전체'];
+	var rc4 = ['세부소속:전체'];
 
 	var target = document.getElementById("RegimCompany");
 
@@ -389,7 +444,7 @@ function regSelectChange(e) {
 	else if(e == "28-1대대") var d = rc1;
 	else if(e == "28-2대대") var d = rc2;
 	else if(e == "28-3대대") var d = rc3;
-	else if(e == "전체") var d = rc4;
+	else if(e == "소속:전체") var d = rc4;
 
 
 
@@ -402,7 +457,6 @@ function regSelectChange(e) {
 	
 	
 
-	$('#RegimCompany').val('<%=rcp%>').prop("selected", true);	
 	
 }
 
@@ -419,7 +473,7 @@ function leadingZeros(n, digits) {
 
  function go_url(){
 
-       location.replace("bd_Beacons.jsp?num=<%=num2%>"); 
+       location.replace("beacons.jsp?num=<%=num2%>"); 
  
  }
 
@@ -480,13 +534,36 @@ function getTimeStamp2() {
 	  document.getElementById("now").value =s;
 	}
 
-function deletePM(mobileNumber){
-	
-	if(confirm("정말 삭제하시겠습니까?")){
-		location.href="bd_Beacons.jsp?delnm="+mobileNumber;
+function deleteBC(num){
+
+	if(confirm(data[num].EquipId+"을 정말 삭제하시겠습니까?")){
+		
+	$.ajax({
+		url: 'http://211.9.3.55:5010/TenSystem/PersonnelManagement/PersonnelManagementDelete',
+		contentType: "application/json; charset=utf-8",
+		method: 'POST',
+		data: JSON.stringify(data[num]),
+		dataType: "json",
+		accept: "application/json",
+		success: function(response) {
+			// success handle
+				console.log(JSON.stringify(response));
+				alert("삭제가 성공했습니다.");
+				location.href="beacons.jsp";
+			},
+		error: function(response) {
+				alert("삭제가 실패해습니다.");
+
+				console.log(JSON.stringify(data));
+				console.log(JSON.stringify(response));
+
+			}	
+	});
+		
 	}
 	return false;
 }
+
 
 </script>
 </body>

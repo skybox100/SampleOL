@@ -36,8 +36,7 @@
 
 		
 	} catch(Exception e) {
-		
-		beaconLocations = cd.getBeaconsList("전체","전체");
+		beaconLocations = cd.getBeaconsList("전체","전체","전체");
 		multi_marker = gson.toJson(beaconLocations);
 		
 	}
@@ -374,7 +373,7 @@
 		map.addOverlay(popup);
 
 		// Popup showing the position the user clicked
-		var containerClick = document.getElementById('popupCchange);
+		var containerClick = document.getElementById('popupClick');
 		var popupClick = new ol.Overlay({
 		    element: containerClick,
 		    autoPan: true,

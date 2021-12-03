@@ -117,6 +117,7 @@ public class Location {
 		this.MobileNumber = mobileNumber;
 		this.etc = etc;
 
+		
 	}
 	
 	

@@ -20,16 +20,21 @@ public class Beacons {
 	String RoomName;
 	String RoomNumber;
 	String Remark;
+	String Mgrs;
+
 	
 	
-	
+
+
+
 	@Override
 	public String toString() {
 		return "Beacons [Uuid=" + Uuid + ", Latitude=" + Latitude + ", Longitude=" + Longitude + ", EquipType="
 				+ EquipType + ", EquipTypeCode=" + EquipTypeCode + ", EquipId=" + EquipId + ", ModelName=" + ModelName
 				+ ", Manufacturer=" + Manufacturer + ", Regiment=" + Regiment + ", RegimentCode=" + RegimentCode
 				+ ", RegimCompany=" + RegimCompany + ", RegimCompanyCode=" + RegimCompanyCode + ", EquipLocation="
-				+ EquipLocation + ", RoomName=" + RoomName + ", RoomNumber=" + RoomNumber + ", Remark=" + Remark + "]";
+				+ EquipLocation + ", RoomName=" + RoomName + ", RoomNumber=" + RoomNumber + ", Remark=" + Remark
+				+ ", Mgrs=" + Mgrs + "]";
 	}
 
 
@@ -37,7 +42,7 @@ public class Beacons {
 	public Beacons(String uuid, String latitude, String longitude, String equipType, String equipTypeCode,
 			String equipId, String modelName, String manufacturer, String regiment, String regimentCode,
 			String regimCompany, String regimCompanyCode, String equipLocation, String roomName, String roomNumber,
-			String remark) {
+			String remark,String mgrs) {
 		super();
 		Uuid = uuid;
 		Latitude = latitude;
@@ -55,6 +60,7 @@ public class Beacons {
 		RoomName = roomName;
 		RoomNumber = roomNumber;
 		Remark = remark;
+		Mgrs = mgrs;
 	}
 	
 	
@@ -154,6 +160,18 @@ public class Beacons {
 	}
 	public void setRemark(String remark) {
 		Remark = remark;
+	}
+
+
+
+	public String getMgrs() {
+		return Mgrs;
+	}
+
+
+
+	public void setMgrs(String mgrs) {
+		Mgrs = mgrs;
 	}
 
 

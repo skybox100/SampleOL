@@ -222,7 +222,7 @@
 <span class="left"><input type="text" id="now" readonly><font>&nbsp;&nbsp;총 인원수: <%=cnt %></font> </span>
 <span class="title">회원정보 리스트</span>
 <span class="right">
-<input type="button" value="계정생성" onClick="location.href='bd_PersonnelManagement_insert.jsp'" style="width:100px;height:40px;">
+<input type="button" value="계정생성" onClick="location.href='PersonnelManagementInsert.jsp'" style="width:100px;height:40px;">
   <select id="reg" name ="reg">
   						<option>전체</option>
 						<%for(int i=0; i<PersonnelReg.size(); i++) {%>
@@ -275,7 +275,7 @@
   		out.println("<img src=\"data:image/jpg;base64, "+personnelmanagements.get(i).getPicture()+"\" style=\"max-width: 120px; max-height:90px\" />");
      	out.println("</td>");
      %>
-      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='bd_PersonnelManagement_edit.jsp?sn=<%=personnelmanagements.get(i).getServiceNumber()%>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deletePM(<%=i %>)"/></td>
+      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='PersonnelManagementEdit.jsp?sn=<%=personnelmanagements.get(i).getServiceNumber()%>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deletePM(<%=i %>)"/></td>
       
    </tr>
 <%}%>
@@ -290,13 +290,13 @@
     if(pageNum <= 1){%>
         <font></font>
         <% }else{%>
-            <font size=2><a href="bd_PersonnelManagement_select.jsp?reg=<%=regp%>&regim_company=<%=rcp%>">처음</a></font>
+            <font size=2><a href="PersonnelManagement.jsp?reg=<%=regp%>&regim_company=<%=rcp%>">처음</a></font>
         <%}
  
     if(block <1){%>
         <font> </font>
     <% }else{%>
-        <font size=2><a href="bd_PersonnelManagement_select.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&regim_company=<%=rcp%>">이전</a></font>
+        <font size=2><a href="PersonnelManagement.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&regim_company=<%=rcp%>">이전</a></font>
     <% }
  
     for(int j = startPage; j <=endPage; j++)
@@ -307,7 +307,7 @@
             <font size=2 color=red><%=j%></font>
 
        <%}else if(j > 0 && j <endPage+1){%>
-            <font size=2><a href="bd_PersonnelManagement_select.jsp?page=<%=j%>&reg=<%=regp%>&regim_company=<%=rcp%>"><%=j%></a></font>
+            <font size=2><a href="PersonnelManagement.jsp?page=<%=j%>&reg=<%=regp%>&regim_company=<%=rcp%>"><%=j%></a></font>
             <%
           } 
     }
@@ -315,7 +315,7 @@
     if(flag== false){%>
     <font> </font>
     <%}else{%>    
-        <font size=2><a href="bd_PersonnelManagement_select.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&regim_company=<%=rcp%>">다음</a></font>
+        <font size=2><a href="PersonnelManagement.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&regim_company=<%=rcp%>">다음</a></font>
     <%}
  
  
@@ -324,7 +324,7 @@
             <font></font>
        
         <%}else{%>
-            <font size=2><a href="bd_PersonnelManagement_select.jsp?page=<%=totalPage%>&reg=<%=regp%>&regim_company=<%=rcp%>">마지막</a></font>
+            <font size=2><a href="PersonnelManagement.jsp?page=<%=totalPage%>&reg=<%=regp%>&regim_company=<%=rcp%>">마지막</a></font>
         <%}
     %>
     </td>
@@ -343,14 +343,14 @@ $(document).ready(function() {
 	
 		
 		 $('#reg').on('change', function() {
-		     location.replace("bd_PersonnelManagement_select.jsp?reg="+$('#reg').val()+"&regim_company=전체"); 
+		     location.replace("PersonnelManagement.jsp?reg="+$('#reg').val()+"&regim_company=전체"); 
 		 });
 			 $('#RegimCompany').on('change', function() {
- 	  	 location.replace("bd_PersonnelManagement_select.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()
+ 	  	 location.replace("PersonnelManagement.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()
  	  			 ); 
 		 });
 			$('#equipType').on('change', function() {
-  		     location.replace("bd_PersonnelManagement_select.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()+"&equip_type="+$('#equipType').val()); 
+  		     location.replace("PersonnelManagement.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()+"&equip_type="+$('#equipType').val()); 
   		 });
  
 	  getTimeStamp2();
@@ -381,7 +381,7 @@ $(document).ready(function() {
    
    
 function storeSelectChange(e) {
-    location.replace("bd_PersonnelManagement_select.jsp?reg=<%=regp%>&regim_company="+e); 
+    location.replace("PersonnelManagement.jsp?reg=<%=regp%>&regim_company="+e); 
 }
    
 function regSelectChange(e) {
@@ -426,7 +426,7 @@ function leadingZeros(n, digits) {
 
  function go_url(){
 
-       location.replace("bd_PersonnelManagement_select.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&num=<%=num2%>"); 
+       location.replace("PersonnelManagement.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&num=<%=num2%>"); 
  
  }
 
@@ -502,7 +502,7 @@ function deletePM(num){
 			// success handle
 				console.log(JSON.stringify(response));
 				alert("삭제가 성공했습니다.");
-				location.href="bd_PersonnelManagement_select.jsp";
+				location.href="PersonnelManagement.jsp";
 			},
 		error: function(response) {
 				alert("삭제가 실패해습니다.");

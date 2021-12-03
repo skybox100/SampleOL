@@ -8,19 +8,23 @@ public class EquipLocation {
 	String equipLocation;
 	String longitude;
 	String latitude;
+	String mgrs;
 	
-	@Override
+
+	
+	 @Override
 	public String toString() {
-		return "EquipLocation [equipId=" + equipId + ", regiment=" + regiment + ", equipType="
-				+ equipType + ", longitude=" + longitude + ", latitude=" + latitude + "]";
+		return "EquipLocation [equipId=" + equipId + ", regiment=" + regiment + ", equipType=" + equipType
+				+ ", equipLocation=" + equipLocation + ", longitude=" + longitude + ", latitude=" + latitude + ", mgrs="
+				+ mgrs + "]";
 	}
-	
-	 public EquipLocation() {
+
+	public EquipLocation() {
 		 super();
 	 }
 	 
 	public EquipLocation(String equipId, String regiment, String equipType, String equipLocation, String longitude,
-			String latitude) {
+			String latitude,String mgrs) {
 		super();
 		this.equipId = equipId;
 		this.regiment = regiment;
@@ -28,6 +32,7 @@ public class EquipLocation {
 		this.equipLocation = equipLocation;
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.mgrs = mgrs;
 	}
 
 	public String getEquipId() {
@@ -76,6 +81,14 @@ public class EquipLocation {
 
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
+	}
+
+	public String getMgrs() {
+		return mgrs;
+	}
+
+	public void setMgrs(String mgrs) {
+		this.mgrs = mgrs;
 	}
 
 

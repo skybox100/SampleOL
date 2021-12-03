@@ -291,7 +291,7 @@
  
     $(document).ready(function() 
     		{ 
-    		    $("input:radio[name=gis_setting]").change(function() 
+    		    $("input:radio[name=gis_setting]").click(function() 
     		    { 
     		    	location.replace("equipLocations.jsp?equipId=<%=equipId%>&gis_setting="+$('input[name=gis_setting]:checked').val());
     		    })
@@ -505,7 +505,7 @@
 			data.forEach(function(item) { //iterate through array...
 
 				var longitude = item.longitude, latitude = item.latitude, id = item.equipId, regiment = item.regiment
-								, equipType = item.equipType, equipLocation = item.equipLocation;
+								, equipType = item.equipType, equipLocation = item.equipLocation,mgrs = item.mgrs;;
 		
 				console.log(longitude + ":" + latitude + ":" + id + ":" + regiment + ":" +
 						equipType + ":" + equipLocation);
@@ -527,7 +527,7 @@
 				    lon: longitude,
 				    lat: latitude,
 				    desc: '<table style="white-space:nowrap;width:100%;">'
-				    	+ '<tr><td class="block" style="width:auto">군사좌표</td><td style="text-align:right;">' + MGRSString(latitude,longitude) + '</td></tr>'
+				    	+ '<tr><td class="block" style="width:auto">군사좌표</td><td style="text-align:right;">' + mgrs + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">위도</td><td style="text-align:right;">' + latitude + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">경도</td><td style="text-align:right;">' + longitude + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">장비번호&nbsp&nbsp</td><td style="text-align:right;">' + id + '</td></tr>'

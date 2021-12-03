@@ -539,11 +539,11 @@
         			regimentSelectChange($('#reg option:selected').val());
 					eRegimentSelectChange($('#equip_regiment option:selected').val());
         	
-        		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").change(function() 
+        		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
         		    { 
         		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         		    }), 
-        		    $("input:radio[name=gis_setting2]").change(function() 
+        		    $("input:radio[name=gis_setting2]").click(function() 
         	    	{ 
         		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         	    	}) ,
@@ -1045,7 +1045,7 @@
 
 					/*
 					$.ajax({
-						url: 'http://211.9.3.55:5010/Emergency/EventStatus/EventStatusSave',
+						url: 'http://110.10.130.51:5002/Emergency/EventStatus/EventStatusSave',
 						contentType: "application/json; charset=utf-8",
 						method: 'POST',
 						data: JSON.stringify(item),
