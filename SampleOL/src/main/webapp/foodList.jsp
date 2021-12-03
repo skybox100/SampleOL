@@ -244,14 +244,14 @@
    
    <tr id="tr<%=i %>" >
       <td class="col" ><%=i+1 %></td>
-      <td class="col" style=" text-align:center;"><%=foods.get(i).getRegiment() %></td>
-      <td class="col" style=" text-align:center; "><%=foods.get(i).getStorehouse() %></td>
+      <td class="col" style=" text-align:center;"><%=foods.get(i).getRegimentName() %></td>
+      <td class="col" style=" text-align:center; "><%=foods.get(i).getStorehouseName() %></td>
       <td class="col" style=" text-align:center; "><%=foods.get(i).getFoodCode() %></td>
       <td class="col" >&nbsp;<%=foods.get(i).getFoodName() %></td>
       <td class="col" style=" text-align:right; "><%=df.format(Integer.parseInt(foods.get(i).getCurrentQuantity())) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
       <td class="col" style=" text-align:center; "><%=foods.get(i).getStoreDate() %></td>
       <td class="col" id="col<%=i %>" style="text-align:center; "><%=cd.searchDateConvert(foods.get(i).getExpirationDate(),"yyyy-MM-dd") %></td>
-      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='foodEdit.jsp?Regiment=<%=foods.get(i).getRegiment()%>&Storehouse=<%=foods.get(i).getStorehouse() %>&FoodCode=<%=foods.get(i).getFoodCode() %>&ExpirationDate=<%=foods.get(i).getExpirationDate() %>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteFD(<%=i %>)"/></td>
+      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='foodEdit.jsp?Regiment=<%=foods.get(i).getRegimentName()%>&Storehouse=<%=foods.get(i).getStorehouseName() %>&FoodCode=<%=foods.get(i).getFoodCode() %>&ExpirationDate=<%=foods.get(i).getExpirationDate() %>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteFD(<%=i %>)"/></td>
 
    </tr>
    <%}   

@@ -285,8 +285,8 @@
    
    <tr id="tr<%=i %>" >
       <td class="col" ><%=i+1 %></td>
-      <td class="col" style=" text-align:center;"><%=beacons.get(i).getRegiment() %></td>
-      <td class="col" style=" text-align:center;"><%=beacons.get(i).getRegimCompany() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getRegimentName() %></td>
+      <td class="col" style=" text-align:center;"><%=beacons.get(i).getRegimCompanyName() %></td>
       <td class="col" style=" text-align:center;"><%=beacons.get(i).getEquipId() %></td>
       <td class="col" style=" text-align:center;"><%=beacons.get(i).getUuid() %></td>
       <td class="col" style=" text-align:center;"><%=beacons.get(i).getEquipLocation() %></td>  
@@ -539,7 +539,7 @@ function deleteBC(num){
 	if(confirm(data[num].EquipId+"을 정말 삭제하시겠습니까?")){
 		
 	$.ajax({
-		url: 'http://211.9.3.55:5010/TenSystem/PersonnelManagement/PersonnelManagementDelete',
+		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementDelete',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[num]),

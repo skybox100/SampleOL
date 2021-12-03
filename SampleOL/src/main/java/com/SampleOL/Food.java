@@ -4,10 +4,10 @@ package com.SampleOL;
 
 public class Food {
 	
-	String regimentCode;
 	String regiment;
+	String regimentName;
+	String storehouseName;
 	String storehouse;
-	String storehouseCode;
 	String foodCode;
 	String expirationDate;
 	String foodName;
@@ -21,14 +21,14 @@ public class Food {
 	
 	
 	
-	public Food(String regimentCode, String regiment, String storehouse, String storehouseCode, String foodCode,
+	public Food(String regiment, String regimentName, String storehouseName, String storehouse, String foodCode,
 			String expirationDate, String foodName, String storeDate, String currentQuantity, String unit,
 			String foodSourceCode, String foodSource, String qRcodeIdx, String remark) {
 		super();
-		this.regimentCode = regimentCode;
 		this.regiment = regiment;
+		this.regimentName = regimentName;
+		this.storehouseName = storehouseName;
 		this.storehouse = storehouse;
-		this.storehouseCode = storehouseCode;
 		this.foodCode = foodCode;
 		this.expirationDate = expirationDate;
 		this.foodName = foodName;
@@ -41,29 +41,29 @@ public class Food {
 		this.remark = remark;
 	}
 	
-	public String getRegimentCode() {
-		return regimentCode;
-	}
-	public void setRegimentCode(String regimentCode) {
-		this.regimentCode = regimentCode;
-	}
 	public String getRegiment() {
 		return regiment;
 	}
 	public void setRegiment(String regiment) {
 		this.regiment = regiment;
 	}
+	public String getRegimentName() {
+		return regimentName;
+	}
+	public void setRegimentName(String regimentName) {
+		this.regimentName = regimentName;
+	}
+	public String getStorehouseName() {
+		return storehouseName;
+	}
+	public void setStorehouseName(String storehouseName) {
+		this.storehouseName = storehouseName;
+	}
 	public String getStorehouse() {
 		return storehouse;
 	}
 	public void setStorehouse(String storehouse) {
 		this.storehouse = storehouse;
-	}
-	public String getStorehouseCode() {
-		return storehouseCode;
-	}
-	public void setStorehouseCode(String storehouseCode) {
-		this.storehouseCode = storehouseCode;
 	}
 	public String getFoodCode() {
 		return foodCode;
@@ -101,16 +101,16 @@ public class Food {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public String getFoodSourceCode() {
+	public String getFoodSource() {
 		return foodSourceCode;
 	}
-	public void setFoodSourceCode(String foodSourceCode) {
+	public void setFoodSource(String foodSourceCode) {
 		this.foodSourceCode = foodSourceCode;
 	}
-	public String getFoodSource() {
+	public String getFoodSourceName() {
 		return foodSource;
 	}
-	public void setFoodSource(String foodSource) {
+	public void setFoodSourceName(String foodSource) {
 		this.foodSource = foodSource;
 	}
 	public String getqRcodeIdx() {

@@ -261,10 +261,10 @@
    
    <tr id="tr<%=i %>" >
       <td class="col" ><%=i+1 %></td>
-      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRegiment() %></td>
+      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRegimentName() %></td>
       <td class="col" style=" text-align:center;"><%=cd.phone(mobileEquips.get(i).getMobileNumber()) %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getServiceNumber() %></td>
-      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRank() %></td>
+      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRankName() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getName() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getMobileType() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getModelnAME() %></td>

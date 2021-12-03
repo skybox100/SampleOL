@@ -261,9 +261,9 @@
 
 $(document).ready(function() {
 	
- 	$('#reg').val('<%=foods.get(0).getRegimentCode() %>').prop("selected", true);
-	regSelectChange('<%=foods.get(0).getRegimentCode() %>');
-	$('#Storehouse').val('<%=foods.get(0).getStorehouseCode()%>').prop("selected", true);	
+ 	$('#reg').val('<%=foods.get(0).getRegiment() %>').prop("selected", true);
+	regSelectChange('<%=foods.get(0).getRegiment() %>');
+	$('#Storehouse').val('<%=foods.get(0).getStorehouse()%>').prop("selected", true);	
 	$('#Food').val('<%=foods.get(0).getFoodCode()%>').prop("selected", true);	
 	$('#CurrentQuantity').val(<%=Integer.parseInt(foods.get(0).getCurrentQuantity())%>);	
 	$('#Unit').val('<%=foods.get(0).getUnit()%>').prop("selected", true);	

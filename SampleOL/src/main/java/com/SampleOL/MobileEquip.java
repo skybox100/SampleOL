@@ -2,8 +2,8 @@ package com.SampleOL;
 
 public class MobileEquip {
 	String MobileNumber;
+	String RegimentName;
 	String Regiment;
-	String RegimentCode;
 	String RankName;
 	String Rank;
 	String Name;
@@ -20,7 +20,7 @@ public class MobileEquip {
 			String serviceNumber, String mobileType,String joinDate,String modelnAME,String manufacturerName, String remark) {
 		super();
 		MobileNumber = mobileNumber;
-		Regiment = regiment;
+		RegimentName = regiment;
 		Name = name;
 		ServiceNumber = serviceNumber;
 		MobileType = mobileType;
@@ -34,8 +34,8 @@ public class MobileEquip {
 			String serviceNumber, String mobileType,String joinDate,String modelnAME,String manufacturerName, String remark) {
 		super();
 		MobileNumber = mobileNumber;
-		Regiment = regiment;
-		RegimentCode = regimentcode;
+		RegimentName = regiment;
+		Regiment = regimentcode;
 		RegimCompanyName = regimCompanyName;
 		RegimCompany = regimCompany;
 		Name = name;
@@ -51,8 +51,8 @@ public class MobileEquip {
 			String serviceNumber, String mobileType,String joinDate,String modelnAME,String manufacturerName, String remark, String rankName,String rank) {
 		super();
 		MobileNumber = mobileNumber;
-		Regiment = regiment;
-		RegimentCode = regimentcode;
+		RegimentName = regiment;
+		Regiment = regimentcode;
 		RegimCompanyName = regimCompanyName;
 		RegimCompany = regimCompany;
 		Name = name;
@@ -72,17 +72,17 @@ public class MobileEquip {
 	public void setMobileNumber(String mobileNumber) {
 		MobileNumber = mobileNumber;
 	}
+	public String getRegimentName() {
+		return RegimentName;
+	}
+	public void setRegimentName(String regiment) {
+		RegimentName = regiment;
+	}
 	public String getRegiment() {
 		return Regiment;
 	}
-	public void setRegiment(String regiment) {
-		Regiment = regiment;
-	}
-	public String getRegimentCode() {
-		return RegimentCode;
-	}
-	public void setRegimentCode(String regimentCode) {
-		RegimentCode = regimentCode;
+	public void setRegiment(String regimentCode) {
+		Regiment = regimentCode;
 	}
 	public String getMobileType() {
 		return MobileType;

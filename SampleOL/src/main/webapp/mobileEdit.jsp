@@ -260,8 +260,8 @@
 
 $(document).ready(function() {
 	
- 	$('#reg').val('<%=mobileEquips.get(0).getRegimentCode() %>').prop("selected", true);
-	regSelectChange('<%=mobileEquips.get(0).getRegimentCode() %>');
+ 	$('#reg').val('<%=mobileEquips.get(0).getRegiment() %>').prop("selected", true);
+	regSelectChange('<%=mobileEquips.get(0).getRegiment() %>');
 	if('<%=mobileEquips.get(0).getRegimCompany()%>' != '')
 		$('#RegimCompany').val('<%=mobileEquips.get(0).getRegimCompany()%>').prop("selected", true);	
 
