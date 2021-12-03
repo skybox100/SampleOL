@@ -469,7 +469,7 @@ function getTimeStamp2() {
 
 
 function pmUpdate(){
-	if(confirm(data[0].foodName+"("+data[0].foodCode+")"수정하시겠습니까?")){
+	if(confirm(data[0].foodName+"("+data[0].foodCode+")수정하시겠습니까?")){
 		//data[0].Regiment=$('#Regiment').val();
 		//data[0].RegimCompany=$('#RegimCompany').val();
 		data[0].MobileNumber=$('#MobileNumber').val();
