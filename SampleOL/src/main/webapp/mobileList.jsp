@@ -25,11 +25,11 @@
 	   
    //if(request.getParameter("serviceNumber") != null)
      // sn=request.getParameter("serviceNumber");
-	String reg="전체";
-	String regp="전체";
-	String rc="전체";
-	String rcp="전체";
-	String ec="전체";
+	String reg="소속:전체";
+	String regp="소속:전체";
+	String rc="세부소속:전체";
+	String rcp="세부소속:전체";
+	String ec="장비타입:전체";
 	
 	DecimalFormat df = new DecimalFormat("###,###");
 
@@ -72,11 +72,11 @@
 	rc3 = gson.toJson(rc_3);
 
 	
-	if(reg.equals("전체") && rc.equals("전체")){
+	if(reg.equals("소속:전체") && rc.equals("세부소속:전체")){
 		
-	} else if(rc.equals("전체")){
+	} else if(rc.equals("소속:전체")){
 		reg = cd.getCodeID("Regiment", reg);	
-	} else if(reg.equals("전체")){
+	} else if(reg.equals("세부소속:전체")){
 		rc = cd.getCodeID("RegimCompany", rc);	
 	} else{
 		reg = cd.getCodeID("Regiment", reg);
@@ -220,7 +220,7 @@
 <span class="right">
 
   <select id="reg" name ="reg">
-						<option>전체</option>
+						<option>소속:전체</option>
 						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
 						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
 						<%} %>
@@ -230,7 +230,7 @@
   <select id="RegimCompany" style="width: 160px;">
    </select>   
      <select id="equipType" name ="equipType">
-						<option>전체</option>
+						<option>장비타입:전체</option>
 						<option value="watch">watch</option>
 						<option value="phone">phone</option>
 	</select>
@@ -337,12 +337,14 @@ int block = (pageNum-1)/pageNum_list;
 
 	 	$('#reg').val('<%=regp %>').prop("selected", true);
 		regSelectChange('<%=regp %>');
+		$('#RegimCompany').val('<%=rcp%>').prop("selected", true);	
+
 		$('#equipType').val('<%=ec%>').prop("selected", true);
 
 			
 			
    		 $('#reg').on('change', function() {
-   		     location.replace("mobileList.jsp?reg="+$('#reg').val()+"&regim_company=전체"); 
+   		     location.replace("mobileList.jsp?reg="+$('#reg').val()); 
    		 });
    			 $('#RegimCompany').on('change', function() {
      	  	 location.replace("mobileList.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()
@@ -437,7 +439,7 @@ function regSelectChange(e) {
 	
 	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
-	var rc4 = ['전체'];
+	var rc4 = ['세부소속:전체'];
 
 	var target = document.getElementById("RegimCompany");
 
@@ -445,7 +447,7 @@ function regSelectChange(e) {
 	else if(e == "28-1대대") var d = rc1;
 	else if(e == "28-2대대") var d = rc2;
 	else if(e == "28-3대대") var d = rc3;
-	else if(e == "전체") var d = rc4;
+	else if(e == "소속:전체") var d = rc4;
 
 
 
@@ -458,7 +460,6 @@ function regSelectChange(e) {
 	
 	
 
-	$('#RegimCompany').val('<%=rcp%>').prop("selected", true);	
 	
 }
 

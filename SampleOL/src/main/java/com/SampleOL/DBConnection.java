@@ -31,7 +31,6 @@ public class DBConnection {
 	String password = "todkagh123!";
 	
 	
-	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	Connection con = null;
@@ -1187,7 +1186,7 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 	//	JSONArray jsonLocations = new JSONArray();
 		try {
 			con = getConn();				
-			if(reg.equals("전체") && rc.equals("전체") && ec.equals("전체") && ec.equals("전체")) {
+			if(reg.equals("소속:전체") && rc.equals("세부소속:전체") && ec.equals("장비타입:전체")) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany,p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
@@ -1196,7 +1195,7 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
 					+ "	order by p.Regiment , m.MobileNumber ; ";
 
-			}else if(reg.equals("전체") && rc.equals("전체")) {
+			}else if(reg.equals("소속:전체") && rc.equals("세부소속:전체")) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany,p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
@@ -1207,7 +1206,7 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 						+ "	order by p.Regiment, m.MobileNumber ; ";
 					
 
-			}else if(rc.equals("전체") && ec.equals("전체")) {
+			}else if(rc.equals("세부소속:전체") && ec.equals("장비타입:전체")) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany,p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
@@ -1218,7 +1217,7 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 						+ "	order by p.Regiment  , m.MobileNumber ; ";
 					
 
-			}else if(reg.equals("전체")) {
+			}else if(reg.equals("소속:전체")) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany,p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
@@ -1227,7 +1226,7 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
 						+ " where p.RegimCompany = '"+rc+"' and m.MobileType ='"+ec+"'"
 						+ "	order by p.Regiment  , m.MobileNumber ; ";
-			}else if(rc.equals("전체")) {
+			}else if(rc.equals("세부소속:전체")) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany,p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
@@ -1236,7 +1235,7 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
 						+ " where p.regiment = '"+reg+"' and m.MobileType ='"+ec+"'"
 						+ "	order by p.Regiment , m.MobileNumber ; ";
-			}else if(ec.equals("전체")) {
+			}else if(ec.equals("장비타입:전체")) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as RegimCompany,p.RegimCompany as RegimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
@@ -3863,7 +3862,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ "WHERE c.CodeName = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
-		rcs.add("전체");
+		rcs.add("세부소속:전체");
 		
 		try {
 			con = getConn();
