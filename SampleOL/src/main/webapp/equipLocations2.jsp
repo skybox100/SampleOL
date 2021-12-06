@@ -553,13 +553,13 @@
 				    lon: longitude,
 				    lat: latitude,
 				    desc: '<table style="white-space:nowrap;width:100%;">'
-				    	+ '<tr><td class="block" style="width:auto">군사좌표</td><td style="text-align:right;">' + mgrs + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">위도</td><td style="text-align:right;">' + latitude + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">경도</td><td style="text-align:right;">' + longitude + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">장비번호&nbsp&nbsp</td><td style="text-align:right;">' + id + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">소속</td><td style="text-align:right;">' + regiment + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">장비종류</td><td style="text-align:right;">' + equipType + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">설치위치</td><td style="text-align:right;">' + equipLocation + '</td></tr>'
+				    	+ '<tr><td class="block" style="width:auto">군사좌표</td><td style="text-align:right;">' + mgrs + '</td></tr>'
 				    	+ '</table>'
 				}),
 				iconStyle = new ol.style.Style({
