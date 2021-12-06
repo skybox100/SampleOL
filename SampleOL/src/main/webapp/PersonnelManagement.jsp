@@ -189,7 +189,7 @@
    }
 
    div{
-   	   width: 1890px;
+   	   width: 100%;
        position:relative;
    }
    div span.title{
