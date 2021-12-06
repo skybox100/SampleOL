@@ -17,10 +17,10 @@
    
    //if(request.getParameter("serviceNumber") != null)
      // sn=request.getParameter("serviceNumber");
-	String reg="전체";
-	String regp="전체";
-	String rc="전체";
-	String rcp="전체";
+	String reg="소속:전체";
+	String regp="소속:전체";
+	String rc="세부소속:전체";
+	String rcp="세부소속:전체";
 	String delnm="0";
 	
 	int pageNum=1;
@@ -80,10 +80,10 @@
 	ArrayList<String> PersonnelReg = cd.getPersonnelReg();
 
 
-	if(reg.equals("전체") && rc.equals("전체")){
-	} else if(rc.equals("전체")){
+	if(reg.equals("소속:전체") && rc.equals("세부소속:전체")){
+	} else if(rc.equals("세부소속:전체")){
 		reg = cd.getCodeID("Regiment", reg);	
-	} else if(reg.equals("전체")){
+	} else if(reg.equals("소속:전체")){
 		rc = cd.getCodeID("RegimCompany", rc);	
 	} else{
 		reg = cd.getCodeID("Regiment", reg);
@@ -225,7 +225,7 @@
 <span class="right">
 <input type="button" value="계정생성" onClick="location.href='PersonnelManagementInsert.jsp'" style="width:100px;height:40px;">
   <select id="reg" name ="reg">
-  						<option>전체</option>
+  						<option>소속:전체</option>
 						<%for(int i=0; i<PersonnelReg.size(); i++) {%>
 						<option value="<%=PersonnelReg.get(i)%>"><%=PersonnelReg.get(i)%></option>
 						<%} %>
@@ -344,7 +344,7 @@ $(document).ready(function() {
 	
 		
 		 $('#reg').on('change', function() {
-		     location.replace("PersonnelManagement.jsp?reg="+$('#reg').val()+"&regim_company=전체"); 
+		     location.replace("PersonnelManagement.jsp?reg="+$('#reg').val()); 
 		 });
 			 $('#RegimCompany').on('change', function() {
  	  	 location.replace("PersonnelManagement.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()
@@ -389,7 +389,7 @@ function regSelectChange(e) {
 	
 	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
-	var rc4 = ['전체'];
+	var rc4 = ['세부소속:전체'];
 
 	var target = document.getElementById("RegimCompany");
 
@@ -397,7 +397,7 @@ function regSelectChange(e) {
 	else if(e == "28-1대대") var d = rc1;
 	else if(e == "28-2대대") var d = rc2;
 	else if(e == "28-3대대") var d = rc3;
-	else if(e == "전체") var d = rc4;
+	else if(e == "소속:전체") var d = rc4;
 
 
 

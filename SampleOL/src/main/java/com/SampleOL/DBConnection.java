@@ -31,6 +31,7 @@ public class DBConnection {
 	String password = "todkagh123!";
 	
 	
+	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	Connection con = null;
@@ -392,7 +393,7 @@ public class DBConnection {
 			con = getConn();				
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
 			
-			if(reg.equals("전체") && rc.equals("전체")) {
+			if(reg.equals("소속:전체") && rc.equals("세부소속:전체")) {
 				sql="SELECT p.ServiceNumber"
 						+ "      ,f.CodeName as MissionType"
 						+ "      ,e.CodeName as Rank"
@@ -430,7 +431,7 @@ public class DBConnection {
 						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID;";
 
 
-			}else if(reg.equals("전체")) {
+			}else if(reg.equals("소속:전체")) {
 				sql="SELECT p.ServiceNumber"
 						+ "      ,f.CodeName as MissionType"
 						+ "      ,e.CodeName as Rank"
@@ -467,7 +468,7 @@ public class DBConnection {
 						+ "  inner join dbo.Code as f on p.MissionType = f.CodeID"
 						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
 						+ " where p.RegimCompany = '"+rc+"'";
-			}else if(rc.equals("전체")) {
+			}else if(rc.equals("세부소속:전체")) {
 				sql="SELECT p.ServiceNumber"
 						+ "      ,f.CodeName as MissionType"
 						+ "      ,e.CodeName as Rank"
@@ -3933,7 +3934,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ "WHERE c.CodeName = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
-		rcs.add("전체");
+		rcs.add("세부소속:전체");
 		
 		try {
 			con = getConn();
