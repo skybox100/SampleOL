@@ -240,7 +240,7 @@
 <span class="left"><input type="text" id="now" readonly> 
 </span>
 <form name="search_form" method="get">
-	<input type="text" id="search" name="search">
+	<input type="text" id="search" name="search" placeholder="방이름을 입력하십시오">
 	<input type="submit" id="submit" value="검색">
 </form>
 <span class="title">비콘 현황판</span>
@@ -539,7 +539,7 @@ function deleteBC(num){
 	if(confirm(data[num].EquipId+"을 정말 삭제하시겠습니까?")){
 		
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementDelete',
+		url: 'http://110.10.130.51:5002/api/Wareable/BeaconsDelete',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[num]),

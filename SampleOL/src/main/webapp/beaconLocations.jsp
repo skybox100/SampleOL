@@ -12,7 +12,7 @@
 <%
 
 	request.setCharacterEncoding("euc-kr");
-	String param = "geofence";
+	String param = "satellite_map";
 
 	if(request.getParameter("gis_setting")!= null ){
 		param = request.getParameter("gis_setting") ;
@@ -28,19 +28,14 @@
 	String regimentName = "";
 	String equipTypeName ="";
 	
-	try {
-		
-		beaconLocations = cd.getBeaconById(uuid);
-		multi_marker = gson.toJson(beaconLocations);
-		
+
 
 		
-	} catch(Exception e) {
+		beaconLocations = cd.getBeaconById(uuid);
+		if(beaconLocations.size() ==0)
+			beaconLocations = cd.getBeaconById("AC:23:3F:74:66:46");
 		
-		beaconLocations = cd.getBeaconsList("전체","전체","전체");
 		multi_marker = gson.toJson(beaconLocations);
-		
-	}
 
 
 %>
@@ -65,8 +60,9 @@
 			margin-top: 0;
     	}
         #map{
-        	width: auto;
-            height: 1080px;
+        	position:fixed;
+        	width: 100%;
+            height: 100%;
         }
         .ol-tooltip *{
             font-family: Arial, Helvetica, sans-serif;
@@ -321,7 +317,7 @@
 					],
 					view: new ol.View({
 						center: ol.proj.fromLonLat(
-								//[126.77192, 37.654461]
+								//[126.77192, 37.754461]
  								[data[0].Longitude,data[0].Latitude]
 
 						), 
@@ -337,7 +333,7 @@
 				],
 				view: new ol.View({
 					center: ol.proj.fromLonLat(
-							//[126.77192, 37.654461]
+							//[126.77192, 37.754461]
 							[data[0].Longitude,data[0].Latitude]
 
 					), 
@@ -461,7 +457,7 @@
 		       
 			data.forEach(function(item) { //iterate through array...
 
-				var Longitude = item.Longitude, Latitude = item.Latitude, Uuid = item.Uuid, Regiment = item.Regiment, RegimCompany = item.RegimCompany
+				var Longitude = item.Longitude, Latitude = item.Latitude, Uuid = item.Uuid, Regiment = item.Regiment, RegimCompany = item.RegimCompany, RegimentName = item.RegimentName, RegimCompanyName = item.RegimCompanyName
 								, EquipType = item.EquipType, EquipLocation=item.EquipLocation;
 		
 				console.log(Longitude + ":" + Latitude + ":" + Uuid + ":" + Regiment + ":" +
@@ -497,8 +493,8 @@
 				    	+ '<tr><td class="block" style="width:auto">위도</td><td style="text-align:right;">' + Latitude + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">경도</td><td style="text-align:right;">' + Longitude + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">장비번호&nbsp&nbsp</td><td style="text-align:right;">' + Uuid + '</td></tr>'
-				    	+ '<tr><td class="block" style="width:auto">소속</td><td style="text-align:right;">' + Regiment + '</td></tr>'
-				    	+ '<tr><td class="block" style="width:auto">세부소속</td><td style="text-align:right;">' + RegimCompany + '</td></tr>'
+				    	+ '<tr><td class="block" style="width:auto">소속</td><td style="text-align:right;">' + RegimentName + '</td></tr>'
+				    	+ '<tr><td class="block" style="width:auto">세부소속</td><td style="text-align:right;">' + RegimCompanyName + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">설치위치</td><td style="text-align:right;">' + EquipLocation + '</td></tr>'
 				    	+ '</table>'
 				}),

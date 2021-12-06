@@ -141,9 +141,9 @@
     	}
 
         #map{
-        	
-        	width: auto;
-			height:1080px;
+        	position:fixed;
+        	width: 100%;
+            height: 100%;
             
         }
         
@@ -618,7 +618,7 @@
 				],
 				view: new ol.View({
 					center: ol.proj.fromLonLat(
-							[126.77192, 37.654461]
+							[126.77192, 37.754461]
 					), 
 					zoom: 11
 				})
@@ -632,7 +632,7 @@
 			],
 			view: new ol.View({
 				center: ol.proj.fromLonLat(
-						[126.77192, 37.654461]
+						[126.77192, 37.754461]
 				), 
 				zoom: 11
 			})
@@ -743,16 +743,17 @@
 
 					var line = new ol.geom.LineString([pnt_data, pnt_data2]);
 					distance = Math.round(line.getLength());
-					if(distance <100 & cnt <4 & distance >0){
+					if(distance <50 & cnt <9 & distance >0){
 						cnt++;
 						multi +='<table style="white-space:nowrap;text-align:left;">'
-					    	+ '<tr ><td Colspan="2">' + item.timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+item.isDevice +'</td></tr>'
-						    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+item.MobileNumber+'</td></tr>'
-						    + '<tr><td>소속</td><td style="text-align:right;">'+item.regimCompany+'</td></tr>'
-						    + '<tr><td>계급성명</td><td style="text-align:right;">'+item.rank+'&nbsp'+item.name+'</td></tr>'
-						    + '<tr><td>군번</td><td style="text-align:right;">'+item.serviceNumber+'</td></tr>'
-						    + '<tr><td>'+item.equipLocation+'</td><td style="text-align:right;">'+item.roomName+'</td></tr>'
-					    	+ '</table><br>';
+					    	+ '<tr ><td>' + item.timestamp+'</td><td style="text-align:right;">'+item.isDevice +'</td></tr>'
+						   // + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+item.MobileNumber+'</td></tr>'
+						    + '<tr><td Colspan="2">'+item.regimCompanyName+'&nbsp'+item.rankName+'&nbsp'+item.name+'</td></tr>'
+						    //+ '<tr><td>계급성명</td><td style="text-align:right;">'+item.rankName+'&nbsp'+item.name+'</td></tr>'
+						    //+ '<tr><td>군번</td><td style="text-align:right;">'+item.serviceNumber+'</td></tr>'
+						    + '<tr><td>'+item.roomName+'</td><td style="text-align:right;">'+item.roomNumber+'</td></tr>'
+						    + '<tr><td Colspan="2">-----------------------</td></tr>'
+					    	+ '</table>';
 
 					}
 					
@@ -795,83 +796,7 @@
 
 		});
 		
-		map.on('click', function (evt)
-				{
-				    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
-				        return feat;
-				    });
-				    if (map.hasFeatureAtPixel(evt.pixel) === true)
-				    {
-				    	
-				    	var cnt=0;
-				    	var multi='';
-				    	var distance=0;
-				    	data.forEach(function(item) {
-				    		
-				    		
-		            		var pnt_data = ol.proj.fromLonLat([feature.get('lon'),feature.get('lat')]);
-		            		var pnt_data2 = ol.proj.fromLonLat([item.longitude,item.latitude]);
-
-							var line = new ol.geom.LineString([pnt_data, pnt_data2]);
-							distance = Math.round(line.getLength());
-							if(distance <100 & cnt <4 & distance >0){
-								cnt++;
-								multi +='<table style="white-space:nowrap;text-align:left;">'
-							    	+ '<tr ><td Colspan="2">' + item.timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+item.isDevice +'</td></tr>'
-								    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+item.MobileNumber+'</td></tr>'
-								    + '<tr><td>소속</td><td style="text-align:right;">'+item.regimCompany+'</td></tr>'
-								    + '<tr><td>계급성명</td><td style="text-align:right;">'+item.rank+'&nbsp'+item.name+'</td></tr>'
-								    + '<tr><td>군번</td><td style="text-align:right;">'+item.serviceNumber+'</td></tr>'
-								    + '<tr><td>'+item.equipLocation+'</td><td style="text-align:right;">'+item.roomName+'</td></tr>'
-							    	+ '</table><br>';
-
-							}
-							
-							
-				    	});	
-				    	
-				        if(selected != feature)
-				        {
-				            // Event coordinates
-				            // popup.setPosition(evt.coordinate);
-				            // Lon Lat coordinates
-				           
-				            
-				            var position = ol.proj.transform([feature.get('lon'),feature.get('lat')], 'EPSG:4326', 'EPSG:3857');
-				            if(feature.get('desc') != undefined){
-				            	if(cnt >=2){
-				            		content.innerHTML= multi+feature.get('desc');
-				            	}else{
-						            content.innerHTML = feature.get('desc');	            		
-				            	}
-				            
-
-				            // Show marker on top
-				         	   MarkerOnTop(feature, true);
-					        
-				            // Show popup
-				         	   popup.setPosition(position);
-				            }else{
-				            	straitSource.getFeatures().forEach((f) => {
-						            // Hide markers zindex 999
-						            MarkerOnTop(f, false);
-						        });
-						        // Hide popup
-						        popup.setPosition(undefined);
-				            }
-				        }
-				    }
-				    else
-				    {
-				        straitSource.getFeatures().forEach((f) => {
-				            // Hide markers zindex 999
-				            MarkerOnTop(f, false);
-				        });
-				        // Hide popup
-				        popup.setPosition(undefined);
-				    }
-
-				});
+		
 
 		
 
@@ -1054,10 +979,10 @@
 
 				var longitude = item.longitude, latitude = item.latitude, idx = item.idx
 				, userKey = item.userKey, timestamp = item.timestamp
-				, regiment = item.regiment, regimCompany = item.regimCompany
+				, regiment = item.regiment, regimCompany = item.regimCompany,regimentName = item.regimentName, regimCompanyName = item.regimCompanyName
 				, serviceNumber = item.serviceNumber,isDevice=item.isDevice
-				, duty = item.duty, name = item.name, rank = item.rank
-				,mobileNumber=item.MobileNumber,roomName=item.roomName,equipLocation=item.equipLocation;
+				, duty = item.duty, name = item.name, rank = item.rank, rankName = item.rankName
+				,mobileNumber=item.MobileNumber,roomNumber=item.roomNumber,roomName=item.roomName,equipLocation=item.equipLocation;
 				//var longitude = data.longitude, latitude = data.latitude, idx = data.idx
 						//	, userKey = data.userKey, timestamp = data.timestamp;
 				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
@@ -1194,12 +1119,12 @@
 				    lon: longitude,
 				    lat: latitude,
 				    desc: '<table style="white-space:nowrap;text-align:left;">'
-				    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
-					    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
-					    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
-					    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
-					    + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
-					    + '<tr><td>'+equipLocation+'</td><td style="text-align:right;">'+roomName+'</td></tr>'
+				    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
+					  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
+						+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
+					  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
+					  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+					    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 				    	+ '</table>'
 				});
 				

@@ -139,7 +139,8 @@
 <style>
 
     .table {
-      width: 1890px;
+      table-layout:fixed;
+      width: 100%;
       font-size: 1.1rem;
       border-collapse: collapse;
       border-top: 2px solid #19317f;

@@ -12,7 +12,7 @@
 <%@ page import="java.io.*, java.util.*" %>
 <%
 System.out.println("personalLocations5");
-	String param = "geofence";
+	String param = "satellite_map";
 
 	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
@@ -117,15 +117,15 @@ System.out.println("personalLocations5");
 		last_marker = gson.toJson(lastLocation);
 		System.out.println("subnum="+subnum);
 		if(subnum==1){
-				rc = locations.get(0).getRegiment();
-				rank = locations.get(0).getRank();
+				rc = locations.get(0).getRegimentName();
+				rank = locations.get(0).getRankName();
 				name = locations.get(0).getName();
 				duty = locations.get(0).getDuty();
 				serviceNumber = locations.get(0).getServiceNumber();
 		}else {
 			for (int i = 0; i < subnum; ++i) {
-	    		rc2.add(cd.getCodeName("RegimCompany", locations_member.get(i).getRegiment()));
-				rank2.add(cd.getCodeName("rank", locations_member.get(i).getRank()));
+	    		rc2.add(locations_member.get(i).getRegimentName());
+				rank2.add( locations_member.get(i).getRankName());
 				serviceNumber2.add(locations_member.get(i).getServiceNumber());
 				name2.add(locations_member.get(i).getName());
 			}
@@ -155,8 +155,9 @@ System.out.println("personalLocations5");
 			margin-top: 0;
     	}
         #map{
-        	width: auto;
-            height: 1080px;
+        	position:fixed;
+        	width: 100%;
+            height: 100%;
         }
         .ol-tooltip *{
             font-family: Arial, Helvetica, sans-serif;
@@ -466,7 +467,7 @@ System.out.println("personalLocations5");
  					],
  					view: new ol.View({
  						center: ol.proj.fromLonLat(
- 								//[126.77192, 37.654461]
+ 								//[126.77192, 37.754461]
  								[last_data.longitude,last_data.latitude]
 
  						), 
@@ -482,7 +483,7 @@ System.out.println("personalLocations5");
  				],
  				view: new ol.View({
  					center: ol.proj.fromLonLat(
- 							//[126.77192, 37.654461]
+ 							//[126.77192, 37.754461]
 								[last_data.longitude,last_data.latitude]
 
  					), 
@@ -566,36 +567,6 @@ System.out.println("personalLocations5");
 
 		});
 
-		// Click popup
-		map.on('click', function (evt)
-		{
-		    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feat, layer) {
-		        selected = feat;
-		        return feat;
-		    });
-		    if (map.hasFeatureAtPixel(evt.pixel) === true)
-		    {
-		        // Event coordinates
-		        // popup.setPosition(evt.coordinate);
-		        // Lon Lat coordinates
-		        var position = ol.proj.transform([feature.get('lon'),feature.get('lat')], 'EPSG:4326', 'EPSG:3857');
-		        contentClick.innerHTML = feature.get('desc');
-		        // Show marker on top
-		        MarkerOnTop(feature, true);
-		        // Show Popup
-		        popupClick.setPosition(position);
-		    }
-		    else
-		    {
-		        selected = null;
-		         // Hide markers zindex 999
-		        straitSource.getFeatures().forEach((f) => {
-		            MarkerOnTop(f, false);
-		        });
-		        popupClick.setPosition(undefined);
-		    }
-		});
-
 		// Show marker on top
 		function MarkerOnTop(feature, show = false)
 		{
@@ -621,13 +592,14 @@ System.out.println("personalLocations5");
 				
 				//var longitude = item.Lon, latitude = item.Lat, icon = item.Icon, desc = item.Desc;
 				var longitude = item.longitude, latitude = item.latitude, idx = item.idx
-							, userKey = item.userKey, timestamp = item.timestamp
-							, regiment = item.regiment, regimCompany = item.regimCompany
-							, serviceNumber = item.serviceNumber,isDevice=item.isDevice
-							, duty = item.duty, name = item.name, rank = item.rank
-							,mobileNumber=item.MobileNumber,roomName=item.roomName,equipLocation=item.equipLocation;
-				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
-			
+				, userKey = item.userKey, timestamp = item.timestamp
+				, regiment = item.regiment, regimCompany = item.regimCompany,regimentName = item.regimentName, regimCompanyName = item.regimCompanyName
+				, serviceNumber = item.serviceNumber,isDevice=item.isDevice
+				, duty = item.duty, name = item.name, rank = item.rank, rankName = item.rankName
+				,mobileNumber=item.MobileNumber,roomNumber=item.roomNumber,roomName=item.roomName,equipLocation=item.equipLocation;
+				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
+						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
+						name + ":" + rank  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
 				var time = "<%=lastTimestamp%>";
 				
 				if(timestamp == time){
@@ -648,13 +620,12 @@ System.out.println("personalLocations5");
 					    lon: longitude,
 					    lat: latitude,
 					    desc: '<table style="white-space:nowrap;text-align:left;">'
-					    	+ '<tr ><td>' + seq +'</td></tr>'
-					    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
-						    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
-						    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
-						    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
-						    + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
-						    + '<tr><td>'+equipLocation+'</td><td style="text-align:right;">'+roomName+'</td></tr>'
+					    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
+						  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
+							+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
+						  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
+						  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+						    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 					    	+ '</table>'
 					});
 					
@@ -690,12 +661,12 @@ System.out.println("personalLocations5");
 			//var longitude = data.Lon, latitude = data.Lat, icon = data.Icon, desc = data.Desc;
 				var longitude = data.longitude, latitude = data.latitude, idx = data.idx
 							, userKey = data.userKey, timestamp = data.timestamp
-							, regiment = data.regiment, regimCompany = data.regimCompany
+							, regiment = data.regiment,regimentName = data.regimentName, regimCompany = data.regimCompany, regimCompanyName = data.regimCompanyName
 							, serviceNumber = data.serviceNumber,isDevice=data.isDevice
-							, duty = data.duty, name = data.name, rank = data.rank
+							, duty = data.duty,roomNumber=data.roomNumber, name = data.name, rank = data.rank,rankName=data.rankName
 							,mobileNumber=data.MobileNumber,roomName=data.roomName,equipLocation=data.equipLocation;
 				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
-								
+							
 			var MarkerIcon = new ol.style.Icon({
 	            anchor: [0.5, 20],
 	            anchorXUnits: 'fraction',
@@ -710,13 +681,12 @@ System.out.println("personalLocations5");
 			    lon: longitude,
 			    lat: latitude,
 			    desc: '<table style="white-space:nowrap;text-align:left;">'
-			    	+ '<tr ><td>1</td></tr>'
-			    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
-				    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
-				    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
-				    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
-				    + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
-				    + '<tr><td>'+equipLocation+'</td><td style="text-align:right;">'+roomName+'</td></tr>'
+			    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
+				  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
+					+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
+				  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
+				  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+				    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 			    	+ '</table>'
 			});
 			    		

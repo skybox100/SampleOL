@@ -196,7 +196,7 @@
 						<option>입고일자</option>
 						<option>유통기한</option>
 </select>
-<button id="sc" value='<%=sc%>' style="height:36px;padding: 5px;"><%=sc2%></button>
+<button id="sc" value='<%=sc%>' style="height:36px;width:70px;padding: 5px;"><%=sc2%></button>
 </span>
 <span class="title">부식창고 현황판</span>
 <span class="right">
@@ -249,7 +249,7 @@
       <td class="col" style=" text-align:center; "><%=foods.get(i).getFoodCode() %></td>
       <td class="col" >&nbsp;<%=foods.get(i).getFoodName() %></td>
       <td class="col" style=" text-align:right; "><%=df.format(Integer.parseInt(foods.get(i).getCurrentQuantity())) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
-      <td class="col" style=" text-align:center; "><%=foods.get(i).getStoreDate() %></td>
+      <td class="col" style=" text-align:center; "><%=cd.searchDateConvert(foods.get(i).getStoreDate(),"yyyy-MM-dd") %></td>
       <td class="col" id="col<%=i %>" style="text-align:center; "><%=cd.searchDateConvert(foods.get(i).getExpirationDate(),"yyyy-MM-dd") %></td>
       <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='foodEdit.jsp?Regiment=<%=foods.get(i).getRegimentName()%>&Storehouse=<%=foods.get(i).getStorehouseName() %>&FoodCode=<%=foods.get(i).getFoodCode() %>&ExpirationDate=<%=foods.get(i).getExpirationDate() %>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteFD(<%=i %>)"/></td>
 
@@ -443,7 +443,7 @@ function deleteFD(num){
 	if(confirm(data[num].foodName+"("+data[num].foodCode+")을 정말 삭제하시겠습니까?")){
 		
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementDelete',
+		url: 'http://110.10.130.51:5002/TenSystem/FoodInventory/FoodInventoryDelete',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[num]),

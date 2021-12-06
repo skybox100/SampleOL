@@ -217,7 +217,7 @@
        <tr>
       <td class="colt" >계급</td>
       <td class="col" >
-      <select id="rank" style="width: 140px;">
+      <select id="Rank" style="width: 140px;">
 						<%for(int i=0; i<RankReg.size(); i++) {%>
 						<option value="<%=cd.getCodeID("Rank",RankReg.get(i))%>"><%=RankReg.get(i)%></option>
 						<%} %>
@@ -268,7 +268,7 @@ $(document).ready(function() {
 	$('#MobileType').val('<%=mobileEquips.get(0).getMobileType()%>').prop("selected", true);	
 	
 	if('<%=mobileEquips.get(0).getRank()%>' != '')
-	$('#rank').val('<%=mobileEquips.get(0).getRank()%>').prop("selected", true);	
+	$('#Rank').val('<%=mobileEquips.get(0).getRank()%>').prop("selected", true);	
 
 
 	  getTimeStamp2();
@@ -466,8 +466,11 @@ function getTimeStamp2() {
 
 function pmUpdate(){
 	if(confirm(data[0].ServiceNumber+"("+data[0].Name+")수정하시겠습니까?")){
-		//data[0].Regiment=$('#Regiment').val();
-		//data[0].RegimCompany=$('#RegimCompany').val();
+		data[0].MobileNumber=$('#MobileNumber').val();
+		data[0].Regiment=$('#Regiment').val();
+		data[0].RegimentName=$('#Regiment').innerText;
+		data[0].RegimCompany=$('#RegimCompany').val();
+		data[0].RegimCompanyName=$('#RegimCompany').innerText;
 		data[0].MobileNumber=$('#MobileNumber').val();
 		data[0].Name=$('#Name').val();
 		data[0].ServiceNumber=$('#ServiceNumber').val();
@@ -475,11 +478,13 @@ function pmUpdate(){
 		data[0].ModelnAME=$('#ModelnAME').val();
 		data[0].ManufacturerName=$('#ManufacturerName').val();
 		data[0].Remark=$('#Remark').val();
+		data[0].Rank=$('#Rank').val();
+		data[0].RankName=$('#Rank').innerText;
 
 
 
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementNewSave',
+		url: 'http://110.10.130.51:5002/TenSystem/MobileManagement/MobileManagementNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),

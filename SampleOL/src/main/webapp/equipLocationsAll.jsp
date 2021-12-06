@@ -13,7 +13,7 @@
 
 	request.setCharacterEncoding("euc-kr");
 	
-	String param = "geofence";
+	String param = "satellite_map";
 	String reg="전체";
 	String regp = "전체";
 	String et = "전체";
@@ -103,8 +103,9 @@
     	
     	
         #map{
-        	width: auto;
-            height: 1080px;
+        	position:fixed;
+        	width: 100%;
+            height: 100%;
         }
         #box1{
         	width: 150px;
@@ -340,7 +341,6 @@
 					</select>
 	</div>
 
-	<div id="map"></div>
 
 	<!-- Popup hover -->
 	<div id="popup" class="ol-popup">
@@ -407,7 +407,7 @@
   					],
   					view: new ol.View({
   						center: ol.proj.fromLonLat(
-  								[126.77192, 37.654461]
+  								[126.77192, 37.754461]
  								//[data[0].longitude,data[0].latitude]
 
   						), 
@@ -423,7 +423,7 @@
   				],
   				view: new ol.View({
   					center: ol.proj.fromLonLat(
-  							[126.77192, 37.654461]
+  							[126.77192, 37.754461]
 								//[data[0].longitude,data[0].latitude]
 
   					), 
@@ -626,13 +626,13 @@
 				    lon: longitude,
 				    lat: latitude,
 				    desc: '<table style="white-space:nowrap;width:100%;">'
-				    	+ '<tr><td class="block" style="width:auto">군사좌표</td><td style="text-align:right;">' + mgrs + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">위도</td><td style="text-align:right;">' + latitude + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">경도</td><td style="text-align:right;">' + longitude + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">장비번호&nbsp&nbsp</td><td style="text-align:right;">' + id + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">소속</td><td style="text-align:right;">' + regiment + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">장비종류</td><td style="text-align:right;">' + equipType + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">설치위치</td><td style="text-align:right;">' + equipLocation + '</td></tr>'
+				    	+ '<tr><td class="block" style="width:auto">군사좌표</td><td style="text-align:right;">' + mgrs + '</td></tr>'
 				    	+ '</table>'
 				}),
 				iconStyle = new ol.style.Style({

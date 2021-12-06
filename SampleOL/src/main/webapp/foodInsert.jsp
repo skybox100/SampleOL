@@ -438,16 +438,20 @@ function goBack(){
 
 function pmUpdate(){
 	if(confirm("음식정보를 추가하시겠습니까?")){
-		data[0].Regiment=$('#Regiment').val();
-		data[0].Storehouse=$('#Storehouse').val();
-		data[0].FoodName=$('#Food').val();
-		data[0].FoodCode=$('#Food').innerText;
-		data[0].StoreDate=$('#StoreDate').val();
-		data[0].ExpirationDate=$('#ExpirationDate').val();
+		data[0].regiment=$('#Regiment').val();
+		data[0].regimentName=$('#Regiment').innerText;
+		data[0].storehouse=$('#Storehouse').val();
+		data[0].storehouseName=$('#Storehouse').innerText;
+		data[0].foodName=$('#Food').val();
+		data[0].foodCode=$('#Food').innerText;
+		data[0].storeDate=$('#StoreDate').val();
+		data[0].expirationDate=$('#ExpirationDate').val();
+		data[0].unit=$('#Unit').val();
+
 
 
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementNewSave',
+		url: 'http://110.10.130.51:5002/TenSystem/FoodInventory/FoodInventoryNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),

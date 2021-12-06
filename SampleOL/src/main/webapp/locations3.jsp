@@ -136,9 +136,9 @@
 
         #map{
         	
-        	width: auto;
-			height:1080px;
-            
+        	position:fixed;
+        	width: 100%;
+            height: 100%;
         }
         
         
@@ -606,7 +606,7 @@
 				],
 				view: new ol.View({
 					center: ol.proj.fromLonLat(
-							[126.77192, 37.654461]
+							[126.77192, 37.754461]
 					), 
 					zoom: 11
 				})
@@ -620,7 +620,7 @@
 			],
 			view: new ol.View({
 				center: ol.proj.fromLonLat(
-						[126.77192, 37.654461]
+						[126.77192, 37.754461]
 				), 
 				zoom: 11
 			})
@@ -1045,7 +1045,7 @@
 
 					/*
 					$.ajax({
-						url: 'http://211.9.3.55:5010/Emergency/EventStatus/EventStatusSave',
+						url: 'http://110.10.130.51:5002/Emergency/EventStatus/EventStatusSave',
 						contentType: "application/json; charset=utf-8",
 						method: 'POST',
 						data: JSON.stringify(item),

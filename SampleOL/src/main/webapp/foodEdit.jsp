@@ -244,11 +244,11 @@
    </tr>
    <tr>
       <td class="colt" >입고일자</td>
-      <td class="col" ><input type="date" id="StoreDate" value="<%=foods.get(0).getStoreDate()%>"></td>
+      <td class="col" ><input type="date" id="StoreDate" value="<%=cd.searchDateConvert(foods.get(0).getStoreDate(),"yyyy-MM-dd")%>"></td>
    </tr>
    <tr>
       <td class="colt" >유통기한</td>
-      <td class="col" ><input type="date" id="ExpirationDate" value="<%=foods.get(0).getExpirationDate()%>"></td>
+      <td class="col" ><input type="date" id="ExpirationDate" value="<%=cd.searchDateConvert(foods.get(0).getExpirationDate(),"yyyy-MM-dd")%>"></td>
    </tr>
  
 
@@ -466,16 +466,19 @@ function goBack(){
 
 function pmUpdate(){
 	if(confirm("음식정보를 수정하시겠습니까?")){
-		data[0].Regiment=$('#Regiment').val();
-		data[0].Storehouse=$('#Storehouse').val();
-		data[0].FoodName=$('#Food').val();
-		data[0].FoodCode=$('#Food').innerText;
-		data[0].StoreDate=$('#StoreDate').val();
-		data[0].ExpirationDate=$('#ExpirationDate').val();
+		data[0].regiment=$('#Regiment').val();
+		data[0].regimentName=$('#Regiment').innerText;
+		data[0].storehouse=$('#Storehouse').val();
+		data[0].storehouseName=$('#Storehouse').innerText;
+		data[0].foodName=$('#Food').innerText;
+		data[0].foodCode=$('#Food').val();
+		data[0].storeDate=$('#StoreDate').val();
+		data[0].expirationDate=$('#ExpirationDate').val();
+		data[0].unit=$('#Unit').val();
 
 
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementNewSave',
+		url: 'http://110.10.130.51:5002/TenSystem/FoodInventory/FoodInventoryNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),

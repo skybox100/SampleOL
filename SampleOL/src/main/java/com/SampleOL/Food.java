@@ -6,24 +6,24 @@ public class Food {
 	
 	String regiment;
 	String regimentName;
-	String storehouseName;
 	String storehouse;
+	String storehouseName;
 	String foodCode;
 	String expirationDate;
 	String foodName;
 	String storeDate;
 	String currentQuantity;
 	String unit;
-	String foodSourceCode;
 	String foodSource;
+	String foodSourceName;
 	String qRcodeIdx;
 	String remark;
 	
 	
 	
-	public Food(String regiment, String regimentName, String storehouseName, String storehouse, String foodCode,
+	public Food(String regiment, String regimentName, String storehouse, String storehouseName, String foodCode,
 			String expirationDate, String foodName, String storeDate, String currentQuantity, String unit,
-			String foodSourceCode, String foodSource, String qRcodeIdx, String remark) {
+			String foodSource, String foodSourceName, String qRcodeIdx, String remark) {
 		super();
 		this.regiment = regiment;
 		this.regimentName = regimentName;
@@ -35,8 +35,8 @@ public class Food {
 		this.storeDate = storeDate;
 		this.currentQuantity = currentQuantity;
 		this.unit = unit;
-		this.foodSourceCode = foodSourceCode;
 		this.foodSource = foodSource;
+		this.foodSourceName = foodSourceName;
 		this.qRcodeIdx = qRcodeIdx;
 		this.remark = remark;
 	}
@@ -102,16 +102,17 @@ public class Food {
 		this.unit = unit;
 	}
 	public String getFoodSource() {
-		return foodSourceCode;
-	}
-	public void setFoodSource(String foodSourceCode) {
-		this.foodSourceCode = foodSourceCode;
-	}
-	public String getFoodSourceName() {
 		return foodSource;
 	}
-	public void setFoodSourceName(String foodSource) {
+	public void setFoodSource(String foodSource) {
 		this.foodSource = foodSource;
+	}
+	
+	public String getFoodSourceName() {
+		return foodSourceName;
+	}
+	public void setFoodSourceName(String foodSourceName) {
+		this.foodSourceName = foodSourceName;
 	}
 	public String getqRcodeIdx() {
 		return qRcodeIdx;

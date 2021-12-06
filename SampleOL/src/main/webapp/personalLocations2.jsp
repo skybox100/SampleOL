@@ -16,6 +16,13 @@
 	System.out.println("personalLocations2");
 	String phoneNum = request.getParameter("phoneNum");
 
+	String param = "satellite_map";
+
+	if(request.getParameter("gis_setting")!= null){
+		param = request.getParameter("gis_setting") ;
+	}
+	
+	
 	DBConnection cd = new DBConnection();
 	ArrayList<Location> locations = new ArrayList<Location>();
 	Location lastLocation = new Location();
@@ -39,10 +46,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width, initial-scale=1">
-<meta name=description content="OpenLayer - Map multiple markers.">
-<title>EquipTotal</title>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name=description content="OpenLayer - Map multiple markers.">
+    <title>Locations</title>
 
     <style>
     	body, html{
@@ -53,25 +60,10 @@
 			margin-top: 0;
     	}
         #map{
-        	width: auto;
-            height: 1080px;
+        	position:fixed;
+        	width: 100%;
+            height: 100%;
         }
-        #zoom-restore{
-    		height: 30px;
-    		font-size: 15px;
-			position: absolute;
-			right: 0;
-			margin-right: 4px;
-
-    	}
-    	#goback{
-    		height: 30px;
-    		font-size: 15px;
-			position: absolute;
-			right: 0;
-			margin-right: 60px;
-
-    	}
         .ol-tooltip *{
             font-family: Arial, Helvetica, sans-serif;
             font-weight: 300
@@ -166,21 +158,122 @@
             animation-iteration-count: infinite;
             animation-duration: 2s;
         }
+        #zoom-restore{
+        	top:0;
+    		height: 30px;
+    		font-size: 13px;
+			position: absolute;
+			right: 0;
+			margin-right: 4px;
+
+    	}
+    	#goback{
+    		top:0;
+    		height: 30px;
+    		font-size: 13px;
+			position: absolute;
+			right: 0;
+			margin-right: 55px;
+
+    	}
+    	
+ 		#frm{
+			position: fixed; /* 이 부분을 고정 */
+	  		top:26px; 
+  			width: 100%;
+			white-space: nowrap;
+			width: 100%;
+  			background: white;
+    		height: 34px;
+			padding-bottom: 4px;
+		}       
+    	
+    	#frm_label{
+    		position: absolute;
+    		top: 0;
+    		margin-top: 6px;
+    		margin-left: 4px;
+
+    	}
+    	
+    	.top{
+    		position: fixed; /* 이 부분을 고정 */
+	  		top:0; 
+  			width: 100%;
+  			background: white;
+  			height: 36px;
+  			padding-top: 2px;
+			white-space: nowrap;		
+    	}
+    	
+        #gis_setting2{	
+			position: absolute;
+        	right:0;
+        	bottom:14px;
+        	margin-right: 4px;
+        }    	
+        
+
+    	
+         .gis_setting3{	
+			position: absolute;
+        	left:0;
+        	bottom:0.8vh;
+        	margin-right: 4px;
+			
+        } 	
+        
  		.ol-control{
  		    display: none;
- 		}        
+ 		}
     </style>
     <!-- OpenLayers map -->
     <link rel="stylesheet" href="css/ol.css" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
     <script src="js/ol.js"></script>
+
 </head>
 
 <body>
 
 
+	<div id="map"></div>
+	<div class="top">
+		<form action="personalLocations2.jsp" id="locations" method="get">
+		<table>
+			<tr>
+				<td class="gis_setting3">
+					<font size="1px">
+					<input type="radio" id="geofence" name="gis_setting" class="gis_setting" value="geofence" checked>
+		  			<label for="geofence">군사</label>
+		 			 <input type="radio" id="satellite_map" name="gis_setting" class="gis_setting" value="satellite_map" >
+		 			 <label for="satellite_map">위성</label>		 			
+					
+					</font>		  			
+				</td>
+				<td>
+				<font size="1px" style="font-weight: bold; display:none;" id="gis_setting2">
+		 			<input type="radio" id="geofon" name="gis_setting2" class="gis_setting2" value="geofon">
+		  			<label for="geofon">GeoF-ON</label>
+		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
+		 			<label for="geofoff">GeoF-OFF</label>
+		 		</font>
+				</td>
+				<td style="display: none">
+					<input type="hidden" name="phoneNum" value="<%=phoneNum %>">		
 
-	<div style="white-space:nowrap; ">
-	<font size="2">
+				</td>
+			</tr>
+		</table>
+
+		</form>
+	</div>	
+
+
+	<div id="frm" style="white-space:nowrap; ">
+	<font size="2" id="frm_label">
 	<%=cd.getCodeName("RegimCompany", locations.get(0).getRegiment())%>&nbsp;
 	<font color="blue">
 	<%=cd.getCodeName("rank", locations.get(0).getRank())%>&nbsp;
@@ -189,10 +282,14 @@
 	<%=locations.get(0).getDuty()%>&nbsp;
 	<%=locations.get(0).getServiceNumber()%>&nbsp;
 	</font>
+		<br>
+	
 		<button id="zoom-restore">reset</button><br>
 	</div>
 	
-	<div id="map"></div>
+
+	
+	
 
 	<!-- Popup hover -->
     <div id="popup" class="ol-popup">
@@ -208,12 +305,24 @@
  	
  	
     <script>
-	             	
+	        
+    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
+    
+    
+    $(document).ready(function() 
+    		{ 
+    		    $("input:radio[name=gis_setting]" ).change(function() 
+    		    { 
+    		    	location.replace("personalLocations2.jsp?phoneNum=<%=phoneNum%>"+"&gis_setting="+$('input[name=gis_setting]:checked').val());
+    		    })
+    		});
+    
+    
 		function goBack(){
 			window.history.back();
 		}
-		
         var data = <%=multi_marker%>;
+		
         var last_data = <%=last_marker%>;
         
   	    var straitSource = new ol.source.Vector({ wrapX: true });
@@ -221,22 +330,39 @@
  	        source: straitSource
  	    });
 
-        // Instanciate a Map, set the object target to the map DOM id
-		var map = new ol.Map({
-			target: 'map',  // 위 index.html에 div id가 map인 엘리먼트에 맵을 표출
-				layers: [
-					viewLayer,
-					straitsLayer
-				],
-				view: new ol.View({
-					center: ol.proj.fromLonLat(
-						//	[126.77192, 37.654461]
-								[last_data.longitude,last_data.latitude]
+    	   if('<%=param%>'=='geofence' ){
 
-					), 
-					zoom: 11
-				})
-		});
+    	        // Instanciate a Map, set the object target to the map DOM id
+    			var map = new ol.Map({
+    				target: 'map',  // 위 index.html에 div id가 map인 엘리먼트에 맵을 표출
+    					layers: [
+    						viewLayer,straitsLayer
+    					],
+    					view: new ol.View({
+    						center: ol.proj.fromLonLat(
+    								//[126.77192, 37.754461]
+    								[last_data.longitude,last_data.latitude]
+    						), 
+    						zoom: 11
+    					})
+    			});
+    	 	  }else if('<%=param%>'=='satellite_map'){
+    	 	// Instanciate a Map, set the object target to the map DOM id
+    	 		var map = new ol.Map({
+    	 		 target: 'map',  // 위 index.html에 div id가 map인 엘리먼트에 맵을 표출
+    				layers: [
+    					viewLayer,viewLayer3,straitsLayer
+    				],
+    				view: new ol.View({
+    					center: ol.proj.fromLonLat(
+    							//[126.77192, 37.754461]
+    								[last_data.longitude,last_data.latitude]
+
+    					), 
+    					zoom: 11
+    				})
+    		});
+    	 	  }
         
 		var view = map.getView();
         var zoom = view.getZoom();
@@ -327,7 +453,7 @@
 		}
 
 		
-		function addPointGeom(data) {
+function addPointGeom(data) {
 			
 			var seq = 0;
 			
@@ -336,12 +462,12 @@
 				seq++;
 				
 				//var longitude = item.Lon, latitude = item.Lat, icon = item.Icon, desc = item.Desc;
-							var longitude = item.longitude, latitude = item.latitude, idx = item.idx
+								var longitude = item.longitude, latitude = item.latitude, idx = item.idx
 							, userKey = item.userKey, timestamp = item.timestamp
-							, regiment = item.regiment, regimCompany = item.regimCompany
+							, regiment = item.regiment, regimCompany = item.regimCompany,regimentName = item.regimentName, regimCompanyName = item.regimCompanyName
 							, serviceNumber = item.serviceNumber,isDevice=item.isDevice
-							, duty = item.duty, name = item.name, rank = item.rank
-							,mobileNumber=item.MobileNumber,roomName=item.roomName,equipLocation=item.equipLocation;
+							, duty = item.duty, name = item.name, rank = item.rank, rankName = item.rankName
+							,mobileNumber=item.MobileNumber,roomNumber=item.roomNumber,roomName=item.roomName,equipLocation=item.equipLocation;
 				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
 						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
 						name + ":" + rank  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
@@ -351,7 +477,6 @@
 				if(timestamp == time){
 					
 				} else {
-				
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
@@ -366,15 +491,15 @@
 					    lon: longitude,
 					    lat: latitude,
 					    desc: '<table style="white-space:nowrap;text-align:left;">'
-					    	+ '<tr ><td>' + seq +'</td></tr>'
-					    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
-						    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
-						    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
-						    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
-						    + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
-						    + '<tr><td>'+equipLocation+'</td><td style="text-align:right;">'+roomName+'</td></tr>'
+					    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
+						  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
+							+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
+						  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
+						  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+						    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 					    	+ '</table>'
 					});
+					    		
 					
 					var iconStyle = new ol.style.Style({
 					    image: MarkerIcon,
@@ -396,32 +521,33 @@
 					// Add icon style
 					iconFeature.setStyle(iconStyle);
 					straitSource.addFeature(iconFeature);
-					MarkerOnTop(iconFeature, true);
-	        
+					
 				}
+	        
 			});		
 			
 		}
-
+		
+		
 		function addLastPoint(data) { 
 
 			//var longitude = item.Lon, latitude = item.Lat, icon = item.Icon, desc = item.Desc;
 				var longitude = data.longitude, latitude = data.latitude, idx = data.idx
 							, userKey = data.userKey, timestamp = data.timestamp
-							, regiment = data.regiment, regimCompany = data.regimCompany
+							, regiment = data.regiment,regimentName = data.regimentName, regimCompany = data.regimCompany, regimCompanyName = data.regimCompanyName
 							, serviceNumber = data.serviceNumber,isDevice=data.isDevice
-							, duty = data.duty, name = data.name, rank = data.rank
+							, duty = data.duty,roomNumber=data.roomNumber, name = data.name, rank = data.rank,rankName=data.rankName
 							,mobileNumber=data.MobileNumber,roomName=data.roomName,equipLocation=data.equipLocation;
 				console.log("last point: " +longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
 						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
 						name + ":" + rank  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
 			
-				var MarkerIcon = new ol.style.Icon({
+			var MarkerIcon = new ol.style.Icon({
 	            anchor: [0.5, 20],
 	            anchorXUnits: 'fraction',
 	            anchorYUnits: 'pixels',
-	            src: 'image/marker_rd.png'
-	            ,scale: 1.2
+	            src: 'image/marker_rd.png',
+	            scale: 1.2
 	        });
 			
 			var iconFeature = new ol.Feature({
@@ -430,20 +556,19 @@
 			    lon: longitude,
 			    lat: latitude,
 			    desc: '<table style="white-space:nowrap;text-align:left;">'
-			    	+ '<tr ><td>1</td></tr>'
-			    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
-				    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
-				    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
-				    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
-				    + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
-				    + '<tr><td>'+equipLocation+'</td><td style="text-align:right;">'+roomName+'</td></tr>'
+			    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
+				  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
+					+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
+				  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
+				  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+				    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 			    	+ '</table>'
 			});
 			    		
 			var iconStyle = new ol.style.Style({
 			    image: MarkerIcon,
 			    text: new ol.style.Text({
-			    	font: '7px serif',
+			    	font: '7px bold',
 			        text: '1',
 			        //scale: 1.5,
 			        fill: new ol.style.Fill({
@@ -462,7 +587,7 @@
 			straitSource.addFeature(iconFeature);
 			MarkerOnTop(iconFeature, true);
 
-		};		
+		};	
 		
 		addPointGeom(data);
 		addLastPoint(last_data);

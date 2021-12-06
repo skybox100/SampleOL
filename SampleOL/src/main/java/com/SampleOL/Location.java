@@ -8,6 +8,9 @@ public class Location {
 	String userKey;
 	String name;
 	String rank;
+	String rankName;
+	String regimentName;
+	String regimCompanyName;
 	String regiment;
 	String regimCompany;
 	String isDevice;
@@ -33,17 +36,18 @@ public class Location {
 	String etc;
 	String equipLocation;
 	String roomName;
+	String roomNumber;
 
 	
-	public Location(String serviceNumber, String userKey, String name, String rank, String regiment,
-			String regimCompany, String isDevice, String duty, String latitude, String longitude, String timestamp) {
+	public Location(String serviceNumber, String userKey, String name, String rankName, String regimentName,
+			String regimCompanyName, String isDevice, String duty, String latitude, String longitude, String timestamp) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
 		this.name = name;
-		this.rank = rank;
-		this.regiment = regiment;
-		this.regimCompany = regimCompany;
+		this.rankName = rankName;
+		this.regimentName = regimentName;
+		this.regimCompanyName = regimCompanyName;
 		this.isDevice = isDevice;
 		this.duty = duty;
 		this.latitude = latitude;
@@ -51,15 +55,15 @@ public class Location {
 		this.timestamp = timestamp;
 	}
 	
-	public Location(String serviceNumber, String userKey, String name, String rank, String regiment,
-			String regimCompany, String isDevice, String duty, String latitude, String longitude, String timestamp, String etc) {
+	public Location(String serviceNumber, String userKey, String name, String rankName, String regimentName,
+			String regimCompanyName, String isDevice, String duty, String latitude, String longitude, String timestamp, String etc) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
 		this.name = name;
-		this.rank = rank;
-		this.regiment = regiment;
-		this.regimCompany = regimCompany;
+		this.rankName = rankName;
+		this.regimentName = regimentName;
+		this.regimCompanyName = regimCompanyName;
 		this.isDevice = isDevice;
 		this.duty = duty;
 		this.latitude = latitude;
@@ -68,14 +72,14 @@ public class Location {
 		this.etc = etc;
 	}
 
-	public Location(String serviceNumber, String userKey, String name, String rank, String regiment, String duty,
+	public Location(String serviceNumber, String userKey, String name, String rankName, String regimentName, String duty,
 			String latitude, String longitude, String timestamp) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
 		this.name = name;
-		this.rank = rank;
-		this.regiment = regiment;
+		this.rankName = rankName;
+		this.regimentName = regimentName;
 		this.duty = duty;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -83,16 +87,19 @@ public class Location {
 	}
 
 	
-	public Location(String serviceNumber, String userKey, String name, String rank, String regiment,
-			String regimCompany, String isDevice, String duty, String latitude, String longitude, String timestamp,String EventId,String EventDateTime,String MissionType,String EquipID
-			 ,String EventType,String ObjectType,String EventRemark,String Status,String ActionStartDate,String ActionEndDate,String Actioncontents,String ResultContents,String GroupCode,String IsSendOK,String EquipLocation,String RoomName,String mobileNumber,String etc) {
+	public Location(String serviceNumber, String userKey, String name, String rank,String rankName, String regiment,String regimentName,
+			String regimCompany,String regimCompanyName, String isDevice, String duty, String latitude, String longitude, String timestamp,String EventId,String EventDateTime,String MissionType,String EquipID
+			 ,String EventType,String ObjectType,String EventRemark,String Status,String ActionStartDate,String ActionEndDate,String Actioncontents,String ResultContents,String GroupCode,String IsSendOK,String EquipLocation,String RoomName,String mobileNumber,String etc,String roomNumber) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
 		this.name = name;
 		this.rank = rank;
+		this.rankName = rankName;
 		this.regiment = regiment;
+		this.regimentName = regimentName;
 		this.regimCompany = regimCompany;
+		this.regimCompanyName = regimCompanyName;
 		this.isDevice = isDevice;
 		this.duty = duty;
 		this.latitude = latitude;
@@ -116,17 +123,18 @@ public class Location {
 		this.roomName = RoomName;
 		this.MobileNumber = mobileNumber;
 		this.etc = etc;
+		this.roomNumber = roomNumber;
 
 		
 	}
 	
 	
 	public String getRegimCompany() {
-		return regimCompany;
+		return regimCompanyName;
 	}
 
-	public void setRegimCompany(String regimCompany) {
-		this.regimCompany = regimCompany;
+	public void setRegimCompany(String regimCompanyName) {
+		this.regimCompanyName = regimCompanyName;
 	}
 
 	public String getIsDevice() {
@@ -158,26 +166,26 @@ public class Location {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Location(String serviceNumber, String userKey, String name, String rank, String latitude, String longitude,
+	public Location(String serviceNumber, String userKey, String name, String rankName, String latitude, String longitude,
 			String timestamp) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
 		this.name = name;
-		this.rank = rank;
+		this.rankName = rankName;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.timestamp = timestamp;
 	}
 
-	public Location(String serviceNumber, String userKey, String name, String rank, String regiment, String latitude,
+	public Location(String serviceNumber, String userKey, String name, String rankName, String regimentName, String latitude,
 			String longitude, String timestamp) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
 		this.name = name;
-		this.rank = rank;
-		this.regiment = regiment;
+		this.rankName = rankName;
+		this.regimentName = regimentName;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.timestamp = timestamp;
@@ -185,16 +193,16 @@ public class Location {
 
 
 
-	public Location(String serviceNumber, String userKey, String name, String rank, String regiment,
-			String regimCompany, String isDevice, String duty, String latitude, String longitude, String timestamp,
-			String mobileNumber, String etc, String equipLocation, String roomName) {
+	public Location(String serviceNumber, String userKey, String name, String rankName, String regimentName,
+			String regimCompanyName, String isDevice, String duty, String latitude, String longitude, String timestamp,
+			String mobileNumber, String etc, String equipLocation, String roomName,String roomNumber) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
 		this.name = name;
-		this.rank = rank;
-		this.regiment = regiment;
-		this.regimCompany = regimCompany;
+		this.rankName = rankName;
+		this.regimentName = regimentName;
+		this.regimCompanyName = regimCompanyName;
 		this.isDevice = isDevice;
 		this.duty = duty;
 		this.latitude = latitude;
@@ -204,18 +212,20 @@ public class Location {
 		this.etc = etc;
 		this.equipLocation = equipLocation;
 		this.roomName = roomName;
+		this.roomNumber = roomNumber;
+
 	}
 
-	public Location(String serviceNumber, String userKey, String name, String rank, String regiment,
-			String regimCompany, String isDevice, String duty, String latitude, String longitude, String timestamp,
-			String mobileNumber, String equipLocation, String roomName) {
+	public Location(String serviceNumber, String userKey, String name, String rankName, String regimentName,
+			String regimCompanyName, String isDevice, String duty, String latitude, String longitude, String timestamp,
+			String mobileNumber, String equipLocation, String roomName,String roomNumber) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
 		this.name = name;
-		this.rank = rank;
-		this.regiment = regiment;
-		this.regimCompany = regimCompany;
+		this.rankName = rankName;
+		this.regimentName = regimentName;
+		this.regimCompanyName = regimCompanyName;
 		this.isDevice = isDevice;
 		this.duty = duty;
 		this.latitude = latitude;
@@ -224,14 +234,16 @@ public class Location {
 		this.MobileNumber = mobileNumber;
 		this.equipLocation = equipLocation;
 		this.roomName = roomName;
+		this.roomNumber = roomNumber;
+
 	}
 	
 	public String getRegiment() {
-		return regiment;
+		return regimentName;
 	}
 
-	public void setRegiment(String regiment) {
-		this.regiment = regiment;
+	public void setRegiment(String regimentName) {
+		this.regimentName = regimentName;
 	}
 
 	
@@ -240,7 +252,7 @@ public class Location {
 	@Override
 	public String toString() {
 		return "Location [serviceNumber=" + serviceNumber + ", userKey=" + userKey + ", name=" + name + ", rank=" + rank
-				+ ", regiment=" + regiment + ", regimCompany=" + regimCompany + ", isDevice=" + isDevice + ", duty="
+				+ ", regimentName=" + regimentName + ", regimCompanyName=" + regimCompanyName + ", isDevice=" + isDevice + ", duty="
 				+ duty + ", latitude=" + latitude + ", longitude=" + longitude + ", timestamp=" + timestamp + "]";
 	}
 
@@ -442,6 +454,38 @@ public class Location {
 
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
+	}
+
+	public String getRoomNumber() {
+		return roomNumber;
+	}
+
+	public void setRoomNumber(String roomNumber) {
+		this.roomNumber = roomNumber;
+	}
+
+	public String getRankName() {
+		return rankName;
+	}
+
+	public void setRankName(String rankName) {
+		this.rankName = rankName;
+	}
+
+	public String getRegimentName() {
+		return regimentName;
+	}
+
+	public void setRegimentName(String regimentName) {
+		this.regimentName = regimentName;
+	}
+
+	public String getRegimCompanyName() {
+		return regimCompanyName;
+	}
+
+	public void setRegimCompanyName(String regimCompanyName) {
+		this.regimCompanyName = regimCompanyName;
 	}
 	 
 	 

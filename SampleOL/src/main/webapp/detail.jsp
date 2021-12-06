@@ -95,8 +95,8 @@
 	
 	<tr>
 		<td><%=i+1 %></td>
-		<td><%=locations.get(i).getRegimCompany() %></td>
-		<td><%=locations.get(i).getRank() %></td>
+		<td><%=locations.get(i).getRegimCompanyName() %></td>
+		<td><%=locations.get(i).getRankName() %></td>
 		<td><%=locations.get(i).getName() %></td>
 		<td><a href="personalLocations5.jsp?search_check=phone_num&search_this=<%=locations.get(i).getUserKey() %>">
 		<%=locations.get(i).getUserKey() %>

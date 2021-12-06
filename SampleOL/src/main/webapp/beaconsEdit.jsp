@@ -477,7 +477,7 @@ function pmUpdate(){
 
 
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementNewSave',
+		url: 'http://110.10.130.51:5002/api/Wareable/BeaconsNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),

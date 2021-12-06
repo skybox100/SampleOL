@@ -364,6 +364,7 @@ int block = (pageNum-1)/pageNum_list;
 
 	setInterval(getTimeStamp2,1000);
 	
+	var data = <%=total_data%>;
 	
 	$("#btnExport").click(function() {
 
@@ -535,12 +536,17 @@ function getTimeStamp2() {
 	  document.getElementById("now").value =s;
 	}
 
+function phone(src) {
+
+    return src.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+  }
+
 function deleteMobile(num){
 
-	if(confirm(data[num].MobileNumber+"("+data[num].Name+")을 정말 삭제하시겠습니까?")){
+	if(confirm(phone(data[num].MobileNumber)+"("+data[num].Name+")을 정말 삭제하시겠습니까?")){
 		
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementDelete',
+		url: 'http://110.10.130.51:5002/TenSystem/MobileManagement/MobileManagementDelete',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[num]),

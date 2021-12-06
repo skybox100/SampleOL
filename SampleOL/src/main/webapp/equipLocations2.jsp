@@ -13,7 +13,7 @@
 
 	request.setCharacterEncoding("euc-kr");
 	
-	String param = "geofence";
+	String param = "satellite_map";
 	
 	if(request.getParameter("gis_setting")!= null ){
 		param = request.getParameter("gis_setting") ;
@@ -66,11 +66,10 @@
 			margin-left: 0;
 			margin-top: 0;
     	}
-    	
-    	
         #map{
-        	width: auto;
-            height: 1080px;
+        	position:fixed;
+        	width: 100%;
+            height: 100%;
         }
         #box1{
         	width: 150px;
@@ -300,8 +299,8 @@
 		</form>	
 	</div>
 
-	<div id="map"></div>
 
+ 	<script src="js/map.js"></script>
 	<!-- Popup hover -->
 	<div id="popup" class="ol-popup">
 		<a id="popup-closer" class="ol-popup-closer"></a>
@@ -312,7 +311,6 @@
 		<a id="popup-closer" class="ol-popup-closer"></a>
 		<div id="popup-content-click"></div>
 	</div>
- 	<script src="js/map.js"></script>
 
 	<script>
 	
@@ -357,7 +355,7 @@
   					],
   					view: new ol.View({
   						center: ol.proj.fromLonLat(
-  								[126.77192, 37.654461]
+  								[126.77192, 37.754461]
  								//[data[0].longitude,data[0].latitude]
 
   						), 
@@ -373,7 +371,7 @@
   				],
   				view: new ol.View({
   					center: ol.proj.fromLonLat(
-  							[126.77192, 37.654461]
+  							[126.77192, 37.754461]
 								//[data[0].longitude,data[0].latitude]
 
   					), 

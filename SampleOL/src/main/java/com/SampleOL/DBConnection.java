@@ -171,14 +171,14 @@ public class DBConnection {
 			con = getConn();				
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
 			
-			String order="	order by regimentCode,storehouseCode, foodCode,expirationDate; ";
+			String order="	order by regiment,storehouse, foodCode,expirationDate; ";
 	
 			if(od.equals("식재료명"))order="	order by foodName; ";
 			else if(od.equals("입고일자"))order="	order by storeDate; ";
 			else if(od.equals("유통기한"))order="	order by expirationDate; ";	
 			
 			if(reg.equals("소속:전체") && sh.equals("식당명:전체") && fd.equals("식재료명:전체")) {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -186,7 +186,7 @@ public class DBConnection {
 						+ order;
 
 			}else if(reg.equals("소속:전체") && fd.equals("식재료명:전체")) {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -194,8 +194,7 @@ public class DBConnection {
 						+ " where f.storehouse = '"+sh+"'"
 						+ order;
 			}else if(sh.equals("식당명:전체") && fd.equals("식재료명:전체")) {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
-
+				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -203,7 +202,7 @@ public class DBConnection {
 						+ " where f.regiment = '"+reg+"'"
 						+ order;
 			}else if(sh.equals("식당명:전체") && reg.equals("소속:전체")) {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -211,7 +210,7 @@ public class DBConnection {
 						+ " where f.foodName = '"+fd+"'"
 						+ order;
 			}else if(reg.equals("소속:전체")) {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -219,8 +218,7 @@ public class DBConnection {
 						+ " where f.storehouse = '"+sh+"' and f.foodName = '"+fd+"'"
 						+ order;
 			}else if(sh.equals("식당명:전체")) {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
-
+				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -228,7 +226,7 @@ public class DBConnection {
 						+ " where f.regiment = '"+reg+"' and f.foodName = '"+fd+"'"
 						+ order;
 			}else if(fd.equals("식재료명:전체")) {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -236,7 +234,7 @@ public class DBConnection {
 						+ " where f.regiment = '"+reg+"' and f.storehouse = '"+sh+"'"
 						+ order;
 			}else {
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -248,23 +246,23 @@ public class DBConnection {
 			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {
-				String regimentCode = rs.getString("regimentCode");
 				String regiment = rs.getString("regiment");
+				String regimentName = rs.getString("regimentName");
 				String storehouse = rs.getString("storehouse");
-				String storehouseCode = rs.getString("storehouseCode");
+				String storehouseName = rs.getString("storehouseName");
 				String foodCode = rs.getString("foodCode");
 				String expirationDate = rs.getString("expirationDate");
 				String foodName = rs.getString("foodName");
-				String storeDate = searchDateConvert(rs.getString("storeDate"),"yyyy-MM-dd");
+				String storeDate = rs.getString("storeDate");
 				String currentQuantity = rs.getString("currentQuantity");
 				String unit = rs.getString("unit");
-				String foodSourceCode = rs.getString("foodSourceCode");
 				String foodSource = rs.getString("foodSource");
+				String foodSourceName = rs.getString("foodSourceName");
 				String qRcodeIdx = rs.getString("qRcodeIdx");
 				String remark = rs.getString("remark");
 
-				food= new Food(regimentCode,regiment,storehouse,storehouseCode,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,foodSourceCode,foodSource,qRcodeIdx,remark);
-				System.out.println(regimentCode+","+regiment+","+storehouse+","+storehouseCode+","+foodCode+","+expirationDate+","+foodName+","+storeDate+","+currentQuantity+","+unit+","+foodSourceCode+","+foodSource+","+qRcodeIdx+","+remark);
+				food= new Food(regiment,regimentName,storehouse,storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,foodSource,foodSourceName,qRcodeIdx,remark);
+				//System.out.println(regimentName+","+regiment+","+storehouseName+","+storehouse+","+foodCode+","+expirationDate+","+foodName+","+storeDate+","+currentQuantity+","+unit+","+foodSource+","+foodSourceName+","+qRcodeIdx+","+remark);
 				foods.add(food);
 				
 			}
@@ -293,7 +291,7 @@ public class DBConnection {
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
 			
 
-				sql = "select regiment as regimentCode, c.CodeName as regiment,storehouse as storehouseCode,a.CodeName as storehouse,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSource,foodSource as foodSourceCode,qRcodeIdx,f.remark "
+				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
@@ -309,23 +307,23 @@ public class DBConnection {
 			rs = pstmt.executeQuery();
 		
 			while(rs.next()) {
-				String regimentCode = rs.getString("regimentCode");
 				String regiment = rs.getString("regiment");
+				String regimentName = rs.getString("regimentName");
 				String storehouse = rs.getString("storehouse");
-				String storehouseCode = rs.getString("storehouseCode");
+				String storehouseName = rs.getString("storehouseName");
 				String foodCode = rs.getString("foodCode");
-				String expirationDate = searchDateConvert(rs.getString("expirationDate"),"yyyy-MM-dd");
+				String expirationDate = rs.getString("expirationDate");
 				String foodName = rs.getString("foodName");
-				String storeDate = searchDateConvert(rs.getString("storeDate"),"yyyy-MM-dd");
+				String storeDate = rs.getString("storeDate");
 				String currentQuantity = rs.getString("currentQuantity");
 				String unit = rs.getString("unit");
-				String foodSourceCode = rs.getString("foodSourceCode");
 				String foodSource = rs.getString("foodSource");
+				String foodSourceName = rs.getString("foodSourceName");
 				String qRcodeIdx = rs.getString("qRcodeIdx");
 				String remark = rs.getString("remark");
 
-				food= new Food(regimentCode,regiment,storehouse,storehouseCode,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,foodSourceCode,foodSource,qRcodeIdx,remark);
-				System.out.println(regimentCode+","+regiment+","+storehouse+","+storehouseCode+","+foodCode+","+expirationDate+","+foodName+","+storeDate+","+currentQuantity+","+unit+","+foodSourceCode+","+foodSource+","+qRcodeIdx+","+remark);
+				food= new Food(regiment,regimentName,storehouse,storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,foodSource,foodSourceName,qRcodeIdx,remark);
+				//System.out.println(regimentName+","+regiment+","+storehouseName+","+storehouse+","+foodCode+","+expirationDate+","+foodName+","+storeDate+","+currentQuantity+","+unit+","+foodSource+","+foodSourceName+","+qRcodeIdx+","+remark);
 				foods.add(food);
 				
 			}
@@ -633,7 +631,7 @@ public class DBConnection {
 						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
 						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
 						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
-						+ "  where lower(EquipId) like lower('%"+eq+"%') "
+						+ "  where lower(RoomName) like lower('%"+eq+"%') "
 						+ "  order by b.EquipId,b.Uuid";
 
 			}else if(reg.equals("소속:전체") && rc.equals("세부소속:전체")) {
@@ -1320,12 +1318,12 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 		rs = stmt.executeQuery(sql);
 		
 		while(rs.next()) {
-			String MobileNumber = phone(rs.getString("MobileNumber"));
+			String MobileNumber = rs.getString("MobileNumber");
 			String Regiment = rs.getString("Regiment");
 			String MobileType = rs.getString("MobileType");
 			String Name = rs.getString("Name");
 			String ServiceNumber = rs.getString("ServiceNumber");
-			String JoinDate = searchDateConvert(rs.getString("JoinDate"),"yyyy-MM-dd");
+			String JoinDate = rs.getString("JoinDate");
 			String RegimCompany = rs.getString("RegimCompany");
 			String RegimCompanyCode = rs.getString("RegimCompanyCode");
 			String RegimentCode = rs.getString("RegimentCode");
@@ -2040,17 +2038,18 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		System.out.println( format1.format (System.currentTimeMillis()));
 
 		if(reg.equals("전체") && rc.equals("전체")) {
-			sql = "select p.MobileNumber,p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.*,  "
+			sql = "select p.MobileNumber,p.ServiceNumber, p.Name,p.Regiment, c.CodeName as RegimentName, p.RegimCompany,d.CodeName as RegimCompanyName,p.Rank, e.CodeName as RankName, p.Duty, l.*,  "
 					+ "  MissionType,"	
 					+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
-					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
+					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' , "
+					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "inner join dbo.Code as d on p.RegimCompany = d.CodeID "
-					+ "inner join dbo.Code as e on p.rank = e.CodeID "
-					+ "order by Regiment, RegimCompany, Rank, p.Name ";
+					+ "inner join dbo.Code as e on p.Rank = e.CodeID "
+					+ "order by RegimentName, RegimCompanyName, RankName, p.Name ";
 			
 			try {
 				con = getConn();
@@ -2062,7 +2061,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				while(rs.next()) {
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("rank");
+					String rank = rs.getString("Rank");
+					String rankName = rs.getString("RankName");
+					String regimentName = rs.getString("regimentName");
+					String regimCompanyName = rs.getString("regimCompanyName");
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
@@ -2078,10 +2080,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String EventId = Long.toString(tick);
 					String EventDateTime = format1.format (System.currentTimeMillis());
 					String MissionType = rs.getString("MissionType");
-					String EquipID = "ESE";
+					String EquipID = serviceNumber;
 					String EventType = "EVT-14";
 					String ObjectType = "OBT-02";
-					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regiment+"\n"+rank+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
+					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 					String Status = "EVS-01";
 					String ActionStartDate = format2.format (System.currentTimeMillis());
 					String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -2091,12 +2093,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String GroupCode="XX";
 					String EquipLocation = rs.getString("EquipLocation");
 					String RoomName = rs.getString("RoomName");
+					String RoomNumber = rs.getString("RoomNumber");
 					String etc = rs.getString("etc");
 					tick= tick+1;
-					location = new Location(serviceNumber, userKey, name, rank, regiment,
-								 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
-					
+					location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
+							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
+							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
 					//location = new Location(serviceNumber, userKey, name, rank, regiment,
 					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 					
@@ -2112,11 +2114,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			}
 		} else if(rc.equals("전체")) {
 			
-			sql = "select p.MobileNumber,p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.*,  "
-					+ "  MissionType, "
+			sql = "select p.MobileNumber,p.ServiceNumber, p.Name,p.Regiment, c.CodeName as RegimentName, p.RegimCompany,d.CodeName as RegimCompanyName,p.Rank, e.CodeName as RankName, p.Duty, l.*,  "
+					+ "  MissionType,"	
 					+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
-					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
+					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' , "
+					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -2136,12 +2139,16 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				while(rs.next()) {
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("rank");
+					String rank = rs.getString("Rank");
+					String rankName = rs.getString("RankName");
+					String regimentName = rs.getString("regimentName");
+					String regimCompanyName = rs.getString("regimCompanyName");
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
 					if(isDevice.equals("wb"))isDevice="W-B";
 					if(isDevice.equals("wg"))isDevice="W-G";
+
 					String duty = rs.getString("duty");
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
@@ -2151,10 +2158,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String EventId = Long.toString(tick);
 					String EventDateTime = format1.format (System.currentTimeMillis());
 					String MissionType = rs.getString("MissionType");
-					String EquipID = "ESE";
+					String EquipID = serviceNumber;
 					String EventType = "EVT-14";
 					String ObjectType = "OBT-02";
-					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regiment+"\n"+rank+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
+					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 					String Status = "EVS-01";
 					String ActionStartDate = format2.format (System.currentTimeMillis());
 					String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -2164,15 +2171,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String GroupCode="XX";
 					String EquipLocation = rs.getString("EquipLocation");
 					String RoomName = rs.getString("RoomName");
+					String RoomNumber = rs.getString("RoomNumber");
 					String etc = rs.getString("etc");
 					tick= tick+1;
-					location = new Location(serviceNumber, userKey, name, rank, regiment,
-								 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
-					
-					//location = new Location(serviceNumber, userKey, name, rank, regiment,
-					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
-					
+					location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
+							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
+							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
 					locations.add(location);
 				}
 			} catch (SQLException e) {
@@ -2185,11 +2189,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			}
 
 		} else {
-			sql = "select p.MobileNumber,p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.*,  "
-					+ "  MissionType, "
+			sql = "select p.MobileNumber,p.ServiceNumber, p.Name,p.Regiment, c.CodeName as RegimentName, p.RegimCompany,d.CodeName as RegimCompanyName,p.Rank, e.CodeName as RankName, p.Duty, l.*,  "
+					+ "  MissionType,"	
 					+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
-					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
+					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' , "
+					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -2210,12 +2215,16 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				while(rs.next()) {
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("rank");
+					String rank = rs.getString("Rank");
+					String rankName = rs.getString("RankName");
+					String regimentName = rs.getString("regimentName");
+					String regimCompanyName = rs.getString("regimCompanyName");
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
 					if(isDevice.equals("wb"))isDevice="W-B";
 					if(isDevice.equals("wg"))isDevice="W-G";
+
 					String duty = rs.getString("duty");
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
@@ -2225,10 +2234,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String EventId = Long.toString(tick);
 					String EventDateTime = format1.format (System.currentTimeMillis());
 					String MissionType = rs.getString("MissionType");
-					String EquipID = "ESE";
+					String EquipID = serviceNumber;
 					String EventType = "EVT-14";
 					String ObjectType = "OBT-02";
-					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regiment+"\n"+rank+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
+					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 					String Status = "EVS-01";
 					String ActionStartDate = format2.format (System.currentTimeMillis());
 					String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -2238,11 +2247,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String GroupCode="XX";
 					String EquipLocation = rs.getString("EquipLocation");
 					String RoomName = rs.getString("RoomName");
+					String RoomNumber = rs.getString("RoomNumber");
 					String etc = rs.getString("etc");
 					tick= tick+1;
-					location = new Location(serviceNumber, userKey, name, rank, regiment,
-								 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
+					location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
+							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
+							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
 					
 					//location = new Location(serviceNumber, userKey, name, rank, regiment,
 					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
@@ -2265,8 +2275,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 	public ArrayList<Location> getLocationsByUser(String phoneNum) {
 
 		String sql = "SELECT TOP(50) p.ServiceNumber, p.MobileNumber,p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany,e.CodeName as Rank, p.Duty,l.Userkey, l.Latitude, l.Longitude, l.Timestamp, l.isDevice, "
-				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
-				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName',  "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
+
 				+ " FROM dbo.PersonnelManagement p "
 				+ " INNER JOIN Locations AS l  "
 				+ " ON p.MobileNumber = l.UserKey  "
@@ -2304,6 +2316,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));
 				String EquipLocation = rs.getString("EquipLocation");
 				String RoomName = rs.getString("RoomName");
+				String RoomNumber = rs.getString("RoomNumber");
 				String mobileNumber = rs.getString("MobileNumber");
 
 
@@ -2312,7 +2325,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				} else {
 					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
 							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
-							 mobileNumber,  EquipLocation,  RoomName) ;
+							 mobileNumber,  EquipLocation,  RoomName,RoomNumber) ;
 					locations.add(location);
 				}
 			}
@@ -2336,9 +2349,11 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 
 	public ArrayList<Location> getLocationsByService(String serviceNum) {
 		
-		String sql = "SELECT p.ServiceNumber, p.MobileNumber, p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.Latitude, l.Longitude, l.Timestamp ,l.Userkey, l.isDevice,"
-				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
-				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' "
+		String sql = "SELECT top(50) p.ServiceNumber, p.MobileNumber, p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.Latitude, l.Longitude, l.Timestamp ,l.Userkey, l.isDevice,"
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice = 'wb' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName', "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
+	
 				+ "FROM PersonnelManagement AS p "
 				+ "INNER JOIN Locations AS l "
 				+ "ON p.MobileNumber = l.UserKey "
@@ -2374,6 +2389,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));
 				String EquipLocation = rs.getString("EquipLocation");
 				String RoomName = rs.getString("RoomName");
+				String RoomNumber = rs.getString("RoomNumber");
 				String mobileNumber = rs.getString("MobileNumber");
 
 				if(longitude == null || latitude == null) {
@@ -2381,7 +2397,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				} else {
 					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
 							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
-							 mobileNumber,  EquipLocation,  RoomName) ;
+							 mobileNumber,  EquipLocation,  RoomName,RoomNumber) ;
 					locations.add(location);
 				}
 			//	System.out.println(location.toString());
@@ -2409,12 +2425,17 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 		Location location = null;
 		//String sql = "select * from dbo.Locations where Timestamp in (select max(Timestamp) from dbo.Locations where UserKey=?)";
-		String sql = "SELECT p.ServiceNumber, p.MobileNumber, p.Rank, p.Name, p.Regiment, p.RegimCompany, p.duty, l.UserKey, l.IsDevice, l.Latitude, l.Longitude, l.Timestamp "
-				+ "FROM PersonnelManagement p "
-				+ "INNER JOIN MobileStatus l "
-				+ "ON p.MobileNumber = l.UserKey "
+		String sql = "SELECT p.ServiceNumber, p.MobileNumber, p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.Latitude, l.Longitude, l.Timestamp ,l.Userkey, l.isDevice,"
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice = 'wb' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName', "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
+
+				+ "FROM dbo.PersonnelManagement p "
+				+ "INNER JOIN dbo.MobileStatus l ON p.MobileNumber = l.UserKey "
+				+ " inner join dbo.Code as c on p.Regiment = c.CodeID "
+				+ " inner join dbo.Code as d on p.RegimCompany = d.CodeID "
+				+ " inner join dbo.Code as e on p.rank = e.CodeID "
 				+ "WHERE p.ServiceNumber=? ";
-		
 		try {
 			con = getConn();
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
@@ -2437,10 +2458,18 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String latitude = rs.getString("Latitude");
 				String longitude = rs.getString("longitude");
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));
-								
-				location = new Location(serviceNumber, userKey, name, rank, regiment,
-						 regimCompany, isDevice, duty, latitude, longitude, timestamp);
-				
+				String EquipLocation = rs.getString("EquipLocation");
+				String RoomName = rs.getString("RoomName");
+				String RoomNumber = rs.getString("RoomNumber");
+				String mobileNumber = rs.getString("MobileNumber");
+
+				if(longitude == null || latitude == null) {
+			
+				} else {
+					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
+							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
+							 mobileNumber,  EquipLocation,  RoomName,RoomNumber) ;
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -2463,8 +2492,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		Location location = null;
 		//String sql = "select * from dbo.Locations where Timestamp in (select max(Timestamp) from dbo.Locations where UserKey=?)";
 		String sql = "SELECT p.ServiceNumber, p.MobileNumber, p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.Latitude, l.Longitude, l.Timestamp ,l.Userkey, l.isDevice,"
-				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
-				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' " + "FROM dbo.PersonnelManagement p "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice = 'wb' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName', "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
+				+ "FROM dbo.PersonnelManagement p "
 				+ "INNER JOIN dbo.MobileStatus l ON p.MobileNumber = l.UserKey "
 				+ " inner join dbo.Code as c on p.Regiment = c.CodeID "
 				+ " inner join dbo.Code as d on p.RegimCompany = d.CodeID "
@@ -2495,12 +2526,13 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));
 				String EquipLocation = rs.getString("EquipLocation");
 				String RoomName = rs.getString("RoomName");
+				String RoomNumber = rs.getString("RoomNumber");
 				String mobileNumber = rs.getString("MobileNumber");
 				
 								
 				location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
 						 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
-						 mobileNumber,  EquipLocation,  RoomName) ;
+						 mobileNumber,  EquipLocation,  RoomName,RoomNumber) ;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -2520,7 +2552,11 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 
 	public ArrayList<EquipLocation> getEquipLocations() {
 		
-		String sqlTotalEquip = "select * from dbo.TotalEquip where Regiment ='RG-283'";
+		String sql="select equipId, b.CodeName as regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
+				+ " FROM dbo.TotalEquip a"
+				+ " INNER JOIN dbo.Code b ON b.CodeID = a.regiment"
+				+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
+				+ " where Regiment ='RG-283'";
 		
 		EquipLocation equipLocationObject = null;
 		ArrayList<EquipLocation> equipLocations = new ArrayList<EquipLocation>();
@@ -2531,7 +2567,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
 			
 			stmt = con.createStatement();
-			rs = stmt.executeQuery(sqlTotalEquip);
+			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {
 				
@@ -2696,11 +2732,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 
 		return equipLocations;
 		
-	}
+	} 
 	
 	public ArrayList<EquipLocation> getEquipById(String equipId) {
 		
-		String sql = "select * from dbo.TotalEquip where EquipId=?";
+		String sql="select equipId, b.CodeName as regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
+				+ " FROM dbo.TotalEquip a"
+				+ " INNER JOIN dbo.Code b ON b.CodeID = a.regiment"
+				+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
+				+ " where EquipId=?";
 		ArrayList<EquipLocation> equipLocations = new ArrayList<EquipLocation>();
 		
 		try {
@@ -2750,7 +2790,11 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 	public ArrayList<EquipLocation> getSameTypeEquips(EquipLocation equip) {
 		
 		ArrayList<EquipLocation> equipLocations = new ArrayList<EquipLocation>();
-		String sql = "select * from dbo.TotalEquip where EquipType=? and Regiment=?";
+		String sql="select equipId, b.CodeName as regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
+				+ " FROM dbo.TotalEquip a"
+				+ " INNER JOIN dbo.Code b ON b.CodeID = a.regiment"
+				+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
+				+ " where EquipType=? and Regiment=?";
 		
 		try {
 			con = getConn();
@@ -3035,11 +3079,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		System.out.println( format1.format (System.currentTimeMillis()));
 
 		
-		String sql = "select p.MobileNumber,p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.*,  "
-				+ "  MissionType, "
+		String sql = "select p.MobileNumber,p.ServiceNumber, p.Name,p.Regiment, c.CodeName as RegimentName, p.RegimCompany,d.CodeName as RegimCompanyName,p.Rank, e.CodeName as RankName, p.Duty, l.*,  "
+				+ "  MissionType,"	
 				+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
-				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' , "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -3058,12 +3103,16 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("rank");
+				String rank = rs.getString("Rank");
+				String rankName = rs.getString("RankName");
+				String regimentName = rs.getString("regimentName");
+				String regimCompanyName = rs.getString("regimCompanyName");
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
 				if(isDevice.equals("wb"))isDevice="W-B";
 				if(isDevice.equals("wg"))isDevice="W-G";
+
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
@@ -3073,10 +3122,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String EventId = Long.toString(tick);
 				String EventDateTime = format1.format (System.currentTimeMillis());
 				String MissionType = rs.getString("MissionType");
-				String EquipID = "ESE";
+				String EquipID = serviceNumber;
 				String EventType = "EVT-14";
 				String ObjectType = "OBT-02";
-				String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regiment+"\n"+rank+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
+				String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 				String Status = "EVS-01";
 				String ActionStartDate = format2.format (System.currentTimeMillis());
 				String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -3086,15 +3135,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String GroupCode="XX";
 				String EquipLocation = rs.getString("EquipLocation");
 				String RoomName = rs.getString("RoomName");
+				String RoomNumber = rs.getString("RoomNumber");
 				String etc = rs.getString("etc");
 				tick= tick+1;
-				location = new Location(serviceNumber, userKey, name, rank, regiment,
-							 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
-				
-				//location = new Location(serviceNumber, userKey, name, rank, regiment,
-				//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
-				
+				location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
+						regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
+						 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
 				locations.add(location);
 			}
 		} catch (SQLException e) {
@@ -3131,11 +3177,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		System.out.println( format1.format (System.currentTimeMillis()));
 
 		
-		String sql = "select p.ServiceNumber, p.MobileNumber,p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, "
-				+ " MissionType,l.*,  "
+		String sql = "select p.MobileNumber,p.ServiceNumber, p.Name,p.Regiment, c.CodeName as RegimentName, p.RegimCompany,d.CodeName as RegimCompanyName,p.Rank, e.CodeName as RankName, p.Duty, l.*,  "
+				+ "  MissionType,"	
 				+ " (case when (l.HeartRate > 1 and (l.isDevice = 'wb' or l.isDevice ='wg')) then  concat('Y',l.BatteryPercent) ELSE concat('N',l.BatteryPercent) END) AS etc, "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation', "
-				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName'  "	
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName' , "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "	
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -3155,40 +3202,44 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("rank");
+				String rank = rs.getString("Rank");
+				String rankName = rs.getString("RankName");
+				String regimentName = rs.getString("regimentName");
+				String regimCompanyName = rs.getString("regimCompanyName");
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
 				if(isDevice.equals("wb"))isDevice="W-B";
 				if(isDevice.equals("wg"))isDevice="W-G";
+
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
 				String longitude = rs.getString("longitude");
-				String timestamp = format.format(rs.getTimestamp("Timestamp"));
-				String etc = rs.getString("etc");
-
+				String timestamp = format.format(rs.getTimestamp("Timestamp"));				
+				String mobileNumber = rs.getString("MobileNumber");
 				String EventId = Long.toString(tick);
 				String EventDateTime = format1.format (System.currentTimeMillis());
 				String MissionType = rs.getString("MissionType");
-				String EquipID = "ESE";
+				String EquipID = serviceNumber;
 				String EventType = "EVT-14";
 				String ObjectType = "OBT-02";
-				String EventRemark = "이탈 이벤트 발생, 상황접수";
+				String EventRemark = "geoF-On 이탈 이벤트 발생\n"+regimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 				String Status = "EVS-01";
 				String ActionStartDate = format2.format (System.currentTimeMillis());
 				String ActionEndDate = ""; //rs.getString("ActionEndDate");
 				String Actioncontents = ""; //rs.getString("Actioncontents");
 				String ResultContents = ""; //rs.getString("ResultContents");
 				String IsSendOK = "N";
-				String GroupCode=getEmergencyGroupName(userKey);
+				String GroupCode="XX";
 				String EquipLocation = rs.getString("EquipLocation");
 				String RoomName = rs.getString("RoomName");
-				String mobileNumber = rs.getString("MobileNumber");
-				location = new Location(serviceNumber, userKey, name, rank, regiment,
-							 regimCompany, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-						 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc);
-				
+				String RoomNumber = rs.getString("RoomNumber");
+				String etc = rs.getString("etc");
+				tick= tick+1;
+				location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
+						regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
+						 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
 				//location = new Location(serviceNumber, userKey, name, rank, regiment,
 				//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 				
@@ -3216,7 +3267,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 	
 	public ArrayList<Location> getMobileStatusByName(String n){
 		
-		String sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty "
+		String sql = "select TOP(50) l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty "
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -3275,7 +3326,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 	
 	public ArrayList<Location> getMobileStatusByService(String s){
 		
-		String sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty "
+		String sql = "select TOP(50) l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty "
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
@@ -3334,7 +3385,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 	
 	public ArrayList<Location> getMobileStatusByMobile(String m){
 		
-		String sql = "select l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty "
+		String sql = "select TOP(50) l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty "
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "inner join dbo.Code as c on p.Regiment = c.CodeID "
