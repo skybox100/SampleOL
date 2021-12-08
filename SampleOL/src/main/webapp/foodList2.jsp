@@ -525,7 +525,7 @@ function deleteFD(num){
 	if(confirm(data[num].foodName+"("+data[num].foodCode+")을 정말 삭제하시겠습니까?")){
 		
 	$.ajax({
-		url: 'http://211.9.3.55:5010/Food/FoodInventory/FoodInventoryDelete',
+		url: 'http://110.10.130.51:5002/Food/FoodInventory/FoodInventoryDelete',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[num]),
