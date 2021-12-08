@@ -301,7 +301,7 @@
    
    <!-- 페이징 그리기 -->
     <tr>
-        <td height="30" align="center" valign="top" colspan="8" style="font-size:20px;" >
+        <td height="30" align="center" valign="top" colspan="12" style="font-size:20px;" >
 <%
 
     int block = (pageNum-1)/pageNum_list;

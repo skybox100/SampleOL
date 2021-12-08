@@ -459,7 +459,7 @@
 							, userKey = item.userKey, timestamp = item.timestamp
 							, regiment = item.regiment, regimCompany = item.regimCompany,regimentName = item.regimentName, regimCompanyName = item.regimCompanyName
 							, serviceNumber = item.serviceNumber,isDevice=item.isDevice
-							, duty = item.duty, name = item.name, rank = item.rank, rankName = item.rankName
+							, mgrs = item.mgrs, duty = item.duty, name = item.name, rank = item.rank, rankName = item.rankName
 							,mobileNumber=item.MobileNumber,roomNumber=item.roomNumber,roomName=item.roomName,equipLocation=item.equipLocation;
 				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
 						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
@@ -489,6 +489,7 @@
 							+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
 						  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
 						  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+						 	+ '<tr><td Colspan="2">' + mgrs + '</td></tr>'
 						    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 					    	+ '</table>'
 					});
@@ -528,7 +529,7 @@
 				var longitude = data.longitude, latitude = data.latitude, idx = data.idx
 							, userKey = data.userKey, timestamp = data.timestamp
 							, regiment = data.regiment,regimentName = data.regimentName, regimCompany = data.regimCompany, regimCompanyName = data.regimCompanyName
-							, serviceNumber = data.serviceNumber,isDevice=data.isDevice
+							,mgrs = data.mgrs, serviceNumber = data.serviceNumber,isDevice=data.isDevice
 							, duty = data.duty,roomNumber=data.roomNumber, name = data.name, rank = data.rank,rankName=data.rankName
 							,mobileNumber=data.MobileNumber,roomName=data.roomName,equipLocation=data.equipLocation;
 				console.log("last point: " +longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
@@ -554,6 +555,7 @@
 					+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
 				  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
 				  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+					 + '<tr><td Colspan="2">' + mgrs + '</td></tr>'
 				    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 			    	+ '</table>'
 			});

@@ -1,19 +1,19 @@
 package com.SampleOL;
 
 public class MobileEquip {
-	String MobileNumber;
 	String RegimentName;
 	String Regiment;
+	String RegimCompanyName;
+	String RegimCompany;
+	String MobileNumber;
+	String ServiceNumber;
 	String RankName;
 	String Rank;
 	String Name;
-	String ServiceNumber;
 	String MobileType;
-	String JoinDate;
-	String RegimCompanyName;
-	String RegimCompany;
 	String ModelnAME;
 	String ManufacturerName;
+	String JoinDate;
 	String Remark;
 
 	public MobileEquip(String mobileNumber, String regiment,  String name,
@@ -64,6 +64,22 @@ public class MobileEquip {
 		Remark=remark;
 		RankName = rankName;
 		Rank = rank;
+	}
+	
+	public MobileEquip(String mobileNumber, String regimentcode, String regimCompanyName,  String name,
+			String serviceNumber, String mobileType,String joinDate,String modelnAME,String manufacturerName, String remark, String rankName) {
+		super();
+		MobileNumber = mobileNumber;
+		Regiment = regimentcode;
+		RegimCompanyName = regimCompanyName;
+		Name = name;
+		ServiceNumber = serviceNumber;
+		MobileType = mobileType;
+		JoinDate = joinDate;
+		ModelnAME = modelnAME;
+		ManufacturerName=manufacturerName;
+		Remark=remark;
+		RankName = rankName;
 	}
 	
 	public String getMobileNumber() {

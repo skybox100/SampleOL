@@ -33,7 +33,7 @@
 		
 		beaconLocations = cd.getBeaconById(uuid);
 		if(beaconLocations.size() ==0)
-			beaconLocations = cd.getBeaconById("AC:23:3F:74:66:46");
+			beaconLocations = cd.getBeaconById("AC:23:3F:8F:EB:AC");
 		
 		multi_marker = gson.toJson(beaconLocations);
 
@@ -457,10 +457,10 @@
 		       
 			data.forEach(function(item) { //iterate through array...
 
-				var Longitude = item.Longitude, Latitude = item.Latitude, Uuid = item.Uuid, Regiment = item.Regiment, RegimCompany = item.RegimCompany, RegimentName = item.RegimentName, RegimCompanyName = item.RegimCompanyName
-								, EquipType = item.EquipType, EquipLocation=item.EquipLocation;
+				var Longitude = item.Longitude, Latitude = item.Latitude,mgrs = item.Mgrs,EquipId = item.EquipId, Uuid = item.Uuid, Regiment = item.Regiment, RegimCompany = item.RegimCompany, RegimentName = item.RegimentName, RegimCompanyName = item.RegimCompanyName
+								, EquipType = item.EquipType, EquipLocation=item.EquipLocation,EquipId=item.EquipId;
 		
-				console.log(Longitude + ":" + Latitude + ":" + Uuid + ":" + Regiment + ":" +
+				console.log(Longitude + ":" + Latitude + ":" + Uuid + ":"  + ":" + EquipId + ":" + Regiment + ":" +
 						RegimCompany + ":" + EquipType + ":" + EquipLocation);
 				console.log(Uuid == uuid);
 
@@ -490,12 +490,11 @@
 				    lon: Longitude,
 				    lat: Latitude,
 				    desc: '<table style="white-space:nowrap;width:100%;">'
-				    	+ '<tr><td class="block" style="width:auto">위도</td><td style="text-align:right;">' + Latitude + '</td></tr>'
-				    	+ '<tr><td class="block" style="width:auto">경도</td><td style="text-align:right;">' + Longitude + '</td></tr>'
-				    	+ '<tr><td class="block" style="width:auto">장비번호&nbsp&nbsp</td><td style="text-align:right;">' + Uuid + '</td></tr>'
+				    	+ '<tr><td class="block" style="width:auto">장비번호&nbsp&nbsp</td><td style="text-align:right;">' + EquipId + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">소속</td><td style="text-align:right;">' + RegimentName + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">세부소속</td><td style="text-align:right;">' + RegimCompanyName + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">설치위치</td><td style="text-align:right;">' + EquipLocation + '</td></tr>'
+				    	+ '<tr><td class="block" style="width:auto">군사좌표</td><td style="text-align:right;">' + mgrs + '</td></tr>'
 				    	+ '</table>'
 				}),
 				iconStyle = new ol.style.Style({

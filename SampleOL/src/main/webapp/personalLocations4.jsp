@@ -13,6 +13,7 @@
 <%
 System.out.println("personalLocations4");
 	String param = "satellite_map";
+	String sn = request.getParameter("sn");
 
 	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
@@ -413,7 +414,7 @@ System.out.println("personalLocations4");
     		{ 
     		    $("input:radio[name=gis_setting]").change(function() 
     		    { 
-    		    	location.replace("personalLocations4.jsp?search_check=<%=sc%>&search_this=<%=st%>&gis_setting="+$('input[name=gis_setting]:checked').val());
+    		    	location.replace("personalLocations4.jsp?search_check=<%=sc%>&search_this=<%=st%>&gis_setting="+$('input[name=gis_setting]:checked').val()+"&sn=<%=sn%>");
     		    })
     		});
     
@@ -427,11 +428,11 @@ System.out.println("personalLocations4");
 
     	if(chk==0){
     		alert("검색 결과가 없습니다.");
-    		location.href = "locations.jsp";
+    		location.href="locations.jsp?sn=<%=sn%>";
     	}
     
 		function goBack(){
-			location.href = "locations.jsp";
+			location.href="locations.jsp?sn=<%=sn%>";
 		}
 		
         var data = <%=multi_marker%>;
@@ -583,12 +584,12 @@ System.out.println("personalLocations4");
 				var longitude = item.longitude, latitude = item.latitude, idx = item.idx
 				, userKey = item.userKey, timestamp = item.timestamp
 				, regiment = item.regiment, regimCompany = item.regimCompany,regimentName = item.regimentName, regimCompanyName = item.regimCompanyName
-				, serviceNumber = item.serviceNumber,isDevice=item.isDevice
+				,mgrs = item.mgrs, serviceNumber = item.serviceNumber,isDevice=item.isDevice
 				, duty = item.duty, name = item.name, rank = item.rank, rankName = item.rankName
 				,mobileNumber=item.MobileNumber,roomNumber=item.roomNumber,roomName=item.roomName,equipLocation=item.equipLocation;
-				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
-						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
-						name + ":" + rank  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
+				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regimentName  
+						+ ":" + regimCompanyName  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
+						name + ":" + rankName  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
 				var time = "<%=lastTimestamp%>";
 				
 				if(timestamp == time){
@@ -609,11 +610,13 @@ System.out.println("personalLocations4");
 					    lon: longitude,
 					    lat: latitude,
 					    desc: '<table style="white-space:nowrap;text-align:left;">'
+					    	+ '<tr ><td>'+seq+'</td></tr>'
 					    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
 						  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 							+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
 						  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
 						  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+						  	+ '<tr><td Colspan="2">' + mgrs + '</td></tr>'
 						    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 					    	+ '</table>'
 					});
@@ -651,11 +654,12 @@ System.out.println("personalLocations4");
 				var longitude = data.longitude, latitude = data.latitude, idx = data.idx
 							, userKey = data.userKey, timestamp = data.timestamp
 							, regiment = data.regiment,regimentName = data.regimentName, regimCompany = data.regimCompany, regimCompanyName = data.regimCompanyName
-							, serviceNumber = data.serviceNumber,isDevice=data.isDevice
+							,mgrs = data.mgrs, serviceNumber = data.serviceNumber,isDevice=data.isDevice
 							, duty = data.duty,roomNumber=data.roomNumber, name = data.name, rank = data.rank,rankName=data.rankName
 							,mobileNumber=data.MobileNumber,roomName=data.roomName,equipLocation=data.equipLocation;
-				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
-					
+				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regimentName  
+						+ ":" + regimCompanyName  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
+						name + ":" + rankName  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
 			var MarkerIcon = new ol.style.Icon({
 	            anchor: [0.5, 20],
 	            anchorXUnits: 'fraction',
@@ -670,11 +674,13 @@ System.out.println("personalLocations4");
 			    lon: longitude,
 			    lat: latitude,
 			    desc: '<table style="white-space:nowrap;text-align:left;">'
+			    	+ '<tr ><td>1</td></tr>'
 			    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
 				  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 					+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
 				  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
 				  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+				  	+ '<tr><td Colspan="2">' + mgrs + '</td></tr>'
 				    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 			    	+ '</table>'
 			});

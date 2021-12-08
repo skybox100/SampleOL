@@ -503,7 +503,7 @@ function deletePM(num){
 			// success handle
 				console.log(JSON.stringify(response));
 				alert("삭제가 성공했습니다.");
-				location.href="PersonnelManagement.jsp";
+				location.reload();
 			},
 		error: function(response) {
 				alert("삭제가 실패해습니다.");

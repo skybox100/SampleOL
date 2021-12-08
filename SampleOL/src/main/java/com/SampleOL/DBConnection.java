@@ -31,7 +31,6 @@ public class DBConnection {
 	String password = "todkagh123!";
 	
 	
-	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	Connection con = null;
@@ -251,14 +250,14 @@ public class DBConnection {
 				String storehouse = rs.getString("storehouse");
 				String storehouseName = rs.getString("storehouseName");
 				String foodCode = rs.getString("foodCode");
-				String expirationDate = rs.getString("expirationDate");
+				String expirationDate = searchDateConvert(rs.getString("expirationDate"),"yyyy-MM-dd");
 				String foodName = rs.getString("foodName");
-				String storeDate = rs.getString("storeDate");
-				String currentQuantity = rs.getString("currentQuantity");
+				String storeDate = searchDateConvert(rs.getString("storeDate"),"yyyy-MM-dd");
+				int currentQuantity = rs.getInt("currentQuantity");
 				String unit = rs.getString("unit");
 				String foodSource = rs.getString("foodSource");
 				String foodSourceName = rs.getString("foodSourceName");
-				String qRcodeIdx = rs.getString("qRcodeIdx");
+				long qRcodeIdx = rs.getLong("qRcodeIdx");
 				String remark = rs.getString("remark");
 
 				food= new Food(regiment,regimentName,storehouse,storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,foodSource,foodSourceName,qRcodeIdx,remark);
@@ -312,14 +311,14 @@ public class DBConnection {
 				String storehouse = rs.getString("storehouse");
 				String storehouseName = rs.getString("storehouseName");
 				String foodCode = rs.getString("foodCode");
-				String expirationDate = rs.getString("expirationDate");
+				String expirationDate = searchDateConvert(rs.getString("expirationDate"),"yyyy-MM-dd");
 				String foodName = rs.getString("foodName");
-				String storeDate = rs.getString("storeDate");
-				String currentQuantity = rs.getString("currentQuantity");
+				String storeDate = searchDateConvert(rs.getString("storeDate"),"yyyy-MM-dd");
+				int currentQuantity = rs.getInt("currentQuantity");
 				String unit = rs.getString("unit");
 				String foodSource = rs.getString("foodSource");
 				String foodSourceName = rs.getString("foodSourceName");
-				String qRcodeIdx = rs.getString("qRcodeIdx");
+				long qRcodeIdx = rs.getLong("qRcodeIdx");
 				String remark = rs.getString("remark");
 
 				food= new Food(regiment,regimentName,storehouse,storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,foodSource,foodSourceName,qRcodeIdx,remark);
@@ -940,7 +939,6 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 			
 			while(rs.next()) {
 				String ServiceNumber = rs.getString("ServiceNumber");
-
 				String MissionType = rs.getString("MissionType");
 				String MissionTypeName = rs.getString("MissionTypeName");
 				String Rank = rs.getString("Rank");
@@ -958,9 +956,9 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 				String PromotionDate = searchDateConvert(rs.getString("PromotionDate"),"yyyy-MM-dd");
 				String MovingDate = searchDateConvert(rs.getString("MovingDate"),"yyyy-MM-dd");
 				String RetireDate = searchDateConvert(rs.getString("RetireDate"),"yyyy-MM-dd");
-				String MobileNumber = rs.getString("MobileNumber");
-				String MyPhoneNumber = rs.getString("MyPhoneNumber");
-				String ParentsNumber = rs.getString("ParentsNumber");
+				String MobileNumber = rs.getString("MobileNumber") == null ? "" : rs.getString("MobileNumber");
+				String MyPhoneNumber = rs.getString("MyPhoneNumber") == null ? "" : rs.getString("MyPhoneNumber");
+				String ParentsNumber = rs.getString("ParentsNumber") == null ? "" : rs.getString("ParentsNumber");
 				String Remark = rs.getString("Remark");
 				String Password = rs.getString("Password");
 				String RegimPlatoon = rs.getString("RegimPlatoon");
@@ -1259,25 +1257,22 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {
-				String MobileNumber = rs.getString("MobileNumber");
-				String Regiment = rs.getString("Regiment");
-				String MobileType = rs.getString("MobileType");
-				String Name = rs.getString("Name");
-				String ServiceNumber = rs.getString("ServiceNumber");
-				String JoinDate = searchDateConvert(rs.getString("JoinDate"),"yyyy-MM-dd");
-				String RegimCompany = rs.getString("RegimCompany");
-				String RegimCompanyCode = rs.getString("RegimCompanyCode");
-				String RegimentCode = rs.getString("RegimentCode");
-				String Rank = rs.getString("Rank");
-				String RankCode = rs.getString("RankCode");
-				String ModelnAME = rs.getString("ModelnAME");
-				String ManufacturerName = rs.getString("ManufacturerName");
-				String Remark = rs.getString("Remark");
+				String MobileNumber = rs.getString("MobileNumber") ;
+				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
+				String MobileType = rs.getString("MobileType") == null ? "":rs.getString("MobileType");
+				String Name = rs.getString("Name")== null ? "":rs.getString("Name");
+				String ServiceNumber = rs.getString("ServiceNumber") == null ? "":rs.getString("ServiceNumber");
+				String JoinDate = rs.getString("JoinDate") == null ? "":searchDateConvert(rs.getString("JoinDate"),"yyyy-MM-dd");
+				String RegimCompany = rs.getString("RegimCompany") == null ? "":rs.getString("RegimCompany");
+				String Rank = rs.getString("Rank") == null ? "":rs.getString("Rank");
+				String ModelnAME = rs.getString("ModelnAME") == null ? "":rs.getString("ModelnAME");
+				String ManufacturerName = rs.getString("ManufacturerName") == null ? "":rs.getString("ManufacturerName");
+				String Remark = rs.getString("Remark") == null ? "":rs.getString("Remark");
 
 
 
 				//mobile= new MobileEquip(MobileNumber,Regiment,Rank,Name,ServiceNumber,MobileType,JoinDate);
-				mobile= new MobileEquip(MobileNumber,Regiment,RegimentCode,RegimCompany,RegimCompanyCode,Name,ServiceNumber,MobileType,JoinDate,ModelnAME,ManufacturerName,Remark,Rank,RankCode);
+				mobile= new MobileEquip(MobileNumber,Regiment,RegimCompany,Name,ServiceNumber,MobileType,JoinDate,ModelnAME,ManufacturerName,Remark,Rank);
 
 				mobileList.add(mobile);
 				
@@ -1463,8 +1458,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
-					if(isDevice.equals("wb"))isDevice="W-B";
-					if(isDevice.equals("wg"))isDevice="W-G";
+					//if(isDevice.equals("wb"))isDevice="W-B";
+					//if(isDevice.equals("wg"))isDevice="W-G";
 					String duty = rs.getString("duty");
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
@@ -1511,8 +1506,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String regiment = rs.getString("regiment");
 						String regimCompany = rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
-						if(isDevice.equals("wb"))isDevice="W-B";
-						if(isDevice.equals("wg"))isDevice="W-G";
+						//if(isDevice.equals("wb"))isDevice="W-B";
+						//if(isDevice.equals("wg"))isDevice="W-G";
 						String duty = rs.getString("duty");
 						String userKey = rs.getString("UserKey");
 						String latitude = rs.getString("Latitude");
@@ -1557,8 +1552,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String regiment = rs.getString("regiment");
 						String regimCompany = rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
-						if(isDevice.equals("wb"))isDevice="W-B";
-						if(isDevice.equals("wg"))isDevice="W-G";
+						//if(isDevice.equals("wb"))isDevice="W-B";
+						//if(isDevice.equals("wg"))isDevice="W-G";
 						String duty = rs.getString("duty");
 						String userKey = rs.getString("UserKey");
 						String latitude = rs.getString("Latitude");
@@ -1604,8 +1599,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
-					if(isDevice.equals("wb"))isDevice="W-B";
-					if(isDevice.equals("wg"))isDevice="W-G";
+					//if(isDevice.equals("wb"))isDevice="W-B";
+					//if(isDevice.equals("wg"))isDevice="W-G";
 					String duty = rs.getString("duty");
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
@@ -1651,8 +1646,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String regiment = rs.getString("regiment");
 						String regimCompany = rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
-						if(isDevice.equals("wb"))isDevice="W-B";
-						if(isDevice.equals("wg"))isDevice="W-G";
+						//if(isDevice.equals("wb"))isDevice="W-B";
+						//if(isDevice.equals("wg"))isDevice="W-G";
 						String duty = rs.getString("duty");
 						String userKey = rs.getString("UserKey");
 						String latitude = rs.getString("Latitude");
@@ -1697,8 +1692,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String regiment = rs.getString("regiment");
 						String regimCompany = rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
-						if(isDevice.equals("wb"))isDevice="W-B";
-						if(isDevice.equals("wg"))isDevice="W-G";
+						//if(isDevice.equals("wb"))isDevice="W-B";
+						//if(isDevice.equals("wg"))isDevice="W-G";
 						String duty = rs.getString("duty");
 						String userKey = rs.getString("UserKey");
 						String latitude = rs.getString("Latitude");
@@ -1756,8 +1751,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
-					if(isDevice.equals("wb"))isDevice="W-B";
-					if(isDevice.equals("wg"))isDevice="W-G";
+					//if(isDevice.equals("wb"))isDevice="W-B";
+					//if(isDevice.equals("wg"))isDevice="W-G";
 					String duty = rs.getString("duty");
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
@@ -1804,8 +1799,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String regiment = rs.getString("regiment");
 						String regimCompany = rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
-						if(isDevice.equals("wb"))isDevice="W-B";
-						if(isDevice.equals("wg"))isDevice="W-G";
+						//if(isDevice.equals("wb"))isDevice="W-B";
+						//if(isDevice.equals("wg"))isDevice="W-G";
 						String duty = rs.getString("duty");
 						String userKey = rs.getString("UserKey");
 						String latitude = rs.getString("Latitude");
@@ -1850,8 +1845,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String regiment = rs.getString("regiment");
 						String regimCompany = rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
-						if(isDevice.equals("wb"))isDevice="W-B";
-						if(isDevice.equals("wg"))isDevice="W-G";
+						//if(isDevice.equals("wb"))isDevice="W-B";
+						//if(isDevice.equals("wg"))isDevice="W-G";
 						String duty = rs.getString("duty");
 						String userKey = rs.getString("UserKey");
 						String latitude = rs.getString("Latitude");
@@ -1897,8 +1892,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
-					if(isDevice.equals("wb"))isDevice="W-B";
-					if(isDevice.equals("wg"))isDevice="W-G";
+					//if(isDevice.equals("wb"))isDevice="W-B";
+					//if(isDevice.equals("wg"))isDevice="W-G";
 					String duty = rs.getString("duty");
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
@@ -1944,8 +1939,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String regiment = rs.getString("regiment");
 						String regimCompany = rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
-						if(isDevice.equals("wb"))isDevice="W-B";
-						if(isDevice.equals("wg"))isDevice="W-G";
+						//if(isDevice.equals("wb"))isDevice="W-B";
+						//if(isDevice.equals("wg"))isDevice="W-G";
 						String duty = rs.getString("duty");
 						String userKey = rs.getString("UserKey");
 						String latitude = rs.getString("Latitude");
@@ -1990,8 +1985,8 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String regiment = rs.getString("regiment");
 						String regimCompany = rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
-						if(isDevice.equals("wb"))isDevice="W-B";
-						if(isDevice.equals("wg"))isDevice="W-G";
+						//if(isDevice.equals("wb"))isDevice="W-B";
+						//if(isDevice.equals("wg"))isDevice="W-G";
 						String duty = rs.getString("duty");
 						String userKey = rs.getString("UserKey");
 						String latitude = rs.getString("Latitude");
@@ -2068,13 +2063,15 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
-					if(isDevice.equals("wb"))isDevice="W-B";
-					if(isDevice.equals("wg"))isDevice="W-G";
+					//if(isDevice.equals("wb"))isDevice="W-B";
+					//if(isDevice.equals("wg"))isDevice="W-G";
 
 					String duty = rs.getString("duty");
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
 					String longitude = rs.getString("longitude");
+					String mgrs = MGRSString(latitude, longitude);
+
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));				
 					String mobileNumber = rs.getString("MobileNumber");
 					String EventId = Long.toString(tick);
@@ -2098,9 +2095,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					tick= tick+1;
 					location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
 							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
-							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
+							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,mgrs);
 					//location = new Location(serviceNumber, userKey, name, rank, regiment,
-					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
+					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp,);
 					
 					locations.add(location);
 				}
@@ -2146,8 +2143,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
-					if(isDevice.equals("wb"))isDevice="W-B";
-					if(isDevice.equals("wg"))isDevice="W-G";
+					//if(isDevice.equals("wb"))isDevice="W-B";
+					//if(isDevice.equals("wg"))isDevice="W-G";
 
 					String duty = rs.getString("duty");
 					String userKey = rs.getString("UserKey");
@@ -2174,9 +2171,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String RoomNumber = rs.getString("RoomNumber");
 					String etc = rs.getString("etc");
 					tick= tick+1;
+					String mgrs = MGRSString(latitude, longitude);
 					location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
 							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
-							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
+							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,mgrs);
 					locations.add(location);
 				}
 			} catch (SQLException e) {
@@ -2222,13 +2220,14 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String regiment = rs.getString("regiment");
 					String regimCompany = rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
-					if(isDevice.equals("wb"))isDevice="W-B";
-					if(isDevice.equals("wg"))isDevice="W-G";
+					//if(isDevice.equals("wb"))isDevice="W-B";
+					//if(isDevice.equals("wg"))isDevice="W-G";
 
 					String duty = rs.getString("duty");
 					String userKey = rs.getString("UserKey");
 					String latitude = rs.getString("Latitude");
 					String longitude = rs.getString("longitude");
+					String mgrs = MGRSString(latitude, longitude);
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));				
 					String mobileNumber = rs.getString("MobileNumber");
 					String EventId = Long.toString(tick);
@@ -2251,8 +2250,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String etc = rs.getString("etc");
 					tick= tick+1;
 					location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
-							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp, EventId, EventDateTime, MissionType, EquipID
-							 , EventType, ObjectType, EventRemark, Status, ActionStartDate, ActionEndDate, Actioncontents, ResultContents, GroupCode, IsSendOK, EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
+							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
+							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,mgrs);
 					
 					//location = new Location(serviceNumber, userKey, name, rank, regiment,
 					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
@@ -2275,8 +2274,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 	public ArrayList<Location> getLocationsByUser(String phoneNum) {
 
 		String sql = "SELECT TOP(50) p.ServiceNumber, p.MobileNumber,p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany,e.CodeName as Rank, p.Duty,l.Userkey, l.Latitude, l.Longitude, l.Timestamp, l.isDevice, "
-				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
-				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName',  "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName',  "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 
 				+ " FROM dbo.PersonnelManagement p "
@@ -2307,8 +2306,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
-				if(isDevice.equals("wb"))isDevice="W-B";
-				if(isDevice.equals("wg"))isDevice="W-G";
+				//if(isDevice.equals("wb"))isDevice="W-B";
+				//if(isDevice.equals("wg"))isDevice="W-G";
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
@@ -2319,13 +2318,14 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String RoomNumber = rs.getString("RoomNumber");
 				String mobileNumber = rs.getString("MobileNumber");
 
+				String Mgrs = MGRSString(latitude, longitude);				
 
 				if(longitude == null || latitude == null) {
 					
 				} else {
 					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
 							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
-							 mobileNumber,  EquipLocation,  RoomName,RoomNumber) ;
+							 mobileNumber,  EquipLocation,  RoomName,RoomNumber,Mgrs) ;
 					locations.add(location);
 				}
 			}
@@ -2350,8 +2350,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 	public ArrayList<Location> getLocationsByService(String serviceNum) {
 		
 		String sql = "SELECT top(50) p.ServiceNumber, p.MobileNumber, p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.Latitude, l.Longitude, l.Timestamp ,l.Userkey, l.isDevice,"
-				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
-				+ "(case when l.IsDevice = 'W-B' or l.IsDevice = 'wb' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName', "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName', "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 	
 				+ "FROM PersonnelManagement AS p "
@@ -2380,8 +2380,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
-				if(isDevice.equals("wb"))isDevice="W-B";
-				if(isDevice.equals("wg"))isDevice="W-G";
+				//if(isDevice.equals("wb"))isDevice="W-B";
+				//if(isDevice.equals("wg"))isDevice="W-G";
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
@@ -2391,13 +2391,14 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String RoomName = rs.getString("RoomName");
 				String RoomNumber = rs.getString("RoomNumber");
 				String mobileNumber = rs.getString("MobileNumber");
+				String Mgrs = MGRSString(latitude, longitude);				
 
 				if(longitude == null || latitude == null) {
 			
 				} else {
 					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
 							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
-							 mobileNumber,  EquipLocation,  RoomName,RoomNumber) ;
+							 mobileNumber,  EquipLocation,  RoomName,RoomNumber,Mgrs) ;
 					locations.add(location);
 				}
 			//	System.out.println(location.toString());
@@ -2426,8 +2427,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		Location location = null;
 		//String sql = "select * from dbo.Locations where Timestamp in (select max(Timestamp) from dbo.Locations where UserKey=?)";
 		String sql = "SELECT p.ServiceNumber, p.MobileNumber, p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.Latitude, l.Longitude, l.Timestamp ,l.Userkey, l.isDevice,"
-				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
-				+ "(case when l.IsDevice = 'W-B' or l.IsDevice = 'wb' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName', "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName', "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 
 				+ "FROM dbo.PersonnelManagement p "
@@ -2451,8 +2452,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
-				if(isDevice.equals("wb"))isDevice="W-B";
-				if(isDevice.equals("wg"))isDevice="W-G";
+				//if(isDevice.equals("wb"))isDevice="W-B";
+				//if(isDevice.equals("wg"))isDevice="W-G";
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
@@ -2462,13 +2463,14 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String RoomName = rs.getString("RoomName");
 				String RoomNumber = rs.getString("RoomNumber");
 				String mobileNumber = rs.getString("MobileNumber");
+				String Mgrs = MGRSString(latitude, longitude);				
 
 				if(longitude == null || latitude == null) {
 			
 				} else {
 					location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
 							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
-							 mobileNumber,  EquipLocation,  RoomName,RoomNumber) ;
+							 mobileNumber,  EquipLocation,  RoomName,RoomNumber,Mgrs) ;
 				}
 			}
 		} catch (SQLException e) {
@@ -2492,8 +2494,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		Location location = null;
 		//String sql = "select * from dbo.Locations where Timestamp in (select max(Timestamp) from dbo.Locations where UserKey=?)";
 		String sql = "SELECT p.ServiceNumber, p.MobileNumber, p.Name,c.CodeName as Regiment, d.CodeName as RegimCompany, e.CodeName as Rank, p.Duty, l.Latitude, l.Longitude, l.Timestamp ,l.Userkey, l.isDevice,"
-				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='wb' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
-				+ "(case when l.IsDevice = 'W-B' or l.IsDevice = 'wb' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName', "
+				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.EquipLocation from beacons b where l.Uuid = b.Uuid) else '' end) as 'EquipLocation',  "
+				+ "(case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomName from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomName', "
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 				+ "FROM dbo.PersonnelManagement p "
 				+ "INNER JOIN dbo.MobileStatus l ON p.MobileNumber = l.UserKey "
@@ -2517,8 +2519,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
-				if(isDevice.equals("wb"))isDevice="W-B";
-				if(isDevice.equals("wg"))isDevice="W-G";
+				//if(isDevice.equals("wb"))isDevice="W-B";
+				//if(isDevice.equals("wg"))isDevice="W-G";
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
@@ -2528,11 +2530,12 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String RoomName = rs.getString("RoomName");
 				String RoomNumber = rs.getString("RoomNumber");
 				String mobileNumber = rs.getString("MobileNumber");
-				
+				String Mgrs = MGRSString(latitude, longitude);				
+
 								
 				location = new Location( serviceNumber,  userKey,  name,  rank,  regiment,
 						 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
-						 mobileNumber,  EquipLocation,  RoomName,RoomNumber) ;
+						 mobileNumber,  EquipLocation,  RoomName,RoomNumber,Mgrs) ;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -3110,13 +3113,13 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
-				if(isDevice.equals("wb"))isDevice="W-B";
-				if(isDevice.equals("wg"))isDevice="W-G";
-
+				//if(isDevice.equals("wb"))isDevice="W-B";
+				//if(isDevice.equals("wg"))isDevice="W-G";
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
 				String longitude = rs.getString("longitude");
+				String mgrs = MGRSString(latitude, longitude);
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));				
 				String mobileNumber = rs.getString("MobileNumber");
 				String EventId = Long.toString(tick);
@@ -3140,7 +3143,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				tick= tick+1;
 				location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
 						regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
-						 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
+						 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,mgrs);
 				locations.add(location);
 			}
 		} catch (SQLException e) {
@@ -3209,8 +3212,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
-				if(isDevice.equals("wb"))isDevice="W-B";
-				if(isDevice.equals("wg"))isDevice="W-G";
+				//if(isDevice.equals("wb"))isDevice="W-B";
+				//if(isDevice.equals("wg"))isDevice="W-G";
 
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
@@ -3237,9 +3240,11 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String RoomNumber = rs.getString("RoomNumber");
 				String etc = rs.getString("etc");
 				tick= tick+1;
+				String Mgrs = MGRSString(latitude,longitude);
+
 				location = new Location(serviceNumber, userKey, name, rank,rankName, regiment,regimentName,
 						regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
-						 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber);
+						 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,Mgrs);
 				//location = new Location(serviceNumber, userKey, name, rank, regiment,
 				//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 				
@@ -3293,8 +3298,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
-				if(isDevice.equals("wb"))isDevice="W-B";
-				if(isDevice.equals("wg"))isDevice="W-G";
+				//if(isDevice.equals("wb"))isDevice="W-B";
+				//if(isDevice.equals("wg"))isDevice="W-G";
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
@@ -3352,8 +3357,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
-				if(isDevice.equals("wb"))isDevice="W-B";
-				if(isDevice.equals("wg"))isDevice="W-G";
+				//if(isDevice.equals("wb"))isDevice="W-B";
+				//if(isDevice.equals("wg"))isDevice="W-G";
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
@@ -3411,8 +3416,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String regiment = rs.getString("regiment");
 				String regimCompany = rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
-				if(isDevice.equals("wb"))isDevice="W-B";
-				if(isDevice.equals("wg"))isDevice="W-G";
+				//if(isDevice.equals("wb"))isDevice="W-B";
+				//if(isDevice.equals("wg"))isDevice="W-G";
 				String duty = rs.getString("duty");
 				String userKey = rs.getString("UserKey");
 				String latitude = rs.getString("Latitude");
@@ -3470,6 +3475,67 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		}
 	
 		return codeNameList;
+	}
+	
+	
+	public String getCodeRemark(String codeType,String codeId){
+		String sql = "select Remark from dbo.Code where CodeType=? and CodeId=?";
+		String codeRemark="";
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, codeType);
+			pstmt.setString(2, codeId);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				codeRemark = rs.getString("Remark");
+				
+				 
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+	
+		return codeRemark;
+	}
+	
+	public ArrayList<String> getCodeRemarkList(String codeType){
+		String sql = "select DISTINCT Remark from dbo.Code where CodeType=?";
+		ArrayList<String> codeRemarkList = new ArrayList<String>();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, codeType);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String rm = rs.getString("Remark");
+				
+				codeRemarkList.add(rm);
+				 
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+	
+		return codeRemarkList;
 	}
 	
 	public ArrayList<String> getCodeNameList(String codeType, String groupCode){

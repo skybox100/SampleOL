@@ -261,7 +261,7 @@
    
    <tr id="tr<%=i %>" >
       <td class="col" ><%=i+1 %></td>
-      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRegimentName() %></td>
+      <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRegiment() %></td>
       <td class="col" style=" text-align:center;"><%=cd.phone(mobileEquips.get(i).getMobileNumber()) %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getServiceNumber() %></td>
       <td class="col" style=" text-align:center; "><%=mobileEquips.get(i).getRankName() %></td>
@@ -374,7 +374,7 @@ int block = (pageNum-1)/pageNum_list;
         var createXLSLFormatObj = [];
 		var cnt=1;
         /* XLS Head Columns */
-        var xlsHeader = ["전화번호","소속","성명","군번","장비구분","모델명","장비번호","배정일","비고"];
+        var xlsHeader = ["소속","세부소속","전화번호","군번","계급","성명","장비구분","모델명","장비번호","배정일자","비고"];
 
         /* XLS Rows Data */
         var xlsRows = <%=total_data%>;
@@ -547,7 +547,7 @@ function deleteMobile(num){
 	if(confirm(phone(data[num].MobileNumber)+"("+data[num].Name+")을 정말 삭제하시겠습니까?")){
 		
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/MobileManagement/MobileManagementDelete',
+		url: 'http://211.9.3.55:5010/TenSystem/MobileManagement/MobileManagementDelete',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[num]),

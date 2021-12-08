@@ -11,7 +11,6 @@
 <%@ page import="com.google.gson.*"%>
 <%
 
-	request.setCharacterEncoding("euc-kr");
 	
 	String param = "satellite_map";
 	
@@ -25,6 +24,8 @@
 	String regp = request.getParameter("equip_regiment");
 	String etp = request.getParameter("equip_type");
 	
+	String sn = request.getParameter("sn");
+
 	DBConnection cd = new DBConnection();
 	ArrayList<EquipLocation> equipLocations = new ArrayList<EquipLocation>();
 	
@@ -291,7 +292,7 @@
 	<div id="top_div" style="white-space:nowrap; ">
 		<form action="detail2.jsp" id='frm' method="get" onsubmit="return goDetail()">
 			<a id="rcp_frm"><%=regp%> / <%=etp %></a>
-			<a id="rcp_frm2" href="#" onclick="document.getElementById('frm').submit();">장비수: <%=cnt %></a>
+			<a id="rcp_frm2" href="detail2.jsp?regp=<%=regp%>&etp=<%=etp%>">장비수: <%=cnt %></a>
 			<input type="hidden" name="regp" value="<%=regp%>">
 			<input type="hidden" name="etp" value="<%=etp%>">
 			<input type="button" value="reset" id="zoom-restore">
@@ -323,7 +324,7 @@
     		{ 
     		    $("input:radio[name=gis_setting]").change(function() 
     		    { 
-    		    	location.replace("equipLocations2.jsp?equip_regiment=<%=regp%>&equip_type=<%=etp%>&gis_setting="+$('input[name=gis_setting]:checked').val());
+    		    	location.replace("equipLocations2.jsp?equip_regiment=<%=regp%>&equip_type=<%=etp%>&gis_setting="+$('input[name=gis_setting]:checked').val()+"&sn=<%=sn%>");
     		    })
  
     		});
@@ -391,7 +392,7 @@
         	view.setZoom(zoom);
         }
         document.getElementById('goback').onclick = function(){
-    		location.href = "locations.jsp";
+        	location.href="locations.jsp?sn=<%=sn%>"
         }   
 	        
         
@@ -553,8 +554,6 @@
 				    lon: longitude,
 				    lat: latitude,
 				    desc: '<table style="white-space:nowrap;width:100%;">'
-				    	+ '<tr><td class="block" style="width:auto">위도</td><td style="text-align:right;">' + latitude + '</td></tr>'
-				    	+ '<tr><td class="block" style="width:auto">경도</td><td style="text-align:right;">' + longitude + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">장비번호&nbsp&nbsp</td><td style="text-align:right;">' + id + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">소속</td><td style="text-align:right;">' + regiment + '</td></tr>'
 				    	+ '<tr><td class="block" style="width:auto">장비종류</td><td style="text-align:right;">' + equipType + '</td></tr>'

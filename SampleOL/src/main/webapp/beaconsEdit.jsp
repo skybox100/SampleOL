@@ -255,6 +255,7 @@
 
 </table>
 <input type="button" id="edit" value="수정" onclick="pmUpdate()">
+<input type="button" id="edit" value="이전" onclick="location.href = 'beacons.jsp'">
 <script type="text/javascript">
 
 

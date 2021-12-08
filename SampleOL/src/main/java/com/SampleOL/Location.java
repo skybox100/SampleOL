@@ -37,7 +37,13 @@ public class Location {
 	String equipLocation;
 	String roomName;
 	String roomNumber;
+	String mgrs;
 
+	
+	public Location() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	public Location(String serviceNumber, String userKey, String name, String rankName, String regimentName,
 			String regimCompanyName, String isDevice, String duty, String latitude, String longitude, String timestamp) {
@@ -87,9 +93,11 @@ public class Location {
 	}
 
 	
+
+	
 	public Location(String serviceNumber, String userKey, String name, String rank,String rankName, String regiment,String regimentName,
 			String regimCompany,String regimCompanyName, String isDevice, String duty, String latitude, String longitude, String timestamp,String EventId,String EventDateTime,String MissionType,String EquipID
-			 ,String EventType,String ObjectType,String EventRemark,String Status,String ActionStartDate,String ActionEndDate,String Actioncontents,String ResultContents,String GroupCode,String IsSendOK,String EquipLocation,String RoomName,String mobileNumber,String etc,String roomNumber) {
+			 ,String EventType,String ObjectType,String EventRemark,String Status,String ActionStartDate,String ActionEndDate,String Actioncontents,String ResultContents,String GroupCode,String IsSendOK,String EquipLocation,String RoomName,String mobileNumber,String etc,String roomNumber,String mgrs) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
@@ -124,11 +132,10 @@ public class Location {
 		this.MobileNumber = mobileNumber;
 		this.etc = etc;
 		this.roomNumber = roomNumber;
+		this.mgrs = mgrs;
 
 		
 	}
-	
-	
 	public String getRegimCompany() {
 		return regimCompanyName;
 	}
@@ -161,10 +168,7 @@ public class Location {
 		this.timestamp = timestamp;
 	}
 
-	public Location() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
 
 	public Location(String serviceNumber, String userKey, String name, String rankName, String latitude, String longitude,
 			String timestamp) {
@@ -195,7 +199,7 @@ public class Location {
 
 	public Location(String serviceNumber, String userKey, String name, String rankName, String regimentName,
 			String regimCompanyName, String isDevice, String duty, String latitude, String longitude, String timestamp,
-			String mobileNumber, String etc, String equipLocation, String roomName,String roomNumber) {
+			String mobileNumber, String etc, String equipLocation, String roomName,String roomNumber,String Mgrs) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
@@ -213,12 +217,13 @@ public class Location {
 		this.equipLocation = equipLocation;
 		this.roomName = roomName;
 		this.roomNumber = roomNumber;
+		this.mgrs = Mgrs;
 
 	}
 
 	public Location(String serviceNumber, String userKey, String name, String rankName, String regimentName,
 			String regimCompanyName, String isDevice, String duty, String latitude, String longitude, String timestamp,
-			String mobileNumber, String equipLocation, String roomName,String roomNumber) {
+			String mobileNumber, String equipLocation, String roomName,String roomNumber,String Mgrs) {
 		super();
 		this.serviceNumber = serviceNumber;
 		this.userKey = userKey;
@@ -235,7 +240,7 @@ public class Location {
 		this.equipLocation = equipLocation;
 		this.roomName = roomName;
 		this.roomNumber = roomNumber;
-
+		this.mgrs = Mgrs;
 	}
 	
 	public String getRegiment() {

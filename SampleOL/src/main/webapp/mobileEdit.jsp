@@ -468,9 +468,9 @@ function pmUpdate(){
 	if(confirm(data[0].ServiceNumber+"("+data[0].Name+")수정하시겠습니까?")){
 		data[0].MobileNumber=$('#MobileNumber').val();
 		data[0].Regiment=$('#Regiment').val();
-		data[0].RegimentName=$('#Regiment').innerText;
+		data[0].RegimentName=document.getElementById("Regiment").options[document.getElementById("Regiment").selectedIndex].text;
 		data[0].RegimCompany=$('#RegimCompany').val();
-		data[0].RegimCompanyName=$('#RegimCompany').innerText;
+		data[0].RegimCompanyName=document.getElementById("RegimCompany").options[document.getElementById("RegimCompany").selectedIndex].text;
 		data[0].MobileNumber=$('#MobileNumber').val();
 		data[0].Name=$('#Name').val();
 		data[0].ServiceNumber=$('#ServiceNumber').val();
@@ -479,12 +479,12 @@ function pmUpdate(){
 		data[0].ManufacturerName=$('#ManufacturerName').val();
 		data[0].Remark=$('#Remark').val();
 		data[0].Rank=$('#Rank').val();
-		data[0].RankName=$('#Rank').innerText;
+		data[0].RankName=document.getElementById("Rank").options[document.getElementById("Rank").selectedIndex].text;
 
 
 
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/MobileManagement/MobileManagementNewSave',
+		url: 'http://211.9.3.55:5010/TenSystem/MobileManagement/MobileManagementNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),

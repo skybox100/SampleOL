@@ -18,6 +18,8 @@ System.out.println("personalLocations3");
 		param = request.getParameter("gis_setting") ;
 	}
 	
+	String sn = request.getParameter("sn");
+
 	String reg = request.getParameter("reg");
 	String rc = request.getParameter("regim_company");
 	
@@ -314,7 +316,7 @@ System.out.println("personalLocations3");
 		
 		<form action="detail.jsp" id='frm' method="get" onsubmit="return goDetail()">
 			<span id="rcp_frm"><%=regp%>/<%=rcp %></span>
-			<a id="rcp_frm2" href="#" onclick="document.getElementById('frm').submit();">인원수: <%=cnt %></a>
+			<a id="rcp_frm2" href="detail.jsp?regp=<%=regp %>&rcp=<%=rcp %>" onclick="document.getElementById('frm').submit();">인원수: <%=cnt %></a>
 			<input type="hidden" name="regp" value="<%=regp%>">
 			<input type="hidden" name="rcp" value="<%=rcp%>">
 			<input type="button" value="reset" id="zoom-restore">
@@ -349,7 +351,7 @@ System.out.println("personalLocations3");
     		{ 
     		    $("input:radio[name=gis_setting]" ).change(function() 
     		    { 
-    		    	location.replace("personalLocations3.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&gis_setting="+$('input[name=gis_setting]:checked').val());
+    		    	location.replace("personalLocations3.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&gis_setting="+$('input[name=gis_setting]:checked').val()+"&sn=<%=sn%>");
 
     		    	
     		    })
@@ -413,7 +415,7 @@ System.out.println("personalLocations3");
         	view.setZoom(zoom);
         }
         document.getElementById('goback').onclick = function(){
-			window.history.back();
+        	location.href="locations.jsp?sn=<%=sn%>"
         }
       
         
@@ -468,12 +470,13 @@ System.out.println("personalLocations3");
 					console.log("distance:" +distance);
 					if(distance <100 & cnt <4 & distance >0){
 						cnt++;
-						multi +='<table style="white-space:nowrap;text-align:left;">'
+						multi +='<table style="white-space:nowrap;text-align:left;width:100%">'
 					    	+ '<tr ><td>' + item.timestamp+'</td><td style="text-align:right;">'+item.isDevice +'</td></tr>'
 						   // + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+item.MobileNumber+'</td></tr>'
 						    + '<tr><td Colspan="2">'+item.regimCompanyName+'&nbsp'+item.rankName+'&nbsp'+item.name+'</td></tr>'
 						    //+ '<tr><td>계급성명</td><td style="text-align:right;">'+item.rankName+'&nbsp'+item.name+'</td></tr>'
 						    //+ '<tr><td>군번</td><td style="text-align:right;">'+item.serviceNumber+'</td></tr>'
+						    + '<tr><td Colspan="2">' + item.mgrs + '</td></tr>'
 						    + '<tr><td>'+item.roomName+'</td><td style="text-align:right;">'+item.roomNumber+'</td></tr>'
 						    + '<tr><td Colspan="2">-----------------------</td></tr>'
 					    	+ '</table>';
@@ -546,7 +549,7 @@ System.out.println("personalLocations3");
 							, userKey = item.userKey, timestamp = item.timestamp
 							, regiment = item.regiment, regimCompany = item.regimCompany,regimentName = item.regimentName, regimCompanyName = item.regimCompanyName
 							, serviceNumber = item.serviceNumber,isDevice=item.isDevice
-							, duty = item.duty, name = item.name, rank = item.rank, rankName = item.rankName
+							,mgrs = item.mgrs , duty = item.duty, name = item.name, rank = item.rank, rankName = item.rankName
 							,mobileNumber=item.MobileNumber,roomNumber=item.roomNumber,roomName=item.roomName,equipLocation=item.equipLocation;
 				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
 						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
@@ -565,12 +568,13 @@ System.out.println("personalLocations3");
 				    type: 'Point',
 				    lon: longitude,
 				    lat: latitude,
-				    desc: '<table style="white-space:nowrap;text-align:left;">'
+				    desc: '<table style="white-space:nowrap;text-align:left;width:100%">'
 				    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
 					  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 						+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
 					  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
 					  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+					  	+ '<tr><td Colspan="2">' + mgrs + '</td></tr>'
 					    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 				    	+ '</table>'
 				});

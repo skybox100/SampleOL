@@ -414,6 +414,8 @@
 				</td>
 			</tr>
 		</table>
+		<input type="hidden" name="sn" value="<%=sn%>">
+		
 		<input type="submit" id="submit" value=" 조회 ">
 	</form>
 	</div>
@@ -439,6 +441,7 @@
 				</td>
 			</tr>
 		</table>
+		<input type="hidden" name="sn" value="<%=sn%>">
 		<input type="submit" id="submit" value=" 조회 " >
 	</form>
 	</div>
@@ -464,6 +467,7 @@
 				</td>
 			</tr>
 		</table>
+			<input type="hidden" name="sn" value="<%=sn%>">
 			<input type="submit" id="submit" value=" 조회 ">
 		</form>
 	</div>
@@ -745,12 +749,13 @@
 					distance = Math.round(line.getLength());
 					if(distance <50 & cnt <9 & distance >0){
 						cnt++;
-						multi +='<table style="white-space:nowrap;text-align:left;">'
+						multi +='<table style="white-space:nowrap;text-align:left;width:100%">'
 					    	+ '<tr ><td>' + item.timestamp+'</td><td style="text-align:right;">'+item.isDevice +'</td></tr>'
 						   // + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+item.MobileNumber+'</td></tr>'
 						    + '<tr><td Colspan="2">'+item.regimCompanyName+'&nbsp'+item.rankName+'&nbsp'+item.name+'</td></tr>'
 						    //+ '<tr><td>계급성명</td><td style="text-align:right;">'+item.rankName+'&nbsp'+item.name+'</td></tr>'
 						    //+ '<tr><td>군번</td><td style="text-align:right;">'+item.serviceNumber+'</td></tr>'
+					  		+ '<tr><td Colspan="2">' + item.mgrs + '</td></tr>'
 						    + '<tr><td>'+item.roomName+'</td><td style="text-align:right;">'+item.roomNumber+'</td></tr>'
 						    + '<tr><td Colspan="2">-----------------------</td></tr>'
 					    	+ '</table>';
@@ -781,6 +786,13 @@
 			        
 		            // Show popup
 		         	   popup.setPosition(position);
+		            }else{
+		            	straitSource.getFeatures().forEach((f) => {
+				            // Hide markers zindex 999
+				            MarkerOnTop(f, false);
+				        });
+				        // Hide popup
+				        popup.setPosition(undefined);
 		            }
 		        }
 		    }
@@ -981,7 +993,7 @@
 				, userKey = item.userKey, timestamp = item.timestamp
 				, regiment = item.regiment, regimCompany = item.regimCompany,regimentName = item.regimentName, regimCompanyName = item.regimCompanyName
 				, serviceNumber = item.serviceNumber,isDevice=item.isDevice
-				, duty = item.duty, name = item.name, rank = item.rank, rankName = item.rankName
+				, duty = item.duty, mgrs = item.mgrs, name = item.name, rank = item.rank, rankName = item.rankName
 				,mobileNumber=item.MobileNumber,roomNumber=item.roomNumber,roomName=item.roomName,equipLocation=item.equipLocation;
 				//var longitude = data.longitude, latitude = data.latitude, idx = data.idx
 						//	, userKey = data.userKey, timestamp = data.timestamp;
@@ -1118,12 +1130,13 @@
 				    type: 'Point',
 				    lon: longitude,
 				    lat: latitude,
-				    desc: '<table style="white-space:nowrap;text-align:left;">'
+				    desc: '<table style="white-space:nowrap;text-align:left;width:100%">'
 				    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
 					  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
 						+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
 					  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
 					  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+					  	+ '<tr><td Colspan="2">' + mgrs + '</td></tr>'
 					    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 				    	+ '</table>'
 				});

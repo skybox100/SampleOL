@@ -16,7 +16,8 @@
    int num2;
    DBConnection  cd = new DBConnection();
    ArrayList<Food> foods = new ArrayList<Food>();
-
+   Food food= new Food(null,null,null,null,null,null,null,null,0,null,null,null,0,null);
+   foods.add(food);
    boolean flag=false;
    
    Gson gson = new Gson();
@@ -33,7 +34,8 @@
 	ArrayList<String> rcp_2 = cd.getCodeIDList("Storehouse", "RG-282");
 	ArrayList<String> rcp_3 = cd.getCodeIDList("Storehouse", "RG-283");
 
-	
+	ArrayList<String> Unit = cd.getCodeRemarkList("FoodCode");
+
 	
 	String rc0; String rc1; String rc2; String rc3;
 	String rcp0; String rcp1; String rcp2; String rcp3;
@@ -50,7 +52,8 @@
 
 	ArrayList<String> PersonnelReg = cd.getCodeNameList("Regiment");
 	ArrayList<String> Storehouse = cd.getCodeNameList("소속:전체");
-	ArrayList<String> Food = cd.getCodeNameList("FoodCode");
+	ArrayList<String> Food = cd.getCodeIDList("FoodCode", "");
+	ArrayList<String> FoodSource = cd.getCodeNameList("FoodSource");
 
 
 	   
@@ -200,22 +203,20 @@
       <td class="col" >
         <select id="Food" style="width: 140px;">
 						<%for(int i=0; i<Food.size(); i++) {%>
-						<option value='<%=cd.getCodeID("FoodCode",Food.get(i))%>'><%=Food.get(i)%></option>
+						<option value='<%=Food.get(i)%>'><%=cd.getCodeName("FoodCode", Food.get(i))%></option>
 						<%} %>
    		</select> 
-      
+        <select id="Unit" style="width: 140px; display: none;">
+						<%for(int i=0; i<Food.size(); i++) {%>
+						<option value='<%=Food.get(i)%>'><%=cd.getCodeRemark("FoodCode",Food.get(i))%></option>
+						<%} %>
+   		</select> 
    </tr>
+   
     <tr>
       <td class="colt" >재고수량</td>
       <td class="col" >
-	  <input type="number" id ="CurrentQuantity">
-	    <select id="Unit" >
-						<option value='KG'>KG</option>
-						<option value='ML'>ML</option>
-						<option value='PG'>PG</option>
-						<option value='GM'>GM</option>
-						<option value='EA'>EA</option>
-   		</select> 
+	  <input type="number" id ="CurrentQuantity" >
    </tr>
    <tr>
       <td class="colt" >입고일자</td>
@@ -225,9 +226,30 @@
       <td class="colt" >유통기한</td>
       <td class="col" ><input type="date" id="ExpirationDate" ></td>
    </tr>
-
+    <tr>
+      <td class="colt" >조달근거</td>
+      <td class="col" >
+	  <select id="FoodSource" style="width: 140px;">
+						<%for(int i=0; i<FoodSource.size(); i++) {%>
+						<option value="<%=cd.getCodeID("FoodSource",FoodSource.get(i))%>"><%=FoodSource.get(i)%></option>
+						<%} %>
+   </select> 
+	</td>
+      </tr>
+    <tr>
+      <td class="colt" >QR코드</td>
+      <td class="col" >
+      	  <input type="number" id ="qRcodeIdx" >
+      </td>
+     </tr>
+    <tr>
+      <td class="colt" >기타사항</td>
+      <td class="col" >
+      <input type="text" id ="remark" >
+      </td>
+</tr>
 </table>
-<input type="button" id="edit" value="수정" onclick="pmUpdate()">
+<input type="button" id="edit" value="추가" onclick="pmUpdate()">
 <input type="button" id="back" value="이전" onclick="goBack()">
 
 <script type="text/javascript">
@@ -242,6 +264,11 @@ $(document).ready(function() {
 	  $('#reg').on('change', function() {
 			regSelectChange($("#reg").val());
 		 });
+	  
+	  $('#Food').on('change', function() {
+			$('#Unit').val($('#Food').val()).prop("selected", true);	
+		 });
+	  
 
  // setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
 
@@ -351,6 +378,47 @@ function regSelectChange(e) {
 }
 
 
+function regSelectChange(e) {
+	
+	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
+	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
+	var rc4 = ['전체'];
+
+	var rcp0 = <%=rcp0%>; var rcp1 = <%=rcp1%>;  
+	var rcp2 = <%=rcp2%>; var rcp3 = <%=rcp3%>;  
+	var rcp4 = ['전체'];
+	var target = document.getElementById("Storehouse");
+
+	if(e == "RG-280") {
+		var d = rc0;
+		var d2= rcp0;
+	}else if(e == "RG-281") {
+		var d = rc1;
+		var d2= rcp1;
+	}else if(e == "RG-282") {
+		var d = rc2;
+		var d2= rcp2;
+	}else if(e == "RG-283") {
+		var d = rc3;
+		var d2= rcp3;
+	}else if(e == "전체"){
+		var d = rc4;
+		var d2= rcp4;
+	}
+
+	 $("#Storehouse").children('option').remove();
+
+
+	for (x in d) {
+		var opt = document.createElement("option");
+		opt.value = d2[x];
+		opt.innerHTML = d[x];
+		target.appendChild(opt);
+	}
+	
+	
+}
+
 function leadingZeros(n, digits) {
     var zero = '';
     n = n.toString();
@@ -438,20 +506,21 @@ function goBack(){
 
 function pmUpdate(){
 	if(confirm("음식정보를 추가하시겠습니까?")){
-		data[0].regiment=$('#Regiment').val();
-		data[0].regimentName=$('#Regiment').innerText;
+		data[0].regiment=$('#reg').val();
 		data[0].storehouse=$('#Storehouse').val();
-		data[0].storehouseName=$('#Storehouse').innerText;
-		data[0].foodName=$('#Food').val();
-		data[0].foodCode=$('#Food').innerText;
+		data[0].foodName=document.getElementById("Food").options[document.getElementById("Food").selectedIndex].text;
+		data[0].foodCode=$('#Food').val();
+		data[0].unit=document.getElementById("Unit").options[document.getElementById("Unit").selectedIndex].text;
 		data[0].storeDate=$('#StoreDate').val();
 		data[0].expirationDate=$('#ExpirationDate').val();
-		data[0].unit=$('#Unit').val();
+		data[0].foodSource=$('#FoodSource').val();
+		data[0].qRcodeIdx=$('#qRcodeIdx').val();
+		data[0].remark=$('#remark').val();
 
 
 
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/FoodInventory/FoodInventoryNewSave',
+		url: 'http://110.10.130.51:5002/Food/FoodInventory/FoodInventoryNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),
@@ -459,10 +528,10 @@ function pmUpdate(){
 		accept: "application/json",
 		success: function(response) {
 			// success handle
-				alert("수정을 성공했습니다.");
+				alert("추가되었습니다.");
 				console.log(JSON.stringify(response));
 				console.log(JSON.stringify(data));
-
+				location.href="foodList.jsp";
 			},
 		error: function(response) {
 				alert("실패했습니다.");

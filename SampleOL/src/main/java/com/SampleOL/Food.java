@@ -12,23 +12,23 @@ public class Food {
 	String expirationDate;
 	String foodName;
 	String storeDate;
-	String currentQuantity;
+	int currentQuantity;
 	String unit;
 	String foodSource;
 	String foodSourceName;
-	String qRcodeIdx;
+	long qRcodeIdx;
 	String remark;
 	
 	
 	
-	public Food(String regiment, String regimentName, String storehouse, String storehouseName, String foodCode,
-			String expirationDate, String foodName, String storeDate, String currentQuantity, String unit,
-			String foodSource, String foodSourceName, String qRcodeIdx, String remark) {
+	public Food(String regiment, String RegimentName, String Storehouse, String StorehouseName, String foodCode,
+			String expirationDate, String foodName, String storeDate, int currentQuantity, String unit,
+			String foodSource, String foodSourceName, long qRcodeIdx, String remark) {
 		super();
 		this.regiment = regiment;
-		this.regimentName = regimentName;
-		this.storehouseName = storehouseName;
-		this.storehouse = storehouse;
+		this.regimentName = RegimentName;
+		this.storehouseName = StorehouseName;
+		this.storehouse = Storehouse;
 		this.foodCode = foodCode;
 		this.expirationDate = expirationDate;
 		this.foodName = foodName;
@@ -50,20 +50,20 @@ public class Food {
 	public String getRegimentName() {
 		return regimentName;
 	}
-	public void setRegimentName(String regimentName) {
-		this.regimentName = regimentName;
+	public void setRegimentName(String RegimentName) {
+		this.regimentName = RegimentName;
 	}
 	public String getStorehouseName() {
 		return storehouseName;
 	}
-	public void setStorehouseName(String storehouseName) {
-		this.storehouseName = storehouseName;
+	public void setStorehouseName(String StorehouseName) {
+		this.storehouseName = StorehouseName;
 	}
 	public String getStorehouse() {
 		return storehouse;
 	}
-	public void setStorehouse(String storehouse) {
-		this.storehouse = storehouse;
+	public void setStorehouse(String Storehouse) {
+		this.storehouse = Storehouse;
 	}
 	public String getFoodCode() {
 		return foodCode;
@@ -89,10 +89,10 @@ public class Food {
 	public void setStoreDate(String storeDate) {
 		this.storeDate = storeDate;
 	}
-	public String getCurrentQuantity() {
+	public int getCurrentQuantity() {
 		return currentQuantity;
 	}
-	public void setCurrentQuantity(String currentQuantity) {
+	public void setCurrentQuantity(int currentQuantity) {
 		this.currentQuantity = currentQuantity;
 	}
 	public String getUnit() {
@@ -114,10 +114,10 @@ public class Food {
 	public void setFoodSourceName(String foodSourceName) {
 		this.foodSourceName = foodSourceName;
 	}
-	public String getqRcodeIdx() {
+	public long getqRcodeIdx() {
 		return qRcodeIdx;
 	}
-	public void setqRcodeIdx(String qRcodeIdx) {
+	public void setqRcodeIdx(long qRcodeIdx) {
 		this.qRcodeIdx = qRcodeIdx;
 	}
 	public String getRemark() {

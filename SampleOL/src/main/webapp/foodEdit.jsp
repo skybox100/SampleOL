@@ -72,6 +72,7 @@
 	ArrayList<String> PersonnelReg = cd.getCodeNameList("Regiment");
 	ArrayList<String> Storehouse = cd.getFoodStore(reg);
 	ArrayList<String> Food = cd.getCodeNameList("FoodCode");
+	ArrayList<String> Unit = cd.getCodeRemarkList("FoodCode");
 
 
 	reg = cd.getCodeID("Regiment", reg);
@@ -204,7 +205,7 @@
 	<tr>
          <td class="colt" >소속</td>
       <td class="col" >
-      		<select id="reg" name ="reg" style="width: 140px;">
+      		<select id="reg" name ="reg" style="width: 140px;" disabled>
 						<%for(int i=0; i<PersonnelReg.size(); i++) {%>
 						<option value="<%=cd.getCodeID("Regiment",PersonnelReg.get(i))%>"><%=PersonnelReg.get(i)%></option>
 						<%} %>
@@ -213,7 +214,7 @@
    <tr>
       <td class="colt" >창고명</td>
       <td class="col" >
-  <select id="Storehouse" style="width: 140px;">
+  <select id="Storehouse" style="width: 140px;" disabled>
 						<%for(int i=0; i<Storehouse.size(); i++) {%>
 						<option value='<%=cd.getCodeID("Storehouse",Storehouse.get(i))%>'><%=Storehouse.get(i)%></option>
 						<%} %>
@@ -223,7 +224,7 @@
    <tr>
       <td class="colt" >식재료명</td>
       <td class="col" >
-        <select id="Food" style="width: 140px;">
+        <select id="Food" style="width: 140px;" disabled> 
 						<%for(int i=0; i<Food.size(); i++) {%>
 						<option value='<%=cd.getCodeID("FoodCode",Food.get(i))%>'><%=Food.get(i)%></option>
 						<%} %>
@@ -233,22 +234,16 @@
        <tr>
       <td class="colt" >재고수량</td>
       <td class="col" >
-	  <input type="number" id ="CurrentQuantity">
-	    <select id="Unit" >
-						<option value='KG'>KG</option>
-						<option value='ML'>ML</option>
-						<option value='PG'>PG</option>
-						<option value='GM'>GM</option>
-						<option value='EA'>EA</option>
-   		</select> 
+	  <input type="number" id ="CurrentQuantity" >
+
    </tr>
    <tr>
       <td class="colt" >입고일자</td>
-      <td class="col" ><input type="date" id="StoreDate" value="<%=cd.searchDateConvert(foods.get(0).getStoreDate(),"yyyy-MM-dd")%>"></td>
+      <td class="col" ><input type="date" id="StoreDate" value="<%=foods.get(0).getStoreDate()%>"  disabled></td>
    </tr>
    <tr>
       <td class="colt" >유통기한</td>
-      <td class="col" ><input type="date" id="ExpirationDate" value="<%=cd.searchDateConvert(foods.get(0).getExpirationDate(),"yyyy-MM-dd")%>"></td>
+      <td class="col" ><input type="date" id="ExpirationDate" value="<%=foods.get(0).getExpirationDate()%>" disabled></td>
    </tr>
  
 
@@ -265,8 +260,7 @@ $(document).ready(function() {
 	regSelectChange('<%=foods.get(0).getRegiment() %>');
 	$('#Storehouse').val('<%=foods.get(0).getStorehouse()%>').prop("selected", true);	
 	$('#Food').val('<%=foods.get(0).getFoodCode()%>').prop("selected", true);	
-	$('#CurrentQuantity').val(<%=Integer.parseInt(foods.get(0).getCurrentQuantity())%>);	
-	$('#Unit').val('<%=foods.get(0).getUnit()%>').prop("selected", true);	
+	$('#CurrentQuantity').val(<%=foods.get(0).getCurrentQuantity()%>);	
 
 
 
@@ -466,19 +460,11 @@ function goBack(){
 
 function pmUpdate(){
 	if(confirm("음식정보를 수정하시겠습니까?")){
-		data[0].regiment=$('#Regiment').val();
-		data[0].regimentName=$('#Regiment').innerText;
-		data[0].storehouse=$('#Storehouse').val();
-		data[0].storehouseName=$('#Storehouse').innerText;
-		data[0].foodName=$('#Food').innerText;
-		data[0].foodCode=$('#Food').val();
-		data[0].storeDate=$('#StoreDate').val();
-		data[0].expirationDate=$('#ExpirationDate').val();
-		data[0].unit=$('#Unit').val();
+		data[0].currentQuantity=$('#CurrentQuantity').val();
 
 
 	$.ajax({
-		url: 'http://110.10.130.51:5002/TenSystem/FoodInventory/FoodInventoryNewSave',
+		url: 'http://110.10.130.51:5002/Food/FoodInventory/FoodInventorySave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),

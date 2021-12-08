@@ -10,7 +10,6 @@
 <%@ page import="java.io.*, java.util.*" %>
 <%
 
-	request.setCharacterEncoding("euc-kr");
 
 	String reg = request.getParameter("regp");
 	String et = request.getParameter("etp");
@@ -113,8 +112,6 @@ console.log(<%=multi_marker%>);
 
 document.getElementById('goback').onclick = function(){
 	window.history.back();
-	location.href="equipLocations2.jsp?equip_regiment=<%=regp%>&equip_type=<%=etp%>";
-
 }
 </script>
 </body>
