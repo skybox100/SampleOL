@@ -52,7 +52,7 @@
 
 	ArrayList<String> PersonnelReg = cd.getCodeNameList("Regiment");
 	ArrayList<String> Storehouse = cd.getCodeNameList("소속:전체");
-	ArrayList<String> Food = cd.getCodeIDList("FoodCode", "");
+	ArrayList<String> Food = cd.getFoodIDList();
 	ArrayList<String> FoodSource = cd.getCodeNameList("FoodSource");
 
 
@@ -206,7 +206,7 @@
 						<option value='<%=Food.get(i)%>'><%=cd.getCodeName("FoodCode", Food.get(i))%></option>
 						<%} %>
    		</select> 
-        <select id="Unit" style="width: 140px; display: none;">
+        <select id="Unit" style="width: 50px;" disabled="disabled">
 						<%for(int i=0; i<Food.size(); i++) {%>
 						<option value='<%=Food.get(i)%>'><%=cd.getCodeRemark("FoodCode",Food.get(i))%></option>
 						<%} %>
@@ -236,12 +236,14 @@
    </select> 
 	</td>
       </tr>
+      <!-- 
     <tr>
       <td class="colt" >QR코드</td>
       <td class="col" >
       	  <input type="number" id ="qRcodeIdx" >
       </td>
      </tr>
+       -->
     <tr>
       <td class="colt" >기타사항</td>
       <td class="col" >
@@ -514,11 +516,23 @@ function pmUpdate(){
 		data[0].storeDate=$('#StoreDate').val();
 		data[0].expirationDate=$('#ExpirationDate').val();
 		data[0].foodSource=$('#FoodSource').val();
-		data[0].qRcodeIdx=$('#qRcodeIdx').val();
+		data[0].qRcodeIdx=<%=cd.TimeTick()%>;
 		data[0].remark=$('#remark').val();
+		data[0].currentQuantity=$('#CurrentQuantity').val();
 
 
-
+		if(data[0].storeDate == ""){
+			alert("입고일자 날짜를 설정하십시오.");
+			return false;
+		}
+		if(data[0].expirationDate  == ""){
+			alert("유통기한 날짜를 설정하십시오.");
+			return false;
+		}
+		if(data[0].storeDate > data[0].expirationDate){
+			alert("유통기한이 입고일자보다 늦습니다.");
+			return false;
+		}
 	$.ajax({
 		url: 'http://110.10.130.51:5002/Food/FoodInventory/FoodInventoryNewSave',
 		contentType: "application/json; charset=utf-8",

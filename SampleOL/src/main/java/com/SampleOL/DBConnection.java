@@ -30,7 +30,6 @@ public class DBConnection {
 	String user = "sa";
 	String password = "todkagh123!";
 	
-	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	Connection con = null;
@@ -173,8 +172,8 @@ public class DBConnection {
 			String order="	order by regiment,storehouse, foodCode,expirationDate; ";
 	
 			if(od.equals("식재료명"))order="	order by foodName; ";
-			else if(od.equals("입고일자"))order="	order by storeDate; ";
-			else if(od.equals("유통기한"))order="	order by expirationDate; ";	
+			else if(od.equals("입고일자"))order="	order by storeDate desc; ";
+			else if(od.equals("유통기한"))order="	order by expirationDate desc; ";	
 			
 			if(reg.equals("소속:전체") && sh.equals("식당명:전체") && fd.equals("식재료명:전체")) {
 				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
@@ -250,9 +249,9 @@ public class DBConnection {
 				String storehouse = rs.getString("storehouse");
 				String storehouseName = rs.getString("storehouseName");
 				String foodCode = rs.getString("foodCode");
-				String expirationDate = searchDateConvert(rs.getString("expirationDate"),"yyyy-MM-dd");
+				String expirationDate = rs.getString("expirationDate");
 				String foodName = rs.getString("foodName");
-				String storeDate = searchDateConvert(rs.getString("storeDate"),"yyyy-MM-dd");
+				String storeDate = rs.getString("storeDate");
 				int currentQuantity = rs.getInt("currentQuantity");
 				String unit = rs.getString("unit");
 				String foodSource = rs.getString("foodSource");
@@ -2015,7 +2014,13 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 		
 	}
 	
-
+public long TimeTick() {
+	long TICKS_AT_EPOCH = 621355968000000000L; 
+	long tick = (System.currentTimeMillis() + TimeZone.getDefault().getRawOffset()) * 10000 + TICKS_AT_EPOCH;
+	SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+	SimpleDateFormat format2 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss.SSS");
+	return tick;
+}
 	
 public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
@@ -2617,8 +2622,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			sql = "select equipId, b.CodeName as regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
 					+ " FROM dbo.TotalEquip a"
 					+ " INNER JOIN dbo.Code b ON b.CodeID = a.regiment"
-					+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType";
-			
+					+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
+					+ " order by a.regiment,equipType,equipId";
 			try {
 				con = getConn();
 				System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
@@ -2656,8 +2661,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ " FROM dbo.TotalEquip a"
 					+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment"
 					+ " INNER JOIN dbo.Code c ON c.CodeID = a.EquipType"
-					+ " where a.Regiment = ?";
-			
+					+ " where a.Regiment = ?"
+					+ " order by a.regiment,equipType,equipId";
+					
 			try {
 				con = getConn();
 				System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
@@ -2696,7 +2702,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ " FROM dbo.TotalEquip a"
 					+ " INNER JOIN dbo.Code b ON b.CodeID = a.regiment"
 					+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
-					+ " where a.Regiment = ? and a.EquipType = ?";
+					+ " where a.Regiment = ? and a.EquipType = ?"
+					+ " order by a.regiment,equipType,equipId";
 			
 			try {
 				con = getConn();
@@ -3581,6 +3588,35 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, codeType);
 			pstmt.setString(2, groupCode);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String cn = rs.getString("CodeID");
+				
+				codeIDList.add(cn);
+				 
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+	
+		return codeIDList;
+	}	
+	
+	public ArrayList<String> getFoodIDList(){
+		String sql = "select CodeID from dbo.Code where CodeType='FoodCode' order by CodeName";
+		ArrayList<String> codeIDList = new ArrayList<String>();
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {

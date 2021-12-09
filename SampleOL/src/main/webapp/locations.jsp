@@ -59,7 +59,7 @@
 
 		
 		if(sn.equals("전체")){
-			locations = cd.getMobileStatus();
+			locations = cd.getMobileStatus("전체","전체");
 		}else{		
 			reg = cd.getRegId(sn);
 			//rc = cd.getRegCompayID(request.getParameter("sn"));
@@ -529,17 +529,7 @@
  	 <script src="js/map.js"></script>
 	
 
-	<!-- Popup hover -->
-    <div id="popup" class="ol-popup">
-        <a id="popup-closer" class="ol-popup-closer"></a>
-        <div id="popup-content"></div>
-    </div>
-    <!-- Popup click -->
-    <div id="popupClick" class="ol-popup">
-        <a id="popup-closer" class="ol-popup-closer"></a>
-        <div id="popup-content-click"></div>
-    </div>
- 	
+
  	
     <script>
 	    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);

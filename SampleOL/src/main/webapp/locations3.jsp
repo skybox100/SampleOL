@@ -15,7 +15,8 @@
 	String param2 = "geofoff";
 	String reg="전체";
 	String rc="전체";
-	String sn="전체";
+	String st="전체";
+	int chk=0;
 
 	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
@@ -23,9 +24,19 @@
 	if(request.getParameter("gis_setting2")!=null){
 		param2 = request.getParameter("gis_setting2");	
 	}
-	if(request.getParameter("sn")!= null){
-		sn = request.getParameter("sn") ;
+	if(request.getParameter("st")!= null){
+		st = request.getParameter("st") ;
 	}
+	if(request.getParameter("chk")!= null){
+		chk = Integer.parseInt(request.getParameter("chk"));
+	}
+	if(param2.equals("geofal")){
+		chk=chk+1;
+	}
+	
+
+	
+	
 	
 	String pn=null;
 	
@@ -51,14 +62,10 @@
 	
 
 		
-		if(sn.equals("전체")){
-			locations = cd.getMobileStatus();
+		if(st.equals("전체")){
+			locations = cd.getMobileStatus("전체","전체");
 		}else{		
-			reg = cd.getRegId(sn);
-			//rc = cd.getRegCompayID(request.getParameter("sn"));
-			//circle=cd.getCircle(rc);
-			//circle_marker=gson.toJson(circle);
-			locations = cd.getMobileStatus(reg,rc);
+			locations = cd.getMobileStatus(st);
 		}
 		multi_marker = gson.toJson(locations);
 		String lastTimestamp = lastLocation.getTimestamp();
@@ -96,7 +103,6 @@
 		tet1 = gson.toJson(tet_1); 
 		tet2 = gson.toJson(tet_2);
 		tet3 = gson.toJson(tet_3);
-		System.out.println("1");
 		
 %>
 
@@ -135,10 +141,10 @@
     	}
 
         #map{
-        	
         	position:fixed;
         	width: 100%;
             height: 100%;
+            
         }
         
         
@@ -370,6 +376,8 @@
 		  			<label for="geofon">GeoF-ON</label>
 		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
 		 			<label for="geofoff">GeoF-OFF</label>
+					<input type="radio" id="geofal" name="gis_setting2" class="gis_setting2" value="geofal">
+		 			<label for="geofal">GeoF-Al</label>
 		 		</font>
 				</td>
 			</tr>
@@ -406,6 +414,8 @@
 				</td>
 			</tr>
 		</table>
+		<input type="hidden" name="st" value="<%=st%>">
+		
 		<input type="submit" id="submit" value=" 조회 ">
 	</form>
 	</div>
@@ -431,6 +441,7 @@
 				</td>
 			</tr>
 		</table>
+		<input type="hidden" name="st" value="<%=st%>">
 		<input type="submit" id="submit" value=" 조회 " >
 	</form>
 	</div>
@@ -456,6 +467,7 @@
 				</td>
 			</tr>
 		</table>
+			<input type="hidden" name="st" value="<%=st%>">
 			<input type="submit" id="submit" value=" 조회 ">
 		</form>
 	</div>
@@ -486,6 +498,8 @@
 		 			 <input type="radio" name="gis_setting" value="satellite_map" class="gis_setting3"  style="display:none">
 		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofon" style="display:none">
 		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofoff" checked style="display:none">	
+		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofoal" style="display:none">	
+		 			
 					<input type="submit" id="submit2" value=" 설정 ">
 				</font>
 		</form>
@@ -515,17 +529,7 @@
  	 <script src="js/map.js"></script>
 	
 
-	<!-- Popup hover -->
-    <div id="popup" class="ol-popup">
-        <a id="popup-closer" class="ol-popup-closer"></a>
-        <div id="popup-content"></div>
-    </div>
-    <!-- Popup click -->
-    <div id="popupClick" class="ol-popup">
-        <a id="popup-closer" class="ol-popup-closer"></a>
-        <div id="popup-content-click"></div>
-    </div>
- 	
+
  	
     <script>
 	    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
@@ -539,19 +543,21 @@
         			regimentSelectChange($('#reg option:selected').val());
 					eRegimentSelectChange($('#equip_regiment option:selected').val());
         	
-        		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").click(function() 
+        		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").change(function() 
         		    { 
-        		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        		    	location.replace("locations.jsp?st=<%=st%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
         		    }), 
-        		    $("input:radio[name=gis_setting2]").click(function() 
+        		    $("input:radio[name=gis_setting2]").change(function() 
         	    	{ 
-        		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        		    	location.replace("locations.jsp?st=<%=st%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         	    	}) ,
         	    	$("#search_check").change(function() 
                 	 { 
 						var input=document.getElementById('search_this');
 						input.value=null;
                 	 }) 
+                	
+
         
         		});
 
@@ -571,7 +577,6 @@
    		
    		 var data = <%=multi_marker%>;
         // var data = <%=last_marker%>;
-   		
 
         var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"1000","regiment":"9사단"}
    		 ,{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}
@@ -579,6 +584,7 @@
    		 ,{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}
    		 ,{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
 		// var data2=<%=circle_marker%>;
+   		var param2='<%=param2%>'
 
         if('<%=reg%>' == 'RG-280')
         	data2=[{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}];
@@ -670,7 +676,7 @@
 				})
 				}) ]
 			});
-			if('<%=param2%>' === 'geofon'){	
+			if('<%=param2%>' === 'geofon' || '<%=param2%>' === 'geofal'){	
 				map.addLayer(vectorLayer); 
 				//만들어진 벡터를 추가	
 			}
@@ -731,17 +737,18 @@
 
 					var line = new ol.geom.LineString([pnt_data, pnt_data2]);
 					distance = Math.round(line.getLength());
-					console.log("distance:" +distance);
-					if(distance <100 & cnt <4 & distance >0){
+					if(distance <50 & cnt <9 & distance >0){
 						cnt++;
-						multi +='<table style="white-space:nowrap;width:100%;text-align:left;">'
-					    	+ '<tr ><td Colspan="2">' + item.timestamp + '&nbsp&nbsp&nbsp&nbsp'+item.isDevice +'</td></tr>'
-						    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+item.MobileNumber+'</td></tr>'
-						    + '<tr><td>소속</td><td style="text-align:right;">'+item.regimCompany+'</td></tr>'
-						    + '<tr><td>계급성명</td><td style="text-align:right;">'+item.rank+'&nbsp'+item.name+'</td></tr>'
-						    + '<tr><td>군번</td><td style="text-align:right;">'+item.serviceNumber+'</td></tr>'
-						    + '<tr><td>'+item.equipLocation+'</td><td style="text-align:right;">'+item.roomName+'</td></tr>'
-					    	+ '</table><br>';
+						multi +='<table style="white-space:nowrap;text-align:left;width:100%">'
+					    	+ '<tr ><td>' + item.timestamp+'</td><td style="text-align:right;">'+item.isDevice +'</td></tr>'
+						   // + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+item.MobileNumber+'</td></tr>'
+						    + '<tr><td Colspan="2">'+item.regimCompanyName+'&nbsp'+item.rankName+'&nbsp'+item.name+'</td></tr>'
+						    //+ '<tr><td>계급성명</td><td style="text-align:right;">'+item.rankName+'&nbsp'+item.name+'</td></tr>'
+						    //+ '<tr><td>군번</td><td style="text-align:right;">'+item.serviceNumber+'</td></tr>'
+					  		+ '<tr><td Colspan="2">' + item.mgrs + '</td></tr>'
+						    + '<tr><td>'+item.roomName+'</td><td style="text-align:right;">'+item.roomNumber+'</td></tr>'
+						    + '<tr><td Colspan="2">-----------------------</td></tr>'
+					    	+ '</table>';
 
 					}
 					
@@ -763,13 +770,19 @@
 				            content.innerHTML = feature.get('desc');	            		
 		            	}
 		            
-			        console.log("feature.get('lon'):"+feature.get('lon'))
 
 		            // Show marker on top
 		         	   MarkerOnTop(feature, true);
 			        
 		            // Show popup
 		         	   popup.setPosition(position);
+		            }else{
+		            	straitSource.getFeatures().forEach((f) => {
+				            // Hide markers zindex 999
+				            MarkerOnTop(f, false);
+				        });
+				        // Hide popup
+				        popup.setPosition(undefined);
 		            }
 		        }
 		    }
@@ -784,6 +797,8 @@
 		    }
 
 		});
+		
+		
 
 		
 
@@ -832,7 +847,6 @@
 		
 		
 	    function regimentSelectChange(e) {
-	    	console.log(e);
 	    	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	    	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
 	    	var rc4 = ['전체'];
@@ -857,7 +871,6 @@
 	    }
 	    
 		function eRegimentSelectChange(e) {
-			console.log(e);
 	    	var tet0 = <%=tet0%>; var tet1 = <%=tet1%>;  
 	    	var tet2 = <%=tet2%>;
 	    	var tet3 = <%=tet3%>;
@@ -952,6 +965,15 @@
 		function addPointGeom(data) {
 			
 			var seq = 0;
+			 if( param2 == 'geofal'){
+					if('<%=chk%>' == '1' && confirm("이탈 메세지를 발송하시겠습니까?")){
+					}else{
+						param2 = 'geofon';						
+					}
+         	 }
+			 if( param2 == 'geofon2') param2 = 'geofal';						
+
+			
 			
 			data.forEach(function(item) { //iterate through array...
 
@@ -959,13 +981,15 @@
 
 				var longitude = item.longitude, latitude = item.latitude, idx = item.idx
 				, userKey = item.userKey, timestamp = item.timestamp
-				, regiment = item.regiment, regimCompany = item.regimCompany
+				, regiment = item.regiment, regimCompany = item.regimCompany,regimentName = item.regimentName, regimCompanyName = item.regimCompanyName
 				, serviceNumber = item.serviceNumber,isDevice=item.isDevice
-				, duty = item.duty, name = item.name, rank = item.rank
-				,mobileNumber=item.MobileNumber,roomName=item.roomName,equipLocation=item.equipLocation;
+				, duty = item.duty, mgrs = item.mgrs, name = item.name, rank = item.rank, rankName = item.rankName
+				,mobileNumber=item.MobileNumber,roomNumber=item.roomNumber,roomName=item.roomName,equipLocation=item.equipLocation;
 				//var longitude = data.longitude, latitude = data.latitude, idx = data.idx
 						//	, userKey = data.userKey, timestamp = data.timestamp;
-				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp);
+				console.log(longitude + ":" + latitude + ":" + userKey + ":" + timestamp + ":" + regiment  
+						+ ":" + regimCompany  + ":" + serviceNumber  + ":" + isDevice  + ":" + duty  + ":" + 
+						name + ":" + rank  + ":" + mobileNumber  + ":" + roomName + ":" +equipLocation );
 				var time = "<%=lastTimestamp%>";
 				
 				var pnt_data = ol.proj.fromLonLat([longitude, latitude]);
@@ -989,11 +1013,9 @@
 				var difference= Math.abs(day2-day1);
 				days = difference/(1000 * 3600 * 24);
 
-				console.log(getTimeStamp());
-				console.log(difference);					
-				console.log(timestamp);
+			
 				
-				if(days<1 && '<%=param2%>' == 'geofoff'){
+				if(days<1 && param2 == 'geofoff'){
 					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
@@ -1003,8 +1025,7 @@
 				        text: 'P',
 			            scale: 1.2
 			        });
-					console.log(days);
-				}else if('<%=param2%>' == 'geofoff'){
+				}else if(param2 == 'geofoff'){
 						
 					
 					var MarkerIcon = new ol.style.Icon({
@@ -1014,10 +1035,9 @@
 			            src: 'image/marker_yl_01.png',
 			            scale: 1.2
 				        });
-					console.log(days);
 
-				}else if( distance < r2){
-					
+				}else if(distance < r2){
+
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
@@ -1028,10 +1048,10 @@
 			        });
 					
 					
-				}else
-				{
-
-					var MarkerIcon = new ol.style.Icon({
+				}else if(param2 == 'geofal'){
+					if(isDevice == 'W-G' || isDevice == 'W-B'){
+						
+						var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
 			            anchorYUnits: 'pixels',
@@ -1040,10 +1060,8 @@
 			        });
 					
 					//alert("경계를 넘었습니다.");
-					console.log(data);
-					if('<%=param2%>'=== 'geofon'){			
 
-					/*
+					
 					$.ajax({
 						url: 'http://110.10.130.51:5002/Emergency/EventStatus/EventStatusSave',
 						contentType: "application/json; charset=utf-8",
@@ -1061,9 +1079,38 @@
 								console.log(JSON.stringify(response));
 							}	
 					});
-					*/
+					
+					}else{
+						var MarkerIcon = new ol.style.Icon({
+				            anchor: [0.5, 20],
+				            anchorXUnits: 'fraction',
+				            anchorYUnits: 'pixels',
+				            src: 'image/marker_bl_01.png',
+					        text: 'P',
+				            scale: 1.2
+				        });
 					}
+				}else if(param2 == 'geofon'){
+					if(isDevice == 'W-G' || isDevice == 'W-B'){
 
+					var MarkerIcon = new ol.style.Icon({
+			            anchor: [0.5, 20],
+			            anchorXUnits: 'fraction',
+			            anchorYUnits: 'pixels',
+			            src: 'image/marker_rd.png',
+			            scale: 1.2
+			        });
+					
+					}else{
+						var MarkerIcon = new ol.style.Icon({
+				            anchor: [0.5, 20],
+				            anchorXUnits: 'fraction',
+				            anchorYUnits: 'pixels',
+				            src: 'image/marker_bl_01.png',
+					        text: 'P',
+				            scale: 1.2
+				        });
+					}
 				}
 				
 
@@ -1073,13 +1120,14 @@
 				    type: 'Point',
 				    lon: longitude,
 				    lat: latitude,
-				    desc: '<table style="white-space:nowrap;width:100%;text-align:left;">'
-				    	+ '<tr ><td Colspan="2">' + timestamp + '&nbsp&nbsp&nbsp&nbsp'+isDevice +'</td></tr>'
-					    + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
-					    + '<tr><td>소속</td><td style="text-align:right;">'+regimCompany+'</td></tr>'
-					    + '<tr><td>계급성명</td><td style="text-align:right;">'+rank+'&nbsp'+name+'</td></tr>'
-					    + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
-					    + '<tr><td>'+equipLocation+'</td><td style="text-align:right;">'+roomName+'</td></tr>'
+				    desc: '<table style="white-space:nowrap;text-align:left;width:100%">'
+				    	+ '<tr ><td>' + timestamp+'</td><td style="text-align:right;">'+isDevice +'</td></tr>'
+					  //  + '<tr><td>전화번호&nbsp&nbsp</td><td style="text-align:right;">'+mobileNumber+'</td></tr>'
+						+ '<tr><td Colspan="2">'+regimCompanyName+'&nbsp'+rankName+'&nbsp'+name+'</td></tr>'
+					  //  + '<tr><td>계급성명</td><td style="text-align:right;">'+rankName+'&nbsp'+name+'</td></tr>'
+					  //  + '<tr><td>군번</td><td style="text-align:right;">'+serviceNumber+'</td></tr>'
+					  	+ '<tr><td Colspan="2">' + mgrs + '</td></tr>'
+					    + '<tr><td>'+roomName+'</td><td style="text-align:right;">'+roomNumber+'</td></tr>'
 				    	+ '</table>'
 				});
 				

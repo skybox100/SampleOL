@@ -11,10 +11,9 @@
 <%@ page import="java.text.*"%>
 <%
    int num=0;
+	if(request.getParameter("num") != null)
+    num=Integer.parseInt(request.getParameter("num"));
    //String sn="";
-   if(request.getParameter("num") != null)
-      num=Integer.parseInt(request.getParameter("num"));
-   
    //if(request.getParameter("serviceNumber") != null)
      // sn=request.getParameter("serviceNumber");
 	String reg="소속:전체";
@@ -25,12 +24,21 @@
 	String fdp="식재료명:전체";
 	String od="재고번호";
 	String odp="재고번호";
-	String sc="Continue";
-	String sc2="Stop";
+	String sc="Stop";
+	String sc2="Continue";
 
+	int pageNum=1;
+	int endPage;
+	int startPage;
+	int pageNum_list=10;
+	int pagetot=15;
 	DecimalFormat df = new DecimalFormat("###,###");
+	   boolean flag=false;
 
 	
+   if(request.getParameter("page") != null)
+		pageNum=Integer.parseInt(request.getParameter("page"));
+		   
    if(request.getParameter("reg") != null){
 		reg = request.getParameter("reg");
 		regp = request.getParameter("reg");
@@ -89,13 +97,35 @@
    
    int cnt = foods.size();
    
-   if(num == 0 && cnt>15){
-      num2=15;
-   }else if(num+15<=cnt){
-      num2=num+15;
-   }else{
-      num2=cnt;
-   }
+   if(cnt<=pagetot){
+	   startPage=1;
+	   endPage= 1; 
+  		num=0;
+  	flag=cnt/pagetot <=pagetot ? false:true;
+
+   	}else if(cnt-((pageNum-1)-(pageNum-1)%pageNum_list)*pagetot <= pageNum_list*pagetot){
+   		startPage=(pageNum/pageNum_list)*pageNum_list+1;
+   		endPage=(cnt/pagetot)+1;
+   		num= (pageNum-1)*pagetot;
+  		if(cnt%pagetot == 0) endPage=(cnt/pagetot);
+
+	}else{
+   		startPage=((pageNum-1)/pageNum_list)*pageNum_list+1;
+		endPage=startPage+pageNum_list-1;
+   		num= (pageNum-1)*pagetot;
+  		flag=true;
+
+    }
+	
+   if(num == 0 && cnt>pagetot){
+	      num2=pagetot;
+	   }else if(num+pagetot<=cnt){
+	      num2=num+pagetot;
+	   }else{
+	      num2=cnt;
+	   }
+
+   int totalPage= cnt%pagetot==0 && cnt!=0? cnt/pagetot :cnt/pagetot+1;
 
    String total_data="";
    total_data=gson.toJson(foods);
@@ -249,14 +279,61 @@
       <td class="col" style=" text-align:center; "><%=foods.get(i).getFoodCode() %></td>
       <td class="col" >&nbsp;<%=foods.get(i).getFoodName() %></td>
       <td class="col" style=" text-align:right; "><%=df.format(foods.get(i).getCurrentQuantity()) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
-      <td class="col" style=" text-align:center; "><%=foods.get(i).getStoreDate()%></td>
-      <td class="col" id="col<%=i %>" style="text-align:center; "><%=foods.get(i).getExpirationDate() %></td>
+      <td class="col" style=" text-align:center; "><%=cd.searchDateConvert(foods.get(i).getStoreDate(),"yyyy-MM-dd")%></td>
+      <td class="col" id="col<%=i %>" style="text-align:center; "><%=cd.searchDateConvert(foods.get(i).getExpirationDate(),"yyyy-MM-dd") %></td>
       <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='foodEdit.jsp?Regiment=<%=foods.get(i).getRegimentName()%>&Storehouse=<%=foods.get(i).getStorehouseName() %>&FoodCode=<%=foods.get(i).getFoodCode() %>&ExpirationDate=<%=foods.get(i).getExpirationDate() %>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteFD(<%=i %>)"/></td>
 
    </tr>
-   <%}   
+   <%}%>   
+   <!-- 페이징 그리기 -->
+    <tr>
+        <td height="30" align="center" valign="top" colspan="9" style="font-size:20px;" >
+<%
 
-   %>   
+    int block = (pageNum-1)/pageNum_list;
+
+    if(pageNum <= 1){%>
+        <font></font>
+        <% }else{%>
+            <font size=2><a href="foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>">처음</a></font>
+        <%}
+ 
+    if(block <1){%>
+        <font> </font>
+    <% }else{%>
+        <font size=2><a href="foodList.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>">이전</a></font>
+    <% }
+ 
+    for(int j = startPage; j <=endPage; j++)
+    {
+ 
+        if(pageNum == j)
+        {%>
+            <font size=2 color=red><%=j%></font>
+
+       <%}else if(j > 0 && j <endPage+1){%>
+            <font size=2><a href="foodList.jsp?page=<%=j%>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>"><%=j%></a></font>
+            <%
+          } 
+    }
+
+    if(flag== false){%>
+    <font> </font>
+    <%}else{%>    
+        <font size=2><a href="foodList.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>">다음</a></font>
+    <%}
+ 
+ 
+ 
+    if(pageNum == totalPage){%>       
+            <font></font>
+        <%}else{%>
+            <font size=2><a href="foodList.jsp?page=<%=totalPage%>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>">마지막</a></font>
+        <%}
+    %>
+    </td>
+ 
+    </tr>
 </table>
 
 
@@ -269,10 +346,9 @@
 		$('#Storehouse').val('<%=shp%>').prop("selected", true);
 		$('#foodidx').val('<%=fdp%>').prop("selected", true);	
 		$('#order').val('<%=odp%>').prop("selected", true);	
-
-   		 $('#reg').on('change', function() {
-   		     location.replace("foodList.jsp?reg="+$('#reg').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
-   		 });
+ 		 $('#reg').on('change', function() {
+ 			location.replace("foodList.jsp?reg="+$('#reg').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
+ 		 });
    			 $('#Storehouse').on('change', function() {
      	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
    		 });
@@ -305,6 +381,11 @@
       <%
       if(num2==cnt){
           num2=0;
+
+          pageNum=1;
+       }else{
+           pageNum++;
+
        }
 	  %>
 	  if(<%=cnt%> >15  )
@@ -349,7 +430,7 @@ function leadingZeros(n, digits) {
 
  function go_url(){
 	 if($('#sc').val() == 'Continue')
-    	 location.replace("foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&num=<%=num2%>"); 
+    	 location.replace("foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=Continue&page=<%=pageNum%>"); 
 
  
  }
