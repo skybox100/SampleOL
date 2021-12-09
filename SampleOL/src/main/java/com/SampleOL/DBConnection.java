@@ -2796,6 +2796,44 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 	}
 	
+	
+public boolean getTotalPrivilegeCheck(String sn) {
+		
+		String sql="select * from dbo.TotalPrivilege where ServiceNumber = ?;";
+		ArrayList<EquipLocation> equipLocations = new ArrayList<EquipLocation>();
+		boolean flag=false;
+		String ServiceNumber="";
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, sn);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				
+				ServiceNumber= rs.getString("ServiceNumber");
+					
+				
+			}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try { if(rs != null) rs.close(); } catch(SQLException e) {}
+				try { if(pstmt != null) pstmt.close(); } catch(SQLException e) {}
+				try { if(con != null) con.close(); } catch(SQLException e) {}
+			}
+		
+		
+			if("전체" != sn && sn.equals(ServiceNumber)) {;
+				flag=true;
+			}
+		
+		return flag;
+}
+	
 	//같은 EquipType & Location 장비 검색
 	public ArrayList<EquipLocation> getSameTypeEquips(EquipLocation equip) {
 		

@@ -557,6 +557,12 @@
 						input.value=null;
                 	 }) 
                 	
+                	 var flag=<%=cd.getTotalPrivilegeCheck(sn)%>
+       		    	//var flag= true; 
+        		    if(flag == false)
+	               		 document.getElementById('geofal').disabled=true;
+        		    else if(flag == true)
+	               		 document.getElementById('geofal').disabled=false;
 
         
         		});

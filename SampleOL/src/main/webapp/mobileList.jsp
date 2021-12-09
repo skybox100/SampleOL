@@ -212,21 +212,18 @@
 <script type="text/javascript" src="js/xlsx.full.min.js"></script>
 
 <body>
-<div style="white-space:nowrap;">
+<div>
 <span class="left"><input type="text" id="now" readonly> <font>&nbsp;&nbsp;총 개수: <%=cnt %></font> <input type='button' id="btnExport" value='excel 다운' style='width:100px;height:36px;font-weight:bold;' />
 </span>
 
 <span class="title">모바일 기기 목록 현황</span>
 <span class="right">
-
   <select id="reg" name ="reg">
 						<option>소속:전체</option>
 						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
 						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
 						<%} %>
-	</select>
-
-	
+	</select>	
   <select id="RegimCompany" style="width: 160px;">
    </select>   
      <select id="equipType" name ="equipType">
@@ -277,7 +274,7 @@
 
    <!-- 페이징 그리기 -->
     <tr>
-        <td height="30" align="center" valign="top" colspan="8" style="font-size:20px;" >
+        <td height="30" align="center" valign="top" colspan="12" style="font-size:20px;" >
 <%
 
 int block = (pageNum-1)/pageNum_list;
