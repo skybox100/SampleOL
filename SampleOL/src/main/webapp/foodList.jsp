@@ -22,10 +22,11 @@
 	String shp="식당명:전체";
 	String fd="식재료명:전체";
 	String fdp="식재료명:전체";
-	String od="재고번호";
-	String odp="재고번호";
+	String od="전체";
+	String odp="전체";
 	String sc="Stop";
 	String sc2="Continue";
+	String search="";
 
 	int pageNum=1;
 	int endPage;
@@ -61,9 +62,15 @@
    if(request.getParameter("sc") != null){
 	   sc = request.getParameter("sc");
    }
+   if(request.getParameter("search") != null){
+	 	search = request.getParameter("search");
+   }
+	
    
    if(sc.equals("Continue"))sc2="Stop";
    else if(sc.equals("Stop"))sc2="Continue";
+   
+
    
    int num2;
    DBConnection cd = new DBConnection();
@@ -93,7 +100,7 @@
 		sh = cd.getCodeID("Storehouse", sh);
 	}
    
-   foods = cd.getFoodList(reg, sh,fd,od);
+   foods = cd.getFoodList(reg, sh,fd,od,search);
    
    int cnt = foods.size();
    
@@ -213,25 +220,42 @@
    font-size:18px; 
    padding: 5px;
    }
+
+   form{   
+   top:0;
+   height : 0;
+   font-size:18px; 
+   padding-left: 420px;
+   }
+   form input{
+   height : 30px;
+   }
   </style> 
 </head>
 </head>
 <script src="js/jquery-3.6.0.min.js"></script>
 <body>
-<div>
+<div style="white-space: nowrap;min-width: 1650px;">
 <span class="left"><input type="text" id="now" readonly>
 <select id="order">
-						<option selected>재고번호</option>
+						<option selected>전체</option>
+						<option>재고번호</option>
 						<option>식재료명</option>
 						<option>입고일자</option>
 						<option>유통기한</option>
 </select>
 <button id="sc" value='<%=sc%>' style="height:36px;width:70px;padding: 5px;"><%=sc2%></button>
 </span>
+<form name="search_form" method="get">
+	<input type="text" id="search" name="search" value="<%=search%>">
+	<input type="hidden" id="order" name="order" value="<%=od%>">
+	<input type="submit" id="submit" value="검색">
+</form>
 <span class="title">부식창고 현황판</span>
 <span class="right">
 <font size=4.5>총 개수: <%=cnt %>&nbsp;&nbsp;</font>
-<button id="new" onclick="location.href = 'foodInsert.jsp'" style="height:36px;padding: 5px;">신규</button>
+<button id="new" onclick="winPopup('foodInsert.jsp')" style="height:36px;padding: 5px;">신규</button>
+<button id="new" onclick="winPopup('foodIndexInsert.jsp')" style="height:36px;padding: 5px;">식재료추가</button>
 
   <select id="reg" name ="reg">
 						<option>소속:전체</option>
@@ -252,7 +276,7 @@
    </select>   
 </span>
 </div>
-<table class="table" style="white-space: nowrap;">
+<table class="table" style="white-space: nowrap;min-width: 1650px;">
 <caption>조회 목록</caption>
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
@@ -279,9 +303,9 @@
       <td class="col" style=" text-align:center; "><%=foods.get(i).getFoodCode() %></td>
       <td class="col" >&nbsp;<%=foods.get(i).getFoodName() %></td>
       <td class="col" style=" text-align:right; "><%=df.format(foods.get(i).getCurrentQuantity()) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
-      <td class="col" style=" text-align:center; "><%=cd.searchDateConvert(foods.get(i).getStoreDate(),"yyyy-MM-dd")%></td>
-      <td class="col" id="col<%=i %>" style="text-align:center; "><%=cd.searchDateConvert(foods.get(i).getExpirationDate(),"yyyy-MM-dd") %></td>
-      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="location.href='foodEdit.jsp?Regiment=<%=foods.get(i).getRegimentName()%>&Storehouse=<%=foods.get(i).getStorehouseName() %>&FoodCode=<%=foods.get(i).getFoodCode() %>&ExpirationDate=<%=foods.get(i).getExpirationDate() %>'"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteFD(<%=i %>)"/></td>
+      <td class="col" style=" text-align:center; "><%=foods.get(i).getStoreDate()%></td>
+      <td class="col" id="col<%=i %>" style="text-align:center; "><%=foods.get(i).getExpirationDate() %></td>
+      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="winPopup('foodEdit.jsp?Regiment=<%=foods.get(i).getRegiment()%>&Storehouse=<%=foods.get(i).getStorehouse() %>&FoodCode=<%=foods.get(i).getFoodCode() %>&ExpirationDate=<%=foods.get(i).getExpirationDate() %>')"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteFD(<%=i %>)"/></td>
 
    </tr>
    <%}%>   
@@ -295,13 +319,13 @@
     if(pageNum <= 1){%>
         <font></font>
         <% }else{%>
-            <font size=2><a href="foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>">처음</a></font>
+            <font size=2><a href="foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&search=<%=search%>">처음</a></font>
         <%}
  
     if(block <1){%>
         <font> </font>
     <% }else{%>
-        <font size=2><a href="foodList.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>">이전</a></font>
+        <font size=2><a href="foodList.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&search=<%=search%>">이전</a></font>
     <% }
  
     for(int j = startPage; j <=endPage; j++)
@@ -312,7 +336,7 @@
             <font size=2 color=red><%=j%></font>
 
        <%}else if(j > 0 && j <endPage+1){%>
-            <font size=2><a href="foodList.jsp?page=<%=j%>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>"><%=j%></a></font>
+            <font size=2><a href="foodList.jsp?page=<%=j%>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&search=<%=search%>"><%=j%></a></font>
             <%
           } 
     }
@@ -320,7 +344,7 @@
     if(flag== false){%>
     <font> </font>
     <%}else{%>    
-        <font size=2><a href="foodList.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>">다음</a></font>
+        <font size=2><a href="foodList.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&search=<%=search%>">다음</a></font>
     <%}
  
  
@@ -328,7 +352,7 @@
     if(pageNum == totalPage){%>       
             <font></font>
         <%}else{%>
-            <font size=2><a href="foodList.jsp?page=<%=totalPage%>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=<%=sc%>">마지막</a></font>
+            <font size=2><a href="foodList.jsp?page=<%=totalPage%>&reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&search=<%=search%>">마지막</a></font>
         <%}
     %>
     </td>
@@ -339,13 +363,14 @@
 
 <script type="text/javascript">
 
+	$('#reg').val('<%=regp%>').prop("selected", true);
+	$('#Storehouse').val('<%=shp%>').prop("selected", true);
+	$('#foodidx').val('<%=fdp%>').prop("selected", true);	
+	$('#order').val('<%=odp%>').prop("selected", true);	
 
 	$(document).ready(function() {
 	   
-	 	$('#reg').val('<%=regp%>').prop("selected", true);
-		$('#Storehouse').val('<%=shp%>').prop("selected", true);
-		$('#foodidx').val('<%=fdp%>').prop("selected", true);	
-		$('#order').val('<%=odp%>').prop("selected", true);	
+
  		 $('#reg').on('change', function() {
  			location.replace("foodList.jsp?reg="+$('#reg').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
  		 });
@@ -357,7 +382,7 @@
         	  	 location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
       		 });
    			$('#order').on('change', function() {
-      		     location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
+      		     location.replace("foodList.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()+"&search=<%=search%>"); 
       		 });
    		 $('#sc').on('click', function() {
 			
@@ -430,10 +455,18 @@ function leadingZeros(n, digits) {
 
  function go_url(){
 	 if($('#sc').val() == 'Continue')
-    	 location.replace("foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=Continue&page=<%=pageNum%>"); 
+    	 location.replace("foodList.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&order=<%=od%>&sc=Continue&search=<%=search%>&page=<%=pageNum%>"); 
 
  
  }
+ 
+ function winPopup(e){
+		var popUrl = e;
+		var popOption = "width=500,height=600, status=no,menubar=no,toolbar=no,resizable=no";
+		window.open(popUrl,"popup",popOption);
+		
+	}
+
 
  function passdatechange(num)
  {  

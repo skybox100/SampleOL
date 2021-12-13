@@ -308,21 +308,6 @@
 
 
 $(document).ready(function() {
-	
- 	$('#reg').val('<%=personnelmanagements.get(0).getRegiment() %>').prop("selected", true);
-	regSelectChange('<%=personnelmanagements.get(0).getRegiment() %>');
-	$('#RegimCompany').val('<%=personnelmanagements.get(0).getRegimCompany()%>').prop("selected", true);	
- 	$('#duty').val('<%=personnelmanagements.get(0).getDuty().trim() %>').prop("selected", true);
- 	$('#rank').val('<%=personnelmanagements.get(0).getRank() %>').prop("selected", true);
-
-
-	  if('<%=personnelmanagements.get(0).getPicture()%>' === '')	
-	  	showSearch('fileDelete');
-	  else{
-	  	showSearch('fileAdd');
-	  		  
-	  }
-
 
 	  getTimeStamp2();
 	  
@@ -340,7 +325,19 @@ $(document).ready(function() {
 
 	setInterval(getTimeStamp2,1000);
 
+ 	$('#reg').val('<%=personnelmanagements.get(0).getRegiment() %>').prop("selected", true);
+	regSelectChange('<%=personnelmanagements.get(0).getRegiment() %>');
+	$('#RegimCompany').val('<%=personnelmanagements.get(0).getRegimCompany()%>').prop("selected", true);	
+ 	$('#duty').val('<%=personnelmanagements.get(0).getDuty().trim() %>').prop("selected", true);
+ 	$('#rank').val('<%=personnelmanagements.get(0).getRank() %>').prop("selected", true);
 
+
+	  if('<%=personnelmanagements.get(0).getPicture()%>' === '')	
+	  	showSearch('fileDelete');
+	  else{
+	  	showSearch('fileAdd');
+	  		  
+	  }
 	
 	
 	var data = <%=pm%>;

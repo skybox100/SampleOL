@@ -219,7 +219,7 @@
 </head>
 <script src="js/jquery-3.6.0.min.js"></script>
 <body>
-<div>
+<div style="white-space: nowrap;min-width: 1650px;">
 <span class="left"><input type="text" id="now" readonly><font>&nbsp;&nbsp;총 인원수: <%=cnt %></font> </span>
 <span class="title">회원정보 리스트</span>
 <span class="right">
@@ -235,7 +235,7 @@
    </select>  
 </span>
 </div>
-<table class="table" style="white-space: nowrap;">
+<table class="table" style="white-space: nowrap;min-width: 1650px;">
 <caption>조회 목록</caption>
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
@@ -283,7 +283,7 @@
    
    <!-- 페이징 그리기 -->
     <tr>
-        <td height="30" align="center" valign="top" colspan="11" style="font-size:20px;" >
+        <td height="30" align="center" valign="top" colspan="8" style="font-size:20px;" >
 <%
 
 	int block = (pageNum-1)/pageNum_list;
@@ -335,14 +335,10 @@
 
 
 <script type="text/javascript">
-
+	
 
 $(document).ready(function() {
-	   
- 	$('#reg').val('<%=regp %>').prop("selected", true);
-	regSelectChange('<%=regp %>');
-	
-		
+
 		 $('#reg').on('change', function() {
 		     location.replace("PersonnelManagement.jsp?reg="+$('#reg').val()); 
 		 });
@@ -363,6 +359,9 @@ $(document).ready(function() {
 
 });
   	
+	$('#reg').val('<%=regp %>').prop("selected", true);
+	regSelectChange('<%=regp %>');
+
 	var data = <%=total_data%>;
 	
 	setInterval(getTimeStamp2,1000);

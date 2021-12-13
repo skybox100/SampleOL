@@ -260,16 +260,6 @@
 
 $(document).ready(function() {
 	
- 	$('#reg').val('<%=mobileEquips.get(0).getRegiment() %>').prop("selected", true);
-	regSelectChange('<%=mobileEquips.get(0).getRegiment() %>');
-	if('<%=mobileEquips.get(0).getRegimCompany()%>' != '')
-		$('#RegimCompany').val('<%=mobileEquips.get(0).getRegimCompany()%>').prop("selected", true);	
-
-	$('#MobileType').val('<%=mobileEquips.get(0).getMobileType()%>').prop("selected", true);	
-	
-	if('<%=mobileEquips.get(0).getRank()%>' != '')
-	$('#Rank').val('<%=mobileEquips.get(0).getRank()%>').prop("selected", true);	
-
 
 	  getTimeStamp2();
 	  
@@ -283,6 +273,16 @@ $(document).ready(function() {
 });
 
 	setInterval(getTimeStamp2,1000);
+
+ 	$('#reg').val('<%=mobileEquips.get(0).getRegiment() %>').prop("selected", true);
+	regSelectChange('<%=mobileEquips.get(0).getRegiment() %>');
+	if('<%=mobileEquips.get(0).getRegimCompany()%>' != '')
+		$('#RegimCompany').val('<%=mobileEquips.get(0).getRegimCompany()%>').prop("selected", true);	
+
+	$('#MobileType').val('<%=mobileEquips.get(0).getMobileType()%>').prop("selected", true);	
+	
+	if('<%=mobileEquips.get(0).getRank()%>' != '')
+	$('#Rank').val('<%=mobileEquips.get(0).getRank()%>').prop("selected", true);	
 
 
 	
@@ -484,7 +484,7 @@ function pmUpdate(){
 
 
 	$.ajax({
-		url: 'http://211.9.3.55:5010/TenSystem/MobileManagement/MobileManagementNewSave',
+		url: 'http://110.10.130.51:5002/TenSystem/MobileManagement/MobileManagementNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),

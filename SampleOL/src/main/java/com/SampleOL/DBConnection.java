@@ -158,7 +158,7 @@ public class DBConnection {
     
 	
     
-	public ArrayList<Food> getFoodList(String reg, String sh,String fd,String od) {
+	public ArrayList<Food> getFoodList(String reg, String sh,String fd,String od,String sc) {
 		
 		String sql = "";
 		Food food = null;
@@ -170,73 +170,83 @@ public class DBConnection {
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
 			
 			String order="	order by regiment,storehouse, foodCode,expirationDate; ";
-	
 			if(od.equals("식재료명"))order="	order by foodName; ";
 			else if(od.equals("입고일자"))order="	order by storeDate desc; ";
 			else if(od.equals("유통기한"))order="	order by expirationDate desc; ";	
+			else if(od.equals("재고번호"))order="	order by foodCode; ";	
 			
-			if(reg.equals("소속:전체") && sh.equals("식당명:전체") && fd.equals("식재료명:전체")) {
-				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+
+			if(sc != "") {
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
-						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
-						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	left outer join dbo.Code as c on f.regiment = c.CodeID "
+						+ " where c.CodeName like '%"+sc+"%' or a.CodeName like '%"+sc+"%' or  foodName like '%"+sc+"%' or foodCode like '%"+sc+"%'"
+						+ order;
+
+			}else if(reg.equals("소속:전체") && sh.equals("식당명:전체") && fd.equals("식재료명:전체")) {
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+						+ " from dbo.FoodInventory f "
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	left outer join dbo.Code as c on f.regiment = c.CodeID "
 						+ order;
 
 			}else if(reg.equals("소속:전체") && fd.equals("식재료명:전체")) {
-				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
-						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
-						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	left outer join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.storehouse = '"+sh+"'"
 						+ order;
 			}else if(sh.equals("식당명:전체") && fd.equals("식재료명:전체")) {
-				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
-						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
-						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	left outer join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.regiment = '"+reg+"'"
 						+ order;
 			}else if(sh.equals("식당명:전체") && reg.equals("소속:전체")) {
-				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
-						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
-						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	left outer join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.foodName = '"+fd+"'"
 						+ order;
 			}else if(reg.equals("소속:전체")) {
-				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
-						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
-						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	left outer join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.storehouse = '"+sh+"' and f.foodName = '"+fd+"'"
 						+ order;
 			}else if(sh.equals("식당명:전체")) {
-				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
-						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
-						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	left outer join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.regiment = '"+reg+"' and f.foodName = '"+fd+"'"
 						+ order;
 			}else if(fd.equals("식재료명:전체")) {
-				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
-						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
-						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	left outer join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.regiment = '"+reg+"' and f.storehouse = '"+sh+"'"
 						+ order;
 			}else {
-				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
-						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
-						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	inner join dbo.Code as c on f.regiment = c.CodeID "
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
+						+ "	left outer join dbo.Code as c on f.regiment = c.CodeID "
 						+ " where f.regiment = '"+reg+"' and f.storehouse = '"+sh+"' and f.foodName = '"+fd+"'"
 						+ order;
 			}
@@ -249,9 +259,9 @@ public class DBConnection {
 				String storehouse = rs.getString("storehouse");
 				String storehouseName = rs.getString("storehouseName");
 				String foodCode = rs.getString("foodCode");
-				String expirationDate = rs.getString("expirationDate");
+				String expirationDate = searchDateConvert(rs.getString("expirationDate"),"yyyy-MM-dd");
 				String foodName = rs.getString("foodName");
-				String storeDate = rs.getString("storeDate");
+				String storeDate = searchDateConvert(rs.getString("storeDate"),"yyyy-MM-dd");
 				int currentQuantity = rs.getInt("currentQuantity");
 				String unit = rs.getString("unit");
 				String foodSource = rs.getString("foodSource");
@@ -289,7 +299,7 @@ public class DBConnection {
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
 			
 
-				sql = "select regiment as regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+				sql = "select regiment, c.CodeName as regimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
 						+ "	inner join dbo.Code as a on f.storehouse = a.CodeID "
 						+ "	inner join dbo.Code as b on f.foodSource = b.CodeID "

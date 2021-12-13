@@ -358,7 +358,7 @@
 <body>
 	<div id="map"></div>
 	<div class="top">
-		<form action="locations.jsp" id="locations" method="get">
+		<form action="locations3.jsp" id="locations" method="get">
 		<table>
 			<tr>
 				<td class="gis_setting3">
@@ -473,7 +473,7 @@
 	</div>
 	
 	<div id="Scale" style="display:none; background: white;">
-		<form action="locations.jsp" method="get">
+		<form action="locations3.jsp" method="get">
 		<table id="table">
 			<tr>
 				<td>
@@ -545,11 +545,11 @@
         	
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").change(function() 
         		    { 
-        		    	location.replace("locations.jsp?st=<%=st%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
+        		    	location.replace("locations3.jsp?st=<%=st%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
         		    }), 
         		    $("input:radio[name=gis_setting2]").change(function() 
         	    	{ 
-        		    	location.replace("locations.jsp?st=<%=st%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        		    	location.replace("locations3.jsp?st=<%=st%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         	    	}) ,
         	    	$("#search_check").change(function() 
                 	 { 

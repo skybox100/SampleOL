@@ -314,10 +314,7 @@
 
 
 $(document).ready(function() {
- 	$('#reg').val('<%=regp%>').prop("selected", true);
-	regSelectChange('<%=regp%>');
 
-	  	showSearch('fileDelete');
 
 
 	  getTimeStamp2();
@@ -335,7 +332,10 @@ $(document).ready(function() {
 
 	setInterval(getTimeStamp2,1000);
 
+ 	$('#reg').val('<%=regp%>').prop("selected", true);
+	regSelectChange('<%=regp%>');
 
+	 showSearch('fileDelete');
 	
 	
 	var data=<%=pm%>;

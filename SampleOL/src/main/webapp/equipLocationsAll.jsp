@@ -357,15 +357,15 @@
 	<script>
 	
     $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
+ 	$('#equipRegiment').val('<%=regp %>').prop("selected", true);
+ 	eRegimentSelectChange('<%=regp %>');
+ 	$('#equipType').val('<%=etp %>').prop("selected", true);
 
    
 	     
     
     $(document).ready(function() 
     		{ 
-		     	$('#equipRegiment').val('<%=regp %>').prop("selected", true);
-		     	eRegimentSelectChange('<%=regp %>');
-		     	$('#equipType').val('<%=etp %>').prop("selected", true);
 
     		    $("input:radio[name=gis_setting]").change(function() 
     		    { 

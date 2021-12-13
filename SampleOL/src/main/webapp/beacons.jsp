@@ -199,19 +199,21 @@
 
    div{
        position:relative;
+       float:center;
    }
    div span.title{
        display:block;
          text-align: center;  
          font-size:32px; 
        font-weight:700;
+       white-space: nowrap;
    }
    span.left{position:absolute;top:0;left:0;}
    span.right{position:absolute;top:0;right:0;}
   
  span input{
     height : 22px;
-   font-size:18px; 
+   font-size:1.2rem; 
    padding: 5px;
    text-align: center;  
    width: 200px;
@@ -236,7 +238,7 @@
 <script src="js/jquery-3.6.0.min.js"></script>
 
 <body>
-<div>
+<div style="white-space: nowrap;min-width: 1650px;"> 
 <span class="left"><input type="text" id="now" readonly> 
 </span>
 <form name="search_form" method="get">
@@ -260,7 +262,7 @@
 </span>
 </div>
 
-<table class="table" style="white-space: nowrap;">
+<table class="table" style="white-space: nowrap;min-width: 1650px;">
 <caption>조회 목록</caption>
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:2vw;">NO</td>
@@ -353,13 +355,13 @@
 
 <script type="text/javascript">
 
-
-$(document).ready(function() {
- 	$('#reg').val('<%=regp %>').prop("selected", true);
-	regSelectChange('<%=regp %>');
-	$('#RegimCompany').val('<%=rcp%>').prop("selected", true);	
+$('#reg').val('<%=regp %>').prop("selected", true);
+regSelectChange('<%=regp %>');
+$('#RegimCompany').val('<%=rcp%>').prop("selected", true);	
 
 		
+$(document).ready(function() {
+
 		 $('#reg').on('change', function() {
 		     location.replace("beacons.jsp?reg="+$('#reg').val()+"&regim_company=세부소속:전체"); 
 		 });

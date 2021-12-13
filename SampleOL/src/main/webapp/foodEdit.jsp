@@ -71,12 +71,9 @@
 
 	ArrayList<String> PersonnelReg = cd.getCodeNameList("Regiment");
 	ArrayList<String> Storehouse = cd.getFoodStore(reg);
-	ArrayList<String> Food = cd.getCodeNameList("FoodCode");
+	ArrayList<String> Food = cd.getCodeIDList("FoodCode","");
 	ArrayList<String> Unit = cd.getCodeRemarkList("FoodCode");
 
-
-	reg = cd.getCodeID("Regiment", reg);
-	sh = cd.getCodeID("Storehouse", sh);
 	  
 	foods = cd.getFoodinfo(reg,sh,fc,ed);
 	   
@@ -196,8 +193,7 @@
 
 <body>
 <div>
-<span class="left"><input type="text" id="now" readonly></span>
-<span class="title">음식 정보 수정</span>
+<span class="title">부식재고 정보 수정</span>
 
 </div>
 <table class="table" style="white-space: nowrap;">
@@ -226,10 +222,14 @@
       <td class="col" >
         <select id="Food" style="width: 140px;" disabled> 
 						<%for(int i=0; i<Food.size(); i++) {%>
-						<option value='<%=cd.getCodeID("FoodCode",Food.get(i))%>'><%=Food.get(i)%></option>
+						<option value='<%=Food.get(i)%>'><%=cd.getCodeName("FoodCode", Food.get(i))%></option>
 						<%} %>
    		</select> 
-      
+        <select id="Unit" style="width: 50px;" disabled="disabled">
+						<%for(int i=0; i<Food.size(); i++) {%>
+						<option value='<%=Food.get(i)%>'><%=cd.getCodeRemark("FoodCode",Food.get(i))%></option>
+						<%} %>
+   		</select>       
    </tr>
        <tr>
       <td class="colt" >재고수량</td>
@@ -249,7 +249,7 @@
 
 </table>
 <input type="button" id="edit" value="수정" onclick="pmUpdate()">
-<input type="button" id="back" value="이전" onclick="location.href = 'foodList.jsp'">
+<input type="button" id="back" value="닫기" onclick='window.close()'>
 
 <script type="text/javascript">
 
@@ -263,8 +263,6 @@ $(document).ready(function() {
 	$('#CurrentQuantity').val(<%=foods.get(0).getCurrentQuantity()%>);	
 
 
-
-	  getTimeStamp2();
 	  
 	  $('#reg').on('change', function() {
 			regSelectChange($("#reg").val());
@@ -274,7 +272,6 @@ $(document).ready(function() {
 
 });
 
-	setInterval(getTimeStamp2,1000);
 
 
 	
@@ -452,7 +449,7 @@ function getTimeStamp2() {
 
 	  document.getElementById("now").value =s;
 	}
-
+	
 
 function goBack(){
 	
@@ -475,7 +472,8 @@ function pmUpdate(){
 				alert("수정을 성공했습니다.");
 				console.log(JSON.stringify(response));
 				console.log(JSON.stringify(data));
-
+				opener.location.reload();
+				window.close();
 			},
 		error: function(response) {
 				alert("실패했습니다.");

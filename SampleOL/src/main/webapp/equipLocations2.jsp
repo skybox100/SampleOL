@@ -291,9 +291,8 @@
 	</div>	
 	<div id="top_div" style="white-space:nowrap; ">
 		<form action="detail2.jsp" id='frm' method="get" onsubmit="return goDetail()">
-			<a id="rcp_frm"><%=regp%> / <%=etp %></a>
+			<a id="rcp_frm"><%=etp %></a>
 			<a id="rcp_frm2" href="detail2.jsp?regp=<%=regp%>&etp=<%=etp%>">장비수: <%=cnt %></a>
-			<input type="hidden" name="regp" value="<%=regp%>">
 			<input type="hidden" name="etp" value="<%=etp%>">
 			<input type="button" value="reset" id="zoom-restore">
 			<input type="button" value=" 이전 " id="goback">

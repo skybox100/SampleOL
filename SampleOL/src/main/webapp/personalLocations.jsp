@@ -184,6 +184,7 @@
   			background: white;
     		height: 34px;
 			padding-bottom: 4px;
+			
 		}       
     	
     	#frm_label{

@@ -70,6 +70,7 @@
 <style>
 
     .table {
+
       font-size: 1.1rem;
       border-collapse: collapse;
       border-top: 2px solid #19317f;
@@ -173,8 +174,7 @@
 
 <body>
 <div>
-<span class="left"><input type="text" id="now" readonly></span>
-<span class="title">음식 정보 삽입</span>
+<span class="title">부식재고 현황 입력</span>
 
 </div>
 <table class="table" style="white-space: nowrap;">
@@ -252,16 +252,16 @@
 </tr>
 </table>
 <input type="button" id="edit" value="추가" onclick="pmUpdate()">
-<input type="button" id="back" value="이전" onclick="goBack()">
+<input type="button" id="back" value="닫기" onclick='window.close()'>
 
 <script type="text/javascript">
+
+regSelectChange("RG-280")
 
 
 $(document).ready(function() {
 	
-		regSelectChange("RG-280")
 
-	  getTimeStamp2();
 	  
 	  $('#reg').on('change', function() {
 			regSelectChange($("#reg").val());
@@ -506,6 +506,8 @@ function goBack(){
 	location.href = "foodList.jsp";
 }
 
+
+
 function pmUpdate(){
 	if(confirm("음식정보를 추가하시겠습니까?")){
 		data[0].regiment=$('#reg').val();
@@ -520,7 +522,6 @@ function pmUpdate(){
 		data[0].remark=$('#remark').val();
 		data[0].currentQuantity=$('#CurrentQuantity').val();
 
-
 		if(data[0].storeDate == ""){
 			alert("입고일자 날짜를 설정하십시오.");
 			return false;
@@ -534,7 +535,7 @@ function pmUpdate(){
 			return false;
 		}
 	$.ajax({
-		url: 'http://110.10.130.51:5002/Food/FoodInventory/FoodInventoryNewSave',
+		url: 'http://211.9.3.55:5010/Food/FoodInventory/FoodInventoryNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[0]),
@@ -542,11 +543,12 @@ function pmUpdate(){
 		accept: "application/json",
 		success: function(response) {
 			// success handle
-				alert("추가되었습니다.");
+				alert(data[0].foodName+"가(이) 추가되었습니다.");
 				console.log(JSON.stringify(response));
 				console.log(JSON.stringify(data));
-				location.href="foodList.jsp";
-			},
+				opener.location.reload();
+				window.close();
+		},
 		error: function(response) {
 				alert("실패했습니다.");
 				console.log(JSON.stringify(data));

@@ -258,13 +258,14 @@
 <input type="button" id="edit" value="이전" onclick="location.href = 'beacons.jsp'">
 <script type="text/javascript">
 
-
-$(document).ready(function() {
-	
- 	$('#reg').val('<%=beacons.get(0).getRegiment() %>').prop("selected", true);
+	$('#reg').val('<%=beacons.get(0).getRegiment() %>').prop("selected", true);
 	regSelectChange('<%=beacons.get(0).getRegiment() %>');
 	$('#RegimCompany').val('<%=beacons.get(0).getRegimCompany()%>').prop("selected", true);	
 
+
+
+$(document).ready(function() {
+	
 
 
 	  getTimeStamp2();

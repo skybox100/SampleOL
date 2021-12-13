@@ -212,7 +212,7 @@
 <script type="text/javascript" src="js/xlsx.full.min.js"></script>
 
 <body>
-<div>
+<div style="white-space:nowrap;min-width: 1650px;">
 <span class="left"><input type="text" id="now" readonly> <font>&nbsp;&nbsp;총 개수: <%=cnt %></font> <input type='button' id="btnExport" value='excel 다운' style='width:100px;height:36px;font-weight:bold;' />
 </span>
 
@@ -233,7 +233,7 @@
 	</select>
 </span>
 </div>
-<table class="table" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
+<table class="table" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;min-width: 1650px;">
 <caption>조회 목록</caption>
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
@@ -544,7 +544,7 @@ function deleteMobile(num){
 	if(confirm(phone(data[num].MobileNumber)+"("+data[num].Name+")을 정말 삭제하시겠습니까?")){
 		
 	$.ajax({
-		url: 'http://211.9.3.55:5010/TenSystem/MobileManagement/MobileManagementDelete',
+		url: 'http://110.10.130.51:5002/TenSystem/MobileManagement/MobileManagementDelete',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[num]),

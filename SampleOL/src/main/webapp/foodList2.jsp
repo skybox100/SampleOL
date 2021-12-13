@@ -23,8 +23,8 @@
 	String shp="식당명:전체";
 	String fd="식재료명:전체";
 	String fdp="식재료명:전체";
-	String od="재고번호";
-	String odp="재고번호";
+	String od="전체";
+	String odp="전체";
 	String sc="Stop";
 	String sc2="Continue";
 
@@ -85,7 +85,7 @@
 		sh = cd.getCodeID("Storehouse", sh);
 	}
    
-   foods = cd.getFoodList(reg, sh,fd,od);
+   foods = cd.getFoodList(reg, sh,fd,od,"");
    
    int cnt = foods.size();
    
@@ -188,10 +188,11 @@
 </head>
 <script src="js/jquery-3.6.0.min.js"></script>
 <body>
-<div>
+<div style="white-space: nowrap;min-width: 1650px;">
 <span class="left"><input type="text" id="now" readonly>
 <select id="order">
-						<option selected>재고번호</option>
+						<option selected>전체</option>
+						<option>재고번호</option>
 						<option>식재료명</option>
 						<option>입고일자</option>
 						<option>유통기한</option>
@@ -221,7 +222,7 @@
    </select>   
 </span>
 </div>
-<table class="table" style="white-space: nowrap;">
+<table class="table" style="white-space: nowrap;min-width: 1650px;">
 <caption>조회 목록</caption>
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
@@ -247,8 +248,8 @@
       <td class="col" style=" text-align:center; "><%=foods.get(i).getFoodCode() %></td>
       <td class="col" >&nbsp;<%=foods.get(i).getFoodName() %></td>
       <td class="col" style=" text-align:right; "><%=df.format(foods.get(i).getCurrentQuantity()) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
-      <td class="col" style=" text-align:center; "><%=cd.searchDateConvert(foods.get(i).getStoreDate(),"yyyy-MM-dd")%></td>
-      <td class="col" id="col<%=i %>" style="text-align:center; "><%=cd.searchDateConvert(foods.get(i).getExpirationDate(),"yyyy-MM-dd") %></td>
+      <td class="col" style=" text-align:center; "><%=foods.get(i).getStoreDate()%></td>
+      <td class="col" id="col<%=i %>" style="text-align:center; "><%=foods.get(i).getExpirationDate() %></td>
 
    </tr>
    <%}   
@@ -259,13 +260,14 @@
 
 <script type="text/javascript">
 
-
+	$('#reg').val('<%=regp%>').prop("selected", true);
+	$('#Storehouse').val('<%=shp%>').prop("selected", true);
+	$('#foodidx').val('<%=fdp%>').prop("selected", true);	
+	$('#order').val('<%=odp%>').prop("selected", true);	
+	
 	$(document).ready(function() {
 	   
-	 	$('#reg').val('<%=regp%>').prop("selected", true);
-		$('#Storehouse').val('<%=shp%>').prop("selected", true);
-		$('#foodidx').val('<%=fdp%>').prop("selected", true);	
-		$('#order').val('<%=odp%>').prop("selected", true);	
+
 
    		 $('#reg').on('change', function() {
    		     location.replace("foodList2.jsp?reg="+$('#reg').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 

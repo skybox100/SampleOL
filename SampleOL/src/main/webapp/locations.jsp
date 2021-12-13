@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ page errorPage="errorPage.jsp" %>    
 <!DOCTYPE html>
 
 <%@ page import="com.SampleOL.*" %>
@@ -16,6 +16,7 @@
 	String reg="전체";
 	String rc="전체";
 	String sn="전체";
+	
 	int chk=0;
 
 	if(request.getParameter("gis_setting")!= null){
@@ -62,11 +63,11 @@
 			locations = cd.getMobileStatus("전체","전체");
 		}else{		
 			reg = cd.getRegId(sn);
-			//rc = cd.getRegCompayID(request.getParameter("sn"));
-			//circle=cd.getCircle(rc);
-			//circle_marker=gson.toJson(circle);
 			locations = cd.getMobileStatus(reg,rc);
+			rc = cd.getRegCompayID(sn);
 		}
+		circle=cd.getCircle(reg);
+		circle_marker=gson.toJson(circle);
 		multi_marker = gson.toJson(locations);
 		String lastTimestamp = lastLocation.getTimestamp();
 		
@@ -119,7 +120,6 @@
     	body, html{
     		width: 100%;
     		position: fixed; 
-			overflow-y: scroll;
 			margin-left: 0;
 			margin-top: 0;
 			
@@ -377,7 +377,7 @@
 		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
 		 			<label for="geofoff">GeoF-OFF</label>
 					<input type="radio" id="geofal" name="gis_setting2" class="gis_setting2" value="geofal">
-		 			<label for="geofal">GeoF-Al</label>
+		 			<label for="geofal" id="geofalLabel">GeoF-Al</label>
 		 		</font>
 				</td>
 			</tr>
@@ -535,19 +535,17 @@
 	    $("input:radio[name='gis_setting']:radio[value='<%=param%>']").attr("checked",true);
     	$("input:radio[name='gis_setting2']:radio[value='<%=param2%>']").attr("checked",true);
 
-       
-    	     
-        
         $(document).ready(function() 
         		{ 
-        			regimentSelectChange($('#reg option:selected').val());
-					eRegimentSelectChange($('#equip_regiment option:selected').val());
+       				regimentSelectChange($('#reg option:selected').val());
+    				eRegimentSelectChange($('#equip_regiment option:selected').val());
+       
         	
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").change(function() 
         		    { 
         		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
         		    }), 
-        		    $("input:radio[name=gis_setting2]").change(function() 
+        		    $("input:radio[name=gis_setting2]").click(function() 
         	    	{ 
         		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         	    	}) ,
@@ -557,12 +555,6 @@
 						input.value=null;
                 	 }) 
                 	
-                	 var flag=<%=cd.getTotalPrivilegeCheck(sn)%>
-       		    	//var flag= true; 
-        		    if(flag == false)
-	               		 document.getElementById('geofal').disabled=true;
-        		    else if(flag == true)
-	               		 document.getElementById('geofal').disabled=false;
 
         
         		});
@@ -572,36 +564,38 @@
      
         	}
     	     
-        var x = [126.79849,126.78286,126.82623,126.79989,126.765228]; 
-        var y = [37.67835,37.76350,37.77812,37.77175,37.834637];
-        var r = [5000,3000,2000,2000,2000];
-        var rc = ['9사단','28여단','28-1대대','28-2대대','28-3대대'];
 
    		// var x = 126.7719083;	var y = 37.6544622;
 
-  
+   		
+        var flag=<%=cd.getTotalPrivilegeCheck(sn)%>
+       //var flag= false; 
+       if(flag == false){	
+	         document.getElementById('geofal').style.display="none";
+            document.getElementById('geofalLabel').style.display="none";
+         }  
    		
    		 var data = <%=multi_marker%>;
         // var data = <%=last_marker%>;
 
-        var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"1000","regiment":"9사단"}
-   		 ,{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}
-   		 ,{"latitude":"126.82623","longitude":"37.77812","r":"1000","regiment":"28-1대대"}
-   		 ,{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}
-   		 ,{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
-		// var data2=<%=circle_marker%>;
+        //var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"1000","regiment":"9사단"}
+   		// ,{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}
+   		// ,{"latitude":"126.82623","longitude":"37.77812","r":"1000","regiment":"28-1대대"}
+   		// ,{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}
+   		// ,{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
+		 var data2=<%=circle_marker%>;
    		var param2='<%=param2%>'
 
-        if('<%=reg%>' == 'RG-280')
-        	data2=[{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}];
-        else if('<%=reg%>' == 'RG-281')
-        	data2=[{"latitude":"126.82623","longitude":"37.77812","r":"1000","regiment":"28-1대대"}];
+//        if('<%=reg%>' == 'RG-280')
+ //       	data2=[{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}];
+ //       else if('<%=reg%>' == 'RG-281')
+ //       	data2=[{"latitude":"126.82623","longitude":"37.77812","r":"1000","regiment":"28-1대대"}];
 
-        else if('<%=reg%>' == 'RG-282')
-        	data2=[{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}];
+  //      else if('<%=reg%>' == 'RG-282')
+  //      	data2=[{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}];
 
-        else if('<%=reg%>' == 'RG-283')
-        	data2=[{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
+   //     else if('<%=reg%>' == 'RG-283')
+   //     	data2=[{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
 
   	    var straitSource = new ol.source.Vector({ wrapX: true });
  	    var straitsLayer = new ol.layer.Vector({
@@ -656,7 +650,7 @@
 		
 		var seq3=0;
 		data2.forEach(function(item) { //iterate through array...
-			pnt[seq3]= ol.proj.fromLonLat([item.latitude, item.longitude]);
+			pnt[seq3]= ol.proj.fromLonLat([item.longitude,item.latitude]);
 	
 	   		var vectorSource = new ol.source.Vector({
 				projection : 'EPSG:3857'
@@ -1004,15 +998,18 @@
 				var r2;
 
 
+
 		   		var seq2 = 0;
 		   		data2.forEach(function(item) { //iterate through array...
-		  	 		if(regiment == item.regiment){
+		  	 		if(regimentName == item.regiment){
    						line = new ol.geom.LineString([pnt[seq2], pnt_data]);
    						distance = Math.round(line.getLength());
    						r2=Number(item.r);
    					}	
 		   			seq2++;
 		   		}); 		
+		   		
+		   		console.log(distance);
 		   		
 				var day1= new Date(timestamp);
 				var day2= new Date(getTimeStamp());
