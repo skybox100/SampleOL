@@ -210,8 +210,6 @@ function pmUpdate(){
 				alert(data[0].CodeName+"가(이) 추가되었습니다.");
 				console.log(JSON.stringify(response));
 				console.log(JSON.stringify(data));
-				opener.parent.locaton.reload();
-				opener.location.reload();
 				window.close();
 			},
 		error: function(response) {
