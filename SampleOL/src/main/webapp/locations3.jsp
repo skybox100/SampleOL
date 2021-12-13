@@ -15,7 +15,7 @@
 	String param2 = "geofoff";
 	String reg="전체";
 	String rc="전체";
-	String st="전체";
+	String phone="전체";
 	int chk=0;
 
 	if(request.getParameter("gis_setting")!= null){
@@ -24,8 +24,8 @@
 	if(request.getParameter("gis_setting2")!=null){
 		param2 = request.getParameter("gis_setting2");	
 	}
-	if(request.getParameter("st")!= null){
-		st = request.getParameter("st") ;
+	if(request.getParameter("phone")!= null){
+		phone = request.getParameter("phone") ;
 	}
 	if(request.getParameter("chk")!= null){
 		chk = Integer.parseInt(request.getParameter("chk"));
@@ -62,10 +62,10 @@
 	
 
 		
-		if(st.equals("전체")){
+		if(phone.equals("전체")){
 			locations = cd.getMobileStatus("전체","전체");
 		}else{		
-			locations = cd.getMobileStatus(st);
+			locations = cd.getMobileStatus(phone);
 		}
 		multi_marker = gson.toJson(locations);
 		String lastTimestamp = lastLocation.getTimestamp();
@@ -414,7 +414,7 @@
 				</td>
 			</tr>
 		</table>
-		<input type="hidden" name="st" value="<%=st%>">
+		<input type="hidden" name="phone" value="<%=phone%>">
 		
 		<input type="submit" id="submit" value=" 조회 ">
 	</form>
@@ -441,7 +441,7 @@
 				</td>
 			</tr>
 		</table>
-		<input type="hidden" name="st" value="<%=st%>">
+		<input type="hidden" name="phone" value="<%=phone%>">
 		<input type="submit" id="submit" value=" 조회 " >
 	</form>
 	</div>
@@ -467,7 +467,7 @@
 				</td>
 			</tr>
 		</table>
-			<input type="hidden" name="st" value="<%=st%>">
+			<input type="hidden" name="phone" value="<%=phone%>">
 			<input type="submit" id="submit" value=" 조회 ">
 		</form>
 	</div>
@@ -545,11 +545,11 @@
         	
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").change(function() 
         		    { 
-        		    	location.replace("locations3.jsp?st=<%=st%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
+        		    	location.replace("locations3.jsp?phone=<%=phone%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
         		    }), 
         		    $("input:radio[name=gis_setting2]").change(function() 
         	    	{ 
-        		    	location.replace("locations3.jsp?st=<%=st%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        		    	location.replace("locations3.jsp?phone=<%=phone%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         	    	}) ,
         	    	$("#search_check").change(function() 
                 	 { 
