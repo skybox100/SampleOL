@@ -80,10 +80,15 @@
 		ArrayList<String> equipTypeList = cd.getCodeNameList("EquipType");	
 		ArrayList<String> mobileStatusReg = cd.getMobileStatusReg();
 		
-		ArrayList<String> rc_0 = cd.getMobileStatusRc("28여단");
-		ArrayList<String> rc_1 = cd.getMobileStatusRc("28-1대대");
-		ArrayList<String> rc_2 = cd.getMobileStatusRc("28-2대대");
-		ArrayList<String> rc_3 = cd.getMobileStatusRc("28-3대대");	
+		ArrayList<String> rc_0 = cd.getMobileStatusRc("RG-280");
+		ArrayList<String> rc_1 = cd.getMobileStatusRc("RG-281");
+		ArrayList<String> rc_2 = cd.getMobileStatusRc("RG-282");
+		ArrayList<String> rc_3 = cd.getMobileStatusRc("RG-283");	
+
+		ArrayList<String> rcp_0 = cd.getMobileStatusRcID("RG-280");
+		ArrayList<String> rcp_1 = cd.getMobileStatusRcID("RG-281");
+		ArrayList<String> rcp_2 = cd.getMobileStatusRcID("RG-282");
+		ArrayList<String> rcp_3 = cd.getMobileStatusRcID("RG-283");
 		
 		String rc0; String rc1; String rc2; String rc3;
 		rc0 = gson.toJson(rc_0);
@@ -91,19 +96,35 @@
 		rc2 = gson.toJson(rc_2);
 		rc3 = gson.toJson(rc_3);
 		
+		String rcp0; String rcp1; String rcp2; String rcp3;
+		rcp0 = gson.toJson(rcp_0);
+		rcp1 = gson.toJson(rcp_1); 
+		rcp2 = gson.toJson(rcp_2);
+		rcp3 = gson.toJson(rcp_3);		
 		
 		ArrayList<String> totalEquipReg = cd.getTotalEquipReg();
 		
-		ArrayList<String> tet_0 = cd.getTotalEquipType("28여단");
-		ArrayList<String> tet_1 = cd.getTotalEquipType("28-1대대");
-		ArrayList<String> tet_2 = cd.getTotalEquipType("28-2대대");
-		ArrayList<String> tet_3 = cd.getTotalEquipType("28-3대대");	
+		ArrayList<String> tet_0 = cd.getTotalEquipType("RG-280");
+		ArrayList<String> tet_1 = cd.getTotalEquipType("RG-281");
+		ArrayList<String> tet_2 = cd.getTotalEquipType("RG-282");
+		ArrayList<String> tet_3 = cd.getTotalEquipType("RG-283");	
+		
+		ArrayList<String> tetp_0 = cd.getTotalEquipTypeID("RG-280");
+		ArrayList<String> tetp_1 = cd.getTotalEquipTypeID("RG-281");
+		ArrayList<String> tetp_2 = cd.getTotalEquipTypeID("RG-282");
+		ArrayList<String> tetp_3 = cd.getTotalEquipTypeID("RG-283");
 		
 		String tet0; String tet1; String tet2; String tet3;
 		tet0 = gson.toJson(tet_0);
 		tet1 = gson.toJson(tet_1); 
 		tet2 = gson.toJson(tet_2);
 		tet3 = gson.toJson(tet_3);
+		
+		String tet2_0; String tet2_1; String tet2_2; String tet2_3;
+		tet2_0 = gson.toJson(tetp_0);
+		tet2_1 = gson.toJson(tetp_1); 
+		tet2_2 = gson.toJson(tetp_2);
+		tet2_3 = gson.toJson(tetp_3);
 		
 %>
 
@@ -391,7 +412,7 @@
 	<input type="button" value="병력 위치" id="btn" onclick="showSearch('status')"/>
 	<input type="button" value="장비 위치" id="btn" onclick="showSearch('equip')"/>
 	<input type="button" value="이동 조회" id="btn" onclick="showSearch('personal')"/> 
-	<button id="zoom-restore" >reset</button><br>
+	<button id="zoom-restore" >초기화</button><br>
 	
 	<div id="status" style="display:none; background: white;">
 	<form action="personalLocations3.jsp" method="get">
@@ -402,7 +423,7 @@
 					<select id="reg" name ="reg" onchange="regimentSelectChange(this.value)">
 						<option>전체</option>
 						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
-						<option value="<%=mobileStatusReg.get(i)%>"><%=mobileStatusReg.get(i)%></option>
+						<option value="<%=cd.getCodeID("Regiment",mobileStatusReg.get(i))%>"><%=mobileStatusReg.get(i)%></option>
 						<%} %>
 					</select>
 				</td>
@@ -429,7 +450,7 @@
 					<select id="equip_regiment" name="equip_regiment" onchange="eRegimentSelectChange(this.value)">
 						<option>전체</option>
 						<%for(int i=0; i<totalEquipReg.size(); i++){ %>
-	    				<option value=<%=totalEquipReg.get(i) %>><%=totalEquipReg.get(i) %></option>
+	    				<option value="<%=cd.getCodeID("Regiment",totalEquipReg.get(i)) %>"><%=totalEquipReg.get(i) %></option>
 						<%}%>
 					</select>
 				</td>
@@ -851,20 +872,35 @@
 	    	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
 	    	var rc4 = ['전체'];
 
+	    	var rcp0 = <%=rcp0%>; var rcp1 = <%=rcp1%>;  
+	    	var rcp2 = <%=rcp2%>; var rcp3 = <%=rcp3%>;  
+	    	var rcp4 = ['전체'];
+
 	    	var target = document.getElementById("regim_company");
 	
-	    	if(e == "28여단") var d = rc0;
-	    	else if(e == "28-1대대") var d = rc1;
-	    	else if(e == "28-2대대") var d = rc2;
-	    	else if(e == "28-3대대") var d = rc3;
-	    	else if(e == "전체") var d = rc4;
+	    	if(e == "RG-280") {
+	    		var d = rc0;
+	    		var d2= rcp0;
+	    	}else if(e == "RG-281") {
+	    		var d = rc1;
+	    		var d2= rcp1;
+	    	}else if(e == "RG-282") {
+	    		var d = rc2;
+	    		var d2= rcp2;
+	    	}else if(e == "RG-283") {
+	    		var d = rc3;
+	    		var d2= rcp3;
+	    	}else{
+	    		var d = rc4;
+	    		var d2= rcp4;
+	    	}
 
 	
 	    	target.options.length = 0;
 	
 	    	for (x in d) {
 	    		var opt = document.createElement("option");
-	    		opt.value = d[x];
+	    		opt.value = d2[x];
 	    		opt.innerHTML = d[x];
 	    		target.appendChild(opt);
 	    	}
@@ -876,19 +912,35 @@
 	    	var tet3 = <%=tet3%>;
 	    	var tet4 = ['전체'];
 	    	
+	    	var tet2_0 = <%=tet2_0%>; var tet2_1 = <%=tet2_1%>;  
+	    	var tet2_2 = <%=tet2_2%>;
+	    	var tet2_3 = <%=tet2_3%>;
+	    	var tet2_4 = ['전체'];	
+	    	
 	    	var target = document.getElementById("equip_type");
 	
-	    	if(e == "28여단") var d = tet0;
-	    	else if(e == "28-1대대") var d = tet1;
-	    	else if(e == "28-2대대") var d = tet2;
-	    	else if(e == "28-3대대") var d = tet3;
-	    	else if(e == "전체") var d = tet4;
+	    	if(e == "RG-280") {
+	    		var d = tet0;
+	    		var d2= tet2_0;
+	    	}else if(e == "RG-281") {
+	    		var d = tet1;
+	    		var d2= tet2_1;
+	    	}else if(e == "RG-282") {
+	    		var d = tet2;
+	    		var d2= tet2_2;
+	    	}else if(e == "RG-283") {
+	    		var d = tet3;
+	    		var d2= tet2_3;
+	    	}else{
+	    		var d = tet4;
+	    		var d2= tet2_4;
+	    	}
 
 	    	target.options.length = 0;
 	
 	    	for (x in d) {
 	    		var opt = document.createElement("option");
-	    		opt.value = d[x];
+	    		opt.value = d2[x];
 	    		opt.innerHTML = d[x];
 	    		target.appendChild(opt);
 	    	}

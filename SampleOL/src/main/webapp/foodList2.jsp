@@ -188,7 +188,7 @@
 </head>
 <script src="js/jquery-3.6.0.min.js"></script>
 <body>
-<div style="white-space: nowrap;min-width: 1650px;">
+<div style="white-space: nowrap;min-width: 1400px;">
 <span class="left"><input type="text" id="now" readonly>
 <select id="order">
 						<option selected>전체</option>

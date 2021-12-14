@@ -391,7 +391,7 @@
 	<input type="button" value="병력 위치" id="btn" onclick="showSearch('status')"/>
 	<input type="button" value="장비 위치" id="btn" onclick="showSearch('equip')"/>
 	<input type="button" value="이동 조회" id="btn" onclick="showSearch('personal')"/> 
-	<button id="zoom-restore" >reset</button><br>
+	<button id="zoom-restore" >초기화</button><br>
 	
 	<div id="status" style="display:none; background: white;">
 	<form action="personalLocations3.jsp" method="get">
@@ -414,7 +414,7 @@
 				</td>
 			</tr>
 		</table>
-		<input type="hidden" name="phone" value="<%=phone%>">
+		<input type="hidden" name="sn" value="<%=phone%>">
 		
 		<input type="submit" id="submit" value=" 조회 ">
 	</form>
@@ -441,7 +441,7 @@
 				</td>
 			</tr>
 		</table>
-		<input type="hidden" name="phone" value="<%=phone%>">
+		<input type="hidden" name="sn" value="<%=phone%>">
 		<input type="submit" id="submit" value=" 조회 " >
 	</form>
 	</div>
@@ -467,7 +467,7 @@
 				</td>
 			</tr>
 		</table>
-			<input type="hidden" name="phone" value="<%=phone%>">
+			<input type="hidden" name="sn" value="<%=phone%>">
 			<input type="submit" id="submit" value=" 조회 ">
 		</form>
 	</div>
@@ -545,11 +545,11 @@
         	
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").change(function() 
         		    { 
-        		    	location.replace("locations3.jsp?phone=<%=phone%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
+        		    	location.replace("locations3.jsp?sn=<%=phone%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
         		    }), 
         		    $("input:radio[name=gis_setting2]").change(function() 
         	    	{ 
-        		    	location.replace("locations3.jsp?phone=<%=phone%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        		    	location.replace("locations3.jsp?sn=<%=phone%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         	    	}) ,
         	    	$("#search_check").change(function() 
                 	 { 

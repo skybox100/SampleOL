@@ -35,12 +35,16 @@
 	if(reg.equals("전체") && et.equals("전체")){
 		
 	} else if(et.equals("전체")){
-		reg = cd.getCodeID("Regiment", reg);
+		regp = cd.getCodeName("Regiment", reg);
 	} else{
-		reg = cd.getCodeID("Regiment", reg);
-		et = cd.getCodeID("EquipType", et);
+		regp = cd.getCodeName("Regiment", reg);
+		etp = cd.getCodeName("EquipType", et);
 	}
 
+	if(etp.equals("전체")){
+		etp=regp;
+	}
+	
 	equipLocations = cd.getEquipLocations(reg, et);
 	multi_marker = gson.toJson(equipLocations);
 	
@@ -93,7 +97,7 @@
     		font-size: 15px;
 			position: absolute;
 			right: 0;
-			margin-right: 60px;
+			margin-right: 66px;
 
     	}
     	
@@ -281,8 +285,8 @@
 					</font>		  			
 				</td>
 				<td style="display: none">
-					<input type="hidden" name="equip_regiment" value="<%=regp %>">
-					<input type="hidden" name="equip_type" value="<%=etp %>">
+					<input type="hidden" name="equip_regiment" value="<%=reg %>">
+					<input type="hidden" name="equip_type" value="<%=et %>">
 				</td>				
 			</tr>
 		</table>
@@ -292,9 +296,9 @@
 	<div id="top_div" style="white-space:nowrap; ">
 		<form action="detail2.jsp" id='frm' method="get" onsubmit="return goDetail()">
 			<a id="rcp_frm"><%=etp %></a>
-			<a id="rcp_frm2" href="detail2.jsp?regp=<%=regp%>&etp=<%=etp%>">장비수: <%=cnt %></a>
-			<input type="hidden" name="etp" value="<%=etp%>">
-			<input type="button" value="reset" id="zoom-restore">
+			<a id="rcp_frm2" href="detail2.jsp?reg=<%=reg%>&et=<%=et%>">장비수: <%=cnt %></a>
+			<input type="hidden" name="et" value="<%=et%>">
+			<input type="button" value="초기화" id="zoom-restore">
 			<input type="button" value=" 이전 " id="goback">
 		</form>	
 	</div>
@@ -323,7 +327,7 @@
     		{ 
     		    $("input:radio[name=gis_setting]").change(function() 
     		    { 
-    		    	location.replace("equipLocations2.jsp?equip_regiment=<%=regp%>&equip_type=<%=etp%>&gis_setting="+$('input[name=gis_setting]:checked').val()+"&sn=<%=sn%>");
+    		    	location.replace("equipLocations2.jsp?equip_regiment=<%=reg%>&equip_type=<%=et%>&gis_setting="+$('input[name=gis_setting]:checked').val()+"&sn=<%=sn%>");
     		    })
  
     		});

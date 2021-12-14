@@ -11,11 +11,11 @@
 <%
 
 
-	String reg = request.getParameter("regp");
-	String et = request.getParameter("etp");
+	String reg = request.getParameter("reg");
+	String et = request.getParameter("et");
 	
-	String regp = request.getParameter("regp");
-	String etp = request.getParameter("etp");
+	String regp = request.getParameter("reg");
+	String etp = request.getParameter("et");
 	
 	DBConnection cd = new DBConnection();
 	ArrayList<EquipLocation> equipLocations = new ArrayList<EquipLocation>();
@@ -26,10 +26,10 @@
 	if(reg.equals("전체") && et.equals("전체")){
 		
 	} else if(et.equals("전체")){
-		reg = cd.getCodeID("Regiment", reg);
+		regp = cd.getCodeName("Regiment", reg);
 	} else{
-		reg = cd.getCodeID("Regiment", reg);
-		et = cd.getCodeID("EquipType", et);
+		regp = cd.getCodeName("Regiment", reg);
+		etp = cd.getCodeName("EquipType", et);
 	}
 
 	equipLocations = cd.getEquipLocations(reg, et);
@@ -47,9 +47,10 @@
 <style>
     .table {
       width: 100%;
-      font-size: 11px;
+      font-size: 10px;
       border-collapse: collapse;
       border-top: 3px solid #168;
+      text-align: center;
     }  
     .table th {
       color: #168;
@@ -59,6 +60,7 @@
     .table th, .table td {
       padding: 5px;
       border: 1px solid #ddd;
+      
     }
     .table th:first-child, .table td:first-child {
       border-left: 0;
@@ -86,9 +88,9 @@
 <caption>조회 목록</caption>
 	<tr>
 		<td>NO</td>
-		<td>소속</td>
-		<td>장비구분</td>
-		<td>장비번호</td>
+		<td>부대</td>
+		<td>장비종류</td>
+		<td>위치</td>
 		<td>비고</td>
 	</tr>
 	
@@ -98,7 +100,7 @@
 		<td><%=i+1 %></td>
 		<td><%=equipLocations.get(i).getRegiment() %></td>
 		<td><%=equipLocations.get(i).getEquipType() %></td>
-		<td><%=equipLocations.get(i).getEquipId() %></td>
+		<td><%=equipLocations.get(i).getEquipLocation() %></td>
 		<td></td>
 	</tr>
 	

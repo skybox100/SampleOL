@@ -279,7 +279,7 @@
 	<%=serviceNum%>&nbsp;
 	</font>
 	<br>
-	<input type="button" value="reset" id="zoom-restore">
+	<input type="button" value="초기화" id="zoom-restore">
 	</div>
 	
 	

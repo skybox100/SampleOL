@@ -184,7 +184,7 @@
     		font-size: 13px;
 			position: absolute;
 			right: 0;
-			margin-right: 55px;
+			margin-right: 66px;
 
     	}
     	

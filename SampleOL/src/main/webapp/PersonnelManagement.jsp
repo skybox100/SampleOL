@@ -63,7 +63,7 @@
 
 
 
-	ArrayList<String> rc_0 = cd.getPersonnelRc("28여단");
+	ArrayList<String> rc_0 = cd.getPersonnelRc("28여단본부");
 	ArrayList<String> rc_1 = cd.getPersonnelRc("28-1대대");
 	ArrayList<String> rc_2 = cd.getPersonnelRc("28-2대대");
 	ArrayList<String> rc_3 = cd.getPersonnelRc("28-3대대");
@@ -392,7 +392,7 @@ function regSelectChange(e) {
 
 	var target = document.getElementById("RegimCompany");
 
-	if(e == "28여단") var d = rc0;
+	if(e == "28여단본부") var d = rc0;
 	else if(e == "28-1대대") var d = rc1;
 	else if(e == "28-2대대") var d = rc2;
 	else if(e == "28-3대대") var d = rc3;

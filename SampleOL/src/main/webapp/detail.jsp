@@ -10,11 +10,11 @@
 <%@ page import="java.io.*, java.util.*" %>
 <%
 
-	String reg = request.getParameter("regp");
-	String rc = request.getParameter("rcp");
+	String reg = request.getParameter("reg");
+	String rc = request.getParameter("rc");
 	
-	String regp = request.getParameter("regp");
-	String rcp = request.getParameter("rcp");
+	String regp = request.getParameter("reg");
+	String rcp = request.getParameter("rc");
 	
 	DBConnection cd = new DBConnection();
 	ArrayList<Location> locations = new ArrayList<Location>();
@@ -25,10 +25,9 @@
 	if(reg.equals("전체") && rc.equals("전체")){
 			
 	} else if(rc.equals("전체")){
-		reg = cd.getCodeID("Regiment", reg);	
 	} else{
-		reg = cd.getCodeID("Regiment", reg);
-		rc = cd.getCodeID("RegimCompany", rc);
+		regp = cd.getCodeName("Regiment", reg);
+		rcp = cd.getCodeName("RegimCompany", rc);
 	}
 	
 	locations = cd.getMobileStatus(reg, rc);
@@ -48,6 +47,7 @@
       font-size: 11px;
       border-collapse: collapse;
       border-top: 3px solid #168;
+      text-align: center;
     }  
     .table th {
       color: #168;
@@ -88,7 +88,7 @@
 		<td>계급</td>
 		<td>성명</td>
 		<td>전화번호</td>
-		<td>비고</td>
+		<td>배터리</td>
 	</tr>
 	
 	<%for(int i=0; i<locations.size(); i++){ %>

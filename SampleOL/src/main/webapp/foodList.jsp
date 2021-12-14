@@ -248,7 +248,10 @@
 </span>
 <form name="search_form" method="get">
 	<input type="text" id="search" name="search" value="<%=search%>">
-	<input type="hidden" id="order" name="order" value="<%=od%>">
+	<input type="hidden" name="order" value="<%=od%>">
+	<input type="hidden" name="Storehouse" value="<%=shp%>">
+	<input type="hidden" name="reg" value="<%=regp%>">
+	<input type="hidden" name="food" value="<%=fdp%>">
 	<input type="submit" id="submit" value="검색">
 </form>
 <span class="title">부식창고 현황판</span>

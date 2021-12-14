@@ -266,7 +266,7 @@ System.out.println("personalLocations5");
     		font-size: 15px;
 			position: absolute;
 			right: 0;
-			margin-right: 60px;
+			margin-right: 66px;
 
     	}
     	
@@ -380,7 +380,7 @@ System.out.println("personalLocations5");
 		}
 %>
 	<br>
-	<input type="button" value="reset" id="zoom-restore">
+	<input type="button" value="초기화" id="zoom-restore">
 	<input type="button" value=" 이전 " id="goback">
 	</div>
 <%
@@ -394,7 +394,7 @@ System.out.println("personalLocations5");
 	<%=name%>&nbsp;
 	</font>
 	</a>
-	<input type="button" value="reset" id="zoom-restore">
+	<input type="button" value="초기화" id="zoom-restore">
 	<input type="button" value=" 이전 " id="goback">
 	</div>
 	

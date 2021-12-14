@@ -74,10 +74,11 @@
 
 
 
-	ArrayList<String> rc_0 = cd.getBeaconsRc("28여단");
-	ArrayList<String> rc_1 = cd.getBeaconsRc("28-1대대");
-	ArrayList<String> rc_2 = cd.getBeaconsRc("28-2대대");
-	ArrayList<String> rc_3 = cd.getBeaconsRc("28-3대대");
+
+	ArrayList<String> rc_0 = cd.getBeaconsRc("RG-280");
+	ArrayList<String> rc_1 = cd.getBeaconsRc("RG-281");
+	ArrayList<String> rc_2 = cd.getBeaconsRc("RG-282");
+	ArrayList<String> rc_3 = cd.getBeaconsRc("RG-283");	
 
 
 	String rc0; String rc1; String rc2; String rc3;
@@ -88,6 +89,16 @@
 	rc3 = gson.toJson(rc_3);
 
 
+	ArrayList<String> rcp_0 = cd.getBeaconsRcID("RG-280");
+	ArrayList<String> rcp_1 = cd.getBeaconsRcID("RG-281");
+	ArrayList<String> rcp_2 = cd.getBeaconsRcID("RG-282");
+	ArrayList<String> rcp_3 = cd.getBeaconsRcID("RG-283");
+	
+	String rcp0; String rcp1; String rcp2; String rcp3;
+	rcp0 = gson.toJson(rcp_0);
+	rcp1 = gson.toJson(rcp_1); 
+	rcp2 = gson.toJson(rcp_2);
+	rcp3 = gson.toJson(rcp_3);		
 
 	if(reg.equals("소속:전체") && rc.equals("세부소속:전체")){
 	} else if(rc.equals("세부소속:전체")){
@@ -435,31 +446,42 @@ function storeSelectChange(e) {
 }
    
 function regSelectChange(e) {
-	
 	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
-	var rc4 = ['세부소속:전체'];
+	var rc4 = ['전체'];
+
+	var rcp0 = <%=rcp0%>; var rcp1 = <%=rcp1%>;  
+	var rcp2 = <%=rcp2%>; var rcp3 = <%=rcp3%>;  
+	var rcp4 = ['전체'];
 
 	var target = document.getElementById("RegimCompany");
 
-	if(e == "28여단") var d = rc0;
-	else if(e == "28-1대대") var d = rc1;
-	else if(e == "28-2대대") var d = rc2;
-	else if(e == "28-3대대") var d = rc3;
-	else if(e == "소속:전체") var d = rc4;
+	if(e == "RG-280") {
+		var d = rc0;
+		var d2= rcp0;
+	}else if(e == "RG-281") {
+		var d = rc1;
+		var d2= rcp1;
+	}else if(e == "RG-282") {
+		var d = rc2;
+		var d2= rcp2;
+	}else if(e == "RG-283") {
+		var d = rc3;
+		var d2= rcp3;
+	}else{
+		var d = rc4;
+		var d2= rcp4;
+	}
 
 
+	target.options.length = 0;
 
 	for (x in d) {
 		var opt = document.createElement("option");
-		opt.value = d[x];
+		opt.value = d2[x];
 		opt.innerHTML = d[x];
 		target.appendChild(opt);
 	}
-	
-	
-
-	
 }
 
 function leadingZeros(n, digits) {

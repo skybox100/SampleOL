@@ -35,12 +35,16 @@ System.out.println("personalLocations3");
 	if(reg.equals("전체") && rc.equals("전체")){
 			
 	} else if(rc.equals("전체")){
-		reg = cd.getCodeID("Regiment", reg);	
+		regp = cd.getCodeName("Regiment", reg);	
 	} else{
-		reg = cd.getCodeID("Regiment", reg);
-		rc = cd.getCodeID("RegimCompany", rc);
+		regp = cd.getCodeName("Regiment", reg);
+		rcp = cd.getCodeName("RegimCompany", rc);
 	}
 	
+	
+	if(rcp.equals("전체")){
+		rcp=regp;
+	}
 	/*
 	if(reg.equals("전체") && device.equals("전체")){
 		
@@ -118,7 +122,7 @@ System.out.println("personalLocations3");
     		font-size: 15px;
 			position: absolute;
 			right: 0;
-			margin-right: 60px;
+			margin-right: 66px;
 
     	}
     	
@@ -304,8 +308,8 @@ System.out.println("personalLocations3");
 					</font>		  			
 				</td>
 				<td style="display: none">
-					<input type="hidden" name="reg" value="<%=regp %>">
-					<input type="hidden" name="regim_company" value="<%=rcp %>">
+					<input type="hidden" name="reg" value="<%=reg %>">
+					<input type="hidden" name="regim_company" value="<%=rc %>">
 				</td>				
 			</tr>
 		</table>
@@ -315,11 +319,11 @@ System.out.println("personalLocations3");
 	<div id="top_div" style="white-space:nowrap; ">
 		
 		<form action="detail.jsp" id='frm' method="get" onsubmit="return goDetail()">
-			<span id="rcp_frm"><%=regp%>/<%=rcp %></span>
-			<a id="rcp_frm2" href="detail.jsp?regp=<%=regp %>&rcp=<%=rcp %>" onclick="document.getElementById('frm').submit();">인원수: <%=cnt %></a>
-			<input type="hidden" name="regp" value="<%=regp%>">
-			<input type="hidden" name="rcp" value="<%=rcp%>">
-			<input type="button" value="reset" id="zoom-restore">
+			<span id="rcp_frm"><%=rcp %></span>
+			<a id="rcp_frm2" href="detail.jsp?reg=<%=reg %>&rc=<%=rc %>" onclick="document.getElementById('frm').submit();">인원수: <%=cnt %></a>
+			<input type="hidden" name="reg" value="<%=reg%>">
+			<input type="hidden" name="rc" value="<%=rc%>">
+			<input type="button" value="초기화" id="zoom-restore">
 			<input type="button" value=" 이전 " id="goback">
 		</form>
 		
@@ -351,7 +355,7 @@ System.out.println("personalLocations3");
     		{ 
     		    $("input:radio[name=gis_setting]" ).change(function() 
     		    { 
-    		    	location.replace("personalLocations3.jsp?reg=<%=regp%>&regim_company=<%=rcp%>&gis_setting="+$('input[name=gis_setting]:checked').val()+"&sn=<%=sn%>");
+    		    	location.replace("personalLocations3.jsp?reg=<%=reg%>&regim_company=<%=rc%>&gis_setting="+$('input[name=gis_setting]:checked').val()+"&sn=<%=sn%>");
 
     		    	
     		    })
