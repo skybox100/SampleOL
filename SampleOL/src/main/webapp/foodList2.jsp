@@ -222,7 +222,7 @@
    </select>   
 </span>
 </div>
-<table class="table" style="white-space: nowrap;min-width: 1650px;">
+<table class="table" style="white-space: nowrap;min-width: 1400px;">
 <caption>조회 목록</caption>
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
