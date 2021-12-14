@@ -25,8 +25,8 @@
 	String fdp="식재료명:전체";
 	String od="전체";
 	String odp="전체";
-	String sc="Stop";
-	String sc2="Continue";
+	String sc="중지";
+	String sc2="시작";
 
 	DecimalFormat df = new DecimalFormat("###,###");
 
@@ -54,8 +54,8 @@
 	   sc = request.getParameter("sc");
    }
    
-   if(sc.equals("Continue"))sc2="Stop";
-   else if(sc.equals("Stop"))sc2="Continue";
+   if(sc.equals("시작"))sc2="중지";
+   else if(sc.equals("중지"))sc2="시작";
    
    int num2;
    DBConnection cd = new DBConnection();
@@ -230,7 +230,7 @@
       <td class="colt" style="text-align:center;width:10vw;">창고명</td>
       <td class="colt" style="text-align:center;width:10vw;">재고번호</td>
       <td class="colt" style="text-align:center;width:20vw;">식재료명</td>
-      <td class="colt" style="text-align:center;width:11vw;">현재고량/단위</td>
+      <td class="colt" style="text-align:center;width:11vw;">재고량(단위)</td>
       <td class="colt" style="text-align:center;width:10vw;">입고일자</td>
       <td class="colt" style="text-align:center;width:10vw;">유통기한</td>
       
@@ -270,27 +270,27 @@
 
 
    		 $('#reg').on('change', function() {
-   		     location.replace("foodList2.jsp?reg="+$('#reg').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
+   		     location.replace("foodList2.jsp?reg="+$('#reg').val()+"&order="+$('#order').val()); 
    		 });
    			 $('#Storehouse').on('change', function() {
-     	  	 location.replace("foodList2.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
+     	  	 location.replace("foodList2.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&order="+$('#order').val()); 
    		 });
    			 
    			$('#foodidx').on('change', function() {
-        	  	 location.replace("foodList2.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
+        	  	 location.replace("foodList2.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()+"&order="+$('#order').val()); 
       		 });
    			$('#order').on('change', function() {
-      		     location.replace("foodList2.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()+"&order="+$('#order').val()+"&sc="+$('#sc').val()); 
+      		     location.replace("foodList2.jsp?reg="+$('#reg').val()+"&Storehouse="+$('#Storehouse').val()+"&food="+$('#foodidx').val()+"&order="+$('#order').val()); 
       		 });
    		 $('#sc').on('click', function() {
 			
-   			if($('#sc').val() == 'Continue'){
-   				document.getElementById('sc').value='Stop';
-   				document.getElementById('sc').innerText='Continue';
+   			if($('#sc').val() == '시작'){
+   				document.getElementById('sc').value='중지';
+   				document.getElementById('sc').innerText='시작';
 
    			}else{
-   				document.getElementById('sc').value='Continue';
-   				document.getElementById('sc').innerText='Stop';
+   				document.getElementById('sc').value='시작';
+   				document.getElementById('sc').innerText='중지';
 
    				setTimeout('go_url()',1000);
    			}
@@ -347,8 +347,8 @@ function leadingZeros(n, digits) {
    }
 
  function go_url(){
-	 if($('#sc').val() == 'Continue')
-    	 location.replace("foodList2.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&sc=Continue&num=<%=num2%>"); 
+	 if($('#sc').val() == '시작')
+    	 location.replace("foodList2.jsp?reg=<%=regp%>&Storehouse=<%=shp%>&food=<%=fdp%>&sc=시작&num=<%=num2%>"); 
 
  
  }

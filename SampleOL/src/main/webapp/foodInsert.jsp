@@ -214,7 +214,7 @@
    </tr>
    
     <tr>
-      <td class="colt" >재고수량</td>
+      <td class="colt" >수량</td>
       <td class="col" >
 	  <input type="number" id ="CurrentQuantity" >
    </tr>

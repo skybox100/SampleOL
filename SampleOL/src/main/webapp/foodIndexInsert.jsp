@@ -152,7 +152,7 @@
 	  <input type="text" id ="Food" >
    </tr>
    <tr>
-      <td class="colt" >식재료코드</td>
+      <td class="colt" >재고번호</td>
       <td class="col" >
 	  <input type="text" id ="FoodCode" >
    </tr>
