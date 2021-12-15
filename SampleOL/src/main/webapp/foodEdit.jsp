@@ -88,7 +88,9 @@
 <title>Insert title here</title>
  <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
-
+	body{
+	      margin: 10px;
+	}
     .table {
       font-size: 1.1rem;
       border-collapse: collapse;

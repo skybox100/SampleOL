@@ -68,9 +68,10 @@
 <title>Insert title here</title>
  <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
-
+	body{
+	      margin: 10px;
+	}
     .table {
-
       font-size: 1.1rem;
       border-collapse: collapse;
       border-top: 2px solid #19317f;
@@ -220,7 +221,7 @@
    </tr>
    <tr>
       <td class="colt" >입고일자</td>
-      <td class="col" ><input type="date" id="StoreDate"></td>
+      <td class="col" ><input type="date" id="StoreDate" ></td>
    </tr>
    <tr>
       <td class="colt" >유통기한</td>
@@ -276,8 +277,7 @@ $(document).ready(function() {
 
 });
 
-	setInterval(getTimeStamp2,1000);
-
+	getTimeStamp2();
 
 	
 	
@@ -498,7 +498,8 @@ function getTimeStamp2() {
 	    leadingZeros(d.getMonth() + 1, 2) + '-' +
 	    leadingZeros(d.getDate(), 2);
 
-	  document.getElementById("now").value =s;
+	  document.getElementById("StoreDate").value =s;
+	  document.getElementById("ExpirationDate").value =s;
 	}
 
 
@@ -521,7 +522,7 @@ function pmUpdate(){
 		data[0].qRcodeIdx=<%=cd.TimeTick()%>;
 		data[0].remark=$('#remark').val();
 		data[0].currentQuantity=$('#CurrentQuantity').val();
-
+/*
 		if(data[0].storeDate == ""){
 			alert("입고일자 날짜를 설정하십시오.");
 			return false;
@@ -534,6 +535,7 @@ function pmUpdate(){
 			alert("유통기한이 입고일자보다 늦습니다.");
 			return false;
 		}
+*/
 	$.ajax({
 		url: 'http://110.10.130.51:5002/Food/FoodInventory/FoodInventoryNewSave',
 		contentType: "application/json; charset=utf-8",

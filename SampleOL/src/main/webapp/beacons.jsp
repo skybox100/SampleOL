@@ -23,8 +23,8 @@
 	String regp="소속:전체";
 	String rc="세부소속:전체";
 	String rcp="세부소속:전체";
-	String eq="전체";
-	String eqp="전체";
+	String eq="";
+	String eqp="";
 
 	String delnm="0";
 	
@@ -66,40 +66,6 @@
    DBConnection cd = new DBConnection();
    ArrayList<Beacons> beacons = new ArrayList<Beacons>();
 
-   boolean flag=false;
-   
-   Gson gson = new Gson();
-
-	ArrayList<String> BeaconReg = cd.getBeaconReg();
-
-
-
-
-	ArrayList<String> rc_0 = cd.getBeaconsRc("RG-280");
-	ArrayList<String> rc_1 = cd.getBeaconsRc("RG-281");
-	ArrayList<String> rc_2 = cd.getBeaconsRc("RG-282");
-	ArrayList<String> rc_3 = cd.getBeaconsRc("RG-283");	
-
-
-	String rc0; String rc1; String rc2; String rc3;
-
-	rc0 = gson.toJson(rc_0);
-	rc1 = gson.toJson(rc_1); 
-	rc2 = gson.toJson(rc_2);
-	rc3 = gson.toJson(rc_3);
-
-
-	ArrayList<String> rcp_0 = cd.getBeaconsRcID("RG-280");
-	ArrayList<String> rcp_1 = cd.getBeaconsRcID("RG-281");
-	ArrayList<String> rcp_2 = cd.getBeaconsRcID("RG-282");
-	ArrayList<String> rcp_3 = cd.getBeaconsRcID("RG-283");
-	
-	String rcp0; String rcp1; String rcp2; String rcp3;
-	rcp0 = gson.toJson(rcp_0);
-	rcp1 = gson.toJson(rcp_1); 
-	rcp2 = gson.toJson(rcp_2);
-	rcp3 = gson.toJson(rcp_3);		
-
 	if(reg.equals("소속:전체") && rc.equals("세부소속:전체")){
 	} else if(rc.equals("세부소속:전체")){
 		reg = cd.getCodeID("Regiment", reg);	
@@ -109,6 +75,12 @@
 		reg = cd.getCodeID("Regiment", reg);
 		rc = cd.getCodeID("RegimCompany", rc);
 	}
+   boolean flag=false;
+   
+   Gson gson = new Gson();
+
+	ArrayList<String> BeaconReg = cd.getBeaconReg();
+	ArrayList<String> getBeaconsRc = cd.getBeaconsRc(reg);
    
 	beacons = cd.getBeaconsList(reg,rc,eq);
 	   
@@ -253,7 +225,9 @@
 <span class="left"><input type="text" id="now" readonly> 
 </span>
 <form name="search_form" method="get">
-	<input type="text" id="search" name="search" placeholder="방이름을 입력하십시오">
+	<input type="text" id="search" name="search" value="<%=eq%>">
+	<input type="hidden"  name="reg" value="<%=regp%>">
+	<input type="hidden"  name="regim_company" value="<%=rcp%>">
 	<input type="submit" id="submit" value="검색">
 </form>
 <span class="title">비콘 현황판</span>
@@ -268,6 +242,9 @@
 
 	
   <select id="RegimCompany" style="width: 160px;">
+  						<%for(int i=0; i<getBeaconsRc.size(); i++) {%>
+						<option value="<%=getBeaconsRc.get(i)%>"><%=getBeaconsRc.get(i)%></option>
+						<%} %>
    </select>   
 
 </span>
@@ -322,13 +299,13 @@
     if(pageNum <= 1){%>
         <font></font>
         <% }else{%>
-            <font size=2><a href="beacons.jsp?&reg=<%=regp%>&regim_company=<%=rcp%>">처음</a></font>
+            <font size=2><a href="beacons.jsp?&reg=<%=regp%>&regim_company=<%=rcp%>&search=<%=eq%>">처음</a></font>
         <%}
  
     if(block <1){%>
         <font> </font>
     <% }else{%>
-        <font size=2><a href="beacons.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&regim_company=<%=rcp%>">이전</a></font>
+        <font size=2><a href="beacons.jsp?page=<%=startPage-1 %>&reg=<%=regp%>&regim_company=<%=rcp%>&search=<%=eq%>">이전</a></font>
     <% }
  
     for(int j = startPage; j <=endPage; j++)
@@ -339,7 +316,7 @@
             <font size=2 color=red><%=j%></font>
 
        <%}else if(j > 0 && j <endPage+1){%>
-            <font size=2><a href="beacons.jsp?page=<%=j%>&reg=<%=regp%>&regim_company=<%=rcp%>"><%=j%></a></font>
+            <font size=2><a href="beacons.jsp?page=<%=j%>&reg=<%=regp%>&regim_company=<%=rcp%>&search=<%=eq%>"><%=j%></a></font>
             <%
           } 
     }
@@ -347,7 +324,7 @@
     if(flag== false){%>
     <font> </font>
     <%}else{%>    
-        <font size=2><a href="beacons.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&regim_company=<%=rcp%>">다음</a></font>
+        <font size=2><a href="beacons.jsp?page=<%=startPage+pageNum_list%>&reg=<%=regp%>&regim_company=<%=rcp%>&search=<%=eq%>">다음</a></font>
     <%}
  
  
@@ -355,7 +332,7 @@
     if(pageNum == totalPage){%>       
             <font></font>
         <%}else{%>
-            <font size=2><a href="beacons.jsp?page=<%=totalPage%>&reg=<%=regp%>&regim_company=<%=rcp%>">마지막</a></font>
+            <font size=2><a href="beacons.jsp?page=<%=totalPage%>&reg=<%=regp%>&regim_company=<%=rcp%>&search=<%=eq%>">마지막</a></font>
         <%}
     %>
     </td>
@@ -367,7 +344,6 @@
 <script type="text/javascript">
 
 $('#reg').val('<%=regp %>').prop("selected", true);
-regSelectChange('<%=regp %>');
 $('#RegimCompany').val('<%=rcp%>').prop("selected", true);	
 
 		
@@ -445,44 +421,7 @@ function storeSelectChange(e) {
     location.replace("bd_Beacons?reg=<%=regp%>&regim_company="+e); 
 }
    
-function regSelectChange(e) {
-	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
-	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
-	var rc4 = ['전체'];
 
-	var rcp0 = <%=rcp0%>; var rcp1 = <%=rcp1%>;  
-	var rcp2 = <%=rcp2%>; var rcp3 = <%=rcp3%>;  
-	var rcp4 = ['전체'];
-
-	var target = document.getElementById("RegimCompany");
-
-	if(e == "RG-280") {
-		var d = rc0;
-		var d2= rcp0;
-	}else if(e == "RG-281") {
-		var d = rc1;
-		var d2= rcp1;
-	}else if(e == "RG-282") {
-		var d = rc2;
-		var d2= rcp2;
-	}else if(e == "RG-283") {
-		var d = rc3;
-		var d2= rcp3;
-	}else{
-		var d = rc4;
-		var d2= rcp4;
-	}
-
-
-	target.options.length = 0;
-
-	for (x in d) {
-		var opt = document.createElement("option");
-		opt.value = d2[x];
-		opt.innerHTML = d[x];
-		target.appendChild(opt);
-	}
-}
 
 function leadingZeros(n, digits) {
      var zero = '';
@@ -563,7 +502,7 @@ function deleteBC(num){
 	if(confirm(data[num].EquipId+"을 정말 삭제하시겠습니까?")){
 		
 	$.ajax({
-		url: 'http://110.10.130.51:5002/api/Wareable/BeaconsDelete',
+		url: 'http://211.9.3.55:5010/api/Wareable/BeaconsDelete',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[num]),

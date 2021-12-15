@@ -31,6 +31,7 @@ public class DBConnection {
 	String password = "todkagh123!";
 	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
 	
 	Connection con = null;
 
@@ -666,7 +667,8 @@ public class DBConnection {
 
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
 			
-			if(eq !="전체") {
+			
+			if(eq != "" && reg.equals("소속:전체") && rc.equals("세부소속:전체")) {
 				sql="SELECT Uuid "
 						+ "      ,Latitude "
 						+ "      ,Longitude "
@@ -688,9 +690,88 @@ public class DBConnection {
 						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
 						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
 						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
-						+ "  where lower(RoomName) like lower('%"+eq+"%') "
+						+ "  where RoomName like '%"+eq+"%' or EquipId like '%"+eq+"%' or RoomNumber like '%"+eq+"%' or EquipLocation like '%"+eq+"%' "
+						+ "  order by b.EquipId,b.Uuid";
+			}else if(eq != "" && reg.equals("소속:전체")) {
+				sql="SELECT Uuid "
+						+ "      ,Latitude "
+						+ "      ,Longitude "
+						+ "      ,d.CodeName as EquipType "
+						+ "	  ,EquipType as EquipTypeCode "
+						+ "      ,EquipId "
+						+ "      ,ModelName "
+						+ "      ,Manufacturer "
+						+ "      ,a.CodeName as Regiment "
+						+ "	  ,Regiment as RegimentCode "
+						+ "      ,c.CodeName as RegimCompany "
+						+ "	  ,RegimCompany as RegimCompanyCode "
+						+ "      ,EquipLocation "
+						+ "      ,RoomName "
+						+ "      ,RoomNumber "
+						+ "      ,b.Remark "
+						+ "  FROM dbo.Beacons b "
+						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ " where b.RegimCompany = '"+rc+"'"
+						+ "  and (RoomName like '%"+eq+"%' or EquipId like '%"+eq+"%' or RoomNumber like '%"+eq+"%' or EquipLocation like '%"+eq+"%' )"
+
 						+ "  order by b.EquipId,b.Uuid";
 
+			}else if(eq != "" && rc.equals("세부소속:전체")) {
+				sql="SELECT Uuid "
+						+ "      ,Latitude "
+						+ "      ,Longitude "
+						+ "      ,d.CodeName as EquipType "
+						+ "	  ,EquipType as EquipTypeCode "
+						+ "      ,EquipId "
+						+ "      ,ModelName "
+						+ "      ,Manufacturer "
+						+ "      ,a.CodeName as Regiment "
+						+ "	  ,Regiment as RegimentCode "
+						+ "      ,c.CodeName as RegimCompany "
+						+ "	  ,RegimCompany as RegimCompanyCode "
+						+ "      ,EquipLocation "
+						+ "      ,RoomName "
+						+ "      ,RoomNumber "
+						+ "      ,b.Remark "
+						+ "  FROM dbo.Beacons b "
+						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ " where b.regiment = '"+reg+"'"
+						+ "  and (RoomName like '%"+eq+"%' or EquipId like '%"+eq+"%' or RoomNumber like '%"+eq+"%' or EquipLocation like '%"+eq+"%' )"
+
+						+ "  order by b.EquipId,b.Uuid";
+
+			}else if(eq != ""){
+				sql="SELECT Uuid "
+						+ "      ,Latitude "
+						+ "      ,Longitude "
+						+ "      ,d.CodeName as EquipType "
+						+ "	  ,EquipType as EquipTypeCode "
+						+ "      ,EquipId "
+						+ "      ,ModelName "
+						+ "      ,Manufacturer "
+						+ "      ,a.CodeName as Regiment "
+						+ "	  ,Regiment as RegimentCode "
+						+ "      ,c.CodeName as RegimCompany "
+						+ "	  ,RegimCompany as RegimCompanyCode "
+						+ "      ,EquipLocation "
+						+ "      ,RoomName "
+						+ "      ,RoomNumber "
+						+ "      ,b.Remark "
+						+ "  FROM dbo.Beacons b "
+						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ " where (b.regiment = '"+reg+"' and b.RegimCompany = '"+rc+"')"
+						+ "  and (RoomName like '%"+eq+"%' or EquipId like '%"+eq+"%' or RoomNumber like '%"+eq+"%' or EquipLocation like '%"+eq+"%' )"
+
+						+ "  order by b.EquipId,b.Uuid";
 			}else if(reg.equals("소속:전체") && rc.equals("세부소속:전체")) {
 				sql="SELECT Uuid "
 						+ "      ,Latitude "
@@ -3176,6 +3257,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 	}
 	*/
 	
+	
+	
 	public ArrayList<Location> getMobileStatus(){
 		
 		Location location = null;
@@ -4147,7 +4230,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.MobileNumber = b.MobileNumber "
 				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
 				+ "INNER JOIN dbo.Code AS d ON b.RegimCompany = d.CodeID "
-				+ "WHERE c.CodeName = ? "
+				+ "WHERE c.CodeID = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
 		rcs.add("세부소속:전체");
@@ -4162,6 +4245,49 @@ public boolean getTotalPrivilegeCheck(String sn) {
 			
 			while(rs.next()) {
 				String regimCompany = rs.getString("CodeName").trim();
+				
+				rcs.add(regimCompany);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}
+		
+			//for(Location l:locations) {
+			//	System.out.println(l.toString());
+			//}
+		
+		return rcs;		
+		
+	}
+	
+	public ArrayList<String> getMobileMangementIDRc(String reg){
+		
+		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
+				+ "FROM dbo.MobileManagement AS a  "
+				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.MobileNumber = b.MobileNumber "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
+				+ "INNER JOIN dbo.Code AS d ON b.RegimCompany = d.CodeID "
+				+ "WHERE c.CodeID = ? "
+				+ "ORDER BY d.CodeID";
+		ArrayList<String> rcs = new ArrayList<String>();
+		rcs.add("세부소속:전체");
+		
+		try {
+			con = getConn();
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reg);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String regimCompany = rs.getString("CodeID").trim();
 				
 				rcs.add(regimCompany);
 				

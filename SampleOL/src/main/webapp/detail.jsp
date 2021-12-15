@@ -99,7 +99,7 @@
 		<td><%=locations.get(i).getRankName() %></td>
 		<td><%=locations.get(i).getName() %></td>
 		<td><a href="personalLocations5.jsp?search_check=phone_num&search_this=<%=locations.get(i).getUserKey() %>">
-		<%=locations.get(i).getUserKey() %>
+		<%=cd.phone(locations.get(i).getUserKey()) %>
 		</a></td>
 		<td><%=locations.get(i).getEtc() %></td>
 	</tr>

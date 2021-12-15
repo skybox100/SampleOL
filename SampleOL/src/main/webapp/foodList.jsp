@@ -465,7 +465,7 @@ function leadingZeros(n, digits) {
  
  function winPopup(e){
 		var popUrl = e;
-		var popOption = "width=500,height=600, status=no,menubar=no,toolbar=no,resizable=no";
+		var popOption = "width=420,height=600, status=no,menubar=no,toolbar=no,resizable=no";
 		window.open(popUrl,"popup",popOption);
 		
 	}

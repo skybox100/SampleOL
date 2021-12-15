@@ -61,25 +61,6 @@
    
    Gson gson = new Gson();
 
-
-
-	ArrayList<String> rc_0 = cd.getPersonnelRc("28여단본부");
-	ArrayList<String> rc_1 = cd.getPersonnelRc("28-1대대");
-	ArrayList<String> rc_2 = cd.getPersonnelRc("28-2대대");
-	ArrayList<String> rc_3 = cd.getPersonnelRc("28-3대대");
-
-
-
-	String rc0; String rc1; String rc2; String rc3;
-
-	rc0 = gson.toJson(rc_0);
-	rc1 = gson.toJson(rc_1); 
-	rc2 = gson.toJson(rc_2);
-	rc3 = gson.toJson(rc_3);
-
-	ArrayList<String> PersonnelReg = cd.getPersonnelReg();
-
-
 	if(reg.equals("소속:전체") && rc.equals("세부소속:전체")){
 	} else if(rc.equals("세부소속:전체")){
 		reg = cd.getCodeID("Regiment", reg);	
@@ -89,6 +70,13 @@
 		reg = cd.getCodeID("Regiment", reg);
 		rc = cd.getCodeID("RegimCompany", rc);
 	}
+
+
+
+	ArrayList<String> PersonnelReg = cd.getPersonnelReg();
+	ArrayList<String> PersonnelRc = cd.getPersonnelRc(regp);
+
+
    
 	personnelmanagements = cd.getPersonnelManagementList(reg,rc);
 	   
@@ -232,6 +220,9 @@
 	</select>
 	
   <select id="RegimCompany" style="width: 160px;">
+  						<%for(int i=0; i<PersonnelRc.size(); i++) {%>
+						<option value="<%=PersonnelRc.get(i)%>"><%=PersonnelRc.get(i)%></option>
+						<%} %>
    </select>  
 </span>
 </div>
@@ -384,34 +375,7 @@ function storeSelectChange(e) {
     location.replace("PersonnelManagement.jsp?reg=<%=regp%>&regim_company="+e); 
 }
    
-function regSelectChange(e) {
-	
-	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
-	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
-	var rc4 = ['세부소속:전체'];
 
-	var target = document.getElementById("RegimCompany");
-
-	if(e == "28여단본부") var d = rc0;
-	else if(e == "28-1대대") var d = rc1;
-	else if(e == "28-2대대") var d = rc2;
-	else if(e == "28-3대대") var d = rc3;
-	else if(e == "소속:전체") var d = rc4;
-
-
-
-	for (x in d) {
-		var opt = document.createElement("option");
-		opt.value = d[x];
-		opt.innerHTML = d[x];
-		target.appendChild(opt);
-	}
-	
-	
-
-	$('#RegimCompany').val('<%=rcp%>').prop("selected", true);	
-	
-}
 
 function leadingZeros(n, digits) {
      var zero = '';

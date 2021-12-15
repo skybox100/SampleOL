@@ -56,32 +56,22 @@
 
    Gson gson = new Gson();
    
-	ArrayList<String> mobileStatusReg = cd.getMobileManagementReg();
-
-
-	ArrayList<String> rc_0 = cd.getMobileMangementRc("28여단");
-	ArrayList<String> rc_1 = cd.getMobileMangementRc("28-1대대");
-	ArrayList<String> rc_2 = cd.getMobileMangementRc("28-2대대");
-	ArrayList<String> rc_3 = cd.getMobileMangementRc("28-3대대");
-
-	String rc0; String rc1; String rc2; String rc3;
-
-	rc0 = gson.toJson(rc_0);
-	rc1 = gson.toJson(rc_1); 
-	rc2 = gson.toJson(rc_2);
-	rc3 = gson.toJson(rc_3);
-
-	
 	if(reg.equals("소속:전체") && rc.equals("세부소속:전체")){
-		
-	} else if(rc.equals("소속:전체")){
+	} else if(rc.equals("세부소속:전체")){
 		reg = cd.getCodeID("Regiment", reg);	
-	} else if(reg.equals("세부소속:전체")){
+	} else if(reg.equals("소속:전체")){
 		rc = cd.getCodeID("RegimCompany", rc);	
 	} else{
 		reg = cd.getCodeID("Regiment", reg);
 		rc = cd.getCodeID("RegimCompany", rc);
 	}
+	ArrayList<String> mobileStatusReg = cd.getMobileManagementReg();
+
+
+	ArrayList<String> MobileMangementRc = cd.getMobileMangementRc(reg);
+
+	
+	
 	
    
 	mobileEquips = cd.getMobileList(reg, rc,ec);
@@ -225,6 +215,9 @@
 						<%} %>
 	</select>	
   <select id="RegimCompany" style="width: 160px;">
+						<%for(int i=0; i<MobileMangementRc.size(); i++) {%>
+						<option value="<%=MobileMangementRc.get(i)%>"><%=MobileMangementRc.get(i)%></option>
+						<%} %>
    </select>   
      <select id="equipType" name ="equipType">
 						<option>장비타입:전체</option>
@@ -333,7 +326,6 @@ int block = (pageNum-1)/pageNum_list;
 	   
 
 	 	$('#reg').val('<%=regp %>').prop("selected", true);
-		regSelectChange('<%=regp %>');
 		$('#RegimCompany').val('<%=rcp%>').prop("selected", true);	
 
 		$('#equipType').val('<%=ec%>').prop("selected", true);
@@ -341,10 +333,10 @@ int block = (pageNum-1)/pageNum_list;
 			
 			
    		 $('#reg').on('change', function() {
-   		     location.replace("mobileList.jsp?reg="+$('#reg').val()); 
+   		     location.replace("mobileList.jsp?reg="+$('#reg').val()+"&equip_type="+$('#equipType').val()); 
    		 });
    			 $('#RegimCompany').on('change', function() {
-     	  	 location.replace("mobileList.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()
+     	  	 location.replace("mobileList.jsp?reg="+$('#reg').val()+"&regim_company="+$('#RegimCompany').val()+"&equip_type="+$('#equipType').val()
      	  			 ); 
    		 });
    			$('#equipType').on('change', function() {
@@ -432,33 +424,7 @@ function storeSelectChange(e) {
     location.replace("mobileList.jsp?reg=<%=regp%>&regim_company="+e); 
 }
    
-function regSelectChange(e) {
-	
-	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
-	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
-	var rc4 = ['세부소속:전체'];
 
-	var target = document.getElementById("RegimCompany");
-
-	if(e == "28여단") var d = rc0;
-	else if(e == "28-1대대") var d = rc1;
-	else if(e == "28-2대대") var d = rc2;
-	else if(e == "28-3대대") var d = rc3;
-	else if(e == "소속:전체") var d = rc4;
-
-
-
-	for (x in d) {
-		var opt = document.createElement("option");
-		opt.value = d[x];
-		opt.innerHTML = d[x];
-		target.appendChild(opt);
-	}
-	
-	
-
-	
-}
 
 function leadingZeros(n, digits) {
      var zero = '';
