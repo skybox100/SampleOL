@@ -502,7 +502,7 @@ function deleteBC(num){
 	if(confirm(data[num].EquipId+"을 정말 삭제하시겠습니까?")){
 		
 	$.ajax({
-		url: 'http://211.9.3.55:5010/api/Wareable/BeaconsDelete',
+		url: 'http://110.10.130.51:5002/api/Wareable/BeaconsDelete',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
 		data: JSON.stringify(data[num]),
