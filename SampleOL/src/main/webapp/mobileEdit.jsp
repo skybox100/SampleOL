@@ -289,58 +289,8 @@ $(document).ready(function() {
 	
 	var data = <%=mobileInfo%>;
 	
-	function onFileSelected(event) {
-		  var selectedFile = event.target.files[0];
-		  var reader = new FileReader();
-
-		  var imgtag = document.getElementById("picture");
-		  imgtag.title = selectedFile.name;
-
-		  reader.onload = function(event) {
-		    imgtag.src = event.target.result;
-		  	data[0].Picture= (event.target.result).replace('data:image/png;base64,', '').replace('data:image/jpg;base64,','').replace('data:image/jpeg;base64,','');
-			console.log(data[0].Picture);
-		  };
-
-		  reader.readAsDataURL(selectedFile); 
-
-		  	showSearch('fileAdd');
-
-
-		}
 	
-	function aes(e){
-		//var key= CryptoJS.enc.Hex.parse('01010101010101010101010101010101');
-		//var iv = CryptoJS.enc.Hex.parse('01010101010101010101010101010101');
 
-		var encrypted = master.dbo.pCrypto_enc('normal',e,'');
-		return encrypted;
-	}
-
-
-
-
-	
-	function showSearch(id){
-		console.log(id);
-		console.log(document.getElementById(id).style.display);
-		if(id == "fileAdd"){
-			document.getElementById('fileEdit').style.display="block";
-			document.getElementById('fileDelete').style.display="block";
-			document.getElementById('fileAdd').style.display="none";
-		}else if(id == "fileDelete"){
-			document.getElementById('fileEdit').style.display="none";
-			document.getElementById('fileDelete').style.display="none";
-			document.getElementById('fileAdd').style.display="block";
-			document.getElementById("picturefile").value=null;
-			document.getElementById("picture").src="";
-			document.getElementById("picture").title="";
-
-		}
-		
-		//window.open("popup.jsp","popup","width=400, height=300, left=100, top=50");
-		//var phoneNum = prompt("전화번호: ");
-	}
    
 
    

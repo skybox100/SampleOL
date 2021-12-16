@@ -291,11 +291,11 @@
 		</label>
 	  </td>
       <td class="colt" >전화번호</td>
-      <td class="col" ><input type="text" id="MobileNumber" ></td>  
+      <td class="col" ><input type="text" id="MobileNumber" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');"></td>  
       <td class="colt" >핸드폰번호</td>
-      <td class="col" ><input type="text" id="MyPhoneNumber" ></td>  
+      <td class="col" ><input type="text" id="MyPhoneNumber" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');"></td>  
       <td class="colt" >부모번호</td>
-      <td class="col" ><input type="text" id="ParentsNumber" ></td>  
+      <td class="col" ><input type="text" id="ParentsNumber" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');"></td>  
    </tr>
       <tr>
 
@@ -565,29 +565,7 @@ function pmUpdate(){
 	
 }
 
-function pwReset(){
-	document.getElementById("pw").value='1';
-	data[0].Password=$('#pw').val();
-$.ajax({
-	url: 'http://110.10.130.51:5002/TenSystem/PersonnelManagement/PersonnelManagementNewSave',
-	contentType: "application/json; charset=utf-8",
-	method: 'POST',
-	data: JSON.stringify(data[0]),
-	dataType: "json",
-	accept: "application/json",
-	success: function(response) {
-		// success handle
-			console.log(JSON.stringify(response));
-			alert("비밀번호를 초기화했습니다.");
-		},
-	error: function(response) {
-			console.log(JSON.stringify(data));
-			console.log(JSON.stringify(response));
 
-		}	
-});
-
-}
 
 function setThumbnail(event) { 
 	var reader = new FileReader(); 

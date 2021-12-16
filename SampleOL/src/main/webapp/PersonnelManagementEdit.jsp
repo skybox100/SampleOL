@@ -284,11 +284,11 @@
 	  </td>
    
       <td class="colt" >전화번호</td>
-      <td class="col" ><input type="text" id="MobileNumber" value="<%=personnelmanagements.get(0).getMobileNumber() %>"></td>  
+      <td class="col" ><input type="text" id="MobileNumber" value="<%=personnelmanagements.get(0).getMobileNumber().replaceAll("[^0-9]","") %>" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');"></td>  
       <td class="colt" >핸드폰번호</td>
-      <td class="col" ><input type="text" id="MyPhoneNumber" value="<%=personnelmanagements.get(0).getMyPhoneNumber() %>"></td>  
+      <td class="col" ><input type="text" id="MyPhoneNumber" value="<%=personnelmanagements.get(0).getMyPhoneNumber().replaceAll("[^0-9]","") %>" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');"></td>  
       <td class="colt" >부모번호</td>
-      <td class="col" ><input type="text" id="ParentsNumber" value="<%=personnelmanagements.get(0).getParentsNumber() %>"></td>  
+      <td class="col" ><input type="text" id="ParentsNumber" value="<%=personnelmanagements.get(0).getParentsNumber().replaceAll("[^0-9]","") %>" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');"></td>  
    </tr>
       <tr>
 
@@ -574,8 +574,7 @@ $.ajax({
 		// success handle
 			console.log(JSON.stringify(response));
 			alert("비밀번호를 초기화했습니다.");
-		    location.replace("PersonnelManagementEdit.jsp?sn="+"<%=sn%>"); 
-
+			location.reload();
 		},
 	error: function(response) {
 			console.log(JSON.stringify(data));

@@ -606,7 +606,10 @@
    		// ,{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
 		 var data2=<%=circle_marker%>;
    		var param2='<%=param2%>'
-
+/*
+		if( param2 == 'geofon2') param2 = 'geofal';						
+*/
+   		
 //        if('<%=reg%>' == 'RG-280')
  //       	data2=[{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}];
  //       else if('<%=reg%>' == 'RG-281')
@@ -697,7 +700,7 @@
 				})
 				}) ]
 			});
-			if('<%=param2%>' === 'geofon' || '<%=param2%>' === 'geofal'){	
+			if(param2 === 'geofon' || param2 === 'geofal'){	
 				map.addLayer(vectorLayer); 
 				//만들어진 벡터를 추가	
 			}
@@ -1023,7 +1026,6 @@
 						param2 = 'geofon';						
 					}
          	 }
-			 if( param2 == 'geofon2') param2 = 'geofal';						
 
 			
 			
