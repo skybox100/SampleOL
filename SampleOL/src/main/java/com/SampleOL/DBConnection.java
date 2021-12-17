@@ -686,10 +686,10 @@ public class DBConnection {
 						+ "      ,RoomNumber "
 						+ "      ,b.Remark "
 						+ "  FROM dbo.Beacons b "
-						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
-						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
-						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  left outer join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ "  where RoomName like '%"+eq+"%' or EquipId like '%"+eq+"%' or RoomNumber like '%"+eq+"%' or EquipLocation like '%"+eq+"%' "
 						+ "  order by b.EquipId,b.Uuid";
 			}else if(eq != "" && reg.equals("소속:전체")) {
@@ -710,10 +710,10 @@ public class DBConnection {
 						+ "      ,RoomNumber "
 						+ "      ,b.Remark "
 						+ "  FROM dbo.Beacons b "
-						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
-						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
-						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  left outer join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ " where b.RegimCompany = '"+rc+"'"
 						+ "  and (RoomName like '%"+eq+"%' or EquipId like '%"+eq+"%' or RoomNumber like '%"+eq+"%' or EquipLocation like '%"+eq+"%' )"
 
@@ -737,10 +737,10 @@ public class DBConnection {
 						+ "      ,RoomNumber "
 						+ "      ,b.Remark "
 						+ "  FROM dbo.Beacons b "
-						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
-						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
-						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  left outer join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ " where b.regiment = '"+reg+"'"
 						+ "  and (RoomName like '%"+eq+"%' or EquipId like '%"+eq+"%' or RoomNumber like '%"+eq+"%' or EquipLocation like '%"+eq+"%' )"
 
@@ -764,10 +764,10 @@ public class DBConnection {
 						+ "      ,RoomNumber "
 						+ "      ,b.Remark "
 						+ "  FROM dbo.Beacons b "
-						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
-						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
-						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  left outer join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ " where (b.regiment = '"+reg+"' and b.RegimCompany = '"+rc+"')"
 						+ "  and (RoomName like '%"+eq+"%' or EquipId like '%"+eq+"%' or RoomNumber like '%"+eq+"%' or EquipLocation like '%"+eq+"%' )"
 
@@ -790,10 +790,10 @@ public class DBConnection {
 						+ "      ,RoomNumber "
 						+ "      ,b.Remark "
 						+ "  FROM dbo.Beacons b "
-						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
-						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
-						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  left outer join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ "  order by b.EquipId,b.Uuid";
 			}else if(reg.equals("소속:전체")) {
 				sql="SELECT Uuid "
@@ -813,10 +813,10 @@ public class DBConnection {
 						+ "      ,RoomNumber "
 						+ "      ,b.Remark "
 						+ "  FROM dbo.Beacons b "
-						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
-						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
-						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  left outer join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ " where b.RegimCompany = '"+rc+"'"
 						+ "  order by b.EquipId,b.Uuid";
 
@@ -838,10 +838,10 @@ public class DBConnection {
 						+ "      ,RoomNumber "
 						+ "      ,b.Remark "
 						+ "  FROM dbo.Beacons b "
-						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
-						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
-						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  left outer join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ " where b.regiment = '"+reg+"'"
 						+ "  order by b.EquipId,b.Uuid";
 
@@ -863,10 +863,10 @@ public class DBConnection {
 						+ "      ,RoomNumber "
 						+ "      ,b.Remark "
 						+ "  FROM dbo.Beacons b "
-						+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
-						+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
-						+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-						+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+						+ "  left outer join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+						+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+						+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ " where b.regiment = '"+reg+"' and b.RegimCompany = '"+rc+"'"
 						+ "  order by b.EquipId,b.Uuid";
 
@@ -878,22 +878,22 @@ public class DBConnection {
 
 				
 				while(rs.next()) {
-					String Uuid = rs.getString("Uuid");
+					String Uuid = rs.getString("Uuid") ;
 					String Latitude = rs.getString("Latitude");
 					String Longitude = rs.getString("Longitude");
-					String EquipType = rs.getString("EquipType");
-					String EquipTypeCode = rs.getString("EquipTypeCode");
-					String EquipId = rs.getString("EquipId");
-					String ModelName = rs.getString("ModelName");
-					String Manufacturer = rs.getString("Manufacturer");
-					String Regiment = rs.getString("Regiment");
-					String RegimentCode = rs.getString("RegimentCode");
-					String RegimCompany = rs.getString("RegimCompany");
-					String RegimCompanyCode = rs.getString("RegimCompanyCode");
-					String EquipLocation = rs.getString("EquipLocation");
-					String RoomName = rs.getString("RoomName");
-					String RoomNumber = rs.getString("RoomNumber");
-					String Remark = rs.getString("Remark");
+					String EquipType = rs.getString("EquipType")  == null ? "" : rs.getString("EquipType");
+					String EquipTypeCode = rs.getString("EquipTypeCode")  == null ? "" : rs.getString("EquipTypeCode");
+					String EquipId = rs.getString("EquipId")  == null ? "" : rs.getString("EquipId");
+					String ModelName = rs.getString("ModelName")  == null ? "" : rs.getString("ModelName");
+					String Manufacturer = rs.getString("Manufacturer")  == null ? "" : rs.getString("Manufacturer");
+					String Regiment = rs.getString("Regiment")  == null ? "" : rs.getString("Regiment");
+					String RegimentCode = rs.getString("RegimentCode")  == null ? "" : rs.getString("RegimentCode");
+					String RegimCompany = rs.getString("RegimCompany")  == null ? "" : rs.getString("RegimCompany");
+					String RegimCompanyCode = rs.getString("RegimCompanyCode")  == null ? "" : rs.getString("RegimCompanyCode");
+					String EquipLocation = rs.getString("EquipLocation")  == null ? "" : rs.getString("EquipLocation");
+					String RoomName = rs.getString("RoomName")  == null ? "" : rs.getString("RoomName");
+					String RoomNumber = rs.getString("RoomNumber")  == null ? "" : rs.getString("RoomNumber");
+					String Remark = rs.getString("Remark")  == null ? "" : rs.getString("Remark");
 					String Mgrs = MGRSString(Latitude,Longitude);
 					
 					beacon= new Beacons(Uuid,Latitude,Longitude,EquipType,EquipTypeCode,EquipId,ModelName,Manufacturer,Regiment,RegimentCode,RegimCompany,RegimCompanyCode,EquipLocation,RoomName,RoomNumber,Remark,Mgrs);
@@ -931,10 +931,10 @@ public class DBConnection {
 				+ "      ,RoomNumber "
 				+ "      ,b.Remark "
 				+ "  FROM dbo.Beacons b  "
-				+ "  inner join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
-				+ "  inner join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
-				+ "  inner join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-				+ "  inner join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
+				+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
+				+ "  left outer join dbo.code as c on c.CodeID = b.RegimCompany and c.CodeType ='RegimCompany' "
+				+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
+				+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 				+ "  where b.Uuid = ? ";
 		ArrayList<Beacons> beaconLocations = new ArrayList<Beacons>();
 		
@@ -947,22 +947,22 @@ public class DBConnection {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {				
-				String Uuid = rs.getString("Uuid");
+				String Uuid = rs.getString("Uuid") ;
 				String Latitude = rs.getString("Latitude");
 				String Longitude = rs.getString("Longitude");
-				String EquipType = rs.getString("EquipType");
-				String EquipTypeCode = rs.getString("EquipTypeCode");
-				String EquipId = rs.getString("EquipId");
-				String ModelName = rs.getString("ModelName");
-				String Manufacturer = rs.getString("Manufacturer");
-				String Regiment = rs.getString("Regiment");
-				String RegimentCode = rs.getString("RegimentCode");
-				String RegimCompany = rs.getString("RegimCompany");
-				String RegimCompanyCode = rs.getString("RegimCompanyCode");
-				String EquipLocation = rs.getString("EquipLocation");
-				String RoomName = rs.getString("RoomName");
-				String RoomNumber = rs.getString("RoomNumber");
-				String Remark = rs.getString("Remark");
+				String EquipType = rs.getString("EquipType")  == null ? "" : rs.getString("EquipType");
+				String EquipTypeCode = rs.getString("EquipTypeCode")  == null ? "" : rs.getString("EquipTypeCode");
+				String EquipId = rs.getString("EquipId")  == null ? "" : rs.getString("EquipId");
+				String ModelName = rs.getString("ModelName")  == null ? "" : rs.getString("ModelName");
+				String Manufacturer = rs.getString("Manufacturer")  == null ? "" : rs.getString("Manufacturer");
+				String Regiment = rs.getString("Regiment")  == null ? "" : rs.getString("Regiment");
+				String RegimentCode = rs.getString("RegimentCode")  == null ? "" : rs.getString("RegimentCode");
+				String RegimCompany = rs.getString("RegimCompany")  == null ? "" : rs.getString("RegimCompany");
+				String RegimCompanyCode = rs.getString("RegimCompanyCode")  == null ? "" : rs.getString("RegimCompanyCode");
+				String EquipLocation = rs.getString("EquipLocation")  == null ? "" : rs.getString("EquipLocation");
+				String RoomName = rs.getString("RoomName")  == null ? "" : rs.getString("RoomName");
+				String RoomNumber = rs.getString("RoomNumber")  == null ? "" : rs.getString("RoomNumber");
+				String Remark = rs.getString("Remark")  == null ? "" : rs.getString("Remark");
 				String Mgrs = MGRSString(Latitude,Longitude);
 				
 				Beacons b= new Beacons(Uuid,Latitude,Longitude,EquipType,EquipTypeCode,EquipId,ModelName,Manufacturer,Regiment,RegimentCode,RegimCompany,RegimCompanyCode,EquipLocation,RoomName,RoomNumber,Remark,Mgrs);

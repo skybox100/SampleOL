@@ -472,7 +472,7 @@ System.out.println("personalLocations3");
 					var line = new ol.geom.LineString([pnt_data, pnt_data2]);
 					distance = Math.round(line.getLength());
 					console.log("distance:" +distance);
-					if(distance <100 & cnt <4 & distance >0){
+					if(distance <50 & cnt <9 & distance >0){
 						cnt++;
 						multi +='<table style="white-space:nowrap;text-align:left;width:100%">'
 					    	+ '<tr ><td>' + item.timestamp+'</td><td style="text-align:right;">'+item.isDevice +'</td></tr>'
@@ -499,11 +499,8 @@ System.out.println("personalLocations3");
 		            
 		            var position = ol.proj.transform([feature.get('lon'),feature.get('lat')], 'EPSG:4326', 'EPSG:3857');
 		            if(feature.get('desc') != undefined){
-		            	if(cnt >=2){
-		            		content.innerHTML= multi+feature.get('desc');
-		            	}else{
-				            content.innerHTML = feature.get('desc');	            		
-		            	}
+		            	content.innerHTML= multi+feature.get('desc');
+
 		            
 			        console.log("feature.get('lon'):"+feature.get('lon'))
 

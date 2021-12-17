@@ -467,11 +467,6 @@
 	</form>
 	</div>
 	
-	<div id="vihicle" style="display:none">
-	TBD
-	</div>
-	
-	
 	
 	<div id="personal" style="display:none; background: white;">
 		<form name="search_form" action="personalLocations4.jsp" method="get" onsubmit="return check()">
@@ -493,38 +488,7 @@
 		</form>
 	</div>
 	
-	<div id="Scale" style="display:none; background: white;">
-		<form action="locations.jsp" method="get">
-		<table id="table">
-			<tr>
-				<td>
-					<font size="1px">
-					<input type="radio" name="reg" class="reg" value="9사단" checked>
-		  			<label for="Scale9">9사단</label>
-		 			<input type="radio" name="reg" class="reg" value="28여단">
-		  			<label for="Scale28">28여단</label>
-		  			<input type="radio" name="reg" class="reg" value="28-1대대">
-		  			<label for="Scale1">1대대</label>
-		  			<input type="radio" name="reg" class="reg" value="28-2대대">
-		  			<label for="Scale2">2대대</label>
-		  			<input type="radio" name="reg" class="reg" value="28-3대대">
-		  			<label for="Scale3">3대대</label>
-		  			<input type="hidden" name="regim_company" value="전체">
-					</font>		  			
-				</td>
-			</tr>
-		</table>
-				<font size="2px">
-					<input type="radio" name="gis_setting" value="geofence" class="gis_setting3" checked style="display:none">
-		 			 <input type="radio" name="gis_setting" value="satellite_map" class="gis_setting3"  style="display:none">
-		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofon" style="display:none">
-		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofoff" checked style="display:none">	
-		 			<input type="radio"  name="gis_setting2" class="gis_setting4" value="geofoal" style="display:none">	
-		 			
-					<input type="submit" id="submit2" value=" 설정 ">
-				</font>
-		</form>
-	</div>
+	
 	<div id="name_select" style="display:none">
 	</div>
 	</div>
@@ -588,10 +552,9 @@
 
    		// var x = 126.7719083;	var y = 37.6544622;
 
-   		
-        var flag=<%=cd.getTotalPrivilegeCheck(sn)%>
+        var flag=<%=cd.getTotalPrivilegeCheck(sn)%>;	
        //var flag= false; 
-       if(flag == false){	
+       if(flag == false){ //해당 군번의 리턴값이 false이면 GeoF-AL radio 버튼을 안보이게 함
 	         document.getElementById('geofal').style.display="none";
             document.getElementById('geofalLabel').style.display="none";
          }  
@@ -599,28 +562,30 @@
    		 var data = <%=multi_marker%>;
         // var data = <%=last_marker%>;
 
-        //var data2 = [{"latitude":"126.79849","longitude":"37.67835","r":"1000","regiment":"9사단"}
-   		// ,{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}
-   		// ,{"latitude":"126.82623","longitude":"37.77812","r":"1000","regiment":"28-1대대"}
-   		// ,{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}
-   		// ,{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
-		 var data2=<%=circle_marker%>;
-   		var param2='<%=param2%>'
+/*
+		var data2 = [{"longitude":"126.79849","latitude":"37.67835","r":"1000","regiment":"9사단"}
+   		 ,{"longitude":"126.78286","latitude":"37.76350","r":"1000","regiment":"28여단"}
+   		 ,{"longitude":"126.82623","latitude":"37.77812","r":"1000","regiment":"28-1대대"}
+   		 ,{"longitude":"126.79989","latitude":"37.77175","r":"1000","regiment":"28-2대대"}
+ 			,{"longitude":"126.765228","latitude":"37.834637","r":"1000","regiment":"28-3대대"}];
+*/
+		var data2=<%=circle_marker%>;
+   		var param2='<%=param2%>';
 /*
 		if( param2 == 'geofon2') param2 = 'geofal';						
 */
-   		
-//        if('<%=reg%>' == 'RG-280')
- //       	data2=[{"latitude":"126.78286","longitude":"37.76350","r":"1000","regiment":"28여단"}];
- //       else if('<%=reg%>' == 'RG-281')
- //       	data2=[{"latitude":"126.82623","longitude":"37.77812","r":"1000","regiment":"28-1대대"}];
+/*   		
+        if('<%=reg%>' == 'RG-280')
+        	data2=[{"longitude":"126.78286","latitude":"37.76350","r":"1000","regiment":"28여단"}];
+        else if('<%=reg%>' == 'RG-281')
+        	data2=[{"longitude":"126.82623","latitude":"37.77812","r":"1000","regiment":"28-1대대"}];
 
-  //      else if('<%=reg%>' == 'RG-282')
-  //      	data2=[{"latitude":"126.79989","longitude":"37.77175","r":"1000","regiment":"28-2대대"}];
+        else if('<%=reg%>' == 'RG-282')
+        	data2=[{"longitude":"126.79989","latitude":"37.77175","r":"1000","regiment":"28-2대대"}];
 
-   //     else if('<%=reg%>' == 'RG-283')
-   //     	data2=[{"latitude":"126.765228","longitude":"37.834637","r":"1000","regiment":"28-3대대"}];
-
+        else if('<%=reg%>' == 'RG-283')
+        	data2=[{"longitude":"126.765228","latitude":"37.834637","r":"1000","regiment":"28-3대대"}];
+*/
   	    var straitSource = new ol.source.Vector({ wrapX: true });
  	    var straitsLayer = new ol.layer.Vector({
  	        source: straitSource
@@ -761,6 +726,12 @@
 
 					var line = new ol.geom.LineString([pnt_data, pnt_data2]);
 					distance = Math.round(line.getLength());
+					/*
+						데이터 조회 순으로 전 데이터를 조회하여
+						그 중 거리가 50인 것들 중
+						선택한 마크의 데이터를 제외한
+						최대 9개의 데이터 테이블을 이어붙임
+					*/
 					if(distance <50 & cnt <9 & distance >0){
 						cnt++;
 						multi +='<table style="white-space:nowrap;text-align:left;width:100%">'
@@ -788,12 +759,8 @@
 		            
 		            var position = ol.proj.transform([feature.get('lon'),feature.get('lat')], 'EPSG:4326', 'EPSG:3857');
 		            if(feature.get('desc') != undefined){
-		            	if(cnt >=2){
-		            		content.innerHTML= multi+feature.get('desc');
-		            	}else{
-				            content.innerHTML = feature.get('desc');	            		
-		            	}
-		            
+		            	
+		            	content.innerHTML= multi+feature.get('desc');
 
 		            // Show marker on top
 		         	   MarkerOnTop(feature, true);
@@ -823,9 +790,9 @@
 		});
 		
 		
-
-		
-
+	/*
+		이동조회에서 입력 데이터를 체크하는 함수
+	*/		
 		function check(){
 			var sc = document.search_form.search_check.value;
 			var st = document.search_form.search_this.value;
@@ -868,7 +835,10 @@
 			else return true;
 		}
     
-		
+		/*
+			병력 위치의 소속을 변경시키면 세부의 Select 목록을
+			해당 소속의 세부으로 변경시켜주는 함수
+		*/
 		
 	    function regimentSelectChange(e) {
 	    	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
@@ -909,6 +879,11 @@
 	    	}
 	    }
 	    
+		/*
+			장비 위치의 소속을 변경시키면 장비구분의 Select 목록을
+			해당 소속의 장비구분으로 변경시켜주는 함수
+		*/
+		
 		function eRegimentSelectChange(e) {
 	    	var tet0 = <%=tet0%>; var tet1 = <%=tet1%>;  
 	    	var tet2 = <%=tet2%>;
@@ -953,7 +928,7 @@
 			window.history.back();
 		}		
 		
-		var search = ['personal', 'status', 'equip', 'Scale'];
+		var search = ['personal', 'status', 'equip'];
 		
 		function showSearch(id){
 			
@@ -1072,6 +1047,11 @@
 
 			
 				
+					
+				/* 
+					Geo-OFF 상태에서 현재시간으로부터 갱신된지
+					1일(24시간) 이내인 데이터들만 푸른 마크로 바꿈
+				*/
 				if(days<1 && param2 == 'geofoff'){
 					
 					var MarkerIcon = new ol.style.Icon({
@@ -1082,6 +1062,10 @@
 				        text: 'P',
 			            scale: 1.2
 			        });
+				/* 
+					Geo-OFF 상태에서 현재시간으로부터 갱신된지
+					1일(24시간)을 초과한 데이터들만 노란 마크로 바꿈
+				*/
 				}else if(param2 == 'geofoff'){
 						
 					
@@ -1092,7 +1076,13 @@
 			            src: 'image/marker_yl_01.png',
 			            scale: 1.2
 				        });
-
+				/* 
+					GeoF-ON이나 GeoF-AL 상태에서
+					원 안에 있는 데이터들은 푸른 마크로 바꿈
+					
+					이 조건은 원의 안에 있는 마크들을 색출해내기 위한 것임
+					이후의 조건에서 조회되는 데이터는 원의 바깥에 있는 데이터들을 위한 조건
+				*/
 				}else if(distance < r2){
 
 					var MarkerIcon = new ol.style.Icon({
@@ -1106,6 +1096,11 @@
 					
 					
 				}else if(param2 == 'geofal'){
+					/*
+						바깥에 나와있는 데이터 중
+						isDevice가 W-G, W-B일
+						경우만 마크를 붉은 색으로 바꿔줌
+					*/
 					if(isDevice == 'W-G' || isDevice == 'W-B'){
 						
 						var MarkerIcon = new ol.style.Icon({
@@ -1117,8 +1112,11 @@
 			        });
 					
 					//alert("경계를 넘었습니다.");
-
-					
+					/*
+						isDevice가 W-G, W-B인 데이터 중
+						경계를 넘은 데이터들은 api를 호출하여
+						경계를 넘었다는 신호를 보냄
+					*/
 					$.ajax({
 						url: 'http://110.10.130.51:5002/Emergency/EventStatus/EventStatusSave',
 						contentType: "application/json; charset=utf-8",
@@ -1138,6 +1136,9 @@
 					});
 					
 					}else{
+						
+						//isDevice가 W-B,W-G가 아닌 데이터들은 마크를 푸른색으로 바꿔줌
+						
 						var MarkerIcon = new ol.style.Icon({
 				            anchor: [0.5, 20],
 				            anchorXUnits: 'fraction',
@@ -1149,7 +1150,11 @@
 					}
 				}else if(param2 == 'geofon'){
 					if(isDevice == 'W-G' || isDevice == 'W-B'){
-
+					/*
+						바깥에 나와있는 데이터 중
+						isDevice가 W-G, W-B일
+						경우만 마크를 붉은 색으로 바꿔줌
+					*/
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
@@ -1159,6 +1164,8 @@
 			        });
 					
 					}else{
+						//isDevice가 W-B,W-G가 아닌 데이터들은 마크를 푸른색으로 바꿔줌
+
 						var MarkerIcon = new ol.style.Icon({
 				            anchor: [0.5, 20],
 				            anchorXUnits: 'fraction',
