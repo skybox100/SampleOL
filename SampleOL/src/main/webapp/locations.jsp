@@ -16,7 +16,7 @@
 	String reg="전체";
 	String rc="전체";
 	String sn="전체";
-	
+	String ps="전체";
 	int chk=0;
 
 	if(request.getParameter("gis_setting")!= null){
@@ -34,7 +34,9 @@
 	if(param2.equals("geofal")){
 		chk=chk+1;
 	}
-	
+	if(request.getParameter("ps")!= null){
+		ps = request.getParameter("ps") ;
+	}
 	String pn=null;
 	
 	DBConnection cd = new DBConnection();
@@ -61,7 +63,11 @@
 		
 		if(sn.equals("전체")){
 			locations = cd.getMobileStatus("전체","전체");
-		}else{		
+		}else if(ps.equals("개인")){
+			locations = cd.getMobileStatus(cd.getMobileNumber(sn));
+			reg = cd.getRegId(sn);
+			rc = cd.getRegCompayID(sn);
+		}else{
 			reg = cd.getRegId(sn);
 			locations = cd.getMobileStatus(reg,rc);
 			rc = cd.getRegCompayID(sn);
@@ -436,6 +442,7 @@
 			</tr>
 		</table>
 		<input type="hidden" name="sn" value="<%=sn%>">
+		<input type="hidden" name="ps" value="<%=ps%>">
 		
 		<input type="submit" id="submit" value=" 조회 ">
 	</form>
@@ -463,6 +470,7 @@
 			</tr>
 		</table>
 		<input type="hidden" name="sn" value="<%=sn%>">
+		<input type="hidden" name="ps" value="<%=ps%>">
 		<input type="submit" id="submit" value=" 조회 " >
 	</form>
 	</div>
@@ -484,6 +492,7 @@
 			</tr>
 		</table>
 			<input type="hidden" name="sn" value="<%=sn%>">
+			<input type="hidden" name="ps" value="<%=ps%>">
 			<input type="submit" id="submit" value=" 조회 ">
 		</form>
 	</div>
@@ -528,11 +537,11 @@
         	
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").change(function() 
         		    { 
-        		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
+        		    	location.replace("locations.jsp?sn=<%=sn%>&ps=<%=ps%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
         		    }), 
         		    $("input:radio[name=gis_setting2]").click(function() 
         	    	{ 
-        		    	location.replace("locations.jsp?sn=<%=sn%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        		    	location.replace("locations.jsp?sn=<%=sn%>&ps=<%=ps%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
         	    	}) ,
         	    	$("#search_check").change(function() 
                 	 { 
@@ -1085,6 +1094,7 @@
 				*/
 				}else if(distance < r2){
 
+					
 					var MarkerIcon = new ol.style.Icon({
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
@@ -1144,7 +1154,6 @@
 				            anchorXUnits: 'fraction',
 				            anchorYUnits: 'pixels',
 				            src: 'image/marker_bl_01.png',
-					        text: 'P',
 				            scale: 1.2
 				        });
 					}
@@ -1171,7 +1180,6 @@
 				            anchorXUnits: 'fraction',
 				            anchorYUnits: 'pixels',
 				            src: 'image/marker_bl_01.png',
-					        text: 'P',
 				            scale: 1.2
 				        });
 					}
@@ -1195,7 +1203,26 @@
 				    	+ '</table>'
 				});
 				
-				
+				if(isDevice == 'W-G' || isDevice == 'W-B'){
+					var iconStyle = new ol.style.Style({
+					    image: MarkerIcon,
+					    text: new ol.style.Text({
+					        //scale: 1.5,
+					        font: '7px bold',
+						    text: 'W',
+					        fill: new ol.style.Fill({
+					          color: "0",
+					          
+					        }),
+					        stroke: new ol.style.Stroke({
+					          color: "#fff",
+					          width: 6
+					        }),
+					    	offsetY: -13
+					      })
+					});
+				}else{
+					
 				
 				var iconStyle = new ol.style.Style({
 				    image: MarkerIcon,
@@ -1215,6 +1242,7 @@
 				      })
 				});
 					
+				}
 					
 					
 					// Add icon style

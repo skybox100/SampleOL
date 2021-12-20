@@ -1286,6 +1286,37 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 	
 	}
 	
+	public String getMobileNumber(String sn) {
+		String sql = "select * from dbo.PersonnelManagement"
+				+ " where ServiceNumber = ?";
+		
+		String phone = null;
+
+		
+		try {
+			con = getConn();				
+			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, sn);
+			rs = pstmt.executeQuery();
+		while(rs.next()) {
+			phone = rs.getString("MobileNumber");
+		}
+			
+		} catch (SQLException e) {
+		// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+		
+		} finally {
+			try { if(stmt != null) stmt.close(); } catch(SQLException e) {}
+			try { if(rs != null) rs.close(); } catch(SQLException e) {}
+			try { if(con != null) con.close(); } catch(SQLException e) {}
+		}		
+		return phone;
+	}
+	
 	public String OutputPicture(InputStream in)
 {
 		String b64="";

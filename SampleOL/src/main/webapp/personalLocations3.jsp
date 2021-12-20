@@ -19,6 +19,7 @@ System.out.println("personalLocations3");
 	}
 	
 	String sn = request.getParameter("sn");
+	String ps = request.getParameter("ps");
 
 	String reg = request.getParameter("reg");
 	String rc = request.getParameter("regim_company");
@@ -419,7 +420,7 @@ System.out.println("personalLocations3");
         	view.setZoom(zoom);
         }
         document.getElementById('goback').onclick = function(){
-        	location.href="locations.jsp?sn=<%=sn%>"
+        	location.href="locations.jsp?sn=<%=sn%>&ps=<%=ps%>"
         }
       
         
@@ -580,21 +581,48 @@ System.out.println("personalLocations3");
 				    	+ '</table>'
 				});
 				
+
+				
+				if(isDevice == 'W-G' || isDevice == 'W-B'){
+					var iconStyle = new ol.style.Style({
+					    image: MarkerIcon,
+					    text: new ol.style.Text({
+					        //scale: 1.5,
+					        font: '7px bold',
+						    text: 'W',
+					        fill: new ol.style.Fill({
+					          color: "0",
+					          
+					        }),
+					        stroke: new ol.style.Stroke({
+					          color: "#fff",
+					          width: 6
+					        }),
+					    	offsetY: -13
+					      })
+					});
+				}else{
+					
+				
 				var iconStyle = new ol.style.Style({
 				    image: MarkerIcon,
 				    text: new ol.style.Text({
-				    	font: '7px bold',
-				        text: 'P',
+				        //scale: 1.5,
+				        font: '7px bold',
+					    text: 'P',
 				        fill: new ol.style.Fill({
-				          color: "0"
+				          color: "0",
+				          
 				        }),
 				        stroke: new ol.style.Stroke({
 				          color: "#fff",
-				          width: 2
+				          width: 6
 				        }),
 				    	offsetY: -13
 				      })
 				});
+					
+				}
 				
 				// Add icon style
 				iconFeature.setStyle(iconStyle);

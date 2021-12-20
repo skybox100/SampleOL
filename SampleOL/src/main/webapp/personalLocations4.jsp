@@ -14,6 +14,7 @@
 System.out.println("personalLocations4");
 	String param = "satellite_map";
 	String sn = request.getParameter("sn");
+	String ps = request.getParameter("ps");
 
 	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
@@ -428,11 +429,11 @@ System.out.println("personalLocations4");
 
     	if(chk==0){
     		alert("검색 결과가 없습니다.");
-    		location.href="locations.jsp?sn=<%=sn%>";
+    		location.href="locations.jsp?sn=<%=sn%>&ps=<%=ps%>";
     	}
     
 		function goBack(){
-			location.href="locations.jsp?sn=<%=sn%>";
+			location.href="locations.jsp?sn=<%=sn%>&ps=<%=ps%>";
 		}
 		
         var data = <%=multi_marker%>;
