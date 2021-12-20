@@ -242,7 +242,7 @@
 
 	<div id="map"></div>
 	<div class="top">
-		<form action="beaconLocations.jsp" id="locations" method="get">
+		<form action="equipLocations.jsp" id="locations" method="get">
 		<table>
 			<tr>
 				<td class="gis_setting3">

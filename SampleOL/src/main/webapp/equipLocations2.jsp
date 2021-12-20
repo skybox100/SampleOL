@@ -391,9 +391,10 @@
         var rotation = view.getRotation();
         
         document.getElementById('zoom-restore').onclick = function(){
-        	view.setCenter(center);
-        	view.setRotation(rotation);
-        	view.setZoom(zoom);
+        	location.reload();
+        	//view.setCenter(center);
+        	//view.setRotation(rotation);
+        	//view.setZoom(zoom);
         }
         document.getElementById('goback').onclick = function(){
         	location.href="locations.jsp?sn=<%=sn%>&ps=<%=ps%>"

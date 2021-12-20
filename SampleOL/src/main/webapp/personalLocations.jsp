@@ -363,9 +363,10 @@
         var rotation = view.getRotation();
         
         document.getElementById('zoom-restore').onclick = function(){
-        	view.setCenter(center);
-        	view.setRotation(rotation);
-        	view.setZoom(zoom);
+        	location.reload();
+        	//view.setCenter(center);
+        	//view.setRotation(rotation);
+        	//view.setZoom(zoom);
         }
         
 

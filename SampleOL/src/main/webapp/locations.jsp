@@ -569,32 +569,14 @@
          }  
    		
    		 var data = <%=multi_marker%>;
-        // var data = <%=last_marker%>;
 
-/*
-		var data2 = [{"longitude":"126.79849","latitude":"37.67835","r":"1000","regiment":"9사단"}
-   		 ,{"longitude":"126.78286","latitude":"37.76350","r":"1000","regiment":"28여단"}
-   		 ,{"longitude":"126.82623","latitude":"37.77812","r":"1000","regiment":"28-1대대"}
-   		 ,{"longitude":"126.79989","latitude":"37.77175","r":"1000","regiment":"28-2대대"}
- 			,{"longitude":"126.765228","latitude":"37.834637","r":"1000","regiment":"28-3대대"}];
-*/
+
 		var data2=<%=circle_marker%>;
    		var param2='<%=param2%>';
 /*
 		if( param2 == 'geofon2') param2 = 'geofal';						
 */
-/*   		
-        if('<%=reg%>' == 'RG-280')
-        	data2=[{"longitude":"126.78286","latitude":"37.76350","r":"1000","regiment":"28여단"}];
-        else if('<%=reg%>' == 'RG-281')
-        	data2=[{"longitude":"126.82623","latitude":"37.77812","r":"1000","regiment":"28-1대대"}];
 
-        else if('<%=reg%>' == 'RG-282')
-        	data2=[{"longitude":"126.79989","latitude":"37.77175","r":"1000","regiment":"28-2대대"}];
-
-        else if('<%=reg%>' == 'RG-283')
-        	data2=[{"longitude":"126.765228","latitude":"37.834637","r":"1000","regiment":"28-3대대"}];
-*/
   	    var straitSource = new ol.source.Vector({ wrapX: true });
  	    var straitsLayer = new ol.layer.Vector({
  	        source: straitSource
@@ -636,9 +618,10 @@
         var rotation = view.getRotation();
         
         document.getElementById('zoom-restore').onclick = function(){
-        	view.setCenter(center);
-        	view.setRotation(rotation);
-        	view.setZoom(zoom);
+        	location.reload();
+        	//view.setCenter(center);
+        	//view.setRotation(rotation);
+        	//view.setZoom(zoom);
         }
       
         
