@@ -484,7 +484,7 @@ public class DBConnection {
 						+ "  FROM dbo.PersonnelManagement p"
 						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
 						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-						+ "  left outer join dbo.Code as e on p.rank = e.CodeID "
+						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
 						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID"
 						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID;";
 
@@ -522,7 +522,7 @@ public class DBConnection {
 						+ "  FROM dbo.PersonnelManagement p"
 						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
 						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-						+ "  left outer join dbo.Code as e on p.rank = e.CodeID "
+						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
 						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID"
 						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
 						+ " where p.regimCompany = '"+rc+"'";
@@ -559,7 +559,7 @@ public class DBConnection {
 						+ "  FROM dbo.PersonnelManagement p"
 						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
 						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-						+ "  left outer join dbo.Code as e on p.rank = e.CodeID "
+						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
 						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID"
 						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
 						+ " where p.Regiment = '"+reg+"'";
@@ -596,7 +596,7 @@ public class DBConnection {
 						+ "  FROM dbo.PersonnelManagement p"
 						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
 						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-						+ "  left outer join dbo.Code as e on p.rank = e.CodeID "
+						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
 						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID"
 						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
 						+ " where p.Regiment = '"+reg+"' and p.regimCompany = '"+rc+"'";
@@ -1054,7 +1054,7 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 					+ "  FROM dbo.PersonnelManagement p "
 					+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-					+ "  left outer join dbo.Code as e on p.rank = e.CodeID "
+					+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
 					+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID "
 					+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID "
 					+ "  where p.ServiceNumber = ? ";
@@ -1081,7 +1081,7 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 				String MissionType = rs.getString("MissionType");
 				String MissionTypeName = rs.getString("MissionTypeName");
 				String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
-				String RankName = rs.getString("RankName");
+				String RankName = rs.getString("RankName") == null ? "" : rs.getString("RankName");
 				String Name = rs.getString("Name");
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 				String RegimentName = rs.getString("RegimentName") == null ? "":rs.getString("RegimentName");
@@ -1624,7 +1624,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("rank");
+					String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 					String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 					String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
@@ -1636,7 +1636,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
 					
-					location = new Location(serviceNumber, userKey, name, rank, Regiment,
+					location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 						 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 				//	System.out.println(location.toString());
 					
@@ -1672,7 +1672,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						
 						String serviceNumber = rs.getString("serviceNumber");
 						String name = rs.getString("name");
-						String rank = rs.getString("rank");
+						String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 						String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 						String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
@@ -1684,7 +1684,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String longitude = rs.getString("longitude");
 						String timestamp = format.format(rs.getTimestamp("Timestamp"));
 						
-						location = new Location(serviceNumber, userKey, name, rank, Regiment,
+						location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 					//	System.out.println(location.toString());
 						
@@ -1718,7 +1718,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					while(rs.next()) {
 						String serviceNumber = rs.getString("serviceNumber");
 						String name = rs.getString("name");
-						String rank = rs.getString("rank");
+						String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 						String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 						String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
@@ -1730,7 +1730,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String longitude = rs.getString("longitude");
 						String timestamp = format.format(rs.getTimestamp("Timestamp"));
 						
-						location = new Location(serviceNumber, userKey, name, rank, Regiment,
+						location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 						
 						locations.add(location);
@@ -1765,7 +1765,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 				while(rs.next()) {
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("rank");
+					String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 					String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 					String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
@@ -1777,7 +1777,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
 					
-					location = new Location(serviceNumber, userKey, name, rank, Regiment,
+					location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 						 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 					
 					locations.add(location);
@@ -1812,7 +1812,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					while(rs.next()) {
 						String serviceNumber = rs.getString("serviceNumber");
 						String name = rs.getString("name");
-						String rank = rs.getString("rank");
+						String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 						String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 						String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
@@ -1824,7 +1824,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String longitude = rs.getString("longitude");
 						String timestamp = format.format(rs.getTimestamp("Timestamp"));
 						
-						location = new Location(serviceNumber, userKey, name, rank, Regiment,
+						location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 						
 						locations.add(location);
@@ -1858,7 +1858,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					while(rs.next()) {
 						String serviceNumber = rs.getString("serviceNumber");
 						String name = rs.getString("name");
-						String rank = rs.getString("rank");
+						String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 						String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 						String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
@@ -1870,7 +1870,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String longitude = rs.getString("longitude");
 						String timestamp = format.format(rs.getTimestamp("Timestamp"));
 						
-						location = new Location(serviceNumber, userKey, name, rank, Regiment,
+						location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 						
 						locations.add(location);
@@ -1917,7 +1917,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("rank");
+					String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 					String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 					String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
@@ -1929,7 +1929,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
 					
-					location = new Location(serviceNumber, userKey, name, rank, Regiment,
+					location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 						 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 				//	System.out.println(location.toString());
 					
@@ -1965,7 +1965,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						
 						String serviceNumber = rs.getString("serviceNumber");
 						String name = rs.getString("name");
-						String rank = rs.getString("rank");
+						String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 						String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 						String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
@@ -1977,7 +1977,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String longitude = rs.getString("longitude");
 						String timestamp = format.format(rs.getTimestamp("Timestamp"));
 						
-						location = new Location(serviceNumber, userKey, name, rank, Regiment,
+						location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 					//	System.out.println(location.toString());
 						
@@ -2011,7 +2011,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					while(rs.next()) {
 						String serviceNumber = rs.getString("serviceNumber");
 						String name = rs.getString("name");
-						String rank = rs.getString("rank");
+						String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 						String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 						String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
@@ -2023,7 +2023,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String longitude = rs.getString("longitude");
 						String timestamp = format.format(rs.getTimestamp("Timestamp"));
 						
-						location = new Location(serviceNumber, userKey, name, rank, Regiment,
+						location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 						
 						locations.add(location);
@@ -2058,7 +2058,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 				while(rs.next()) {
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("rank");
+					String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 					String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 					String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 					String isDevice = rs.getString("isDevice");
@@ -2070,7 +2070,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					String longitude = rs.getString("longitude");
 					String timestamp = format.format(rs.getTimestamp("Timestamp"));
 					
-					location = new Location(serviceNumber, userKey, name, rank, Regiment,
+					location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 						 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 					
 					locations.add(location);
@@ -2105,7 +2105,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					while(rs.next()) {
 						String serviceNumber = rs.getString("serviceNumber");
 						String name = rs.getString("name");
-						String rank = rs.getString("rank");
+						String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 						String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 						String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
@@ -2117,7 +2117,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String longitude = rs.getString("longitude");
 						String timestamp = format.format(rs.getTimestamp("Timestamp"));
 						
-						location = new Location(serviceNumber, userKey, name, rank, Regiment,
+						location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 						
 						locations.add(location);
@@ -2151,7 +2151,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 					while(rs.next()) {
 						String serviceNumber = rs.getString("serviceNumber");
 						String name = rs.getString("name");
-						String rank = rs.getString("rank");
+						String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 						String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 						String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 						String isDevice = rs.getString("isDevice");
@@ -2163,7 +2163,7 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 						String longitude = rs.getString("longitude");
 						String timestamp = format.format(rs.getTimestamp("Timestamp"));
 						
-						location = new Location(serviceNumber, userKey, name, rank, Regiment,
+						location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 							 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 						
 						locations.add(location);
@@ -2220,7 +2220,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-					+ "left outer join dbo.Code as e on p.rank = e.CodeID "
+					+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 					+ "order by RegimentName, regimCompanyName, RankName, p.Name ";
 			
 			try {
@@ -2233,8 +2233,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				while(rs.next()) {
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("Rank");
-					String rankName = rs.getString("RankName");
+					String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
+					String RankName = rs.getString("RankName") == null ? "" : rs.getString("RankName");
 					String RegimentName = rs.getString("RegimentName") == null ? "":rs.getString("RegimentName");
 					String regimCompanyName = rs.getString("regimCompanyName") == null ? "" : rs.getString("regimCompanyName");
 					String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
@@ -2257,7 +2257,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String EquipID = serviceNumber;
 					String EventType = "EVT-14";
 					String ObjectType = "OBT-02";
-					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
+					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+RankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 					String Status = "EVS-01";
 					String ActionStartDate = format2.format (System.currentTimeMillis());
 					String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -2270,10 +2270,10 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String RoomNumber = rs.getString("RoomNumber");
 					String etc = rs.getString("etc");
 					tick= tick+1;
-					location = new Location(serviceNumber, userKey, name, rank,rankName, Regiment,RegimentName,
+					location = new Location(serviceNumber, userKey, name, Rank,RankName, Regiment,RegimentName,
 							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
 							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,mgrs);
-					//location = new Location(serviceNumber, userKey, name, rank, Regiment,
+					//location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp,);
 					
 					locations.add(location);
@@ -2299,7 +2299,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-					+ "left outer join dbo.Code as e on p.rank = e.CodeID "
+					+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 					+ "where p.Regiment = ? "
 					+ "order by Regiment, regimCompany, Rank, p.Name ";
 			
@@ -2314,8 +2314,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				while(rs.next()) {
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("Rank");
-					String rankName = rs.getString("RankName");
+					String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
+					String RankName = rs.getString("RankName") == null ? "" : rs.getString("RankName");
 					String RegimentName = rs.getString("RegimentName") == null ? "":rs.getString("RegimentName");
 					String regimCompanyName = rs.getString("regimCompanyName") == null ? "" : rs.getString("regimCompanyName");
 					String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
@@ -2336,7 +2336,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String EquipID = serviceNumber;
 					String EventType = "EVT-14";
 					String ObjectType = "OBT-02";
-					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
+					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+RankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 					String Status = "EVS-01";
 					String ActionStartDate = format2.format (System.currentTimeMillis());
 					String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -2350,7 +2350,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String etc = rs.getString("etc");
 					tick= tick+1;
 					String mgrs = MGRSString(latitude, longitude);
-					location = new Location(serviceNumber, userKey, name, rank,rankName, Regiment,RegimentName,
+					location = new Location(serviceNumber, userKey, name, Rank,RankName, Regiment,RegimentName,
 							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
 							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,mgrs);
 					locations.add(location);
@@ -2376,7 +2376,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-					+ "left outer join dbo.Code as e on p.rank = e.CodeID "
+					+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 					+ "where p.Regiment = ? and p.regimCompany = ? "
 					+ "order by Regiment, regimCompany, Rank, p.Name ";
 			
@@ -2392,8 +2392,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				while(rs.next()) {
 					String serviceNumber = rs.getString("serviceNumber");
 					String name = rs.getString("name");
-					String rank = rs.getString("Rank");
-					String rankName = rs.getString("RankName");
+					String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
+					String RankName = rs.getString("RankName") == null ? "" : rs.getString("RankName");
 					String RegimentName = rs.getString("RegimentName") == null ? "":rs.getString("RegimentName");
 					String regimCompanyName = rs.getString("regimCompanyName") == null ? "" : rs.getString("regimCompanyName");
 					String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
@@ -2415,7 +2415,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String EquipID = serviceNumber;
 					String EventType = "EVT-14";
 					String ObjectType = "OBT-02";
-					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
+					String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+RankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 					String Status = "EVS-01";
 					String ActionStartDate = format2.format (System.currentTimeMillis());
 					String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -2428,11 +2428,11 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					String RoomNumber = rs.getString("RoomNumber");
 					String etc = rs.getString("etc");
 					tick= tick+1;
-					location = new Location(serviceNumber, userKey, name, rank,rankName, Regiment,RegimentName,
+					location = new Location(serviceNumber, userKey, name, Rank,RankName, Regiment,RegimentName,
 							regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
 							 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,mgrs);
 					
-					//location = new Location(serviceNumber, userKey, name, rank, Regiment,
+					//location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 					//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 					
 					locations.add(location);
@@ -2462,7 +2462,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ " ON p.MobileNumber = l.UserKey  "
 				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID "
 				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ " left outer join dbo.Code as e on p.rank = e.CodeID "
+				+ " left outer join dbo.Code as e on p.Rank = e.CodeID "
 				+ " WHERE p.MobileNumber=?  "
 				+ " ORDER BY l.Timestamp DESC";
 		Location location = null;
@@ -2481,7 +2481,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("rank") ;
+				String Rank = rs.getString("Rank") ;
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 				String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
@@ -2502,7 +2502,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				if(longitude == null || latitude == null) {
 					
 				} else {
-					location = new Location( serviceNumber,  userKey,  name,  rank,  Regiment,
+					location = new Location( serviceNumber,  userKey,  name,  Rank,  Regiment,
 							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
 							 mobileNumber,  EquipLocation,  RoomName,RoomNumber,Mgrs) ;
 					locations.add(location);
@@ -2538,7 +2538,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ "ON p.MobileNumber = l.UserKey "
 				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID "
 				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ " left outer join dbo.Code as e on p.rank = e.CodeID "
+				+ " left outer join dbo.Code as e on p.Rank = e.CodeID "
 				+ "WHERE p.ServiceNumber=? "
 				+ "ORDER BY l.Timestamp DESC";
 		Location location = null;
@@ -2555,7 +2555,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("rank");
+				String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 				String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
@@ -2575,7 +2575,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				if(longitude == null || latitude == null) {
 			
 				} else {
-					location = new Location( serviceNumber,  userKey,  name,  rank,  Regiment,
+					location = new Location( serviceNumber,  userKey,  name,  Rank,  Regiment,
 							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
 							 mobileNumber,  EquipLocation,  RoomName,RoomNumber,Mgrs) ;
 					locations.add(location);
@@ -2614,7 +2614,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ "INNER JOIN dbo.MobileStatus l ON p.MobileNumber = l.UserKey "
 				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID "
 				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ " left outer join dbo.Code as e on p.rank = e.CodeID "
+				+ " left outer join dbo.Code as e on p.Rank = e.CodeID "
 				+ "WHERE p.ServiceNumber=? ";
 		try {
 			con = getConn();
@@ -2627,7 +2627,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("rank");
+				String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 				String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
@@ -2647,7 +2647,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				if(longitude == null || latitude == null) {
 			
 				} else {
-					location = new Location( serviceNumber,  userKey,  name,  rank,  Regiment,
+					location = new Location( serviceNumber,  userKey,  name,  Rank,  Regiment,
 							 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
 							 mobileNumber,  EquipLocation,  RoomName,RoomNumber,Mgrs) ;
 				}
@@ -2680,7 +2680,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ "INNER JOIN dbo.MobileStatus l ON p.MobileNumber = l.UserKey "
 				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID "
 				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ " left outer join dbo.Code as e on p.rank = e.CodeID "
+				+ " left outer join dbo.Code as e on p.Rank = e.CodeID "
 				+ "WHERE p.MobileNumber=? ";
 
 		try {
@@ -2694,7 +2694,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("rank");
+				String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 				String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
@@ -2712,7 +2712,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				String Mgrs = MGRSString(latitude, longitude);				
 
 								
-				location = new Location( serviceNumber,  userKey,  name,  rank,  Regiment,
+				location = new Location( serviceNumber,  userKey,  name,  Rank,  Regiment,
 						 regimCompany,  isDevice,  duty,  latitude,  longitude,  timestamp,
 						 mobileNumber,  EquipLocation,  RoomName,RoomNumber,Mgrs) ;
 			}
@@ -3185,7 +3185,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 	public String getCodeName(String codeType, String codeId){
 		
 		String sql = "select CodeName from dbo.Code where CodeType=? and CodeId=?";
-		String rankName = "";
+		String RankName = "";
 		
 		try {
 			con = getConn();
@@ -3197,7 +3197,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				rankName = rs.getString("CodeName");
+				RankName = rs.getString("CodeName");
 				
 			}
 		} catch (SQLException e) {
@@ -3209,7 +3209,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 			try { if(con != null) con.close(); } catch(SQLException e) {}
 		}
 	
-		return rankName;		
+		return RankName;		
 		
 	}
 
@@ -3313,7 +3313,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
 				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.rank = e.CodeID "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 				+ "order by l.InputTime desc ";
 		ArrayList<Location> locations = new ArrayList<Location>();
 	//	JSONArray jsonLocations = new JSONArray();
@@ -3327,8 +3327,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("Rank");
-				String rankName = rs.getString("RankName");
+				String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
+				String RankName = rs.getString("RankName") == null ? "" : rs.getString("RankName");
 				String RegimentName = rs.getString("RegimentName") == null ? "":rs.getString("RegimentName");
 				String regimCompanyName = rs.getString("regimCompanyName") == null ? "" : rs.getString("regimCompanyName");
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
@@ -3349,7 +3349,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				String EquipID = serviceNumber;
 				String EventType = "EVT-14";
 				String ObjectType = "OBT-02";
-				String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
+				String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+RankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 				String Status = "EVS-01";
 				String ActionStartDate = format2.format (System.currentTimeMillis());
 				String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -3362,7 +3362,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				String RoomNumber = rs.getString("RoomNumber");
 				String etc = rs.getString("etc");
 				tick= tick+1;
-				location = new Location(serviceNumber, userKey, name, rank,rankName, Regiment,RegimentName,
+				location = new Location(serviceNumber, userKey, name, Rank,RankName, Regiment,RegimentName,
 						regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
 						 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,mgrs);
 				locations.add(location);
@@ -3411,7 +3411,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
 				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.rank = e.CodeID "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 				+ "where l.UserKey = '"+pn+"'"
 				+ "order by l.InputTime desc ";
 		ArrayList<Location> locations = new ArrayList<Location>();
@@ -3426,8 +3426,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("Rank");
-				String rankName = rs.getString("RankName");
+				String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
+				String RankName = rs.getString("RankName") == null ? "" : rs.getString("RankName");
 				String RegimentName = rs.getString("RegimentName") == null ? "":rs.getString("RegimentName");
 				String regimCompanyName = rs.getString("regimCompanyName") == null ? "" : rs.getString("regimCompanyName");
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
@@ -3448,7 +3448,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				String EquipID = serviceNumber;
 				String EventType = "EVT-14";
 				String ObjectType = "OBT-02";
-				String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+rankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
+				String EventRemark = "geoF-On 이탈 이벤트 발생\n"+RegimentName+"\n"+RankName+" "+name+"("+serviceNumber+")\n"+phone(mobileNumber);
 				String Status = "EVS-01";
 				String ActionStartDate = format2.format (System.currentTimeMillis());
 				String ActionEndDate = ""; //rs.getString("ActionEndDate");
@@ -3463,10 +3463,10 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				tick= tick+1;
 				String Mgrs = MGRSString(latitude,longitude);
 
-				location = new Location(serviceNumber, userKey, name, rank,rankName, Regiment,RegimentName,
+				location = new Location(serviceNumber, userKey, name, Rank,RankName, Regiment,RegimentName,
 						regimCompany,regimCompanyName, isDevice, duty, latitude, longitude, timestamp,EventId,EventDateTime,MissionType,EquipID
 						 ,EventType,ObjectType,EventRemark,Status,ActionStartDate,ActionEndDate,Actioncontents,ResultContents,GroupCode,IsSendOK,EquipLocation,RoomName,mobileNumber,etc,RoomNumber,Mgrs);
-				//location = new Location(serviceNumber, userKey, name, rank, Regiment,
+				//location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 				//	 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 				
 				locations.add(location);
@@ -3498,7 +3498,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
 				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.rank = e.CodeID "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 				+ "where p.Name = ? "
 				+ "order by l.InputTime desc ";
 		Location location = null;
@@ -3515,7 +3515,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("rank");
+				String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 				String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
@@ -3527,7 +3527,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				String longitude = rs.getString("longitude");
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));
 				
-				location = new Location(serviceNumber, userKey, name, rank, Regiment,
+				location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 					 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 				
 				locations.add(location);
@@ -3557,7 +3557,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
 				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.rank = e.CodeID "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 				+ "where p.ServiceNumber = ? "
 				+ "order by l.InputTime desc ";
 		Location location = null;
@@ -3574,7 +3574,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("rank");
+				String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 				String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
@@ -3586,7 +3586,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				String longitude = rs.getString("longitude");
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));
 				
-				location = new Location(serviceNumber, userKey, name, rank, Regiment,
+				location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 					 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 				
 				locations.add(location);
@@ -3616,7 +3616,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
 				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
 				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.rank = e.CodeID "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 				+ "where p.MobileNumber = ? "
 				+ "order by l.InputTime desc ";
 		Location location = null;
@@ -3633,7 +3633,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 			while(rs.next()) {
 				String serviceNumber = rs.getString("serviceNumber");
 				String name = rs.getString("name");
-				String rank = rs.getString("rank");
+				String Rank = rs.getString("Rank") == null ? "" : rs.getString("Rank");
 				String Regiment = rs.getString("Regiment") == null ? "":rs.getString("Regiment");
 				String regimCompany = rs.getString("regimCompany") == null ? "":rs.getString("regimCompany");
 				String isDevice = rs.getString("isDevice");
@@ -3645,7 +3645,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				String longitude = rs.getString("longitude");
 				String timestamp = format.format(rs.getTimestamp("Timestamp"));
 				
-				location = new Location(serviceNumber, userKey, name, rank, Regiment,
+				location = new Location(serviceNumber, userKey, name, Rank, Regiment,
 					 regimCompany, isDevice, duty, latitude, longitude, timestamp);
 				
 				locations.add(location);
@@ -4056,7 +4056,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "SELECT DISTINCT c.CodeName, c.CodeID "
 				+ "FROM dbo.MobileStatus AS a "
 				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
-				+ "INNER JOIN dbo.Code AS c ON b.rank = c.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON b.Rank = c.CodeID "
 				+ "ORDER BY c.CodeID";
 		ArrayList<String> Regiments = new ArrayList<String>();
 		

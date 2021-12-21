@@ -244,7 +244,7 @@
 			<tr>
 				<td class="gis_setting3">
 					<font size="1px">
-					<input type="radio" id="geofence" name="gis_setting" class="gis_setting" value="geofence" checked>
+					<input type="radio" id="geofence" name="gis_setting" class="gis_setting" value="geofence" >
 		  			<label for="geofence">군사</label>
 		 			 <input type="radio" id="satellite_map" name="gis_setting" class="gis_setting" value="satellite_map" >
 		 			 <label for="satellite_map">위성</label>		 			
@@ -255,7 +255,7 @@
 				<font size="1px" style="font-weight: bold; display:none;" id="gis_setting2">
 		 			<input type="radio" id="geofon" name="gis_setting2" class="gis_setting2" value="geofon">
 		  			<label for="geofon">GeoF-ON</label>
-		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
+		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" >
 		 			<label for="geofoff">GeoF-OFF</label>
 		 		</font>
 				</td>

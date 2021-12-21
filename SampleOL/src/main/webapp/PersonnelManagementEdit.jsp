@@ -213,7 +213,7 @@
 <body>
 <div>
 <span class="left"><input type="text" id="now" readonly></span>
-<span class="title">회원정보 수정삭제</span>
+<span class="title">회원정보 수정</span>
 
 </div>
 <table class="table" style="white-space: nowrap;">

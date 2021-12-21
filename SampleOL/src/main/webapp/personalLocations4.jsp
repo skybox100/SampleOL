@@ -149,7 +149,6 @@ System.out.println("personalLocations4");
     	body, html{
     		width: 100%;
     		position: fixed; 
-			overflow-y: scroll;
 			margin-left: 0;
 			margin-top: 0;
     	}
@@ -320,6 +319,8 @@ System.out.println("personalLocations4");
  		.ol-control{
  		    display: none;
  		}
+ 	
+
     </style>
     <!-- OpenLayers map -->
     <script src="js/jquery-3.6.0.min.js"></script>  
@@ -328,6 +329,43 @@ System.out.println("personalLocations4");
 </head>
 
 <body>
+
+<%
+	if(subnum > 1){
+%>
+<table style="white-space:nowrap;text-align:left;width:500px">
+	<tr>
+		<td>소속</td>
+		<td>지위</td>
+		<td>이름</td>
+		<td>군번</td>
+	</tr>
+<%
+		for(int i=0; i<locations_member.size();++i){
+%>
+	<tr>
+		<td>
+	<%=rc2.get(i)%>
+	</td><td>
+	<%=rank2.get(i)%>
+	</td><td>
+	<%=name2.get(i)%>
+	</td><td>
+	<a href="personalLocations4.jsp?search_check=service_num&search_this=<%=serviceNumber2.get(i)%>">
+	<%=serviceNumber2.get(i)%>
+	</a></td>
+	</tr>
+	
+<%
+		}
+%>
+	</table>
+	<input type="button" value=" 이전 " id="goback" style="margin-right: 4px;">
+	<input type="button" value="초기화" id="zoom-restore" style="display:none;">
+
+<%
+	}else{
+%>
 	<div id="map"></div>
 	<div class="top">
 		<form action="personalLocations4.jsp" id="locations" method="get">
@@ -335,7 +373,7 @@ System.out.println("personalLocations4");
 			<tr>
 				<td class="gis_setting3">
 					<font size="1px">
-					<input type="radio" id="geofence" name="gis_setting" class="gis_setting" value="geofence" checked>
+					<input type="radio" id="geofence" name="gis_setting" class="gis_setting" value="geofence" >
 		  			<label for="geofence">군사</label>
 		 			 <input type="radio" id="satellite_map" name="gis_setting" class="gis_setting" value="satellite_map" >
 		 			 <label for="satellite_map">위성</label>		 			
@@ -352,30 +390,6 @@ System.out.println("personalLocations4");
 
 		</form>
 	</div>	
-
-
-<%
-	if(subnum > 1){
-		for(int i=0; i<locations_member.size();++i){
-%>
-	<div style="white-space:nowrap; ">
-	<%=rc2.get(i)%>&nbsp;
-	<%=rank2.get(i)%>&nbsp;
-	<a href="personalLocations4.jsp?search_check=service_num&search_this=<%=serviceNumber2.get(i)%>">
-	<%=name2.get(i)%>
-	</a>&nbsp;
-	<%=serviceNumber2.get(i)%>&nbsp;<br>
-	
-<%
-		}
-%>
-	<br>
-	<input type="button" value="초기화" id="zoom-restore">
-	<input type="button" value=" 이전 " id="goback">
-	</div>
-<%
-	}else{
-%>
 	<div id="frm" style="white-space:nowrap; ">
 	<a id="frm_label">
 	<%=rc%>&nbsp;
@@ -388,7 +402,6 @@ System.out.println("personalLocations4");
 	<input type="button" value=" 이전 " id="goback">
 	</div>
 	
- 	<script src="js/map.js"></script>
 
 	<!-- Popup hover -->
     <div id="popup" class="ol-popup">
@@ -403,6 +416,9 @@ System.out.println("personalLocations4");
  	<%
 		}
 	%>
+ 	
+ 	 <script src="js/map.js"></script>
+ 	
  	
     <script>
 	    

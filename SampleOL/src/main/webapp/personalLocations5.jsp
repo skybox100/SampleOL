@@ -150,7 +150,6 @@ System.out.println("personalLocations5");
     	body, html{
     		width: 100%;
     		position: fixed; 
-			overflow-y: scroll;
 			margin-left: 0;
 			margin-top: 0;
     	}
@@ -319,6 +318,7 @@ System.out.println("personalLocations5");
  		.ol-control{
  		    display: none;
  		} 	
+
     </style>
     <!-- OpenLayers map -->
     <script src="js/jquery-3.6.0.min.js"></script>  
@@ -327,6 +327,44 @@ System.out.println("personalLocations5");
 </head>
 
 <body>
+
+
+
+<%
+	if(subnum > 1){
+%>
+<table style="white-space:nowrap;text-align:left;width:500px">
+	<tr>
+		<td>소속</td>
+		<td>지위</td>
+		<td>이름</td>
+		<td>군번</td>
+	</tr>
+<%
+		for(int i=0; i<locations_member.size();++i){
+%>
+	<tr>
+		<td>
+	<%=rc2.get(i)%>
+	</td><td>
+	<%=rank2.get(i)%>
+	</td><td>
+	<%=name2.get(i)%>
+	</td><td>
+	<a href="personalLocations5.jsp?search_check=service_num&search_this=<%=serviceNumber2.get(i)%>">
+	<%=serviceNumber2.get(i)%>
+	</a></td>
+	</tr>
+	
+<%
+		}
+%>
+	</table>
+	<input type="button" value=" 이전 " id="goback" style="margin-right: 4px;">
+	<input type="button" value="초기화" id="zoom-restore" style="display:none;">
+<%
+	}else{
+%>
 	<div id="map"></div>
 	<div class="top">
 		<form action="personalLocations5.jsp" id="locations" method="get">
@@ -334,7 +372,7 @@ System.out.println("personalLocations5");
 			<tr>
 				<td class="gis_setting3">
 					<font size="1px">
-					<input type="radio" id="geofence" name="gis_setting" class="gis_setting" value="geofence" checked>
+					<input type="radio" id="geofence" name="gis_setting" class="gis_setting" value="geofence" >
 		  			<label for="geofence">군사</label>
 		 			 <input type="radio" id="satellite_map" name="gis_setting" class="gis_setting" value="satellite_map" >
 		 			 <label for="satellite_map">위성</label>		 			
@@ -345,7 +383,7 @@ System.out.println("personalLocations5");
 				<font size="1px" style="font-weight: bold; display:none;" id="gis_setting2">
 		 			<input type="radio" id="geofon" name="gis_setting2" class="gis_setting2" value="geofon">
 		  			<label for="geofon">GeoF-ON</label>
-		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" checked>
+		 			<input type="radio" id="geofoff" name="gis_setting2" class="gis_setting2" value="geofoff" >
 		 			<label for="geofoff">GeoF-OFF</label>
 		 		</font>
 				</td>
@@ -362,30 +400,6 @@ System.out.println("personalLocations5");
 
 		</form>
 	</div>	
-
-
-<%
-	if(subnum > 1){
-		for(int i=0; i<locations_member.size();++i){
-%>
-	<div style="white-space:nowrap; ">
-	<%=rc2.get(i)%>&nbsp;
-	<%=rank2.get(i)%>&nbsp;
-	<a href="personalLocations5.jsp?search_check=service_num&search_this=<%=serviceNumber2.get(i)%>">
-	<%=name2.get(i)%>
-	</a>&nbsp;
-	<%=serviceNumber2.get(i)%>&nbsp;<br>
-	
-<%
-		}
-%>
-	<br>
-	<input type="button" value="초기화" id="zoom-restore">
-	<input type="button" value=" 이전 " id="goback">
-	</div>
-<%
-	}else{
-%>
 	<div id="frm" style="white-space:nowrap; ">
 	<a id="frm_label">
 	<%=rc%>&nbsp;
@@ -439,7 +453,7 @@ System.out.println("personalLocations5");
 
     	if(chk==0){
     		alert("검색 결과가 없습니다.");
-    		location.href = document.referrer;
+    		window.history.back();
     	}
     
 		function goBack(){
