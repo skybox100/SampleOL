@@ -2221,7 +2221,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
 					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
 					+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
-					+ "order by RegimentName, regimCompanyName, RankName, p.Name ";
+					+ "order by p.Regiment, p.regimCompany, p.Rank, p.Name ";
 			
 			try {
 				con = getConn();
@@ -2301,7 +2301,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
 					+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 					+ "where p.Regiment = ? "
-					+ "order by Regiment, regimCompany, Rank, p.Name ";
+					+ "order by p.Regiment, p.regimCompany, p.Rank, p.Name ";
 			
 			try {
 				con = getConn();
@@ -2378,7 +2378,7 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
 					+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
 					+ "where p.Regiment = ? and p.regimCompany = ? "
-					+ "order by Regiment, regimCompany, Rank, p.Name ";
+					+ "order by p.Regiment, p.regimCompany, p.Rank, p.Name ";
 			
 			try {
 				con = getConn();

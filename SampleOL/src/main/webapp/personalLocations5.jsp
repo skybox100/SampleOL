@@ -53,7 +53,7 @@ System.out.println("personalLocations5");
 		
 		String rest = st.replaceAll("[^0-9]","");
 		
-		ArrayList<Location> s = cd.getMobileStatusByMobile(st);
+		ArrayList<Location> s = cd.getMobileStatusByMobile(rest);
 		
 		if(s.size() == 0){
 			chk = 0;
