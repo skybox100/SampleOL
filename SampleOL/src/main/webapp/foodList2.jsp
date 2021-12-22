@@ -194,8 +194,10 @@
 						<option selected>전체</option>
 						<option>재고번호</option>
 						<option>식재료명</option>
-						<option>입고일자</option>
-						<option>유통기한</option>
+						<option>입고일자(내)</option>
+						<option>입고일자(올)</option>
+						<option>유통기한(내)</option>
+						<option>유통기한(올)</option>
 </select>
 <button id="sc" value='<%=sc%>' style="height:36px;width:70px;padding: 5px;"><%=sc2%></button>
 </span>

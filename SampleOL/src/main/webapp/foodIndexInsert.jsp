@@ -16,17 +16,22 @@
    int num2;
    DBConnection  cd = new DBConnection();
    ArrayList<Code> foods = new ArrayList<Code>();
+   ArrayList<Food> food2s = new ArrayList<Food>();
    Code food= new Code("FoodCode","","","식재료명","","");
+   Food food2= new Food("","","","","","");
    foods.add(food);
-   
+   food2s.add(food2);
    Gson gson = new Gson();
 
+	ArrayList<String> FoodSource = cd.getCodeNameList("FoodSource");
 
 
 
 	   
 	String total_data;
+	String total_data2;
 	total_data=gson.toJson(foods);
+	total_data2=gson.toJson(food2s);
 
 %>
 
@@ -164,19 +169,93 @@
       <td class="col" >
 	  <input type="text" id ="Unit" >
    </tr>
- 
+     <tr>
+      <td class="colt" >조달근거</td>
+      <td class="col" >
+	  <select id="FoodSource" style="width: 140px;">
+						<%for(int i=0; i<FoodSource.size(); i++) {%>
+						<option value="<%=cd.getCodeID("FoodSource",FoodSource.get(i))%>"><%=FoodSource.get(i)%></option>
+						<%} %>
+   </select> 
+	</td>
+      </tr>
+   <tr>
+      <td class="colt" >갱신일자</td>
+      <td class="col" ><input type="date" id="UpdateDate" ></td>
+   </tr>
+    <tr>
+      <td class="colt" >비고</td>
+      <td class="col" >
+      <input type="text" id ="remark" >
+      </td>
+</tr>
 </table>
 <input type="button" id="edit" value="추가" onclick="pmUpdate()">
 <input type="button" id="back" value="닫기" onclick='window.close()'>
 
 <script type="text/javascript">
 
+getTimeStamp2();
+
 var data = <%=total_data%>;
+var data2 = <%=total_data2%>;
 
 function goBack(){
 	location.href = "foodList.jsp";
 }
 
+
+function to_date(date_str)
+{
+    var yyyyMMdd = String(date_str);
+    var sYear = yyyyMMdd.substring(0,4);
+    var sMonth = yyyyMMdd.substring(4,6);
+    var sDate = yyyyMMdd.substring(6,8);
+
+    return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+}
+function to_date2(date_str)
+{
+    var yyyyMMdd = String(date_str);
+    var sYear = yyyyMMdd.substring(0,4);
+    var sMonth = yyyyMMdd.substring(5,7);
+    var sDate = yyyyMMdd.substring(8,10);
+
+    //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
+    return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+}
+
+function getTimeStamp() {
+    var d = new Date();
+    var s =
+      leadingZeros(d.getFullYear(), 4) + '-' +
+      leadingZeros(d.getMonth() + 1, 2) + '-' +
+      leadingZeros(d.getDate(), 2);
+
+    return s;
+  }
+  
+function getTimeStamp2() {
+	  var d = new Date();
+	  var s =
+	    leadingZeros(d.getFullYear(), 4) + '-' +
+	    leadingZeros(d.getMonth() + 1, 2) + '-' +
+	    leadingZeros(d.getDate(), 2);
+
+	  document.getElementById("UpdateDate").value =s;
+	}
+
+
+function leadingZeros(n, digits) {
+    var zero = '';
+    n = n.toString();
+
+    if (n.length < digits) {
+      for (i = 0; i < digits - n.length; i++)
+        zero += '0';
+    }
+    return zero + n;
+  }
 
 
 function pmUpdate(){
@@ -184,44 +263,77 @@ function pmUpdate(){
 		//data[0].CodeType="FoodCode";
 		//data[0].CodeTypeName="식재료명";
 		data[0].CodeID=$('#FoodCode').val();
+		data2[0].foodCode=$('#FoodCode').val();
 		data[0].CodeName=$('#Food').val();
+		data2[0].foodName=$('#Food').val();
 		data[0].Remark=$('#Unit').val();
+		data2[0].unit=$('#Unit').val();
+		data2[0].updateDate=$('#UpdateDate').val();
+		data2[0].remark=$('#remark').val();
+		data2[0].foodSource=$('#FoodSource').val();
 	
-		if(data[0].CodeID == ""){
+		if($('#FoodCode').val() == ""){
 			alert("식재료코드를 입력하십시오");
 			return false;
 		}
-		if(data[0].CodeName == ""){
+		if($('#FoodCode').val() == ""){
 			alert("식재료명을 입력하십시오");
 			return false;
 		}
-		if(data[0].Remark == ""){
+		if($('#Unit').val() == ""){
 			alert("단위를 입력하십시오");
 			return false;
 		}
 
 
+
+	
 	$.ajax({
-		url: 'http://110.10.130.51:5002/common/Code/CodeNewSave',
+		url: 'http://110.10.130.51:5002/Food/FoodManagement/FoodManagementNewSave',
 		contentType: "application/json; charset=utf-8",
 		method: 'POST',
-		data: JSON.stringify(data[0]),
+		data: JSON.stringify(data2[0]),
 		dataType: "json",
 		accept: "application/json",
 		success: function(response) {
 			// success handle
-				alert(data[0].CodeName+"가(이) 추가되었습니다.");
 				console.log(JSON.stringify(response));
 				console.log(JSON.stringify(data));
+				alert(data2[0].foodName+"가(이) 추가되었습니다.");
+				//window.close();
+				$.ajax({
+					url: 'http://110.10.130.51:5002/common/Code/CodeNewSave',
+					contentType: "application/json; charset=utf-8",
+					method: 'POST',
+					data: JSON.stringify(data[0]),
+					dataType: "json",
+					accept: "application/json",
+					success: function(response) {
+						// success handle
+
+							console.log(JSON.stringify(response));
+							console.log(JSON.stringify(data));
+						},
+					error: function(response) {
+							console.log(JSON.stringify(data));
+							console.log(JSON.stringify(response));
+
+						}	
+				});
 				window.close();
+
 			},
 		error: function(response) {
 				alert("실패했습니다.");
 				console.log(JSON.stringify(data));
 				console.log(JSON.stringify(response));
+				//window.close();
 
 			}	
 	});
+
+
+
 	}
 }
 

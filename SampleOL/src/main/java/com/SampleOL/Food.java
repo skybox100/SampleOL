@@ -18,7 +18,7 @@ public class Food {
 	String foodSourceName;
 	long qRcodeIdx;
 	String remark;
-	
+	String updateDate;
 	
 	
 	public Food(String regiment, String RegimentName, String Storehouse, String StorehouseName, String foodCode,
@@ -41,6 +41,20 @@ public class Food {
 		this.remark = remark;
 	}
 	
+
+	
+	public Food(String foodCode, String foodName, String unit, String foodSource, String remark, String updateDate) {
+		super();
+		this.foodCode = foodCode;
+		this.foodName = foodName;
+		this.unit = unit;
+		this.foodSource = foodSource;
+		this.remark = remark;
+		this.updateDate = updateDate;
+	}
+
+
+
 	public String getRegiment() {
 		return regiment;
 	}

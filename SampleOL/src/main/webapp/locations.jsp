@@ -1050,7 +1050,7 @@
 			            anchor: [0.5, 20],
 			            anchorXUnits: 'fraction',
 			            anchorYUnits: 'pixels',
-			            src: 'image/marker_bl_01.png',
+			            src: 'image/marker_bl.png',
 				        text: 'P',
 			            scale: 1.2
 			        });
@@ -1111,7 +1111,7 @@
 						경계를 넘었다는 신호를 보냄
 					*/
 					$.ajax({
-						url: 'http://110.10.130.51:5002/Emergency/EventStatus/EventStatusSave',
+						url: 'http://211.9.3.55:5010/Emergency/EventStatus/EventStatusSave',
 						contentType: "application/json; charset=utf-8",
 						method: 'POST',
 						data: JSON.stringify(item),
@@ -1136,7 +1136,7 @@
 				            anchor: [0.5, 20],
 				            anchorXUnits: 'fraction',
 				            anchorYUnits: 'pixels',
-				            src: 'image/marker_bl_01.png',
+				            src: 'image/marker_bl.png',
 				            scale: 1.2
 				        });
 					}
@@ -1162,7 +1162,7 @@
 				            anchor: [0.5, 20],
 				            anchorXUnits: 'fraction',
 				            anchorYUnits: 'pixels',
-				            src: 'image/marker_bl_01.png',
+				            src: 'image/marker_bl.png',
 				            scale: 1.2
 				        });
 					}

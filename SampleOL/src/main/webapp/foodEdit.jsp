@@ -71,7 +71,7 @@
 
 	ArrayList<String> PersonnelReg = cd.getCodeNameList("Regiment");
 	ArrayList<String> Storehouse = cd.getFoodStore(reg);
-	ArrayList<String> Food = cd.getCodeIDList("FoodCode","");
+	ArrayList<String> Food = cd.getFoodIDList();
 	ArrayList<String> Unit = cd.getCodeRemarkList("FoodCode");
 
 	  
@@ -262,6 +262,7 @@ $(document).ready(function() {
 	regSelectChange('<%=foods.get(0).getRegiment() %>');
 	$('#Storehouse').val('<%=foods.get(0).getStorehouse()%>').prop("selected", true);	
 	$('#Food').val('<%=foods.get(0).getFoodCode()%>').prop("selected", true);	
+	$('#Unit').val('<%=foods.get(0).getFoodCode()%>').prop("selected", true);	
 	$('#CurrentQuantity').val(<%=foods.get(0).getCurrentQuantity()%>);	
 
 
