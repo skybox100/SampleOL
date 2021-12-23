@@ -29,6 +29,7 @@ public class DBConnection {
 
 	String user = "sa";
 	String password = "todkagh123!";
+
 	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -182,20 +183,20 @@ public class DBConnection {
 			if(sc != "" && reg.equals("소속:전체") && fd.equals("식재료명:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where c.CodeName like '%"+sc+"%' or a.CodeName like '%"+sc+"%' or  foodName like '%"+sc+"%' or foodCode like '%"+sc+"%'"
 						+ order;
 
 			}else if(sc != "" && fd.equals("식재료명:전체") && sh.equals("식당명:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where f.Regiment = '"+reg+"' and "
 						+ " ( c.CodeName like '%"+sc+"%' or a.CodeName like '%"+sc+"%' or  foodName like '%"+sc+"%' or foodCode like '%"+sc+"%')"
 						+ order;
@@ -203,10 +204,10 @@ public class DBConnection {
 			}else if(sc != "" && fd.equals("식재료명:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where (f.Regiment = '"+reg+"' and f.storehouse = '"+sh+"') and"
 						+ " ( c.CodeName like '%"+sc+"%' or a.CodeName like '%"+sc+"%' or  foodName like '%"+sc+"%' or foodCode like '%"+sc+"%')"
 						+ order;
@@ -214,10 +215,10 @@ public class DBConnection {
 			}else if(sc != "" && reg.equals("소속:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where f.foodName = '"+fd+"' and "
 						+ " ( c.CodeName like '%"+sc+"%' or a.CodeName like '%"+sc+"%' or  foodName like '%"+sc+"%' or foodCode like '%"+sc+"%')"
 						+ order;
@@ -225,10 +226,10 @@ public class DBConnection {
 			}else if(sc != "" && sh.equals("식당명:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where (f.Regiment = '"+reg+"' and f.foodName = '"+fd+"') and"
 						+ " ( c.CodeName like '%"+sc+"%' or a.CodeName like '%"+sc+"%' or  foodName like '%"+sc+"%' or foodCode like '%"+sc+"%')"
 						+ order;
@@ -236,10 +237,10 @@ public class DBConnection {
 			}else if(sc != "" ) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where (f.Regiment = '"+reg+"' and f.foodName = '"+fd+"' and f.storehouse = '"+sh+"') and"
 						+ " ( c.CodeName like '%"+sc+"%' or a.CodeName like '%"+sc+"%' or  foodName like '%"+sc+"%' or foodCode like '%"+sc+"%')"
 						+ order;
@@ -247,70 +248,70 @@ public class DBConnection {
 			}else if(reg.equals("소속:전체") && sh.equals("식당명:전체") && fd.equals("식재료명:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ order;
 
 			}else if(reg.equals("소속:전체") && fd.equals("식재료명:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where f.storehouse = '"+sh+"'"
 						+ order;
 			}else if(sh.equals("식당명:전체") && fd.equals("식재료명:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where f.Regiment = '"+reg+"'"
 						+ order;
 			}else if(sh.equals("식당명:전체") && reg.equals("소속:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where f.foodName = '"+fd+"'"
 						+ order;
 			}else if(reg.equals("소속:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where f.storehouse = '"+sh+"' and f.foodName = '"+fd+"'"
 						+ order;
 			}else if(sh.equals("식당명:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where f.Regiment = '"+reg+"' and f.foodName = '"+fd+"'"
 						+ order;
 			}else if(fd.equals("식재료명:전체")) {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
+						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
 						+ " where f.Regiment = '"+reg+"' and f.storehouse = '"+sh+"'"
 						+ order;
 			}else {
 				sql = "select Regiment, c.CodeName as RegimentName,storehouse,d.CodeName as storehouseName,f.foodCode,expirationDate,f.FoodName,storeDate,currentQuantity,f.unit,b.CodeName as foodSourceName,f.foodSource,qRcodeIdx,f.remark "
 						+ "	from dbo.FoodInventory f "
-						+ "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
+						// + "	left outer join dbo.FoodManagement as a on f.FoodCode = a.FoodCode "
 						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
 						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
 						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID "
@@ -353,7 +354,7 @@ public class DBConnection {
 
 	}
 	
-	public ArrayList<Food> getFoodinfo(String reg, String sh,String fd,String ed) {
+	public ArrayList<Food> getFoodinfo(String reg, String sh,String fd,String ed,String qr) {
 		
 		String sql = "";
 		Food food = null;
@@ -365,18 +366,19 @@ public class DBConnection {
 			System.out.println("[" + format.format(new Timestamp(System.currentTimeMillis())) + "] " + "Connection Made");
 			
 
-				sql = "select Regiment, c.CodeName as RegimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,qRcodeIdx,f.remark "
+				sql = "select Regiment, c.CodeName as RegimentName,storehouse,a.CodeName as storehouseName,foodCode,expirationDate,foodName,storeDate,currentQuantity,unit,b.CodeName as foodSourceName,foodSource,f.qRcodeIdx,f.remark "
 						+ " from dbo.FoodInventory f "
-						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID "
-						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID "
-						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID "
-						+ " where f.Regiment = ? and f.storehouse = ? and f.foodCode = ? and f.expirationDate = ?";
+						+ "	left outer join dbo.Code as a on f.storehouse = a.CodeID and a.CodeType= 'Storehouse' "
+						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType= 'FoodSource' "
+						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType= 'Regiment' "
+						+ " where f.Regiment = ? and f.storehouse = ? and f.foodCode = ? and f.expirationDate = ? and f.qRcodeIdx = ?";
 	
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, reg);
 			pstmt.setString(2, sh);
 			pstmt.setString(3, fd);
 			pstmt.setString(4, ed);
+			pstmt.setString(5, qr);
 
 			rs = pstmt.executeQuery();
 		
@@ -498,11 +500,11 @@ public class DBConnection {
 						+ "      ,p.Reserve03"
 						+ "      ,p.Reserve04"
 						+ "  FROM dbo.PersonnelManagement p"
-						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
-						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
-						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID"
-						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID;";
+						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID and c.CodeType='RegimCompany'  "
+						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID and c.CodeType='Rank'  "
+						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID and c.CodeType='MissionType' "
+						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID and c.CodeType='LeaderType' ;";
 
 
 			}else if(reg.equals("소속:전체")) {
@@ -536,11 +538,11 @@ public class DBConnection {
 						+ "      ,p.Reserve03"
 						+ "      ,p.Reserve04"
 						+ "  FROM dbo.PersonnelManagement p"
-						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
-						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
-						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID"
-						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
+						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID and c.CodeType='RegimCompany'  "
+						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID and c.CodeType='Rank'  "
+						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID and c.CodeType='MissionType' "
+						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID and c.CodeType='LeaderType' "
 						+ " where p.regimCompany = '"+rc+"'";
 			}else if(rc.equals("세부소속:전체")) {
 				sql="SELECT p.ServiceNumber"
@@ -573,11 +575,11 @@ public class DBConnection {
 						+ "      ,p.Reserve03"
 						+ "      ,p.Reserve04"
 						+ "  FROM dbo.PersonnelManagement p"
-						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
-						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
-						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID"
-						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
+						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID and c.CodeType='RegimCompany'  "
+						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID and c.CodeType='Rank'  "
+						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID and c.CodeType='MissionType' "
+						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID and c.CodeType='LeaderType' "
 						+ " where p.Regiment = '"+reg+"'";
 			}else {
 				sql="SELECT p.ServiceNumber"
@@ -610,11 +612,11 @@ public class DBConnection {
 						+ "      ,p.Reserve03"
 						+ "      ,p.Reserve04"
 						+ "  FROM dbo.PersonnelManagement p"
-						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
-						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
-						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID"
-						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID"
+						+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+						+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID and c.CodeType='RegimCompany'  "
+						+ "  left outer join dbo.Code as e on p.Rank = e.CodeID and c.CodeType='Rank'  "
+						+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID and c.CodeType='MissionType' "
+						+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID and c.CodeType='LeaderType' "
 						+ " where p.Regiment = '"+reg+"' and p.regimCompany = '"+rc+"'";
 			}
 			
@@ -882,7 +884,6 @@ public class DBConnection {
 						+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
 						+ "  left outer join dbo.code as c on c.CodeID = b.regimCompany and c.CodeType ='regimCompany' "
 						+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-						+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 						+ " where b.Regiment = '"+reg+"' and b.regimCompany = '"+rc+"'"
 						+ "  order by b.EquipId,b.Uuid";
 
@@ -950,7 +951,6 @@ public class DBConnection {
 				+ "  left outer join dbo.code as a on a.CodeID = b.Regiment and a.CodeType ='Regiment' "
 				+ "  left outer join dbo.code as c on c.CodeID = b.regimCompany and c.CodeType ='regimCompany' "
 				+ "  left outer join dbo.code as d on d.CodeID = b.EquipType and d.CodeType ='EquipType' "
-				+ "  left outer join dbo.code as e on e.CodeID = b.EquipType and e.CodeType ='EquipType' "
 				+ "  where b.Uuid = ? ";
 		ArrayList<Beacons> beaconLocations = new ArrayList<Beacons>();
 		
@@ -1068,11 +1068,11 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 					+ "      ,p.Reserve03 "
 					+ "      ,p.Reserve04 "
 					+ "  FROM dbo.PersonnelManagement p "
-					+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
-					+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-					+ "  left outer join dbo.Code as e on p.Rank = e.CodeID "
-					+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID "
-					+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID "
+					+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+					+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID and c.CodeType='RegimCompany'  "
+					+ "  left outer join dbo.Code as e on p.Rank = e.CodeID and c.CodeType='Rank'  "
+					+ "  left outer join dbo.Code as f on p.MissionType = f.CodeID and c.CodeType='MissionType' "
+					+ "  left outer join dbo.Code as g on p.LeaderType = g.CodeID and c.CodeType='LeaderType' "
 					+ "  where p.ServiceNumber = ? ";
 
 		PersonnelManagement personnelmanagement = null;
@@ -1155,7 +1155,7 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 	String sql="SELECT p.regimCompany "
 			+ "      ,d.CodeName as regimCompanyName "
 			+ "  FROM dbo.PersonnelManagement p "
-			+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
+			+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
 			+ "  where p.ServiceNumber = ? ";
 
 	String reg = null;
@@ -1194,7 +1194,7 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 	String sql="SELECT p.Regiment "
 			+ "      ,c.CodeName as RegimentName "
 			+ "  FROM dbo.PersonnelManagement p "
-			+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID "
+			+ "  left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
 			+ "  where p.ServiceNumber = ? ";
 
 	String reg = null;
@@ -1232,7 +1232,7 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 	String sql="SELECT p.regimCompany "
 			+ "      ,d.CodeName as regimCompanyName "
 			+ "  FROM dbo.PersonnelManagement p "
-			+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
+			+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
 			+ "  where p.ServiceNumber = ? ";
 
 	String rc = null;
@@ -1269,7 +1269,7 @@ public ArrayList<PersonnelManagement> getPersonnelMemberInfo(String sn) {
 	String sql="SELECT p.regimCompany "
 			+ "      ,d.CodeName as regimCompanyName "
 			+ "  FROM dbo.PersonnelManagement p "
-			+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID "
+			+ "  left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany'  "
 			+ "  where p.ServiceNumber = ? ";
 
 	String rc = null;
@@ -1375,18 +1375,18 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as regimCompany,p.regimCompany as regimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
-						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID "
-						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
-						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
+						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID and a.CodeType='RegimCompany' "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID and b.CodeType='Regiment'   "
+						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID and c.CodeType='Rank'   "
 					+ "	order by p.Regiment , m.MobileNumber ; ";
 
 			}else if(reg.equals("소속:전체") && rc.equals("세부소속:전체")) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as regimCompany,p.regimCompany as regimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
-						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID "
-						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
-						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
+						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID and a.CodeType='RegimCompany' "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID and b.CodeType='Regiment'   "
+						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID and c.CodeType='Rank'   "
 						+ " where m.MobileType ='"+ec+"'"
 						+ "	order by p.Regiment, m.MobileNumber ; ";
 					
@@ -1395,9 +1395,9 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as regimCompany,p.regimCompany as regimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
-						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID "
-						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
-						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
+						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID and a.CodeType='RegimCompany' "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID and b.CodeType='Regiment'   "
+						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID and c.CodeType='Rank'   "
 						+ " where p.Regiment = '"+reg+"'"
 						+ "	order by p.Regiment  , m.MobileNumber ; ";
 					
@@ -1406,36 +1406,36 @@ public ArrayList<MobileEquip> getMobileList(String reg, String rc,String ec) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as regimCompany,p.regimCompany as regimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
-						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID "
-						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
-						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
+						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID and a.CodeType='RegimCompany' "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID and b.CodeType='Regiment'   "
+						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID and c.CodeType='Rank'   "
 						+ " where p.regimCompany = '"+rc+"' and m.MobileType ='"+ec+"'"
 						+ "	order by p.Regiment  , m.MobileNumber ; ";
 			}else if(rc.equals("세부소속:전체")) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as regimCompany,p.regimCompany as regimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
-						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID "
-						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
-						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
+						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID and a.CodeType='RegimCompany' "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID and b.CodeType='Regiment'   "
+						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID and c.CodeType='Rank'   "
 						+ " where p.Regiment = '"+reg+"' and m.MobileType ='"+ec+"'"
 						+ "	order by p.Regiment , m.MobileNumber ; ";
 			}else if(ec.equals("장비타입:전체")) {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as regimCompany,p.regimCompany as regimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
-						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID "
-						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
-						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
+						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID and a.CodeType='RegimCompany' "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID and b.CodeType='Regiment'   "
+						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID and c.CodeType='Rank'   "
 						+ " where p.Regiment = '"+reg+"' and p.regimCompany = '"+rc+"'"
 						+ "	order by p.Regiment , m.MobileNumber ; ";
 			}else {
 				sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as regimCompany,p.regimCompany as regimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 						+ "from dbo.MobileManagement m "
 						+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
-						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID "
-						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
-						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
+						+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID and a.CodeType='RegimCompany' "
+						+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID and b.CodeType='Regiment'   "
+						+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID and c.CodeType='Rank'   "
 						+ " where p.Regiment = '"+reg+"' and p.regimCompany = '"+rc+"' and m.MobileType ='"+ec+"'"
 						+ "	order by p.Regiment  , m.MobileNumber ; ";
 			}
@@ -1488,9 +1488,9 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 		sql = "select m.MobileNumber, b.CodeName as Regiment,p.Regiment as RegimentCode, MobileType,p.Name,m.ServiceNumber, m.JoinDate, a.CodeName as regimCompany,p.regimCompany as regimCompanyCode,c.CodeName as Rank, p.Rank as RankCode,ModelnAME,ManufacturerName,m.Remark  "
 				+ "from dbo.MobileManagement m "
 				+ "	inner join dbo.PersonnelManagement p ON p.MobileNumber = m.MobileNumber "
-				+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID "
-				+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID  "
-				+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID  "
+				+ "	left outer Join dbo.Code a ON p.regimCompany = a.CodeID and a.CodeType='RegimCompany' "
+				+ "	inner Join dbo.Code b ON p.Regiment = b.CodeID and b.CodeType='Regiment'   "
+				+ "	left outer Join dbo.Code c ON p.Rank = c.CodeID and c.CodeType='Rank'   "
 				+ " where m.MobileNumber ='"+ pn+"'"
 				+ "	order by p.Regiment , m.MobileNumber ; ";
 
@@ -1574,11 +1574,11 @@ public ArrayList<MobileEquip> getMobileInfo(String pn) {
 	public ArrayList<Circle> getCircle(String rc) {
 		
 		String sql = "select c.latitude,c.longitude,c.r,a.CodeName as Regiment  from dbo.Geofence c"
-					+ " left outer join dbo.Code a ON c.Regiment=a.CodeID ";
+					+ " left outer join dbo.Code a ON c.Regiment=a.CodeID and a.CodeType='Regiment' ";
 	
 		if(rc != "전체")
 			sql = "select c.latitude,c.longitude,c.r,a.CodeName as Regiment from dbo.Geofence c "
-					+ " left outer join dbo.Code a ON c.Regiment=a.CodeID "
+					+ " left outer join dbo.Code a ON c.Regiment=a.CodeID and a.CodeType='Regiment' "
 					+ " where Regiment='"+rc+"'";
 		
 		Circle circle = null;
@@ -2233,9 +2233,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
-					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
-					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-					+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
+					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+					+ "left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 					+ "order by p.Regiment, p.regimCompany, p.Rank, p.Name ";
 			
 			try {
@@ -2311,9 +2311,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
-					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
-					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-					+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
+					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+					+ "left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 					+ "where p.Regiment = ? "
 					+ "order by p.Regiment, p.regimCompany, p.Rank, p.Name ";
 			
@@ -2387,9 +2387,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 					+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 					+ "from dbo.MobileStatus as l "
 					+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
-					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
-					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-					+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
+					+ "left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+					+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+					+ "left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 					+ "where p.Regiment = ? and p.regimCompany = ? "
 					+ "order by p.Regiment, p.regimCompany, p.Rank, p.Name ";
 			
@@ -2473,9 +2473,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ " FROM dbo.PersonnelManagement p "
 				+ " INNER JOIN Locations AS l  "
 				+ " ON p.MobileNumber = l.UserKey  "
-				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID "
-				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ " left outer join dbo.Code as e on p.Rank = e.CodeID "
+				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+				+ " left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 				+ " WHERE p.MobileNumber=?  "
 				+ " ORDER BY l.Timestamp DESC";
 		Location location = null;
@@ -2549,9 +2549,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ "FROM PersonnelManagement AS p "
 				+ "INNER JOIN Locations AS l "
 				+ "ON p.MobileNumber = l.UserKey "
-				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID "
-				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ " left outer join dbo.Code as e on p.Rank = e.CodeID "
+				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+				+ " left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 				+ "WHERE p.ServiceNumber=? "
 				+ "ORDER BY l.Timestamp DESC";
 		Location location = null;
@@ -2625,9 +2625,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 
 				+ "FROM dbo.PersonnelManagement p "
 				+ "INNER JOIN dbo.MobileStatus l ON p.MobileNumber = l.UserKey "
-				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID "
-				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ " left outer join dbo.Code as e on p.Rank = e.CodeID "
+				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+				+ " left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 				+ "WHERE p.ServiceNumber=? ";
 		try {
 			con = getConn();
@@ -2691,9 +2691,9 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 				+ "FROM dbo.PersonnelManagement p "
 				+ "INNER JOIN dbo.MobileStatus l ON p.MobileNumber = l.UserKey "
-				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID "
-				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ " left outer join dbo.Code as e on p.Rank = e.CodeID "
+				+ " left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ " left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+				+ " left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 				+ "WHERE p.MobileNumber=? ";
 
 		try {
@@ -2749,8 +2749,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 		String sql="select equipId, b.CodeName as Regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
 				+ " FROM dbo.TotalEquip a"
-				+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment"
-				+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
+				+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment and b.CodeType='Regiment' "
+				+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType and c.CodeType='EquipType' "
 				+ " where Regiment ='RG-283'";
 		
 		EquipLocation equipLocationObject = null;
@@ -2808,8 +2808,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			
 			sql = "select equipId, b.CodeName as Regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
 					+ " FROM dbo.TotalEquip a"
-					+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment"
-					+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
+					+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment and b.CodeType='Regiment' "
+					+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType and c.CodeType='EquipType' "
 					+ " order by a.Regiment,equipType,equipId";
 			try {
 				con = getConn();
@@ -2846,8 +2846,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			
 			sql = "select equipId, b.CodeName as Regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
 					+ " FROM dbo.TotalEquip a"
-					+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment"
-					+ " INNER JOIN dbo.Code c ON c.CodeID = a.EquipType"
+					+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment and b.CodeType='Regiment' "
+					+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType and c.CodeType='EquipType' "
 					+ " where a.Regiment = ?"
 					+ " order by a.Regiment,equipType,equipId";
 					
@@ -2887,8 +2887,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 			
 			sql = "select equipId, b.CodeName as Regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
 					+ " FROM dbo.TotalEquip a"
-					+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment"
-					+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
+					+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment and b.CodeType='Regiment' "
+					+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType and c.CodeType='EquipType' "
 					+ " where a.Regiment = ? and a.EquipType = ?"
 					+ " order by a.Regiment,equipType,equipId";
 			
@@ -2935,8 +2935,8 @@ public ArrayList<Location> getMobileStatus(String reg, String rc) {
 		
 		String sql="select equipId, b.CodeName as Regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
 				+ " FROM dbo.TotalEquip a"
-				+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment"
-				+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
+				+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment and b.CodeType='Regiment' "
+				+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType and c.CodeType='EquipType' "
 				+ " where EquipId=?";
 		ArrayList<EquipLocation> equipLocations = new ArrayList<EquipLocation>();
 		
@@ -3027,8 +3027,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		ArrayList<EquipLocation> equipLocations = new ArrayList<EquipLocation>();
 		String sql="select equipId, b.CodeName as Regiment, c.CodeName as equipType,equipLocation,longitude,latitude"
 				+ " FROM dbo.TotalEquip a"
-				+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment"
-				+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType"
+				+ " INNER JOIN dbo.Code b ON b.CodeID = a.Regiment and b.CodeType='Regiment' "
+				+ " INNER JOIN dbo.Code c ON c.CodeID = a.equipType and c.CodeType='EquipType' "
 				+ " where EquipType=? and Regiment=?";
 		
 		try {
@@ -3324,9 +3324,9 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
-				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
-				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
+				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 				+ "order by l.InputTime desc ";
 		ArrayList<Location> locations = new ArrayList<Location>();
 	//	JSONArray jsonLocations = new JSONArray();
@@ -3422,9 +3422,9 @@ public boolean getTotalPrivilegeCheck(String sn) {
 				+ " (case when l.IsDevice = 'W-B' or l.IsDevice ='P-B' then (select b.RoomNumber from beacons b where l.Uuid = b.Uuid) else '' end) as 'RoomNumber'  "	
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
-				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
-				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
+				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 				+ "where l.UserKey = '"+pn+"'"
 				+ "order by l.InputTime desc ";
 		ArrayList<Location> locations = new ArrayList<Location>();
@@ -3509,9 +3509,9 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "select TOP(50) l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as regimCompany, e.CodeName as Rank, p.Duty "
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
-				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
-				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
+				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 				+ "where p.Name = ? "
 				+ "order by l.InputTime desc ";
 		Location location = null;
@@ -3568,9 +3568,9 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "select TOP(50) l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as regimCompany, e.CodeName as Rank, p.Duty "
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
-				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
-				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
+				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 				+ "where p.ServiceNumber = ? "
 				+ "order by l.InputTime desc ";
 		Location location = null;
@@ -3627,9 +3627,9 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "select TOP(50) l.*, p.ServiceNumber, p.Name, c.CodeName as Regiment, d.CodeName as regimCompany, e.CodeName as Rank, p.Duty "
 				+ "from dbo.MobileStatus as l "
 				+ "inner join dbo.PersonnelManagement as p on l.UserKey = p.MobileNumber "
-				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID "
-				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID "
-				+ "left outer join dbo.Code as e on p.Rank = e.CodeID "
+				+ "left outer join dbo.Code as c on p.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "left outer join dbo.Code as d on p.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
+				+ "left outer join dbo.Code as e on p.Rank = e.CodeID and e.CodeType='Rank' "
 				+ "where p.MobileNumber = ? "
 				+ "order by l.InputTime desc ";
 		Location location = null;
@@ -4069,7 +4069,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "SELECT DISTINCT c.CodeName, c.CodeID "
 				+ "FROM dbo.MobileStatus AS a "
 				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
-				+ "INNER JOIN dbo.Code AS c ON b.Rank = c.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON b.Rank = c.CodeID and c.CodeType='Rank' "
 				+ "ORDER BY c.CodeID";
 		ArrayList<String> Regiments = new ArrayList<String>();
 		
@@ -4102,8 +4102,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.MobileStatus AS a  "
 				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
-				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
-				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
 				+ "WHERE b.Regiment = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
@@ -4145,8 +4145,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.MobileStatus AS a  "
 				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
-				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
-				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
 				+ "WHERE b.Regiment = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
@@ -4187,8 +4187,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.Beacons AS a  "
-				+ "INNER JOIN dbo.Code AS c ON a.Regiment = c.CodeID "
-				+ "INNER JOIN dbo.Code AS d ON a.regimCompany = d.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON a.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS d ON a.regimCompany = d.CodeID  and d.CodeType='RegimCompany' "
 				+ "WHERE a.Regiment = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
@@ -4229,8 +4229,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.Beacons AS a  "
-				+ "INNER JOIN dbo.Code AS c ON a.Regiment = c.CodeID "
-				+ "INNER JOIN dbo.Code AS d ON a.regimCompany = d.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON a.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS d ON a.regimCompany = d.CodeID  and d.CodeType='RegimCompany' "
 				+ "WHERE a.Regiment = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
@@ -4272,8 +4272,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.MobileManagement AS a  "
 				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.MobileNumber = b.MobileNumber "
-				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
-				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
 				+ "WHERE c.CodeID = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
@@ -4315,8 +4315,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.MobileManagement AS a  "
 				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.MobileNumber = b.MobileNumber "
-				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
-				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
 				+ "WHERE c.CodeID = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
@@ -4386,8 +4386,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.PersonnelManagement AS b "
-				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
-				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID and d.CodeType='RegimCompany'  "
 				+ "WHERE c.CodeName = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
@@ -4429,8 +4429,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.MobileStatus AS a "
 				+ "INNER JOIN dbo.PersonnelManagement AS b ON a.UserKey = b.MobileNumber "
-				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
-				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
 				+ "WHERE c.CodeName = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
@@ -4471,8 +4471,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT d.CodeName, d.CodeID "
 				+ "FROM dbo.PersonnelManagement AS b "
-				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID "
-				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID "
+				+ "INNER JOIN dbo.Code AS c ON b.Regiment = c.CodeID and c.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS d ON b.regimCompany = d.CodeID and d.CodeType='RegimCompany' "
 				+ "WHERE c.CodeName = ? "
 				+ "ORDER BY d.CodeID";
 		ArrayList<String> rcs = new ArrayList<String>();
@@ -4513,8 +4513,8 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT c.CodeName, c.CodeID "
 				+ "FROM dbo.FoodInventory AS a "
-				+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
-				+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+				+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID and b.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID and c.CodeType='Storehouse'  "
 				+ "WHERE b.CodeName = '"+reg
 				+ "' ORDER BY c.CodeID";
 		/*
@@ -4567,31 +4567,31 @@ public boolean getTotalPrivilegeCheck(String sn) {
 			sql = "SELECT DISTINCT a.foodName "
 					+ "FROM dbo.FoodInventory AS a "
 					+ "INNER JOIN dbo.FoodManagement AS d ON a.FoodCode = d.FoodCode "
-					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
-					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID and b.CodeType='Regiment' "
+					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID and c.CodeType='Storehouse'  "
 					+ " ORDER BY a.foodName";
 		}else if(reg.equals("소속:전체")) {
 			sql = "SELECT DISTINCT a.foodName "
 					+ "FROM dbo.FoodInventory AS a "
 					+ "INNER JOIN dbo.FoodManagement AS d ON a.FoodCode = d.FoodCode "
-					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
-					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID and b.CodeType='Regiment' "
+					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID and c.CodeType='Storehouse'  "
 					+ "WHERE c.CodeName = '"+sh 
 					+ "' ORDER BY a.foodName";
 		}else if(sh.equals("식당명:전체")) {
 			sql = "SELECT DISTINCT a.foodName "
 					+ "FROM dbo.FoodInventory AS a "
 					+ "INNER JOIN dbo.FoodManagement AS d ON a.FoodCode = d.FoodCode "
-					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
-					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID and b.CodeType='Regiment' "
+					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID and c.CodeType='Storehouse'  "
 					+ "WHERE b.CodeName = '"+reg 
 					+ "' ORDER BY a.foodName";
 		}else {
 			sql = "SELECT DISTINCT a.foodName "
 					+ " FROM dbo.FoodInventory AS a "
 					+ "INNER JOIN dbo.FoodManagement AS d ON a.FoodCode = d.FoodCode "
-					+ " INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
-					+ " INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID "
+					+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID and b.CodeType='Regiment' "
+					+ "INNER JOIN dbo.Code AS c ON a.Storehouse = c.CodeID and c.CodeType='Storehouse'  "
 					+ " WHERE b.CodeName = '"+reg + "' and c.CodeName= '"+sh+"'"
 					+ "	ORDER BY a.foodName;";
 		
@@ -4634,7 +4634,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT b.CodeName, b.CodeID "
 				+ "FROM dbo.TotalEquip AS a "
-				+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
+				+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID and b.CodeType='Regiment' "
 				+ "ORDER BY b.CodeID";
 		ArrayList<String> Regiments = new ArrayList<String>();
 		
@@ -4671,7 +4671,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT EquipLocation "
 				+ "FROM dbo.TotalEquip AS a "
-				+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID "
+				+ "INNER JOIN dbo.Code AS b ON a.Regiment = b.CodeID and b.CodeType='Regiment' "
 				+ "WHERE CodeName = ?";
 		ArrayList<String> tel = new ArrayList<String>();
 		
@@ -4710,7 +4710,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT a.EquipType, b.CodeName "
 				+ "FROM dbo.TotalEquip AS a "
-				+ "INNER JOIN dbo.Code AS b ON a.EquipType = b.CodeID "
+				+ "INNER JOIN dbo.Code AS b ON a.EquipType = b.CodeID and b.CodeType='Regiment' "
 				+ "WHERE a.Regiment = ? "
 				+ "ORDER BY a.EquipType";
 		ArrayList<String> tet = new ArrayList<String>();
@@ -4749,7 +4749,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT a.EquipType, b.CodeName "
 				+ "FROM dbo.TotalEquip AS a "
-				+ "INNER JOIN dbo.Code AS b ON a.EquipType = b.CodeID "
+				+ "INNER JOIN dbo.Code AS b ON a.EquipType = b.CodeID and b.CodeType='Regiment' "
 				+ "WHERE a.Regiment = ? "
 				+ "ORDER BY a.EquipType";
 		ArrayList<String> tet = new ArrayList<String>();

@@ -310,7 +310,7 @@
       <td class="col" style=" text-align:right; "><%=df.format(foods.get(i).getCurrentQuantity()) %>&nbsp;<%=foods.get(i).getUnit() %>&nbsp;&nbsp;</td>
       <td class="col" style=" text-align:center; "><%=foods.get(i).getStoreDate()%></td>
       <td class="col" id="col<%=i %>" style="text-align:center; "><%=foods.get(i).getExpirationDate() %></td>
-      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="winPopup('foodEdit.jsp?Regiment=<%=foods.get(i).getRegiment()%>&Storehouse=<%=foods.get(i).getStorehouse() %>&FoodCode=<%=foods.get(i).getFoodCode() %>&ExpirationDate=<%=foods.get(i).getExpirationDate() %>')"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteFD(<%=i %>)"/></td>
+      <td class="col" style=" text-align:center;"><input type="button" value="수정" onclick="winPopup('foodEdit.jsp?Regiment=<%=foods.get(i).getRegiment()%>&Storehouse=<%=foods.get(i).getStorehouse() %>&FoodCode=<%=foods.get(i).getFoodCode() %>&ExpirationDate=<%=foods.get(i).getExpirationDate() %>&QRcodeIdx=<%=foods.get(i).getqRcodeIdx() %>')"/>&nbsp;/&nbsp;<input type="button" value="삭제" onclick="deleteFD(<%=i %>)"/></td>
 
    </tr>
    <%}%>   

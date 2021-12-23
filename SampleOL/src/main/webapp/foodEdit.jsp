@@ -21,6 +21,7 @@
 	String sh=request.getParameter("Storehouse");	   
 	String fc=request.getParameter("FoodCode");	   
 	String ed=request.getParameter("ExpirationDate");	   
+	String qr=request.getParameter("QRcodeIdx");	   
 	   //if(request.getParameter("serviceNumber") != null)
 	     // sn=request.getParameter("serviceNumber");
 	
@@ -71,11 +72,11 @@
 
 	ArrayList<String> PersonnelReg = cd.getCodeNameList("Regiment");
 	ArrayList<String> Storehouse = cd.getFoodStore(reg);
-	ArrayList<String> Food = cd.getFoodIDList();
+	ArrayList<String> Food = cd.getCodeIDList("FoodCode","");
 	ArrayList<String> Unit = cd.getCodeRemarkList("FoodCode");
 
 	  
-	foods = cd.getFoodinfo(reg,sh,fc,ed);
+	foods = cd.getFoodinfo(reg,sh,fc,ed,qr);
 	   
 	String total_data;
 	total_data=gson.toJson(foods);
@@ -231,13 +232,13 @@
 						<%for(int i=0; i<Food.size(); i++) {%>
 						<option value='<%=Food.get(i)%>'><%=cd.getCodeRemark("FoodCode",Food.get(i))%></option>
 						<%} %>
-   		</select>       
+   		</select>  
    </tr>
        <tr>
       <td class="colt" >재고수량</td>
       <td class="col" >
 	  <input type="number" id ="CurrentQuantity" >
-
+       <input type="hidden" id="qRcodeIdx" value=<%=foods.get(0).getqRcodeIdx()%> >
    </tr>
    <tr>
       <td class="colt" >입고일자</td>
@@ -262,7 +263,6 @@ $(document).ready(function() {
 	regSelectChange('<%=foods.get(0).getRegiment() %>');
 	$('#Storehouse').val('<%=foods.get(0).getStorehouse()%>').prop("selected", true);	
 	$('#Food').val('<%=foods.get(0).getFoodCode()%>').prop("selected", true);	
-	$('#Unit').val('<%=foods.get(0).getFoodCode()%>').prop("selected", true);	
 	$('#CurrentQuantity').val(<%=foods.get(0).getCurrentQuantity()%>);	
 
 
@@ -281,59 +281,13 @@ $(document).ready(function() {
 	
 	var data = <%=total_data%>;
 	
-	function onFileSelected(event) {
-		  var selectedFile = event.target.files[0];
-		  var reader = new FileReader();
-
-		  var imgtag = document.getElementById("picture");
-		  imgtag.title = selectedFile.name;
-
-		  reader.onload = function(event) {
-		    imgtag.src = event.target.result;
-		  	data[0].Picture= (event.target.result).replace('data:image/png;base64,', '').replace('data:image/jpg;base64,','').replace('data:image/jpeg;base64,','');
-			console.log(data[0].Picture);
-		  };
-
-		  reader.readAsDataURL(selectedFile); 
-
-		  	showSearch('fileAdd');
-
-
-		}
-	
-	function aes(e){
-		//var key= CryptoJS.enc.Hex.parse('01010101010101010101010101010101');
-		//var iv = CryptoJS.enc.Hex.parse('01010101010101010101010101010101');
-
-		var encrypted = master.dbo.pCrypto_enc('normal',e,'');
-		return encrypted;
-	}
-
-
-
 
 	
-	function showSearch(id){
-		console.log(id);
-		console.log(document.getElementById(id).style.display);
-		if(id == "fileAdd"){
-			document.getElementById('fileEdit').style.display="block";
-			document.getElementById('fileDelete').style.display="block";
-			document.getElementById('fileAdd').style.display="none";
-		}else if(id == "fileDelete"){
-			document.getElementById('fileEdit').style.display="none";
-			document.getElementById('fileDelete').style.display="none";
-			document.getElementById('fileAdd').style.display="block";
-			document.getElementById("picturefile").value=null;
-			document.getElementById("picture").src="";
-			document.getElementById("picture").title="";
 
-		}
-		
-		//window.open("popup.jsp","popup","width=400, height=300, left=100, top=50");
-		//var phoneNum = prompt("전화번호: ");
-	}
-   
+
+
+
+
 
    
 function regSelectChange(e) {
@@ -373,96 +327,14 @@ function regSelectChange(e) {
 }
 
 
-function leadingZeros(n, digits) {
-    var zero = '';
-    n = n.toString();
-
-    if (n.length < digits) {
-      for (i = 0; i < digits - n.length; i++)
-        zero += '0';
-    }
-    return zero + n;
-  }
- function go_url(){
-
- 
- }
 
 
 
- function between_date(date1, date2)
- {   
-     var y1970 = new Date(1970, 0, 1).getTime();
-     var time1 = null;
-     var time2 = null;
-
-     if(date1.length > 8)
-         time1 = to_date2(date1).getTime() - y1970;
-     else
-         time1 = to_date(date1).getTime() - y1970;
-    
-     if(date2.length > 8)
-         time2 = to_date2(date2).getTime() - y1970;
-     else
-         time2 = to_date(date2).getTime() - y1970;
-
-     var per_day = 1000 * 60 * 60 * 24;              // 1일 밀리초
- console.log(date1);
-     console.log(time1);
-     console.log(time2);
-
-     return Math.floor(time1/per_day) - Math.floor(time2/per_day);
- }
-function to_date(date_str)
-{
-    var yyyyMMdd = String(date_str);
-    var sYear = yyyyMMdd.substring(0,4);
-    var sMonth = yyyyMMdd.substring(4,6);
-    var sDate = yyyyMMdd.substring(6,8);
-
-    return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
-}
-function to_date2(date_str)
-{
-    var yyyyMMdd = String(date_str);
-    var sYear = yyyyMMdd.substring(0,4);
-    var sMonth = yyyyMMdd.substring(5,7);
-    var sDate = yyyyMMdd.substring(8,10);
-
-    //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
-    return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
-}
-
-function getTimeStamp() {
-    var d = new Date();
-    var s =
-      leadingZeros(d.getFullYear(), 4) + '-' +
-      leadingZeros(d.getMonth() + 1, 2) + '-' +
-      leadingZeros(d.getDate(), 2);
-
-    return s;
-  }
-  
-function getTimeStamp2() {
-	  var d = new Date();
-	  var s =
-	    leadingZeros(d.getFullYear(), 4) + '-' +
-	    leadingZeros(d.getMonth() + 1, 2) + '-' +
-	    leadingZeros(d.getDate(), 2);
-
-	  document.getElementById("now").value =s;
-	}
-	
-
-function goBack(){
-	
-}
 
 function pmUpdate(){
 	if(confirm("음식정보를 수정하시겠습니까?")){
 		data[0].currentQuantity=$('#CurrentQuantity').val();
-
-
+		data[0].qRcodeIdx=$('#qRcodeIdx').val();
 	$.ajax({
 		url: 'http://110.10.130.51:5002/Food/FoodInventory/FoodInventorySave',
 		contentType: "application/json; charset=utf-8",
