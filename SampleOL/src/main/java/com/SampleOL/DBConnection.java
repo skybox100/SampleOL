@@ -29,7 +29,6 @@ public class DBConnection {
 
 	String user = "sa";
 	String password = "todkagh123!";
-
 	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -4710,7 +4709,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT a.EquipType, b.CodeName "
 				+ "FROM dbo.TotalEquip AS a "
-				+ "INNER JOIN dbo.Code AS b ON a.EquipType = b.CodeID and b.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS b ON a.EquipType = b.CodeID and b.CodeType='EquipType' "
 				+ "WHERE a.Regiment = ? "
 				+ "ORDER BY a.EquipType";
 		ArrayList<String> tet = new ArrayList<String>();
@@ -4749,7 +4748,7 @@ public boolean getTotalPrivilegeCheck(String sn) {
 		
 		String sql = "SELECT DISTINCT a.EquipType, b.CodeName "
 				+ "FROM dbo.TotalEquip AS a "
-				+ "INNER JOIN dbo.Code AS b ON a.EquipType = b.CodeID and b.CodeType='Regiment' "
+				+ "INNER JOIN dbo.Code AS b ON a.EquipType = b.CodeID and b.CodeType='EquipType' "
 				+ "WHERE a.Regiment = ? "
 				+ "ORDER BY a.EquipType";
 		ArrayList<String> tet = new ArrayList<String>();
