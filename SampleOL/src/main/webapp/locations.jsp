@@ -12,13 +12,18 @@
 <%@ page import="java.io.*, java.util.*" %>
 <%
 	String param = "satellite_map";
-	String param2 = "geofoff";
+	String param2 = "geofon";
 	String reg="전체";
 	String rc="전체";
 	String sn="전체";
 	String ps="전체";
 	int chk=0;
 
+	
+	String longitude="126.77192";
+	String latitude="37.754461";
+	int zoom =11;
+	
 	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
 	}
@@ -44,13 +49,12 @@
 	Location lastLocation = new Location();
 	ArrayList<PersonnelManagement> personnelmanagements = new ArrayList<PersonnelManagement>();
 	PersonnelManagement pm = new PersonnelManagement();
-		
+
 	Gson gson = new Gson();
 	String multi_marker = "";
 	String last_marker ="";
 	String circle_marker = "";
 	ArrayList<Circle> circle= new ArrayList<Circle>();
-
 		//int chk = 1;
 
 	if(param.equals("satellite_map")){
@@ -63,19 +67,30 @@
 		
 		if(sn.equals("전체")){
 			locations = cd.getMobileStatus("전체","전체");
+			circle=cd.getCircle(reg);
 		}else if(ps.equals("개인")){
 			locations = cd.getMobileStatus(cd.getMobileNumber(sn));
 			reg = cd.getRegId(sn);
 			rc = cd.getRegCompayID(sn);
+			circle=cd.getCircle(reg);
+			longitude=circle.get(0).getLongitude();
+			latitude=circle.get(0).getLatitude();
+			zoom =15;
 		}else{
 			reg = cd.getRegId(sn);
 			locations = cd.getMobileStatus(reg,rc);
 			rc = cd.getRegCompayID(sn);
+			circle=cd.getCircle(reg);
+			longitude=circle.get(0).getLongitude();
+			latitude=circle.get(0).getLatitude();
+			zoom =15;
 		}
 		circle=cd.getCircle(reg);
 		circle_marker=gson.toJson(circle);
 		multi_marker = gson.toJson(locations);
 		String lastTimestamp = lastLocation.getTimestamp();
+		
+
 		
 		System.out.println(locations.toString());
 
@@ -132,6 +147,7 @@
 		tet2_2 = gson.toJson(tetp_2);
 		tet2_3 = gson.toJson(tetp_3);
 		
+
 %>
 
 
@@ -592,9 +608,9 @@
 				],
 				view: new ol.View({
 					center: ol.proj.fromLonLat(
-							[126.77192, 37.754461]
+							[<%=longitude%>, <%=latitude%>]
 					), 
-					zoom: 11
+					zoom: <%=zoom%>
 				})
 		});
  	  }else if('<%=param%>'=='satellite_map'){
@@ -606,9 +622,9 @@
 			],
 			view: new ol.View({
 				center: ol.proj.fromLonLat(
-						[126.77192, 37.754461]
+						[<%=longitude%>, <%=latitude%>]
 				), 
-				zoom: 11
+				zoom: <%=zoom%>
 			})
 	});
  	  }
@@ -649,12 +665,8 @@
 					}),
 					fill : new ol.style.Fill({ //채우기
 					color : 'rgba( 255, 133, 133 ,0.5)'
-					}),
-					text : new ol.style.Text({ //텍스트
-						text : item.regiment,
-						textAlign : 'center',
-						font : '15px roboto,sans-serif'
-				})
+					})
+					
 				}) ]
 			});
 			if(param2 === 'geofon' || param2 === 'geofal'){	
@@ -1111,7 +1123,7 @@
 						경계를 넘었다는 신호를 보냄
 					*/
 					$.ajax({
-						url: 'http://211.9.3.55:5010/Emergency/EventStatus/EventStatusSave',
+						url: 'http://110.10.130.51:5002/Emergency/EventStatus/EventStatusSave',
 						contentType: "application/json; charset=utf-8",
 						method: 'POST',
 						data: JSON.stringify(item),

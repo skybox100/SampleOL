@@ -485,7 +485,7 @@ System.out.println("personalLocations5");
  								[last_data.longitude,last_data.latitude]
 
  						), 
- 						zoom: 11
+ 						zoom: 15
  					})
  			});
 	 	  }else if('<%=param%>'=='satellite_map'){
@@ -501,7 +501,7 @@ System.out.println("personalLocations5");
 								[last_data.longitude,last_data.latitude]
 
  					), 
- 					zoom: 11
+ 					zoom: 15
  				})
  		});
  	 	  }

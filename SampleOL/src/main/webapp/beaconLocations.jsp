@@ -321,7 +321,7 @@
  								[data[0].Longitude,data[0].Latitude]
 
 						), 
-						zoom: 11
+						zoom: 15
 					})
 			});
 	 	  }else if('<%=param%>'=='satellite_map'){
@@ -337,7 +337,7 @@
 							[data[0].Longitude,data[0].Latitude]
 
 					), 
-					zoom: 11
+					zoom: 15
 				})
 		});
 	 	  }

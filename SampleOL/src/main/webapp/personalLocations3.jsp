@@ -13,7 +13,9 @@
 <%
 System.out.println("personalLocations3");
 	String param = "satellite_map";
-
+	String longitude="126.77192";
+	String latitude="37.754461";
+	int zoom =11;
 	if(request.getParameter("gis_setting")!= null){
 		param = request.getParameter("gis_setting") ;
 	}
@@ -29,6 +31,7 @@ System.out.println("personalLocations3");
 	
 	DBConnection cd = new DBConnection();
 	ArrayList<Location> locations = new ArrayList<Location>();
+	ArrayList<Circle> circle= new ArrayList<Circle>();
 	
 	Gson gson = new Gson();
 	String multi_marker ="";
@@ -37,11 +40,20 @@ System.out.println("personalLocations3");
 			
 	} else if(rc.equals("전체")){
 		regp = cd.getCodeName("Regiment", reg);	
+		circle=cd.getCircle(reg);
+		longitude=circle.get(0).getLongitude();
+		latitude=circle.get(0).getLatitude();
+		zoom=15;
 	} else{
 		regp = cd.getCodeName("Regiment", reg);
 		rcp = cd.getCodeName("RegimCompany", rc);
+		circle=cd.getCircle(reg);
+		longitude=circle.get(0).getLongitude();
+		latitude=circle.get(0).getLatitude();
+		zoom=15;
 	}
 	
+
 	
 	if(rcp.equals("전체")){
 		rcp=regp;
@@ -387,10 +399,10 @@ System.out.println("personalLocations3");
   					],
   					view: new ol.View({
   						center: ol.proj.fromLonLat(
-  							[126.77192, 37.754461]
+  								[<%=longitude%>, <%=latitude%>]
   							
   						), 
-  						zoom: 11
+  						zoom: <%=zoom%>
   					})
   			});
   	 	  }else if('<%=param%>'=='satellite_map'){
@@ -402,9 +414,9 @@ System.out.println("personalLocations3");
   				],
   				view: new ol.View({
   					center: ol.proj.fromLonLat(
-  							[126.77192, 37.754461]
+  							[<%=longitude%>, <%=latitude%>]
   					), 
-  					zoom: 11
+  					zoom: <%=zoom%>
   				})
   		});
   	 	  }
@@ -423,6 +435,7 @@ System.out.println("personalLocations3");
         }
         document.getElementById('goback').onclick = function(){
         	location.href="locations.jsp?sn=<%=sn%>&ps=<%=ps%>"
+
         }
       
         

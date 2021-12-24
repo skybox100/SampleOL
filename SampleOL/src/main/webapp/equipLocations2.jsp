@@ -13,7 +13,9 @@
 
 	
 	String param = "satellite_map";
-	
+	String longitude="126.77192";
+	String latitude="37.754461";
+	int zoom =11;
 	if(request.getParameter("gis_setting")!= null ){
 		param = request.getParameter("gis_setting") ;
 	}
@@ -29,7 +31,8 @@
 
 	DBConnection cd = new DBConnection();
 	ArrayList<EquipLocation> equipLocations = new ArrayList<EquipLocation>();
-	
+	ArrayList<Circle> circle= new ArrayList<Circle>();
+
 	Gson gson = new Gson();
 	String multi_marker = null;	
 
@@ -37,9 +40,17 @@
 		
 	} else if(et.equals("전체")){
 		regp = cd.getCodeName("Regiment", reg);
+		circle=cd.getCircle(reg);
+		longitude=circle.get(0).getLongitude();
+		latitude=circle.get(0).getLatitude();
+		zoom=15;
 	} else{
 		regp = cd.getCodeName("Regiment", reg);
 		etp = cd.getCodeName("EquipType", et);
+		circle=cd.getCircle(reg);
+		longitude=circle.get(0).getLongitude();
+		latitude=circle.get(0).getLatitude();
+		zoom=15;
 	}
 
 	if(etp.equals("전체")){
@@ -360,11 +371,11 @@
   					],
   					view: new ol.View({
   						center: ol.proj.fromLonLat(
-  								[126.77192, 37.754461]
+  								[<%=longitude%>, <%=latitude%>]
  								//[data[0].longitude,data[0].latitude]
 
   						), 
-  						zoom: 11
+  						zoom: <%=zoom%>
   					})
   			});
   	 	  }else if('<%=param%>'=='satellite_map'){
@@ -376,11 +387,11 @@
   				],
   				view: new ol.View({
   					center: ol.proj.fromLonLat(
-  							[126.77192, 37.754461]
+  							[<%=longitude%>, <%=latitude%>]
 								//[data[0].longitude,data[0].latitude]
 
   					), 
-  					zoom: 11
+  					zoom: <%=zoom%>
   				})
   		});
   	 	  }
