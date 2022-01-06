@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page errorPage="errorPage.jsp" %>    
 <!DOCTYPE html>
+<%@ page errorPage="errorPage.jsp" %>
 
 <%@ page import="com.SampleOL.*" %>
 <%@ page import="java.util.ArrayList" %>
@@ -12,12 +12,16 @@
 <%@ page import="java.io.*, java.util.*" %>
 <%
 	String param = "satellite_map";
-	String param2 = "geofon";
+	String param2 = "geofoff";
 	String reg="전체";
+	String regp="전체";
 	String rc="전체";
+	String rcp="전체";
 	String sn="전체";
 	String ps="전체";
+	String rp="전체";
 	int chk=0;
+	String view="no";
 
 	
 	String longitude="126.77192";
@@ -42,6 +46,19 @@
 	if(request.getParameter("ps")!= null){
 		ps = request.getParameter("ps") ;
 	}
+	if(request.getParameter("reg")!=null){
+		regp = request.getParameter("reg");	
+	}
+	if(request.getParameter("rc")!=null){
+		rcp = request.getParameter("rc");	
+	}
+	if(request.getParameter("rp")!=null){
+		rp = request.getParameter("rp");	
+	}
+	if(request.getParameter("view")!=null){
+		view = request.getParameter("view");	
+	}
+	
 	String pn=null;
 	
 	DBConnection cd = new DBConnection();
@@ -66,7 +83,7 @@
 
 		
 		if(sn.equals("전체")){
-			locations = cd.getMobileStatus("전체","전체");
+			locations = cd.getMobileStatus2("전체","전체","전체");
 			circle=cd.getCircle(reg);
 		}else if(ps.equals("개인")){
 			locations = cd.getMobileStatus(cd.getMobileNumber(sn));
@@ -75,15 +92,15 @@
 			circle=cd.getCircle(reg);
 			longitude=circle.get(0).getLongitude();
 			latitude=circle.get(0).getLatitude();
-			zoom =15;
+			zoom =17;
 		}else{
 			reg = cd.getRegId(sn);
-			locations = cd.getMobileStatus(reg,rc);
+			locations = cd.getMobileStatus2(reg,rc,"전체");
 			rc = cd.getRegCompayID(sn);
 			circle=cd.getCircle(reg);
 			longitude=circle.get(0).getLongitude();
 			latitude=circle.get(0).getLatitude();
-			zoom =15;
+			zoom =17;
 		}
 		circle=cd.getCircle(reg);
 		circle_marker=gson.toJson(circle);
@@ -95,7 +112,10 @@
 		System.out.println(locations.toString());
 
 		ArrayList<String> regimentList = cd.getCodeNameList("Regiment");
-		ArrayList<String> regimCompanyList = cd.getCodeNameList("RegimCompany");
+		ArrayList<String> regimCompanyList = cd.getMobileStatusRc(regp);
+		ArrayList<String> regimCompanyIDList = cd.getMobileStatusRcID(regp);
+		ArrayList<String> RegimPlatoonList = cd.getRegimPlatoonList(rcp);
+		ArrayList<String> RegimPlatoonIDList = cd.getRegimPlatoonIdList(rcp);
 		ArrayList<String> isDeviceList = cd.getCodeNameList("IsDevice");
 		ArrayList<String> missionTypeList = cd.getCodeNameList("MissionType");
 		ArrayList<String> equipTypeList = cd.getCodeNameList("EquipType");	
@@ -241,7 +261,7 @@
         }
         
         #status{
-        	height: 36px;
+        	height: 60px;
         }
         #Scale{
         	height: 36px;
@@ -439,8 +459,9 @@
 	<div id="status" style="display:none; background: white;">
 	<form action="personalLocations3.jsp" method="get">
 		<table id="table">
+
 			<tr>
-				<td>소속</td>
+				<td>대대</td>
 				<td>
 					<select id="reg" name ="reg" onchange="regimentSelectChange(this.value)">
 						<option>전체</option>
@@ -449,10 +470,23 @@
 						<%} %>
 					</select>
 				</td>
-				<td>세부</td>
+				<td>중대</td>
 				<td>
 					<select id="regim_company" name="regim_company">
-					<option value="전체">전체</option>
+					<option>전체</option>
+						<%for(int i=0; i<mobileStatusReg.size(); i++) {%>
+						<option value="<%=cd.getCodeID("Regiment",mobileStatusReg.get(i))%>"><%=mobileStatusReg.get(i)%></option>
+						<%} %>
+					</select>
+				</td>
+			</tr>
+			<tr>
+			<td>소대</td>
+				<td colspan=2>
+					<select id="regimPlatoon" name="regimPlatoon" style="width:80px" >
+						<%for(int i=0; i<RegimPlatoonList.size(); i++) {%>
+						<option value="<%=RegimPlatoonIDList.get(i)%>"><%=RegimPlatoonList.get(i)%></option>
+						<%} %>
 					</select>
 				</td>
 			</tr>
@@ -468,7 +502,7 @@
 	<form action="equipLocations2.jsp" method="get">
 		<table id="table">
 			<tr>
-				<td class="block">소속</td>
+				<td class="block">대대</td>
 				<td>
 					<select id="equip_regiment" name="equip_regiment" onchange="eRegimentSelectChange(this.value)">
 						<option>전체</option>
@@ -547,26 +581,42 @@
 
         $(document).ready(function() 
         		{ 
-       				regimentSelectChange($('#reg option:selected').val());
     				eRegimentSelectChange($('#equip_regiment option:selected').val());
-       
-        	
+    		    	$('#reg').val('<%=regp%>').prop("selected", true);
+       				regimentSelectChange($('#reg option:selected').val());
+
+    		    	$('#regim_company').val('<%=rcp%>').prop("selected", true);
+    		    	$('#regimPlatoon').val('<%=rp%>').prop("selected", true);
+
         		    $("input:radio[name=gis_setting]" || "input:radio[name=gis_setting2]").change(function() 
         		    { 
-        		    	location.replace("locations.jsp?sn=<%=sn%>&ps=<%=ps%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>");
+        		    	location.replace("locations.jsp?sn=<%=sn%>&ps=<%=ps%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>"+"&reg="+$('#reg').val()+"&rc="+$('#regim_company').val()+"&rp="+$('#regimPlatoon').val()+"&view=no");
         		    }), 
         		    $("input:radio[name=gis_setting2]").click(function() 
         	    	{ 
-        		    	location.replace("locations.jsp?sn=<%=sn%>&ps=<%=ps%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val());
+        		    	location.replace("locations.jsp?sn=<%=sn%>&ps=<%=ps%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&reg="+$('#reg').val()+"&rc="+$('#regim_company').val()+"&rp="+$('#regimPlatoon').val()+"&view=no");
         	    	}) ,
         	    	$("#search_check").change(function() 
                 	 { 
 						var input=document.getElementById('search_this');
 						input.value=null;
                 	 }) 
-                	
+                	, $('#regim_company').on('change', function() {
+        		    	location.replace("locations.jsp?sn=<%=sn%>&ps=<%=ps%>&gis_setting="+$('input[class="gis_setting"]:checked').val()+"&gis_setting2="+$('input[class="gis_setting2"]:checked').val()+"&chk=<%=chk%>"+"&reg="+$('#reg').val()+"&rc="+$('#regim_company').val()+"&view=yes");
+              		 })
+              		 ,$('#reg').on('change', function() {
+             	    	var target2 = document.getElementById("regimPlatoon");
+            	    	target2.options.length = 0;
+                		var opt2 = document.createElement("option");
+                		opt2.value = ['전체'];
+                		opt2.innerHTML = ['전체'];
+                		target2.appendChild(opt2);
+                	});
 
-        
+        	        var view='<%=view%>';
+
+        	        if(view == 'yes') showSearch('status');
+
         		});
 
         	function submit(){
@@ -575,6 +625,9 @@
         	}
     	     
 
+        	
+        
+        
    		// var x = 126.7719083;	var y = 37.6544622;
 
         var flag=<%=cd.getTotalPrivilegeCheck(sn)%>;	
@@ -736,7 +789,7 @@
 						선택한 마크의 데이터를 제외한
 						최대 9개의 데이터 테이블을 이어붙임
 					*/
-					if(distance <50 & cnt <9 & distance >0){
+					if(distance <5 & cnt <9 & distance >0){
 						cnt++;
 						multi +='<table style="white-space:nowrap;text-align:left;width:100%">'
 					    	+ '<tr ><td>' + item.timestamp+'</td><td style="text-align:right;">'+item.isDevice +'</td></tr>'
@@ -843,7 +896,6 @@
 			병력 위치의 소속을 변경시키면 세부의 Select 목록을
 			해당 소속의 세부으로 변경시켜주는 함수
 		*/
-		
 	    function regimentSelectChange(e) {
 	    	var rc0 = <%=rc0%>; var rc1 = <%=rc1%>;  
 	    	var rc2 = <%=rc2%>; var rc3 = <%=rc3%>;
@@ -854,7 +906,7 @@
 	    	var rcp4 = ['전체'];
 
 	    	var target = document.getElementById("regim_company");
-	
+
 	    	if(e == "RG-280") {
 	    		var d = rc0;
 	    		var d2= rcp0;
@@ -871,9 +923,11 @@
 	    		var d = rc4;
 	    		var d2= rcp4;
 	    	}
+	    	
 
-	
+
 	    	target.options.length = 0;
+	
 	
 	    	for (x in d) {
 	    		var opt = document.createElement("option");
@@ -881,8 +935,11 @@
 	    		opt.innerHTML = d[x];
 	    		target.appendChild(opt);
 	    	}
+	    	
+	    	
 	    }
-	    
+
+
 		/*
 			장비 위치의 소속을 변경시키면 장비구분의 Select 목록을
 			해당 소속의 장비구분으로 변경시켜주는 함수

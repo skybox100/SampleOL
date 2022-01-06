@@ -38,11 +38,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부식재고 목록 추가</title>
  <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
 	body{
 	      margin: 10px;
+	      width: 420px;
 	}
     .table {
       font-size: 1.1rem;
@@ -112,6 +113,7 @@
          text-align: center;  
          font-size:32px; 
        font-weight:700;
+       white-space: nowrap;
    }
    span.left{position:absolute;top:0;left:0;}
    span.right{position:absolute;top:0;right:0;}
@@ -194,6 +196,13 @@
 <input type="button" id="back" value="닫기" onclick='window.close()'>
 
 <script type="text/javascript">
+
+$(document).ready(function() {
+
+	window.resizeTo(450,600);
+// setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
+
+});
 
 getTimeStamp2();
 
@@ -300,26 +309,7 @@ function pmUpdate(){
 				console.log(JSON.stringify(response));
 				console.log(JSON.stringify(data));
 				alert(data2[0].foodName+"가(이) 추가되었습니다.");
-				//window.close();
-				$.ajax({
-					url: 'http://110.10.130.51:5002/common/Code/CodeNewSave',
-					contentType: "application/json; charset=utf-8",
-					method: 'POST',
-					data: JSON.stringify(data[0]),
-					dataType: "json",
-					accept: "application/json",
-					success: function(response) {
-						// success handle
 
-							console.log(JSON.stringify(response));
-							console.log(JSON.stringify(data));
-						},
-					error: function(response) {
-							console.log(JSON.stringify(data));
-							console.log(JSON.stringify(response));
-
-						}	
-				});
 				window.close();
 
 			},

@@ -72,7 +72,7 @@
 
 	ArrayList<String> PersonnelReg = cd.getCodeNameList("Regiment");
 	ArrayList<String> Storehouse = cd.getFoodStore(reg);
-	ArrayList<String> Food = cd.getCodeIDList("FoodCode","");
+	ArrayList<Food> Food = cd.getFoodCodeList2();
 	ArrayList<String> Unit = cd.getCodeRemarkList("FoodCode");
 
 	  
@@ -86,11 +86,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부식재고 정보 수정</title>
  <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
 	body{
 	      margin: 10px;
+	     width: 420px;
+
 	}
     .table {
       font-size: 1.1rem;
@@ -159,6 +161,7 @@
          text-align: center;  
          font-size:32px; 
        font-weight:700;
+       white-space: nowrap;
    }
    span.left{position:absolute;top:0;left:0;}
    span.right{position:absolute;top:0;right:0;}
@@ -223,14 +226,14 @@
    <tr>
       <td class="colt" >식재료명</td>
       <td class="col" >
-        <select id="Food" style="width: 140px;" disabled> 
+        <select id="Food" style="width: 140px;" disabled>
 						<%for(int i=0; i<Food.size(); i++) {%>
-						<option value='<%=Food.get(i)%>'><%=cd.getCodeName("FoodCode", Food.get(i))%></option>
+						<option value='<%=Food.get(i).getFoodCode()%>'><%=Food.get(i).getFoodName()%></option>
 						<%} %>
    		</select> 
-        <select id="Unit" style="width: 50px;" disabled="disabled">
+        <select id="Unit" style="width: 50px;" disabled>
 						<%for(int i=0; i<Food.size(); i++) {%>
-						<option value='<%=Food.get(i)%>'><%=cd.getCodeRemark("FoodCode",Food.get(i))%></option>
+						<option value='<%=Food.get(i).getFoodCode()%>'><%=Food.get(i).getUnit()%></option>
 						<%} %>
    		</select>  
    </tr>
@@ -242,7 +245,7 @@
    </tr>
    <tr>
       <td class="colt" >입고일자</td>
-      <td class="col" ><input type="date" id="StoreDate" value="<%=foods.get(0).getStoreDate()%>"  disabled></td>
+      <td class="col" ><input type="date" id="StoreDate" value="<%=foods.get(0).getStoreDate()%>"  ></td>
    </tr>
    <tr>
       <td class="colt" >유통기한</td>
@@ -272,13 +275,10 @@ $(document).ready(function() {
 		 });
 
  // setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
-
+		window.resizeTo(450,600);
 });
 
 
-
-	
-	
 	var data = <%=total_data%>;
 	
 
@@ -335,6 +335,8 @@ function pmUpdate(){
 	if(confirm("음식정보를 수정하시겠습니까?")){
 		data[0].currentQuantity=$('#CurrentQuantity').val();
 		data[0].qRcodeIdx=$('#qRcodeIdx').val();
+		data[0].storeDate=$('#StoreDate').val();
+		//data[0].expirationDate=$('#ExpirationDate').val();
 	$.ajax({
 		url: 'http://110.10.130.51:5002/Food/FoodInventory/FoodInventorySave',
 		contentType: "application/json; charset=utf-8",

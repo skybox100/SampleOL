@@ -166,6 +166,7 @@
          text-align: center;  
          font-size:32px; 
        font-weight:700;
+       white-space: nowrap;
    }
    span.left{position:absolute;top:0;left:0;}
    span.right{position:absolute;top:0;right:0;}

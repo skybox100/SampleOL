@@ -288,8 +288,7 @@
 				    lon: longitude,
 				    lat: latitude,
 				    desc: '<table style="white-space:nowrap;width:100%;text-align:center">'
-					    + '<tr><td><b>1</b>&nbsp&nbsp' + userKey + '</td></tr>'
-				    	+ '<tr><td><%=t%></td></tr>'
+					    + '<tr><td>좌표가 없습니다</td></tr>'
 				    	+ '</table>'
 				});
 				    		

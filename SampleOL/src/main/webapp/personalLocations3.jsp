@@ -29,6 +29,8 @@ System.out.println("personalLocations3");
 	String regp = request.getParameter("reg");
 	String rcp = request.getParameter("regim_company");
 	
+	String rp = request.getParameter("regimPlatoon");
+	
 	DBConnection cd = new DBConnection();
 	ArrayList<Location> locations = new ArrayList<Location>();
 	ArrayList<Circle> circle= new ArrayList<Circle>();
@@ -43,20 +45,26 @@ System.out.println("personalLocations3");
 		circle=cd.getCircle(reg);
 		longitude=circle.get(0).getLongitude();
 		latitude=circle.get(0).getLatitude();
-		zoom=15;
+		zoom=17;
 	} else{
 		regp = cd.getCodeName("Regiment", reg);
 		rcp = cd.getCodeName("RegimCompany", rc);
 		circle=cd.getCircle(reg);
 		longitude=circle.get(0).getLongitude();
 		latitude=circle.get(0).getLatitude();
-		zoom=15;
+		zoom=17;
 	}
 	
 
 	
+
+
 	if(rcp.equals("전체")){
 		rcp=regp;
+	}else if(rp.equals("전체")){
+		
+	}else{
+		rcp=rcp+" "+cd.getCodeName("RegimPlatoon", rp);;
 	}
 	/*
 	if(reg.equals("전체") && device.equals("전체")){
@@ -83,7 +91,7 @@ System.out.println("personalLocations3");
 	}
 	*/
 	
-	locations = cd.getMobileStatus(reg, rc);
+	locations = cd.getMobileStatus3(reg, rc,rp);
 	multi_marker=gson.toJson(locations);
 	
 	int cnt = locations.size();
@@ -333,9 +341,10 @@ System.out.println("personalLocations3");
 		
 		<form action="detail.jsp" id='frm' method="get" onsubmit="return goDetail()">
 			<span id="rcp_frm"><%=rcp %></span>
-			<a id="rcp_frm2" href="detail.jsp?reg=<%=reg %>&rc=<%=rc %>" onclick="document.getElementById('frm').submit();">인원수: <%=cnt %></a>
+			<a id="rcp_frm2" href="detail.jsp?reg=<%=reg %>&rc=<%=rc %>&rp=<%=rp %>" onclick="document.getElementById('frm').submit();">인원수: <%=cnt %></a>
 			<input type="hidden" name="reg" value="<%=reg%>">
 			<input type="hidden" name="rc" value="<%=rc%>">
+			<input type="hidden" name="rp" value="<%=rp%>">
 			<input type="button" value="초기화" id="zoom-restore">
 			<input type="button" value=" 이전 " id="goback">
 		</form>
@@ -488,7 +497,7 @@ System.out.println("personalLocations3");
 					var line = new ol.geom.LineString([pnt_data, pnt_data2]);
 					distance = Math.round(line.getLength());
 					console.log("distance:" +distance);
-					if(distance <50 & cnt <9 & distance >0){
+					if(distance <5 & cnt <9 & distance >0){
 						cnt++;
 						multi +='<table style="white-space:nowrap;text-align:left;width:100%">'
 					    	+ '<tr ><td>' + item.timestamp+'</td><td style="text-align:right;">'+item.isDevice +'</td></tr>'

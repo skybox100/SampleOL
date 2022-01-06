@@ -15,22 +15,16 @@
 	
 	String regp = request.getParameter("reg");
 	String rcp = request.getParameter("rc");
-	
+	String rp = request.getParameter("rp");
+
 	DBConnection cd = new DBConnection();
 	ArrayList<Location> locations = new ArrayList<Location>();
 	
 	Gson gson = new Gson();
 	String multi_marker ="";
+
 	
-	if(reg.equals("전체") && rc.equals("전체")){
-			
-	} else if(rc.equals("전체")){
-	} else{
-		regp = cd.getCodeName("Regiment", reg);
-		rcp = cd.getCodeName("RegimCompany", rc);
-	}
-	
-	locations = cd.getMobileStatus(reg, rc);
+	locations = cd.getMobileStatus3(reg, rc,rp);
 	multi_marker=gson.toJson(locations);
 	
 	int cnt = locations.size();

@@ -43,14 +43,14 @@
 		circle=cd.getCircle(reg);
 		longitude=circle.get(0).getLongitude();
 		latitude=circle.get(0).getLatitude();
-		zoom=15;
+		zoom=17;
 	} else{
 		regp = cd.getCodeName("Regiment", reg);
 		etp = cd.getCodeName("EquipType", et);
 		circle=cd.getCircle(reg);
 		longitude=circle.get(0).getLongitude();
 		latitude=circle.get(0).getLatitude();
-		zoom=15;
+		zoom=17;
 	}
 
 	if(etp.equals("전체")){

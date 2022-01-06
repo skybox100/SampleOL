@@ -78,7 +78,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>모바일 정보 수정</title>
  <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
 

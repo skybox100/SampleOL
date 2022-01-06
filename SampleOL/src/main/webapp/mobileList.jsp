@@ -118,7 +118,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>모바일 기기 목록 현황</title>
 <style>
 
     .table {

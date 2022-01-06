@@ -19,6 +19,10 @@ public class Food {
 	long qRcodeIdx;
 	String remark;
 	String updateDate;
+	String ServiceNumber;
+	String inOut;
+	String inOutDate;
+	String inOutName;
 	
 	
 	public Food(String regiment, String RegimentName, String Storehouse, String StorehouseName, String foodCode,
@@ -51,6 +55,32 @@ public class Food {
 		this.foodSource = foodSource;
 		this.remark = remark;
 		this.updateDate = updateDate;
+	}
+
+	
+
+	public Food(String regiment, String regimentName, String storehouse, String storehouseName, String foodCode,
+			String expirationDate, String foodName, int currentQuantity, String unit, String foodSource,
+			String foodSourceName, long qRcodeIdx, String remark, String serviceNumber, String inOut, String inOutName,String inOutDate
+			) {
+		super();
+		this.regiment = regiment;
+		this.regimentName = regimentName;
+		this.storehouse = storehouse;
+		this.storehouseName = storehouseName;
+		this.foodCode = foodCode;
+		this.expirationDate = expirationDate;
+		this.foodName = foodName;
+		this.currentQuantity = currentQuantity;
+		this.unit = unit;
+		this.foodSource = foodSource;
+		this.foodSourceName = foodSourceName;
+		this.qRcodeIdx = qRcodeIdx;
+		this.remark = remark;
+		ServiceNumber = serviceNumber;
+		this.inOut = inOut;
+		this.inOutName = inOutName;
+		this.inOutDate = inOutDate;
 	}
 
 
@@ -139,6 +169,66 @@ public class Food {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
+
+
+
+	public String getServiceNumber() {
+		return ServiceNumber;
+	}
+
+
+
+	public void setServiceNumber(String serviceNumber) {
+		ServiceNumber = serviceNumber;
+	}
+
+
+
+	public String getInOut() {
+		return inOut;
+	}
+
+
+
+	public void setInOut(String inOut) {
+		this.inOut = inOut;
+	}
+
+
+
+	public String getInOutDate() {
+		return inOutDate;
+	}
+
+
+
+	public void setInOutDate(String inOutDate) {
+		this.inOutDate = inOutDate;
+	}
+
+
+
+	public String getInOutName() {
+		return inOutName;
+	}
+
+
+
+	public void setInOutName(String inOutName) {
+		this.inOutName = inOutName;
 	}
 	
 

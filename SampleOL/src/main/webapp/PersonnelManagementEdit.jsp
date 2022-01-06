@@ -104,7 +104,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원정보 수정</title>
  <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
 

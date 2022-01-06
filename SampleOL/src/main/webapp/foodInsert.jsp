@@ -51,8 +51,7 @@
 	rcp3 = gson.toJson(rcp_3);
 
 	ArrayList<String> PersonnelReg = cd.getCodeNameList("Regiment");
-	ArrayList<String> Storehouse = cd.getCodeNameList("소속:전체");
-	ArrayList<String> Food = cd.getFoodIDList();
+	ArrayList<Food> Food = cd.getFoodCodeList2();
 	ArrayList<String> FoodSource = cd.getCodeNameList("FoodSource");
 
 
@@ -65,11 +64,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부식재고 현황 입력</title>
  <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
 	body{
 	      margin: 10px;
+	      width: 420px;
 	}
     .table {
       font-size: 1.1rem;
@@ -138,6 +138,7 @@
          text-align: center;  
          font-size:32px; 
        font-weight:700;
+       white-space: nowrap;
    }
    span.left{position:absolute;top:0;left:0;}
    span.right{position:absolute;top:0;right:0;}
@@ -193,9 +194,7 @@
       <td class="colt" >창고명</td>
       <td class="col" >
   <select id="Storehouse" style="width: 140px;">
-						<%for(int i=0; i<Storehouse.size(); i++) {%>
-						<option value="<%=cd.getCodeID("Storehouse",Storehouse.get(i))%>"><%=Storehouse.get(i)%></option>
-						<%} %>
+						<option>전체</option>
    </select> 
    </tr>
 
@@ -204,12 +203,12 @@
       <td class="col" >
         <select id="Food" style="width: 140px;">
 						<%for(int i=0; i<Food.size(); i++) {%>
-						<option value='<%=Food.get(i)%>'><%=cd.getCodeName("FoodCode", Food.get(i))%></option>
+						<option value='<%=Food.get(i).getFoodCode()%>'><%=Food.get(i).getFoodName()%></option>
 						<%} %>
    		</select> 
         <select id="Unit" style="width: 50px;" disabled="disabled">
 						<%for(int i=0; i<Food.size(); i++) {%>
-						<option value='<%=Food.get(i)%>'><%=cd.getCodeRemark("FoodCode",Food.get(i))%></option>
+						<option value='<%=Food.get(i).getFoodCode()%>'><%=Food.get(i).getUnit()%></option>
 						<%} %>
    		</select> 
    </tr>
@@ -272,6 +271,7 @@ $(document).ready(function() {
 			$('#Unit').val($('#Food').val()).prop("selected", true);	
 		 });
 	  
+		window.resizeTo(450,600);
 
  // setTimeout('go_url()',10000)  // 10초후 go_url() 함수를 호출
 

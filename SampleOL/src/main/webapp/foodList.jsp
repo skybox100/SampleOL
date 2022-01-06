@@ -142,7 +142,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부식창고 현황판</title>
 <style>
 
     .table {
@@ -203,6 +203,7 @@
          text-align: center;  
          font-size:32px; 
        font-weight:700;
+       white-space: nowrap;
    }
    span.left{position:absolute;top:0;left:0;}
    span.right{position:absolute;top:0;right:0;}
@@ -235,7 +236,7 @@
 </head>
 <script src="js/jquery-3.6.0.min.js"></script>
 <body>
-<div style="white-space: nowrap;min-width: 1650px;">
+<div style="white-space: nowrap;min-width: 1800px;">
 <span class="left"><input type="text" id="now" readonly>
 <select id="order">
 						<option selected>전체</option>
@@ -259,8 +260,10 @@
 <span class="title">부식창고 현황판</span>
 <span class="right">
 <font size=4.5>총 개수: <%=cnt %>&nbsp;&nbsp;</font>
-<button id="new" onclick="winPopup('foodInsert.jsp')" style="height:36px;padding: 5px;">신규</button>
-<button id="new" onclick="winPopup('foodIndexInsert.jsp')" style="height:36px;padding: 5px;">식재료추가</button>
+<button id="new" onclick="winPopup2('foodHistory.jsp')" style="height:36px;padding: 5px;">기록</button>
+<button id="new" onclick="winPopup2('foodInsert.jsp')" style="height:36px;padding: 5px;">신규</button>
+<button id="new" onclick="winPopup('foodCodeList.jsp')" style="height:36px;padding: 5px;">목록</button>
+<button id="new" onclick="winPopup2('foodCodeInsert.jsp')" style="height:36px;padding: 5px;">식재료추가</button>
 
   <select id="reg" name ="reg">
 						<option>소속:전체</option>
@@ -281,7 +284,7 @@
    </select>   
 </span>
 </div>
-<table class="table" style="white-space: nowrap;min-width: 1650px;">
+<table class="table" style="white-space: nowrap;min-width: 1800px;">
 <caption>조회 목록</caption>
    <tr style="background:green;">
       <td class="colt" style="text-align:center;width:4vw;">NO</td>
@@ -427,7 +430,6 @@
 
 	setInterval(getTimeStamp2,1000);
 	
-	
    function getTimeStamp() {
 	     var d = new Date();
 	     var s =
@@ -467,10 +469,42 @@ function leadingZeros(n, digits) {
  
  function winPopup(e){
 		var popUrl = e;
-		var popOption = "width=420,height=600, status=no,menubar=no,toolbar=no,resizable=no";
-		window.open(popUrl,"popup",popOption);
-		
+		var popOption = getPopOptions(550,600,1);
+		var win=window.open(popUrl,'popup',popOption);
+		win.focus();
 	}
+
+ function winPopup2(e){
+		var popUrl = e;
+		var popOption = getPopOptions2(550,600);
+		var win=window.open(popUrl,e,popOption);
+		win.focus();
+	}
+ 
+ var getPopOptions = function(width, height,num){
+	  var screenW = screen.availWidth;  // 스크린 가로사이즈
+	  var screenH = screen.availHeight; // 스크린 세로사이즈
+	  var popW = width; // 띄울창의 가로사이즈
+	  var popH = height; // 띄울창의 세로사이즈
+	  var posL=( screenW-popW ) / 2 + 500;   // 띄울창의 가로 포지션 
+	  var posT=( screenH-popH ) / 2;   // 띄울창의 세로 포지션 
+
+	 return 'width='+ popW +',height='+ popH +',top='+ 30 +',left='+ posL +',status=no,menubar=no,toolbar=no,resizable=0, location=no,scrollbars=yes';
+ }
+ 
+ 
+ function getPopOptions2(width, height) {
+	  var screenW = screen.availWidth;  // 스크린 가로사이즈
+	  var screenH = screen.availHeight; // 스크린 세로사이즈
+	  var popW = width; // 띄울창의 가로사이즈
+	  var popH = height; // 띄울창의 세로사이즈
+	  var posL=( screenW-popW ) / 2;   // 띄울창의 가로 포지션 
+	  var posT=( screenH-popH ) / 2;   // 띄울창의 세로 포지션 
+
+	 return 'width='+ popW +',height='+ popH +',top='+ 30 +',left='+ posL +',status=no,menubar=no,toolbar=no,resizable=0, location=no,scrollbars=yes';
+	}
+
+
 
 
  function passdatechange(num)
@@ -556,7 +590,64 @@ function getTimeStamp2() {
 function foodInsert(){
 	location.href = "foodInsert.jsp";
 }
-	
+
+
+function deleteFD(num){
+
+	$.ajax({
+		url: 'http://110.10.130.51:5002/Food/FoodInventory/FoodInventoryDelete',
+		contentType: "application/json; charset=utf-8",
+		method: 'POST',
+		data: JSON.stringify(data[num]),
+		dataType: "json",
+		accept: "application/json",
+		success: function(response) {
+			// success handle
+				console.log(JSON.stringify(response));
+				//alert("삭제가 성공했습니다.");
+				location.reload();
+			},
+		error: function(response) {
+
+				console.log(JSON.stringify(data));
+				console.log(JSON.stringify(response));
+
+			}	
+	});
+}
+
+function alram_access(){ 
+    var xmlhttp = getXmlHttpRequest(); 
+    var url = '/ajax/alram_access.jsp'; 
+    if(url){ 
+        xmlhttp.open("GET", url, true); 
+        xmlhttp.onreadystatechange = function() { 
+            if(xmlhttp.readyState == 4) { 
+                if(xmlhttp.status == 200) { 
+                    var alram_msg = trim(xmlhttp.responseText); 
+                    if(alram_msg!=''){ 
+                        view_msg(alram_msg); 
+                    } 
+                } else { 
+                    //alert("Error loading "+url+", "+xmlhttp.status+"("+xmlhttp.statusText+")"); 
+                } 
+            } 
+        } 
+        xmlhttp.send(null); 
+    } 
+    setTimeout("alram_access()", 3000);//3초 마다 서버와 통신함 
+    return false; 
+} 
+function view_msg(msg){ 
+    var width = 350; 
+    var height = 150; 
+    var left = (document.body.clientWidth-width)/2; 
+    var top = (document.body.clientHeight-height)/2; 
+    var alram_win = window.open('/ajax/alram_view.jsp?msg='+msg, '', 'left='+left+',top='+top+',width='+width+',height='+height+',toolbar=no ,directories=no,menubar=no,location=no,scrollbars=no,resizable=yes,status=no'); 
+}
+
+
+
 function deleteFD(num){
 
 	if(confirm(data[num].foodName+"("+data[num].foodCode+")을 정말 삭제하시겠습니까?")){
