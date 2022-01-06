@@ -282,11 +282,11 @@ function pmUpdate(){
 		data2[0].foodSource=$('#FoodSource').val();
 	
 		if($('#FoodCode').val() == ""){
-			alert("식재료코드를 입력하십시오");
+			alert("식재료명을 입력하십시오");
 			return false;
 		}
 		if($('#FoodCode').val() == ""){
-			alert("식재료명을 입력하십시오");
+			alert("재고번호를 입력하십시오");
 			return false;
 		}
 		if($('#Unit').val() == ""){

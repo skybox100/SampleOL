@@ -228,7 +228,7 @@ public class DBConnection {
 						+ "	left outer join dbo.Code as b on f.foodSource = b.CodeID and b.CodeType='FoodSource' "
 						+ "	left outer join dbo.Code as c on f.Regiment = c.CodeID and c.CodeType = 'Regiment' "
 						+ "	left outer join dbo.Code as d on f.storehouse = d.CodeID and d.CodeType= 'Storehouse' "
-						+ " where f.foodName = '"+fd+"' and "
+						+ " where (f.foodName = '"+fd+"' and f.storehouse = '"+sh+"' ) and "
 						+ " ( d.CodeName like '%"+sc+"%' or c.CodeName like '%"+sc+"%' or b.CodeName like '%"+sc+"%' or  foodName like '%"+sc+"%' or foodCode like '%"+sc+"%')"
 						+ order;
 
